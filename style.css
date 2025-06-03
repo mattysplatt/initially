@@ -51,20 +51,6 @@ button:hover {
   text-shadow: 0 2px 8px #0006;
   margin: 18px 0;
 }
-.screen {
-  position: relative;
-}
-.category-title {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  font-size: 1.1em;
-  font-weight: bold;
-  color: #1976d2;
-  z-index: 10;
-  pointer-events: none;
-  user-select: none;
-}
 .timer {
   font-size: 2.3em;
   font-weight: 600;
