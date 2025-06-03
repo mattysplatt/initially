@@ -1,0 +1,88 @@
+body {
+  font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  margin: 0;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#app {
+  width: 100vw;
+  max-width: 600px;
+  padding: 24px;
+}
+.screen {
+  background: rgba(255,255,255,0.12);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+  padding: 30px 20px;
+  margin: 0 auto;
+}
+input[type="text"], input[type="number"] {
+  padding: 14px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 10px;
+  margin: 8px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+button {
+  background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 26px;
+  font-size: 1.05em;
+  margin: 6px 3px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+button:hover {
+  box-shadow: 0 2px 16px #ff6b6b44;
+  transform: translateY(-2px);
+}
+.initials {
+  font-size: 3em;
+  font-weight: bold;
+  letter-spacing: 0.22em;
+  text-shadow: 0 2px 8px #0006;
+  margin: 18px 0;
+}
+.timer {
+  font-size: 2.3em;
+  font-weight: 600;
+  color: #ffb86b;
+  margin: 8px 0;
+}
+.points {
+  font-size: 1.3em;
+  color: #4ecdc4;
+}
+.clue {
+  background: rgba(255,255,255,0.14);
+  border-radius: 8px;
+  margin: 9px 0;
+  padding: 9px 12px;
+  font-size: 1.15em;
+}
+.scoreboard {
+  margin: 18px 0;
+}
+.score-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 6px;
+  margin: 4px 0;
+  background: rgba(255,255,255,0.08);
+  border-radius: 8px;
+  font-size: 1.1em;
+}
+@media (max-width: 600px) {
+  #app { padding: 8px; }
+  .screen { padding: 13px 4px; }
+  .initials { font-size: 2em; }
+  .timer { font-size: 1.5em; }
+}
