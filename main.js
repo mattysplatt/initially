@@ -19,3 +19,4 @@ const db = getDatabase(app);
 
 // --- Utility and Game Logic functions here ---
 // (Copy the full code from my previous message's main.js file)
+
