@@ -253,17 +253,21 @@ function chooseCategory(category) {
       : randomItems(INITIALS_DB[category], 100)
     )
   ).slice(0, state.maxRounds);
-  set(ref(db, `lobbies/${state.lobbyCode}`), {
-    ...state, players: undefined, status: "playing", category, round: 1,
-    question: questions[0],
-    clues: shuffle(questions[0].clues),
-    clueIdx: 0,
-    points: 60,
-    guesses: {},
-    scoreboard: [],
-    readyPlayers: [],
-    questions
-  });
+ set(ref(db, `lobbies/${state.lobbyCode}`), {
+  code: state.lobbyCode,
+  leader: state.playerId,
+  status: "playing",
+  category,
+  round: 1,
+  question: questions[0],
+  clues: shuffle(questions[0].clues),
+  clueIdx: 0,
+  points: 60,
+  guesses: {},
+  scoreboard: [],
+  readyPlayers: [],
+  questions
+});
 }
 function startTimer() {
   clearInterval(window.timerInterval);
