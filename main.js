@@ -1,4 +1,4 @@
-import { INITIALS_DB } from './initials_db.js';
+import { initials_db } from './initials_db.js';
 
 // Firebase Setup (Replace with your config if needed)
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
