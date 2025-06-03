@@ -138,7 +138,7 @@ function renderGame() {
   document.getElementById('guessInput').addEventListener('keypress', e => { if (e.key === 'Enter') submitGuess(); });
   document.getElementById('submitGuess').onclick = submitGuess;
 }
-}
+
 function renderScoreboard() {
   $app.innerHTML = `
     <div class="screen">
