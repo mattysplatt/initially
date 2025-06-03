@@ -21,6 +21,14 @@ const db = getDatabase(app);
 function randomId() {
   return Math.random().toString(36).slice(2, 10);
 }
+function generateLobbyCode() {
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let code = '';
+  for (let i = 0; i < 5; i++) {
+    code += letters.charAt(Math.floor(Math.random() * letters.length));
+  }
+  return code;
+}
 function shuffle(arr) {
   return arr.map(a => [a, Math.random()]).sort((a, b) => a[1] - b[1]).map(a => a[0]);
 }
@@ -176,7 +184,7 @@ function renderEnd() {
 function createLobby() {
   if (!state.playerName) { state.status = "Enter your name"; render(); return; }
   state.playerId = randomId();
-  state.lobbyCode = randomId().substr(0, 6).toUpperCase();
+  state.lobbyCode = generateLobbyCode();
   state.isLeader = true;
   const lobbyPath = `lobbies/${state.lobbyCode}`;
   const playerObj = {
