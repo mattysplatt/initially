@@ -112,26 +112,26 @@ function renderCategory() {
 }
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
-  // Format the category name for display
   const displayCategory = state.category
     ? state.category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
     : '';
   $app.innerHTML = `
     <div class="screen">
-      <style="position:absolute;top:12px;right:16px;font-size:1.1em;font-weight:bold;
-color:#fff;background:rgba(25,118,210,0.85);padding:6px 14px;border-radius:6px;z-index:10;">
-        ${displayCategory}
+      <div class="game-info-box" style="background:#f3e6ff;padding:24px 20px 20px 20px;border-radius:12px;max-width:420px;margin:32px auto;box-shadow:0 4px 24px #c6a0f533;">
+        <div class="category-title" style="font-size:1.15em;font-weight:bold;color:#46178f;margin-bottom:8px;">
+          ${displayCategory}
+        </div>
+        <div>
+          <div class="timer" id="timer">${state.timer}s</div>
+          <div class="points">${state.points} pts</div>
+          <div>Round ${state.round}/${state.maxRounds}</div>
+        </div>
+        <div class="initials">${state.question.initials}</div>
+        <div class="clue">${clue ? clue : ''}</div>
+        <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${state.guesses[state.playerId] ? 'disabled' : ''}/>
+        <button id="submitGuess" ${state.guesses[state.playerId] ? 'disabled' : ''}>Submit Guess</button>
+        <div id="gameStatus" style="margin:8px 0;color:#ffd600">${state.guesses[state.playerId] ? 'Waiting for round...' : ''}</div>
       </div>
-      <div>
-        <div class="timer" id="timer">${state.timer}s</div>
-        <div class="points">${state.points} pts</div>
-        <div>Round ${state.round}/${state.maxRounds}</div>
-      </div>
-      <div class="initials">${state.question.initials}</div>
-      <div class="clue">${clue ? clue : ''}</div>
-      <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${state.guesses[state.playerId] ? 'disabled' : ''}/>
-      <button id="submitGuess" ${state.guesses[state.playerId] ? 'disabled' : ''}>Submit Guess</button>
-      <div id="gameStatus" style="margin:8px 0;color:#ffd600">${state.guesses[state.playerId] ? 'Waiting for round...' : ''}</div>
     </div>
   `;
   document.getElementById('guessInput').focus();
