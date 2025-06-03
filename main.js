@@ -118,7 +118,8 @@ function renderGame() {
     : '';
   $app.innerHTML = `
     <div class="screen">
-      <div class="category-title" style="position:absolute;top:12px;right:16px;font-size:1.1em;font-weight:bold;color:#1976d2;z-index:10;">
+      <style="position:absolute;top:12px;right:16px;font-size:1.1em;font-weight:bold;
+color:#fff;background:rgba(25,118,210,0.85);padding:6px 14px;border-radius:6px;z-index:10;">
         ${displayCategory}
       </div>
       <div>
