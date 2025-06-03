@@ -112,8 +112,15 @@ function renderCategory() {
 }
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
+  // Format the category name for display
+  const displayCategory = state.category
+    ? state.category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
+    : '';
   $app.innerHTML = `
     <div class="screen">
+      <div class="category-title" style="position:absolute;top:12px;right:16px;font-size:1.1em;font-weight:bold;color:#1976d2;z-index:10;">
+        ${displayCategory}
+      </div>
       <div>
         <div class="timer" id="timer">${state.timer}s</div>
         <div class="points">${state.points} pts</div>
@@ -130,6 +137,7 @@ function renderGame() {
   document.getElementById('guessInput').addEventListener('input', e => state.guess = e.target.value);
   document.getElementById('guessInput').addEventListener('keypress', e => { if (e.key === 'Enter') submitGuess(); });
   document.getElementById('submitGuess').onclick = submitGuess;
+}
 }
 function renderScoreboard() {
   $app.innerHTML = `
