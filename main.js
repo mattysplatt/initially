@@ -43,7 +43,6 @@ function randomCategoryItem(category) {
   } else {
     return randomItems(INITIALS_DB[category], 1)[0];
   }
-}
 
 // --- App State ---
 let state = {
