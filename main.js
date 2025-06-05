@@ -390,7 +390,7 @@ function endRound() {
   });
 }
 function markReady() {
-  // Add this player to the readyPlayers array in Firebase
+function markReady() {
   const nextReadyPlayers = [
     ...(state.readyPlayers || []).filter(id => id !== state.playerId),
     state.playerId
@@ -400,13 +400,12 @@ function markReady() {
       // After setting, check the lobby state
       get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
         const lobby = snap.val();
-        // If all players are ready, advance the round
+        // If all players are ready, advance the round (no leader check needed)
         if (
           lobby &&
           lobby.readyPlayers &&
           lobby.players &&
-          lobby.readyPlayers.length === Object.keys(lobby.players).length &&
-          (state.isLeader || Object.keys(lobby.players).length === 1)
+          lobby.readyPlayers.length === Object.keys(lobby.players).length
         ) {
           const used = lobby.usedQuestions || [];
           const maxRounds = lobby.maxRounds || state.maxRounds;
@@ -434,7 +433,6 @@ function markReady() {
       });
     });
 }
-
 // --- App Start ---
 render();
 
