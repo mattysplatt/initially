@@ -337,9 +337,11 @@ function submitGuess() {
   const guess = state.guess.trim();
   if (!guess) return;
   // Case-insensitive, ignore spaces/dots
-  const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
-  if (normalize(guess) === normalize(state.question.answer)) {
-    // Correct! Set score
+ const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
+const user = normalize(guess);
+const correct = normalize(state.question.answer);
+if (levenshtein(user, correct) <= 3) {
+  // Correct! Set score
     update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
       [state.playerId]: { guess, correct: true, points: state.points }
     });
