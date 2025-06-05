@@ -123,6 +123,7 @@ function renderGame() {
   const displayCategory = state.category
     ? state.category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
     : '';
+  const isCorrect = state.guesses[state.playerId]?.correct;
   $app.innerHTML = `
     <div class="screen">
       <div class="game-info-box" style="background:#f3e6ff;padding:24px 20px 20px 20px;border-radius:12px;max-width:420px;margin:32px auto;box-shadow:0 4px 24px #c6a0f533;">
@@ -136,10 +137,9 @@ function renderGame() {
         </div>
         <div class="initials">${state.question.initials}</div>
         <div class="clue">${clue ? clue : ''}</div>
-  const isCorrect = state.guesses[state.playerId]?.correct;
-<input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''}/>
-<button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
-        <div id="gameStatus" style="margin:8px 0;color:#ffd600">${state.guesses[state.playerId] ? 'Waiting for round...' : ''}</div>
+        <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''}/>
+        <button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
+        <div id="gameStatus" style="margin:8px 0;color:#ffd600">${isCorrect ? 'Waiting for round...' : ''}</div>
       </div>
     </div>
   `;
