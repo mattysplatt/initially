@@ -285,20 +285,15 @@ function listenLobby() {
     state.round = lobby.round;
     state.category = lobby.category;
     state.status = '';
-    // Debugging: log player list
-    console.log("Players loaded:", state.players);
+    // DO NOT clear state.guess here; this allows user input to persist even if question changes
+    state.question = lobby.question;
+    state.clues = lobby.clues;
+    state.clueIdx = lobby.clueIdx;
+    state.points = lobby.points;
+    state.guesses = lobby.guesses||{};
     if (lobby.status === "waiting") {
       state.screen = 'category'; render();
     } else if (lobby.status === "playing") {
-      // Only clear the user's guess if the question changed
-      if (!state.question || state.question.answer !== lobby.question.answer) {
-        state.guess = '';
-      }
-      state.question = lobby.question;
-      state.clues = lobby.clues;
-      state.clueIdx = lobby.clueIdx;
-      state.points = lobby.points;
-      state.guesses = lobby.guesses||{};
       state.screen = 'game'; render();
       startTimer();
     } else if (lobby.status === "scoreboard") {
@@ -415,54 +410,5 @@ function markReady() {
     ...(state.readyPlayers || []).filter(id => id !== state.playerId),
     state.playerId
   ];
-  set(ref(db, `lobbies/${state.lobbyCode}/readyPlayers`), nextReadyPlayers)
-    .then(() => {
-      get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
-        const lobby = snap.val();
-        if (!lobby.players || Object.keys(lobby.players).length === 0) {
-          state.status = "No players in lobby! Please reload.";
-          render();
-          return;
-        }
-        const numPlayers = Object.keys(lobby.players).length;
-        if (
-          lobby &&
-          lobby.readyPlayers &&
-          lobby.readyPlayers.length === numPlayers
-        ) {
-          const used = lobby.usedQuestions || [];
-          const maxRounds = lobby.maxRounds || state.maxRounds;
-          if ((lobby.round || 1) < maxRounds) {
-            const q = getRandomUnusedQuestion(lobby.category, used);
-            if (!q) {
-              update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'end' });
-              return;
-            }
-            update(ref(db, `lobbies/${state.lobbyCode}`), {
-              status: 'playing',
-              round: (lobby.round || 1) + 1,
-              question: q,
-              clues: shuffle(q.clues),
-              clueIdx: 0,
-              points: 60,
-              guesses: {},
-              readyPlayers: [],
-              usedQuestions: [...used, q.answer]
-            });
-          } else {
-            update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'end' });
-          }
-        }
-      });
-    });
-}
-
-// --- App Start ---
-render();
-
-// --- Clean up player on leave ---
-window.addEventListener('beforeunload', () => {
-  if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-  }
-});
+  set(ref(db, `*
+
