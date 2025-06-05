@@ -400,13 +400,13 @@ function markReady() {
       // After setting, check the lobby state
       get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
         const lobby = snap.val();
-        // If all players are ready, only the leader advances the round
+        // If all players are ready, advance the round
         if (
           lobby &&
           lobby.readyPlayers &&
           lobby.players &&
           lobby.readyPlayers.length === Object.keys(lobby.players).length &&
-          state.isLeader
+          (state.isLeader || Object.keys(lobby.players).length === 1)
         ) {
           const used = lobby.usedQuestions || [];
           const maxRounds = lobby.maxRounds || state.maxRounds;
