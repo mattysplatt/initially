@@ -7,17 +7,17 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
   <!-- CSP: Allow only scripts from self and trusted Firebase domains, block 'eval' -->
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' https://www.gstatic.com https://www.googleapis.com;
-    connect-src 'self' https://*.firebaseio.com https://*.googleapis.com;
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' data:;
-    font-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-  ">
+ <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' https://www.gstatic.com https://www.googleapis.com https://cdn.firebase.com;
+  connect-src 'self' https://*.firebaseio.com https://*.googleapis.com;
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data:;
+  font-src 'self';
+  object-src 'none';
+  base-uri 'self';
+  form-action 'self';
+">
 </head>
 <body>
   <div id="app"></div>
