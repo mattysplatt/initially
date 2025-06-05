@@ -6,22 +6,35 @@
   <title>Initial Contact</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
-  <!-- CSP: Allow only scripts from self and trusted Firebase domains, block 'eval' -->
-<meta http-equiv="Content-Security-Policy" content="
-  default-src 'self';
-  script-src 'self' https://www.gstatic.com https://www.googleapis.com https://cdn.firebase.com https://initialcontact-66089-default-rtdb.asia-southeast1.firebasedatabase.app;
-  connect-src 'self' https://*.firebaseio.com https://*.googleapis.com wss://s-apse1a-nss-2004.asia-southeast1.firebasedatabase.app https://s-apse1a-nss-2004.asia-southeast1.firebasedatabase.app;
-  frame-src 'self' https://s-apse1a-nss-2004.asia-southeast1.firebasedatabase.app;
-  style-src 'self' 'unsafe-inline';
-  img-src 'self' data:;
-  font-src 'self';
-  object-src 'none';
-  base-uri 'self';
-  form-action 'self';
-">
+  <!-- CSP: Allow only scripts and connections from self and trusted Firebase domains -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self'
+      https://www.gstatic.com
+      https://www.googleapis.com
+      https://cdn.firebase.com
+      https://initialcontact-66089-default-rtdb.asia-southeast1.firebasedatabase.app
+      https://s-apse1a-nss-2004.asia-southeast1.firebasedatabase.app;
+    connect-src 'self'
+      https://*.firebaseio.com
+      https://*.googleapis.com
+      https://initialcontact-66089-default-rtdb.asia-southeast1.firebasedatabase.app
+      wss://initialcontact-66089-default-rtdb.asia-southeast1.firebasedatabase.app
+      https://s-apse1a-nss-2004.asia-southeast1.firebasedatabase.app
+      wss://s-apse1a-nss-2004.asia-southeast1.firebasedatabase.app;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data:;
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-src 'self'
+      https://s-apse1a-nss-2004.asia-southeast1.firebasedatabase.app;
+  ">
 </head>
 <body>
   <div id="app"></div>
   <script type="module" src="main.js"></script>
+  <!-- Your script here, if you want to add an inline or external script -->
 </body>
 </html>
