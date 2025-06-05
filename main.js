@@ -199,14 +199,6 @@ function renderScoreboard() {
     </div>
   `;
   document.getElementById('readyBtn').onclick = markReady;
-  // Optional: Leader "Play Next Round" button
-  if (state.isLeader) {
-    const forceBtn = document.createElement('button');
-    forceBtn.id = 'forceNextRoundBtn';
-    forceBtn.textContent = 'Play Next Round';
-    forceBtn.onclick = markReady;
-    document.querySelector('.screen').appendChild(forceBtn);
-  }
 }
 function renderEnd() {
   $app.innerHTML = `
@@ -303,7 +295,6 @@ function listenLobby() {
   });
 }
 function chooseCategory(category) {
-  // Pick first random question, set up usedQuestions with its answer
   const allQuestions = category === 'randomMix'
     ? shuffle(
         [].concat(
@@ -399,39 +390,49 @@ function endRound() {
   });
 }
 function markReady() {
-  // Use set to write array!
-  set(ref(db, `lobbies/${state.lobbyCode}/readyPlayers`), [
-    ...(state.readyPlayers||[]).filter(id=>id!==state.playerId),
+  // Add this player to the readyPlayers array in Firebase
+  const nextReadyPlayers = [
+    ...(state.readyPlayers || []).filter(id => id !== state.playerId),
     state.playerId
-  ]);
-  // If all ready, pick a new random unused question or end game
-  get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
-    const lobby = snap.val();
-    if ((lobby.readyPlayers||[]).length === Object.keys(lobby.players||{}).length) {
-      const used = lobby.usedQuestions || [];
-      const maxRounds = lobby.maxRounds || state.maxRounds;
-      if ((lobby.round || 1) < maxRounds) {
-        const q = getRandomUnusedQuestion(lobby.category, used);
-        if (!q) {
-          update(ref(db, `lobbies/${state.lobbyCode}`), { status:'end' });
-          return;
+  ];
+  set(ref(db, `lobbies/${state.lobbyCode}/readyPlayers`), nextReadyPlayers)
+    .then(() => {
+      // After setting, check the lobby state
+      get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
+        const lobby = snap.val();
+        // If all players are ready, only the leader advances the round
+        if (
+          lobby &&
+          lobby.readyPlayers &&
+          lobby.players &&
+          lobby.readyPlayers.length === Object.keys(lobby.players).length &&
+          state.isLeader
+        ) {
+          const used = lobby.usedQuestions || [];
+          const maxRounds = lobby.maxRounds || state.maxRounds;
+          if ((lobby.round || 1) < maxRounds) {
+            const q = getRandomUnusedQuestion(lobby.category, used);
+            if (!q) {
+              update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'end' });
+              return;
+            }
+            update(ref(db, `lobbies/${state.lobbyCode}`), {
+              status: 'playing',
+              round: (lobby.round || 1) + 1,
+              question: q,
+              clues: shuffle(q.clues),
+              clueIdx: 0,
+              points: 60,
+              guesses: {},
+              readyPlayers: [],
+              usedQuestions: [...used, q.answer]
+            });
+          } else {
+            update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'end' });
+          }
         }
-        update(ref(db, `lobbies/${state.lobbyCode}`), {
-          status:'playing',
-          round: (lobby.round || 1) + 1,
-          question: q,
-          clues: shuffle(q.clues),
-          clueIdx: 0,
-          points: 60,
-          guesses: {},
-          readyPlayers: [],
-          usedQuestions: [...used, q.answer]
-        });
-      } else {
-        update(ref(db, `lobbies/${state.lobbyCode}`), { status:'end' });
-      }
-    }
-  });
+      });
+    });
 }
 
 // --- App Start ---
