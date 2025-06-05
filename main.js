@@ -1,9 +1,8 @@
 import { INITIALS_DB } from './initials_db.js';
-
-// Firebase Setup
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
-import { getDatabase, ref, set, get, onValue, push, remove, update, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
+import { getDatabase, ref, set, get, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
 
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyC1PocQMYJZP0ABWxeoiUNF7C5mHgsDjpk",
   authDomain: "initialcontact-66089.firebaseapp.com",
@@ -17,51 +16,50 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// --- Utils ---
+// --- Utility Functions ---
 function randomId() {
   return Math.random().toString(36).slice(2, 10);
 }
 function generateLobbyCode() {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   let code = '';
-  for (let i = 0; i < 5; i++) {
-    code += letters.charAt(Math.floor(Math.random() * letters.length));
-  }
+  for (let i = 0; i < 5; i++) code += letters.charAt(Math.floor(Math.random() * letters.length));
   return code;
 }
 function shuffle(arr) {
   return arr.map(a => [a, Math.random()]).sort((a, b) => a[1] - b[1]).map(a => a[0]);
 }
-function randomItems(arr, n) {
-  return shuffle(arr).slice(0, n);
-}
-function randomCategoryItem(category) {
-  if (category === 'randomMix') {
-    const cats = ['worldSports', 'afl', 'movieStars', 'musicians', 'famousFigures'];
-    const c = cats[Math.floor(Math.random() * cats.length)];
-    return randomItems(INITIALS_DB[c], 1)[0];
-  } else {
-    return randomItems(INITIALS_DB[category], 1)[0];
-  }
-}
-
-// Utility to get a random unused question
 function getRandomUnusedQuestion(category, usedAnswers) {
   const pool = category === 'randomMix'
     ? [].concat(
-        ...['worldSports','afl','movieStars','musicians','famousFigures']
-          .map(cat => INITIALS_DB[cat])
+        ...['worldSports','afl','movieStars','musicians','famousFigures'].map(cat => INITIALS_DB[cat])
       )
     : INITIALS_DB[category];
-
   const unused = pool.filter(q => !usedAnswers.includes(q.answer));
   if (unused.length === 0) return null;
   return unused[Math.floor(Math.random() * unused.length)];
 }
+function levenshtein(a, b) {
+  const matrix = Array.from({length: a.length + 1}, () => []);
+  for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+  for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      matrix[i][j] = a[i-1] === b[j-1]
+        ? matrix[i-1][j-1]
+        : Math.min(
+            matrix[i-1][j-1] + 1,
+            matrix[i][j-1] + 1,
+            matrix[i-1][j] + 1
+          );
+    }
+  }
+  return matrix[a.length][b.length];
+}
 
 // --- App State ---
 let state = {
-  screen: 'lobby', // lobby, lobbyCode, category, game, scoreboard, end
+  screen: 'lobby',
   playerName: '',
   playerId: '',
   lobbyCode: '',
@@ -89,14 +87,13 @@ let state = {
 // --- DOM ---
 const $app = document.getElementById('app');
 function render() {
-  const s = state;
   $app.innerHTML = '';
-  if (s.screen === 'lobby') renderLobby();
-  else if (s.screen === 'lobbyCode') renderLobbyCodeScreen();
-  else if (s.screen === 'category') renderCategory();
-  else if (s.screen === 'game') renderGame();
-  else if (s.screen === 'scoreboard') renderScoreboard();
-  else if (s.screen === 'end') renderEnd();
+  if (state.screen === 'lobby') renderLobby();
+  else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
+  else if (state.screen === 'category') renderCategory();
+  else if (state.screen === 'game') renderGame();
+  else if (state.screen === 'scoreboard') renderScoreboard();
+  else if (state.screen === 'end') renderEnd();
 }
 
 function renderLobby() {
@@ -114,8 +111,6 @@ function renderLobby() {
   document.getElementById('createLobby').onclick = createLobby;
   document.getElementById('joinLobby').onclick = joinLobby;
 }
-
-// --- COPILOT ADDITION: renderLobbyCodeScreen ---
 function renderLobbyCodeScreen() {
   $app.innerHTML = `
     <div class="screen">
@@ -135,8 +130,6 @@ function renderLobbyCodeScreen() {
     joinLobbyByCode(state.lobbyCode, state.playerName, true);
   };
 }
-// --- END COPILOT ADDITION ---
-
 function renderCategory() {
   $app.innerHTML = `
     <div class="screen">
@@ -206,8 +199,7 @@ function renderScoreboard() {
     </div>
   `;
   document.getElementById('readyBtn').onclick = markReady;
-
-  // Optional: Leader "Play Next Round" button (force advance)
+  // Optional: Leader "Play Next Round" button
   if (state.isLeader) {
     const forceBtn = document.createElement('button');
     forceBtn.id = 'forceNextRoundBtn';
@@ -215,23 +207,6 @@ function renderScoreboard() {
     forceBtn.onclick = markReady;
     document.querySelector('.screen').appendChild(forceBtn);
   }
-}
-function levenshtein(a, b) {
-  const matrix = Array.from({length: a.length + 1}, () => []);
-  for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
-  for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
-  for (let i = 1; i <= a.length; i++) {
-    for (let j = 1; j <= b.length; j++) {
-      matrix[i][j] = a[i-1] === b[j-1]
-        ? matrix[i-1][j-1]
-        : Math.min(
-            matrix[i-1][j-1] + 1, // substitution
-            matrix[i][j-1] + 1,   // insertion
-            matrix[i-1][j] + 1    // deletion
-          );
-    }
-  }
-  return matrix[a.length][b.length];
 }
 function renderEnd() {
   $app.innerHTML = `
@@ -279,7 +254,6 @@ function createLobby() {
     render();
   });
 }
-
 function joinLobby() {
   const name = state.playerName;
   const code = document.getElementById('lobbyCode').value.trim().toUpperCase();
@@ -328,19 +302,15 @@ function listenLobby() {
     }
   });
 }
-
 function chooseCategory(category) {
-  // Get all questions in the category, shuffle, pick 1st for round 1
+  // Pick first random question, set up usedQuestions with its answer
   const allQuestions = category === 'randomMix'
     ? shuffle(
         [].concat(
-          ...['worldSports','afl','movieStars','musicians','famousFigures']
-            .map(cat => INITIALS_DB[cat])
+          ...['worldSports','afl','movieStars','musicians','famousFigures'].map(cat => INITIALS_DB[cat])
         )
       )
     : shuffle([...INITIALS_DB[category]]);
-
-  // Limit pool size to maxRounds, but random selection each round will ensure no repeats
   const firstQuestion = allQuestions[0];
   set(ref(db, `lobbies/${state.lobbyCode}`), {
     code: state.lobbyCode,
@@ -355,11 +325,10 @@ function chooseCategory(category) {
     guesses: {},
     scoreboard: [],
     readyPlayers: [],
-    usedQuestions: [firstQuestion.answer], // track by answer
+    usedQuestions: [firstQuestion.answer],
     maxRounds: 10
   });
 }
-
 function startTimer() {
   clearInterval(window.timerInterval);
   state.timer = 10; renderTimer();
@@ -392,15 +361,13 @@ function submitGuess() {
   if (!state.guess) return;
   const guess = state.guess.trim();
   if (!guess) return;
-  // Case-insensitive, ignore spaces/dots
   const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
   const user = normalize(guess);
   const correct = normalize(state.question.answer);
   if (levenshtein(user, correct) <= 3) {
-   set(ref(db, `lobbies/${state.lobbyCode}/readyPlayers`), [
-  ...(state.readyPlayers||[]).filter(id=>id!==state.playerId),
-  state.playerId
-]);
+    update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
+      [state.playerId]: { guess, correct: true, points: state.points }
+    });
     endRound();
   } else {
     state.guess = '';
@@ -431,13 +398,12 @@ function endRound() {
     });
   });
 }
-
-// --- Updated markReady for random unique questions every round ---
 function markReady() {
+  // Use set to write array!
   set(ref(db, `lobbies/${state.lobbyCode}/readyPlayers`), [
-  ...(state.readyPlayers||[]).filter(id=>id!==state.playerId),
-  state.playerId
-]);
+    ...(state.readyPlayers||[]).filter(id=>id!==state.playerId),
+    state.playerId
+  ]);
   // If all ready, pick a new random unused question or end game
   get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
     const lobby = snap.val();
@@ -447,9 +413,7 @@ function markReady() {
       if ((lobby.round || 1) < maxRounds) {
         const q = getRandomUnusedQuestion(lobby.category, used);
         if (!q) {
-          update(ref(db, `lobbies/${state.lobbyCode}`), {
-            status:'end'
-          });
+          update(ref(db, `lobbies/${state.lobbyCode}`), { status:'end' });
           return;
         }
         update(ref(db, `lobbies/${state.lobbyCode}`), {
@@ -464,9 +428,7 @@ function markReady() {
           usedQuestions: [...used, q.answer]
         });
       } else {
-        update(ref(db, `lobbies/${state.lobbyCode}`), {
-          status:'end'
-        });
+        update(ref(db, `lobbies/${state.lobbyCode}`), { status:'end' });
       }
     }
   });
