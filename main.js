@@ -1,8 +1,8 @@
-// --- Firebase & Utilities Setup ---
 import { INITIALS_DB } from './initials_db.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getDatabase, ref, set, get, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
 
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyC1PocQMYJZP0ABWxeoiUNF7C5mHgsDjpk",
   authDomain: "initialcontact-66089.firebaseapp.com",
@@ -16,6 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// --- Utility Functions ---
 function randomId() {
   return Math.random().toString(36).slice(2, 10);
 }
@@ -83,7 +84,7 @@ let state = {
   unsubGame: null,
 };
 
-// --- DOM/UI Rendering ---
+// --- DOM ---
 const $app = document.getElementById('app');
 function render() {
   $app.innerHTML = '';
@@ -149,11 +150,6 @@ function renderCategory() {
   }
 }
 function renderGame() {
-  // Preserve the current input value (if present)
-  let currentInput = '';
-  const prevInput = document.getElementById('guessInput');
-  if (prevInput) currentInput = prevInput.value;
-
   const clue = state.clues[state.clueIdx] || '';
   const displayCategory = state.category
     ? state.category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
@@ -172,16 +168,15 @@ function renderGame() {
         </div>
         <div class="initials">${state.question ? state.question.initials : ''}</div>
         <div class="clue">${clue ? clue : ''}</div>
-        <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''} />
+        <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''}/>
         <button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
         <div id="gameStatus" style="margin:8px 0;color:#ffd600">${isCorrect ? 'Waiting for round...' : ''}</div>
       </div>
     </div>
   `;
-  // Restore the input value unless the answer is correct
   const guessInput = document.getElementById('guessInput');
   if (guessInput && !isCorrect) {
-    guessInput.value = currentInput || state.guess || '';
+    guessInput.value = state.guess || '';
     guessInput.focus();
     guessInput.addEventListener('input', e => state.guess = e.target.value);
     guessInput.addEventListener('keypress', e => { if (e.key === 'Enter') submitGuess(); });
@@ -295,6 +290,10 @@ function listenLobby() {
     if (lobby.status === "waiting") {
       state.screen = 'category'; render();
     } else if (lobby.status === "playing") {
+      // Only clear the user's guess if the question changed
+      if (!state.question || state.question.answer !== lobby.question.answer) {
+        state.guess = '';
+      }
       state.question = lobby.question;
       state.clues = lobby.clues;
       state.clueIdx = lobby.clueIdx;
@@ -379,9 +378,10 @@ function submitGuess() {
     update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
       [state.playerId]: { guess, correct: true, points: state.points }
     });
+    state.guess = ''; // Only clear when correct
     endRound();
   } else {
-    state.guess = '';
+    // Do not clear state.guess, just leave it for editing
     render();
   }
 }
@@ -419,7 +419,6 @@ function markReady() {
     .then(() => {
       get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
         const lobby = snap.val();
-        // Defensive: protect against missing/empty player list
         if (!lobby.players || Object.keys(lobby.players).length === 0) {
           state.status = "No players in lobby! Please reload.";
           render();
