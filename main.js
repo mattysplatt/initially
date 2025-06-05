@@ -2,7 +2,7 @@ import { INITIALS_DB } from './initials_db.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getDatabase, ref, set, get, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
 
-// Firebase config
+// Firebase conf
 const firebaseConfig = {
   apiKey: "AIzaSyC1PocQMYJZP0ABWxeoiUNF7C5mHgsDjpk",
   authDomain: "initialcontact-66089.firebaseapp.com",
