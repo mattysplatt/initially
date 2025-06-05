@@ -10,7 +10,7 @@ export const INITIALS_DB = {
       initials: "S.W.",
       answer: "Serena Williams",
       clues: ["American tennis champion","23 Grand Slam singles titles","Younger sister of Venus","Known for powerful serve","Won Olympic gold medals"]
-    }
+    },
     // ...more
   ],
   afl: [
@@ -465,7 +465,7 @@ export const INITIALS_DB = {
       initials: "L.D.",
       answer: "Leonardo DiCaprio",
       clues: ["Starred in Titanic","Won Oscar for The Revenant","Frequent Scorsese collaborator","Environmental activist","Known for role in Inception"]
-    }
+    },
     // ...more
   ],
   musicians: [
