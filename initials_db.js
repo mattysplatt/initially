@@ -2509,18 +2509,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "J.C.",
-  answer: "Chance the Rapper",
-  clues: [
-    "Chicago-based rapper",
-    "Hits include 'No Problem'",
-    "Known for independent releases",
-    "Grammy winner for 'Coloring Book'",
-    "Philanthropist and activist"
-  ]
-},
-{
-  initials: "A.F.",
+  initials: "F.W.",
   answer: "Florence Welch",
   clues: [
     "Lead singer of Florence + The Machine",
@@ -3651,7 +3640,7 @@ export const INITIALS_DB = {
     "Spiritual and experimental music",
     "Influenced generations of jazz artists"
   ]
-}
+},
   ],
   famousFigures: [
     {
