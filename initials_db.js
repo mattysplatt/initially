@@ -14,15 +14,15 @@ export const INITIALS_DB = {
     // ...more
   ],
   afl: [
-    {
-      initials: "D.M.",
-      answer: "Dustin Martin",
-      clues: ["Richmond Tigers midfielder","Known as 'Dusty'","2017 Brownlow Medalist","Three-time Norm Smith Medalist","Famous for fend-off move"]
-    }
-    {
-    "initials": "P.C.",
-    "answer": "Patrick Cripps",
-    "clues": [
+  {
+    initials: "D.M.",
+    answer: "Dustin Martin",
+    clues: ["Richmond Tigers midfielder", "Known as 'Dusty'", "2017 Brownlow Medalist", "Three-time Norm Smith Medalist", "Famous for fend-off move"]
+  },
+  {
+    initials: "P.C.",
+    answer: "Patrick Cripps",
+    clues: [
       "Carlton Blues captain",
       "2022 Brownlow Medalist",
       "Dominant inside midfielder",
@@ -31,9 +31,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "N.D.",
-    "answer": "Nick Daicos",
-    "clues": [
+    initials: "N.D.",
+    answer: "Nick Daicos",
+    clues: [
       "Collingwood Magpies midfielder",
       "Son of club legend Peter Daicos",
       "2023 Rising Star winner",
@@ -42,9 +42,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "C.P.",
-    "answer": "Christian Petracca",
-    "clues": [
+    initials: "C.P.",
+    answer: "Christian Petracca",
+    clues: [
       "Melbourne Demons midfielder",
       "2021 Norm Smith Medalist",
       "Explosive and powerful player",
@@ -53,9 +53,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "M.B.",
-    "answer": "Marcus Bontempelli",
-    "clues": [
+    initials: "M.B.",
+    answer: "Marcus Bontempelli",
+    clues: [
       "Western Bulldogs captain",
       "Versatile midfielder/forward",
       "Multiple All-Australian selections",
@@ -64,9 +64,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "L.N.",
-    "answer": "Lachie Neale",
-    "clues": [
+    initials: "L.N.",
+    answer: "Lachie Neale",
+    clues: [
       "Brisbane Lions midfielder",
       "Two-time Brownlow Medalist",
       "Elite clearance player",
@@ -75,9 +75,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "T.G.",
-    "answer": "Toby Greene",
-    "clues": [
+    initials: "T.G.",
+    answer: "Toby Greene",
+    clues: [
       "GWS Giants forward",
       "Team captain",
       "Known for goal sense and aggression",
@@ -86,9 +86,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "T.S.",
-    "answer": "Tom Stewart",
-    "clues": [
+    initials: "T.S.",
+    answer: "Tom Stewart",
+    clues: [
       "Geelong Cats defender",
       "Multiple All-Australian selections",
       "Intercept marking specialist",
@@ -97,9 +97,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "C.W.",
-    "answer": "Chad Warner",
-    "clues": [
+    initials: "C.W.",
+    answer: "Chad Warner",
+    clues: [
       "Sydney Swans midfielder",
       "Known for speed and agility",
       "Breakout season in 2022",
@@ -108,9 +108,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "O.H.",
-    "answer": "Oliver Hollands",
-    "clues": [
+    initials: "O.H.",
+    answer: "Oliver Hollands",
+    clues: [
       "Carlton Blues midfielder",
       "Top 15 draft pick in 2022",
       "Known for endurance and work rate",
@@ -119,9 +119,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "J.D.",
-    "answer": "Jordan Dawson",
-    "clues": [
+    initials: "J.D.",
+    answer: "Jordan Dawson",
+    clues: [
       "Adelaide Crows captain",
       "Versatile defender/midfielder",
       "Known for elite kicking skills",
@@ -130,9 +130,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "H.A.",
-    "answer": "Harris Andrews",
-    "clues": [
+    initials: "H.A.",
+    answer: "Harris Andrews",
+    clues: [
       "Brisbane Lions co-captain",
       "Key position defender",
       "Two-time All-Australian",
@@ -141,9 +141,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "C.C.",
-    "answer": "Charlie Curnow",
-    "clues": [
+    initials: "C.C.",
+    answer: "Charlie Curnow",
+    clues: [
       "Carlton Blues key forward",
       "2023 Coleman Medalist",
       "Known for athleticism and marking",
@@ -152,9 +152,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "D.M.",
-    "answer": "Darcy Moore",
-    "clues": [
+    initials: "D.M.",
+    answer: "Darcy Moore",
+    clues: [
       "Collingwood Magpies captain",
       "Key defender",
       "Son of club legend Peter Moore",
@@ -163,9 +163,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "Z.M.",
-    "answer": "Zach Merrett",
-    "clues": [
+    initials: "Z.M.",
+    answer: "Zach Merrett",
+    clues: [
       "Essendon Bombers captain",
       "Elite midfielder",
       "Multiple Crichton Medalist",
@@ -174,9 +174,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "A.B.",
-    "answer": "Andrew Brayshaw",
-    "clues": [
+    initials: "A.B.",
+    answer: "Andrew Brayshaw",
+    clues: [
       "Fremantle Dockers midfielder",
       "2022 AFLPA MVP",
       "Known for work rate and ball-winning",
@@ -185,9 +185,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "P.D.",
-    "answer": "Patrick Dangerfield",
-    "clues": [
+    initials: "P.D.",
+    answer: "Patrick Dangerfield",
+    clues: [
       "Geelong Cats midfielder",
       "2016 Brownlow Medalist",
       "Eight-time All-Australian",
@@ -196,9 +196,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "T.M.",
-    "answer": "Touk Miller",
-    "clues": [
+    initials: "T.M.",
+    answer: "Touk Miller",
+    clues: [
       "Gold Coast Suns co-captain",
       "Midfielder known for endurance",
       "Two-time All-Australian",
@@ -207,9 +207,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "J.K.",
-    "answer": "Josh Kelly",
-    "clues": [
+    initials: "J.K.",
+    answer: "Josh Kelly",
+    clues: [
       "GWS Giants midfielder",
       "Known for elite disposal",
       "Former No.2 draft pick",
@@ -218,9 +218,9 @@ export const INITIALS_DB = {
     ]
   },
   {
-    "initials": "J.S.",
-    "answer": "James Sicily",
-    "clues": [
+    initials: "J.S.",
+    answer: "James Sicily",
+    clues: [
       "Hawthorn Hawks captain",
       "Key defender",
       "Known for intercept marking",
