@@ -47,7 +47,7 @@ function randomCategoryItem(category) {
 
 // --- App State ---
 let state = {
-  screen: 'lobby', // lobby, category, game, scoreboard, end
+  screen: 'lobby', // lobby, lobbyCode, category, game, scoreboard, end   // --- COPILOT ADDITION ---
   playerName: '',
   playerId: '',
   lobbyCode: '',
@@ -78,6 +78,7 @@ function render() {
   const s = state;
   $app.innerHTML = '';
   if (s.screen === 'lobby') renderLobby();
+  else if (s.screen === 'lobbyCode') renderLobbyCodeScreen(); // --- COPILOT ADDITION ---
   else if (s.screen === 'category') renderCategory();
   else if (s.screen === 'game') renderGame();
   else if (s.screen === 'scoreboard') renderScoreboard();
@@ -99,6 +100,30 @@ function renderLobby() {
   document.getElementById('createLobby').onclick = createLobby;
   document.getElementById('joinLobby').onclick = joinLobby;
 }
+
+// --- COPILOT ADDITION: renderLobbyCodeScreen ---
+function renderLobbyCodeScreen() {
+  $app.innerHTML = `
+    <div class="screen">
+      <h2>Lobby Created!</h2>
+      <div>Your lobby code:</div>
+      <div id="lobbyCodeDisplay" style="font-size:2em;font-weight:bold;margin:12px;">${state.lobbyCode}</div>
+      <button id="copyLobbyCodeBtn">Copy Code</button>
+      <p>Share this code with friends to join your lobby.</p>
+      <button id="startLobbyBtn">Start Lobby</button>
+    </div>
+  `;
+  document.getElementById('copyLobbyCodeBtn').onclick = function() {
+    navigator.clipboard.writeText(state.lobbyCode);
+    alert('Lobby code copied!');
+  };
+  document.getElementById('startLobbyBtn').onclick = function() {
+    // Now join as leader and proceed as before:
+    joinLobbyByCode(state.lobbyCode, state.playerName, true);
+  };
+}
+// --- END COPILOT ADDITION ---
+
 function renderCategory() {
   $app.innerHTML = `
     <div class="screen">
@@ -226,9 +251,12 @@ function createLobby() {
     scoreboard: [],
     readyPlayers: []
   }).then(() => {
-    joinLobbyByCode(state.lobbyCode, state.playerName, true);
+    // --- COPILOT CHANGE: show code screen before joining lobby
+    state.screen = 'lobbyCode';
+    render();
   });
 }
+
 function joinLobby() {
   const name = state.playerName;
   const code = document.getElementById('lobbyCode').value.trim().toUpperCase();
