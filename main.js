@@ -434,10 +434,10 @@ function endRound() {
 
 // --- Updated markReady for random unique questions every round ---
 function markReady() {
-  update(ref(db, `lobbies/${state.lobbyCode}/readyPlayers`), [
-    ...(state.readyPlayers||[]).filter(id=>id!==state.playerId),
-    state.playerId
-  ]);
+  set(ref(db, `lobbies/${state.lobbyCode}/readyPlayers`), [
+  ...(state.readyPlayers||[]).filter(id=>id!==state.playerId),
+  state.playerId
+]);
   // If all ready, pick a new random unused question or end game
   get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
     const lobby = snap.val();
