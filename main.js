@@ -121,9 +121,6 @@ function renderCategory() {
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
   const displayCategory = state.category
-  const isCorrect = state.guesses[state.playerId]?.correct;
-<input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''}/>
-<button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>  
     ? state.category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
     : '';
   $app.innerHTML = `
