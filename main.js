@@ -135,7 +135,7 @@ function renderGame() {
           <div class="points">${state.points} pts</div>
           <div>Round ${state.round}/${state.maxRounds}</div>
         </div>
-        <div class="initials">${state.question.initials}</div>
+        <div class="initials">${state.question ? state.question.initials : ''}</div>
         <div class="clue">${clue ? clue : ''}</div>
         <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''}/>
         <button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
@@ -143,10 +143,14 @@ function renderGame() {
       </div>
     </div>
   `;
-  document.getElementById('guessInput').focus();
-  document.getElementById('guessInput').addEventListener('input', e => state.guess = e.target.value);
-  document.getElementById('guessInput').addEventListener('keypress', e => { if (e.key === 'Enter') submitGuess(); });
-  document.getElementById('submitGuess').onclick = submitGuess;
+  const guessInput = document.getElementById('guessInput');
+  const submitBtn = document.getElementById('submitGuess');
+  if (guessInput && submitBtn) {
+    guessInput.focus();
+    guessInput.addEventListener('input', e => state.guess = e.target.value);
+    guessInput.addEventListener('keypress', e => { if (e.key === 'Enter') submitGuess(); });
+    submitBtn.onclick = submitGuess;
+  }
 }
 function renderScoreboard() {
   $app.innerHTML = `
