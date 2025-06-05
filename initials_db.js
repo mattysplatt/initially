@@ -6,6 +6,7 @@ export const INITIALS_DB = {
       answer: "Lionel Messi",
       clues: ["Argentinian footballer","8 Ballon d'Or awards","Played for Barcelona and PSG","Captain of Argentina national team","Famous for his dribbling skills"]
     },
+    [
     {
       initials: "S.W.",
       answer: "Serena Williams",
