@@ -136,8 +136,9 @@ function renderGame() {
         </div>
         <div class="initials">${state.question.initials}</div>
         <div class="clue">${clue ? clue : ''}</div>
-        <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${state.guesses[state.playerId] ? 'disabled' : ''}/>
-        <button id="submitGuess" ${state.guesses[state.playerId] ? 'disabled' : ''}>Submit Guess</button>
+  const isCorrect = state.guesses[state.playerId]?.correct;
+<input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''}/>
+<button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
         <div id="gameStatus" style="margin:8px 0;color:#ffd600">${state.guesses[state.playerId] ? 'Waiting for round...' : ''}</div>
       </div>
     </div>
