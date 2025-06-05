@@ -1,6 +1,6 @@
 import { INITIALS_DB } from './initials_db.js';
 
-// Firebase Setup (Replace with your config if needed)
+// Firebase Setup
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getDatabase, ref, set, get, onValue, push, remove, update, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
 
@@ -45,9 +45,23 @@ function randomCategoryItem(category) {
   }
 }
 
+// Utility to get a random unused question
+function getRandomUnusedQuestion(category, usedAnswers) {
+  const pool = category === 'randomMix'
+    ? [].concat(
+        ...['worldSports','afl','movieStars','musicians','famousFigures']
+          .map(cat => INITIALS_DB[cat])
+      )
+    : INITIALS_DB[category];
+
+  const unused = pool.filter(q => !usedAnswers.includes(q.answer));
+  if (unused.length === 0) return null;
+  return unused[Math.floor(Math.random() * unused.length)];
+}
+
 // --- App State ---
 let state = {
-  screen: 'lobby', // lobby, lobbyCode, category, game, scoreboard, end   // --- COPILOT ADDITION ---
+  screen: 'lobby', // lobby, lobbyCode, category, game, scoreboard, end
   playerName: '',
   playerId: '',
   lobbyCode: '',
@@ -78,7 +92,7 @@ function render() {
   const s = state;
   $app.innerHTML = '';
   if (s.screen === 'lobby') renderLobby();
-  else if (s.screen === 'lobbyCode') renderLobbyCodeScreen(); // --- COPILOT ADDITION ---
+  else if (s.screen === 'lobbyCode') renderLobbyCodeScreen();
   else if (s.screen === 'category') renderCategory();
   else if (s.screen === 'game') renderGame();
   else if (s.screen === 'scoreboard') renderScoreboard();
@@ -118,7 +132,6 @@ function renderLobbyCodeScreen() {
     alert('Lobby code copied!');
   };
   document.getElementById('startLobbyBtn').onclick = function() {
-    // Now join as leader and proceed as before:
     joinLobbyByCode(state.lobbyCode, state.playerName, true);
   };
 }
@@ -193,6 +206,15 @@ function renderScoreboard() {
     </div>
   `;
   document.getElementById('readyBtn').onclick = markReady;
+
+  // Optional: Leader "Play Next Round" button (force advance)
+  if (state.isLeader) {
+    const forceBtn = document.createElement('button');
+    forceBtn.id = 'forceNextRoundBtn';
+    forceBtn.textContent = 'Play Next Round';
+    forceBtn.onclick = markReady;
+    document.querySelector('.screen').appendChild(forceBtn);
+  }
 }
 function levenshtein(a, b) {
   const matrix = Array.from({length: a.length + 1}, () => []);
@@ -249,7 +271,9 @@ function createLobby() {
     players: { [state.playerId]: playerObj },
     guesses: {},
     scoreboard: [],
-    readyPlayers: []
+    readyPlayers: [],
+    usedQuestions: [],
+    maxRounds: 10
   }).then(() => {
     state.screen = 'lobbyCode';
     render();
@@ -267,14 +291,12 @@ function joinLobbyByCode(code, name, leader) {
   state.lobbyCode = code;
   state.isLeader = leader;
   const lobbyPath = `lobbies/${code}`;
-  // Add player to lobby
   set(ref(db, `${lobbyPath}/players/${state.playerId}`), {
     name, score: 0, isLeader: leader, ready: false
   });
   listenLobby();
 }
 function listenLobby() {
-  // Listen for lobby changes
   if (state.unsubLobby) state.unsubLobby();
   const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
   state.lobbyRef = lobbyRef;
@@ -306,34 +328,38 @@ function listenLobby() {
     }
   });
 }
+
 function chooseCategory(category) {
-  // Start game with shuffled questions
-  const questions = shuffle(
-    (category==='randomMix'
-      ? randomItems(
-          [].concat(
-            ...['worldSports','afl','movieStars','musicians','famousFigures']
-              .map(cat=>randomItems(INITIALS_DB[cat], 20))
-          ), 100)
-      : randomItems(INITIALS_DB[category], 100)
-    )
-  ).slice(0, state.maxRounds);
- set(ref(db, `lobbies/${state.lobbyCode}`), {
-  code: state.lobbyCode,
-  leader: state.playerId,
-  status: "playing",
-  category,
-  round: 1,
-  question: questions[0],
-  clues: shuffle(questions[0].clues),
-  clueIdx: 0,
-  points: 60,
-  guesses: {},
-  scoreboard: [],
-  readyPlayers: [],
-  questions
-});
+  // Get all questions in the category, shuffle, pick 1st for round 1
+  const allQuestions = category === 'randomMix'
+    ? shuffle(
+        [].concat(
+          ...['worldSports','afl','movieStars','musicians','famousFigures']
+            .map(cat => INITIALS_DB[cat])
+        )
+      )
+    : shuffle([...INITIALS_DB[category]]);
+
+  // Limit pool size to maxRounds, but random selection each round will ensure no repeats
+  const firstQuestion = allQuestions[0];
+  set(ref(db, `lobbies/${state.lobbyCode}`), {
+    code: state.lobbyCode,
+    leader: state.playerId,
+    status: "playing",
+    category,
+    round: 1,
+    question: firstQuestion,
+    clues: shuffle(firstQuestion.clues),
+    clueIdx: 0,
+    points: 60,
+    guesses: {},
+    scoreboard: [],
+    readyPlayers: [],
+    usedQuestions: [firstQuestion.answer], // track by answer
+    maxRounds: 10
+  });
 }
+
 function startTimer() {
   clearInterval(window.timerInterval);
   state.timer = 10; renderTimer();
@@ -351,7 +377,6 @@ function renderTimer() {
   if (el) el.textContent = state.timer+'s';
 }
 function revealNextClue() {
-  // If more clues, show next; else, end round
   let clueIdx = state.clueIdx;
   let points = state.points;
   if (clueIdx < 4) {
@@ -360,7 +385,6 @@ function revealNextClue() {
     update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points });
     startTimer();
   } else {
-    // End round (no correct guess)
     endRound();
   }
 }
@@ -369,24 +393,21 @@ function submitGuess() {
   const guess = state.guess.trim();
   if (!guess) return;
   // Case-insensitive, ignore spaces/dots
- const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
-const user = normalize(guess);
-const correct = normalize(state.question.answer);
-if (levenshtein(user, correct) <= 3) {
-  // Correct! Set score
+  const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
+  const user = normalize(guess);
+  const correct = normalize(state.question.answer);
+  if (levenshtein(user, correct) <= 3) {
     update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
       [state.playerId]: { guess, correct: true, points: state.points }
     });
     endRound();
   } else {
-    // Do NOT record guess—let user try again
     state.guess = '';
     render();
   }
 }
 function endRound() {
   clearInterval(window.timerInterval);
-  // Compute scores
   get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
     const lobby = snap.val();
     const guesses = lobby.guesses || {};
@@ -396,7 +417,6 @@ function endRound() {
       let add = (guess && guess.correct) ? lobby.points : 0;
       return { name: p.name, score: (p.score||0) + add };
     });
-    // Save new scores
     for (let [id, p] of Object.entries(players)) {
       let guess = guesses[id];
       let add = (guess && guess.correct) ? lobby.points : 0;
@@ -404,34 +424,43 @@ function endRound() {
         score: (p.score||0) + add
       });
     }
-    // Show scoreboard
     update(ref(db, `lobbies/${state.lobbyCode}`), {
       status: "scoreboard",
       scoreboard: scoreboard
     });
   });
 }
+
+// --- Updated markReady for random unique questions every round ---
 function markReady() {
   update(ref(db, `lobbies/${state.lobbyCode}/readyPlayers`), [
     ...(state.readyPlayers||[]).filter(id=>id!==state.playerId),
     state.playerId
   ]);
-  // If all ready, next round or end
+  // If all ready, pick a new random unused question or end game
   get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
     const lobby = snap.val();
     if ((lobby.readyPlayers||[]).length === Object.keys(lobby.players||{}).length) {
-      // Next round or end
-      if (lobby.round < state.maxRounds) {
-        const q = lobby.questions[lobby.round];
+      const used = lobby.usedQuestions || [];
+      const maxRounds = lobby.maxRounds || state.maxRounds;
+      if ((lobby.round || 1) < maxRounds) {
+        const q = getRandomUnusedQuestion(lobby.category, used);
+        if (!q) {
+          update(ref(db, `lobbies/${state.lobbyCode}`), {
+            status:'end'
+          });
+          return;
+        }
         update(ref(db, `lobbies/${state.lobbyCode}`), {
           status:'playing',
-          round: lobby.round+1,
+          round: (lobby.round || 1) + 1,
           question: q,
           clues: shuffle(q.clues),
           clueIdx: 0,
           points: 60,
           guesses: {},
-          readyPlayers: []
+          readyPlayers: [],
+          usedQuestions: [...used, q.answer]
         });
       } else {
         update(ref(db, `lobbies/${state.lobbyCode}`), {
