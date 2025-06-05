@@ -1451,17 +1451,12 @@ export const INITIALS_DB = {
     "Starred in Sophie's Choice"
   ]
 },
-// ... Continue this pattern for 90 more entries ...
     {
       initials: "L.D.",
       answer: "Leonardo DiCaprio",
       clues: ["Starred in Titanic","Won Oscar for The Revenant","Frequent Scorsese collaborator","Environmental activist","Known for role in Inception"]
     }
-  
   ],
-  musicians: [
-   const initials_db = {
-  // ... other categories
   musicians: [
    {
   initials: "T.S.",
