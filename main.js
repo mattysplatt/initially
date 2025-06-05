@@ -149,6 +149,11 @@ function renderCategory() {
   }
 }
 function renderGame() {
+  // Preserve the current input value (if present)
+  let currentInput = '';
+  const prevInput = document.getElementById('guessInput');
+  if (prevInput) currentInput = prevInput.value;
+
   const clue = state.clues[state.clueIdx] || '';
   const displayCategory = state.category
     ? state.category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
@@ -167,18 +172,22 @@ function renderGame() {
         </div>
         <div class="initials">${state.question ? state.question.initials : ''}</div>
         <div class="clue">${clue ? clue : ''}</div>
-        <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''}/>
+        <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''} />
         <button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
         <div id="gameStatus" style="margin:8px 0;color:#ffd600">${isCorrect ? 'Waiting for round...' : ''}</div>
       </div>
     </div>
   `;
+  // Restore the input value unless the answer is correct
   const guessInput = document.getElementById('guessInput');
-  const submitBtn = document.getElementById('submitGuess');
-  if (guessInput && submitBtn) {
+  if (guessInput && !isCorrect) {
+    guessInput.value = currentInput || state.guess || '';
     guessInput.focus();
     guessInput.addEventListener('input', e => state.guess = e.target.value);
     guessInput.addEventListener('keypress', e => { if (e.key === 'Enter') submitGuess(); });
+  }
+  const submitBtn = document.getElementById('submitGuess');
+  if (submitBtn && !isCorrect) {
     submitBtn.onclick = submitGuess;
   }
 }
