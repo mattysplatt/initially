@@ -1340,7 +1340,7 @@ export const INITIALS_DB = {
     "Started acting as a teen",
     "American actress"
   ]
-}
+},
 {
   initials: "B.P.",
   answer: "Brad Pitt",
