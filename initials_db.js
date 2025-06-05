@@ -117,8 +117,7 @@ export const INITIALS_DB = {
       "Debuted in 2023",
       "Brother of Elijah Hollands"
     ]
-  }
-    [
+  },
   {
     "initials": "J.D.",
     "answer": "Jordan Dawson",
