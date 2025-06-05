@@ -82,6 +82,7 @@ let state = {
   lobbyRef: null,
   unsubLobby: null,
   unsubGame: null,
+  incorrectPrompt: false, // NEW: For incorrect answer feedback
 };
 
 // --- DOM ---
@@ -168,6 +169,7 @@ function renderGame() {
         </div>
         <div class="initials">${state.question ? state.question.initials : ''}</div>
         <div class="clue">${clue ? clue : ''}</div>
+        ${state.incorrectPrompt ? '<div style="color:red;margin:8px 0;">Incorrect, try again!</div>' : ''}
         <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''}/>
         <button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
         <div id="gameStatus" style="margin:8px 0;color:#ffd600">${isCorrect ? 'Waiting for round...' : ''}</div>
@@ -373,11 +375,16 @@ function submitGuess() {
     update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
       [state.playerId]: { guess, correct: true, points: state.points }
     });
-    state.guess = ''; // Only clear when correct
+    state.guess = '';
     endRound();
   } else {
-    // Do not clear state.guess, just leave it for editing
+    state.guess = ''; // CLEAR INPUT ON INCORRECT ANSWER
+    state.incorrectPrompt = true; // Show the incorrect prompt
     render();
+    setTimeout(() => {
+      state.incorrectPrompt = false; // Hide the prompt after 2 seconds
+      render();
+    }, 2000);
   }
 }
 function endRound() {
