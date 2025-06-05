@@ -389,23 +389,20 @@ function endRound() {
     });
   });
 }
-function markReady() {
-function markReady() {
+unction markReady() {
   const nextReadyPlayers = [
     ...(state.readyPlayers || []).filter(id => id !== state.playerId),
     state.playerId
   ];
   set(ref(db, `lobbies/${state.lobbyCode}/readyPlayers`), nextReadyPlayers)
     .then(() => {
-      // After setting, check the lobby state
       get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
         const lobby = snap.val();
-        // If all players are ready, advance the round (no leader check needed)
+        const numPlayers = Math.max(1, lobby.players ? Object.keys(lobby.players).length : 1);
         if (
           lobby &&
           lobby.readyPlayers &&
-          lobby.players &&
-          lobby.readyPlayers.length === Object.keys(lobby.players).length
+          lobby.readyPlayers.length === numPlayers
         ) {
           const used = lobby.usedQuestions || [];
           const maxRounds = lobby.maxRounds || state.maxRounds;
