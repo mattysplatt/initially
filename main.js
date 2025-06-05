@@ -1,8 +1,8 @@
+// --- Firebase & Utilities Setup ---
 import { INITIALS_DB } from './initials_db.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getDatabase, ref, set, get, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
 
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyC1PocQMYJZP0ABWxeoiUNF7C5mHgsDjpk",
   authDomain: "initialcontact-66089.firebaseapp.com",
@@ -16,7 +16,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// --- Utility Functions ---
 function randomId() {
   return Math.random().toString(36).slice(2, 10);
 }
@@ -84,7 +83,7 @@ let state = {
   unsubGame: null,
 };
 
-// --- DOM ---
+// --- DOM/UI Rendering ---
 const $app = document.getElementById('app');
 function render() {
   $app.innerHTML = '';
@@ -183,8 +182,6 @@ function renderGame() {
     submitBtn.onclick = submitGuess;
   }
 }
-
-// === DEFENSIVE SCOREBOARD RENDER ===
 function renderScoreboard() {
   $app.innerHTML = `
     <div class="screen">
@@ -243,7 +240,7 @@ function createLobby() {
     clues: [],
     clueIdx: 0,
     points: 60,
-    players: { [state.playerId]: playerObj }, // always start with at least one player!
+    players: { [state.playerId]: playerObj },
     guesses: {},
     scoreboard: [],
     readyPlayers: [],
@@ -271,7 +268,7 @@ function joinLobbyByCode(code, name, leader) {
   listenLobby();
 }
 
-// --- Listen to Lobby (robustly handles missing players) ---
+// --- Listen to Lobby (defensive for missing/empty players) ---
 function listenLobby() {
   if (state.unsubLobby) state.unsubLobby();
   const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
@@ -279,13 +276,12 @@ function listenLobby() {
   state.unsubLobby = onValue(lobbyRef, snap => {
     if (!snap.exists()) { state.status = "Lobby not found"; state.screen = 'lobby'; render(); return; }
     const lobby = snap.val();
-    // Defensive: always treat players as an array, even if missing or empty
     state.players = Object.entries(lobby.players||{}).map(([id, p])=>({...p, id}));
     state.isLeader = (state.playerId === lobby.leader);
     state.round = lobby.round;
     state.category = lobby.category;
     state.status = '';
-    // Debugging: log player list on every update
+    // Debugging: log player list
     console.log("Players loaded:", state.players);
     if (lobby.status === "waiting") {
       state.screen = 'category'; render();
@@ -332,7 +328,7 @@ function chooseCategory(category) {
     readyPlayers: [],
     usedQuestions: [firstQuestion.answer],
     maxRounds: 10,
-    players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])), // preserve all joined players
+    players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])),
   });
 }
 function startTimer() {
@@ -405,7 +401,6 @@ function endRound() {
   });
 }
 
-// --- Robust: Only allow next round if player list is not empty
 function markReady() {
   const nextReadyPlayers = [
     ...(state.readyPlayers || []).filter(id => id !== state.playerId),
@@ -421,7 +416,7 @@ function markReady() {
           render();
           return;
         }
-        const numPlayers = Math.max(1, Object.keys(lobby.players).length);
+        const numPlayers = Object.keys(lobby.players).length;
         if (
           lobby &&
           lobby.readyPlayers &&
