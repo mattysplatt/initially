@@ -1456,8 +1456,8 @@ export const INITIALS_DB = {
       initials: "L.D.",
       answer: "Leonardo DiCaprio",
       clues: ["Starred in Titanic","Won Oscar for The Revenant","Frequent Scorsese collaborator","Environmental activist","Known for role in Inception"]
-    },
-    // ...more
+    }
+  
   ],
   musicians: [
    const initials_db = {
