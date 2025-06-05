@@ -251,7 +251,6 @@ function createLobby() {
     scoreboard: [],
     readyPlayers: []
   }).then(() => {
-    // --- COPILOT CHANGE: show code screen before joining lobby
     state.screen = 'lobbyCode';
     render();
   });
