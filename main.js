@@ -183,6 +183,8 @@ function renderGame() {
     submitBtn.onclick = submitGuess;
   }
 }
+
+// === DEFENSIVE SCOREBOARD RENDER ===
 function renderScoreboard() {
   $app.innerHTML = `
     <div class="screen">
@@ -193,12 +195,18 @@ function renderScoreboard() {
           `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
         ).join('')}
       </div>
-      <div style="margin:12px 0;">Correct answer: <b>${state.question.answer}</b></div>
-      <button id="readyBtn" ${state.readyPlayers.includes(state.playerId)?'disabled':''}>Ready for Next Round</button>
-      <div>${state.readyPlayers.length}/${state.players.length} ready</div>
+      <div style="margin:12px 0;">Correct answer: <b>${state.question && state.question.answer ? state.question.answer : ''}</b></div>
+      ${
+        state.players.length === 0
+        ? '<div style="color:red;">No players found in lobby. Please reload or rejoin.</div>'
+        : `<button id="readyBtn" ${state.readyPlayers.includes(state.playerId)?'disabled':''}>Ready for Next Round</button>
+           <div>${state.readyPlayers.length}/${state.players.length} ready</div>`
+      }
     </div>
   `;
-  document.getElementById('readyBtn').onclick = markReady;
+  if (state.players.length > 0) {
+    document.getElementById('readyBtn').onclick = markReady;
+  }
 }
 function renderEnd() {
   $app.innerHTML = `
@@ -235,7 +243,7 @@ function createLobby() {
     clues: [],
     clueIdx: 0,
     points: 60,
-    players: { [state.playerId]: playerObj },
+    players: { [state.playerId]: playerObj }, // always start with at least one player!
     guesses: {},
     scoreboard: [],
     readyPlayers: [],
@@ -262,6 +270,8 @@ function joinLobbyByCode(code, name, leader) {
   });
   listenLobby();
 }
+
+// --- Listen to Lobby (robustly handles missing players) ---
 function listenLobby() {
   if (state.unsubLobby) state.unsubLobby();
   const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
@@ -269,11 +279,14 @@ function listenLobby() {
   state.unsubLobby = onValue(lobbyRef, snap => {
     if (!snap.exists()) { state.status = "Lobby not found"; state.screen = 'lobby'; render(); return; }
     const lobby = snap.val();
+    // Defensive: always treat players as an array, even if missing or empty
     state.players = Object.entries(lobby.players||{}).map(([id, p])=>({...p, id}));
     state.isLeader = (state.playerId === lobby.leader);
     state.round = lobby.round;
     state.category = lobby.category;
     state.status = '';
+    // Debugging: log player list on every update
+    console.log("Players loaded:", state.players);
     if (lobby.status === "waiting") {
       state.screen = 'category'; render();
     } else if (lobby.status === "playing") {
@@ -294,6 +307,7 @@ function listenLobby() {
     }
   });
 }
+
 function chooseCategory(category) {
   const allQuestions = category === 'randomMix'
     ? shuffle(
@@ -317,7 +331,8 @@ function chooseCategory(category) {
     scoreboard: [],
     readyPlayers: [],
     usedQuestions: [firstQuestion.answer],
-    maxRounds: 10
+    maxRounds: 10,
+    players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])), // preserve all joined players
   });
 }
 function startTimer() {
@@ -389,7 +404,9 @@ function endRound() {
     });
   });
 }
-unction markReady() {
+
+// --- Robust: Only allow next round if player list is not empty
+function markReady() {
   const nextReadyPlayers = [
     ...(state.readyPlayers || []).filter(id => id !== state.playerId),
     state.playerId
@@ -398,7 +415,13 @@ unction markReady() {
     .then(() => {
       get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
         const lobby = snap.val();
-        const numPlayers = Math.max(1, lobby.players ? Object.keys(lobby.players).length : 1);
+        // Defensive: protect against missing/empty player list
+        if (!lobby.players || Object.keys(lobby.players).length === 0) {
+          state.status = "No players in lobby! Please reload.";
+          render();
+          return;
+        }
+        const numPlayers = Math.max(1, Object.keys(lobby.players).length);
         if (
           lobby &&
           lobby.readyPlayers &&
@@ -430,9 +453,11 @@ unction markReady() {
       });
     });
 }
+
 // --- App Start ---
 render();
 
+// --- Clean up player on leave ---
 window.addEventListener('beforeunload', () => {
   if (state.lobbyCode && state.playerId) {
     remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
