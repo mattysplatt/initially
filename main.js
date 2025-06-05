@@ -397,9 +397,10 @@ function submitGuess() {
   const user = normalize(guess);
   const correct = normalize(state.question.answer);
   if (levenshtein(user, correct) <= 3) {
-    update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
-      [state.playerId]: { guess, correct: true, points: state.points }
-    });
+   set(ref(db, `lobbies/${state.lobbyCode}/readyPlayers`), [
+  ...(state.readyPlayers||[]).filter(id=>id!==state.playerId),
+  state.playerId
+]);
     endRound();
   } else {
     state.guess = '';
