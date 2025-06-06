@@ -1701,7 +1701,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "S.W.",
+  initials: "S.S.",
   answer: "Sam Smith",
   clues: [
     "British singer-songwriter",
@@ -1712,7 +1712,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "L.A.",
+  initials: "L.K.",
   answer: "Lenny Kravitz",
   clues: [
     "American rock singer and guitarist",
@@ -1775,17 +1775,6 @@ export const INITIALS_DB = {
     "Actor and comedian",
     "Married to Jessica Biel",
     "Multiple Grammy awards"
-  ]
-},
-{
-  initials: "R.I.",
-  answer: "Rihanna",
-  clues: [
-    "Barbadian singer and entrepreneur",
-    "Hits include 'Umbrella' and 'Diamonds'",
-    "Founder of Fenty Beauty",
-    "Known for fashion sense",
-    "Super Bowl halftime performer"
   ]
 },
 {
@@ -1899,7 +1888,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "S.C.",
+  initials: "S.F.",
   answer: "Sia Furler",
   clues: [
     "Australian singer-songwriter",
@@ -1921,7 +1910,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "T.Y.",
+  initials: "T.T.",
   answer: "Tina Turner",
   clues: [
     "Known as the 'Queen of Rock 'n' Roll'",
@@ -1954,7 +1943,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "B.D.",
+  initials: "B.E.",
   answer: "Billie Eilish",
   clues: [
     "Youngest artist to win major Grammys",
@@ -2009,7 +1998,7 @@ export const INITIALS_DB = {
   ]
 },
    {
-  initials: "S.P.",
+  initials: "S.N.",
   answer: "Stevie Nicks",
   clues: [
     "Lead singer of Fleetwood Mac",
@@ -2020,7 +2009,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "M.M.",
+  initials: "M.J.",
   answer: "Mick Jagger",
   clues: [
     "Lead singer of The Rolling Stones",
@@ -2075,17 +2064,6 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "N.C.",
-  answer: "Nat King Cole",
-  clues: [
-    "Smooth jazz singer and pianist",
-    "Hits include 'Unforgettable' and 'Mona Lisa'",
-    "Trailblazer for African-American artists",
-    "Father of Natalie Cole",
-    "Hosted a national TV show"
-  ]
-},
-{
   initials: "D.P.",
   answer: "Dolly Parton",
   clues: [
@@ -2094,17 +2072,6 @@ export const INITIALS_DB = {
     "Known for philanthropy and Dollywood",
     "Wrote 'I Will Always Love You'",
     "Famous for big hair and personality"
-  ]
-},
-{
-  initials: "L.A.",
-  answer: "Lorde",
-  clues: [
-    "New Zealand singer-songwriter",
-    "Hits include 'Royals' and 'Green Light'",
-    "Won Grammy at age 17",
-    "Known for introspective lyrics",
-    "Real name Ella Yelich-O’Connor"
   ]
 },
 {
@@ -2119,7 +2086,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "J.P.",
+  initials: "J.J.",
   answer: "Janis Joplin",
   clues: [
     "Iconic blues-rock singer",
@@ -2130,7 +2097,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "L.R.",
+  initials: "L.P.",
   answer: "Luciano Pavarotti",
   clues: [
     "World-renowned tenor",
@@ -2218,7 +2185,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "D.B.",
+  initials: "D.H.",
   answer: "Debbie Harry",
   clues: [
     "Lead singer of Blondie",
@@ -2229,7 +2196,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "T.Y.",
+  initials: "T.A.",
   answer: "Trace Adkins",
   clues: [
     "American country singer",
@@ -2240,7 +2207,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "S.W.",
+  initials: "S.T.",
   answer: "Shania Twain",
   clues: [
     "Canadian country-pop star",
@@ -2284,7 +2251,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "G.M.",
+  initials: "G.S.",
   answer: "Gwen Stefani",
   clues: [
     "Lead singer of No Doubt",
@@ -2361,17 +2328,6 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "M.S.",
-  answer: "Mavis Staples",
-  clues: [
-    "Gospel and soul singer",
-    "Member of The Staple Singers",
-    "Civil rights activist",
-    "Hits include 'I'll Take You There'",
-    "Lifetime Grammy award"
-  ]
-},
-{
   initials: "P.C.",
   answer: "Phil Collins",
   clues: [
@@ -2394,7 +2350,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "M.C.",
+  initials: "M.E.",
   answer: "Missy Elliott",
   clues: [
     "Groundbreaking female rapper",
@@ -2424,17 +2380,6 @@ export const INITIALS_DB = {
     "British pop superstar",
     "Entertainer and showman",
     "Record Brit Award wins"
-  ]
-},
-{
-  initials: "S.V.",
-  answer: "Sting (Gordon Sumner)",
-  clues: [
-    "Lead singer of The Police",
-    "Solo hits include 'Fields of Gold'",
-    "British rock and pop icon",
-    "Activist for human rights",
-    "Multiple Grammy awards"
   ]
 },
 {
@@ -2482,17 +2427,6 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "M.J.",
-  answer: "Masego",
-  clues: [
-    "Jamaican-American musician",
-    "Known for 'Tadow'",
-    "Plays multiple instruments",
-    "Blends jazz, soul, and hip hop",
-    "Saxophonist and singer"
-  ]
-},
-{
   initials: "C.S.",
   answer: "Celine Dion",
   clues: [
@@ -2537,7 +2471,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "R.Y.",
+  initials: "R.N.",
   answer: "Randy Newman",
   clues: [
     "Singer-songwriter and composer",
@@ -2559,7 +2493,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "L.K.",
+  initials: "L.A.",
   answer: "Louis Armstrong",
   clues: [
     "Jazz trumpeter and singer",
@@ -2570,7 +2504,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "A.F.",
+  initials: "A.L.",
   answer: "Annie Lennox",
   clues: [
     "Lead singer of Eurythmics",
@@ -2614,7 +2548,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "G.M.",
+  initials: "M.M.",
   answer: "Marcus Mumford",
   clues: [
     "Lead singer of Mumford & Sons",
@@ -2633,17 +2567,6 @@ export const INITIALS_DB = {
     "Hits include 'Tightrope'",
     "Starred in 'Hidden Figures'",
     "Advocate for LGBTQ+ rights"
-  ]
-},
-{
-  initials: "R.Q.",
-  answer: "Questlove",
-  clues: [
-    "Drummer for The Roots",
-    "Bandleader for The Tonight Show",
-    "Music historian and producer",
-    "Afro pick in hair is signature look",
-    "Published author"
   ]
 },
 {
@@ -2680,7 +2603,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "A.P.",
+  initials: "A.B.",
   answer: "Andrea Bocelli",
   clues: [
     "Blind Italian tenor",
@@ -2713,7 +2636,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "D.S.",
+  initials: "D.R.",
   answer: "Diana Ross",
   clues: [
     "Lead singer of The Supremes",
@@ -2746,7 +2669,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "M.P.",
+  initials: "M.C.",
   answer: "Miley Cyrus",
   clues: [
     "Starred as Hannah Montana",
@@ -2790,17 +2713,6 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "B.O.",
-  answer: "Björk",
-  clues: [
-    "Icelandic singer and songwriter",
-    "Hits include 'Human Behaviour' and 'Army of Me'",
-    "Avant-garde style",
-    "Oscar-nominated actress",
-    "Known for unique costumes"
-  ]
-},
-{
   initials: "Y.O.",
   answer: "Yoko Ono",
   clues: [
@@ -2823,7 +2735,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "S.L.",
+  initials: "S.B.",
   answer: "Sara Bareilles",
   clues: [
     "Singer-songwriter and Broadway composer",
@@ -2834,7 +2746,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "W.Y.",
+  initials: "W.C.",
   answer: "Wayne Coyne",
   clues: [
     "Frontman for The Flaming Lips",
@@ -2845,7 +2757,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "J.P.",
+  initials: "P.R.",
   answer: "Paul Rodgers",
   clues: [
     "Lead singer of Free and Bad Company",
@@ -2856,7 +2768,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "R.K.",
+  initials: "R.M.",
   answer: "Ricky Martin",
   clues: [
     "Puerto Rican singer",
@@ -2878,17 +2790,6 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "Z.T.",
-  answer: "Zach de la Rocha",
-  clues: [
-    "Frontman of Rage Against the Machine",
-    "Known for political lyrics",
-    "Fusion of rap and metal",
-    "Activist for social justice",
-    "Powerful stage presence"
-  ]
-},
-{
   initials: "A.C.",
   answer: "Aaron Copland",
   clues: [
@@ -2900,7 +2801,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "J.N.",
+  initials: "N.J.",
   answer: "Norah Jones",
   clues: [
     "Jazz-pop singer and pianist",
@@ -2933,7 +2834,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "D.R.",
+  initials: "D.A.",
   answer: "Damon Albarn",
   clues: [
     "Frontman of Blur",
@@ -2944,7 +2845,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "G.G.",
+  initials: "G.B.",
   answer: "Garth Brooks",
   clues: [
     "Country music superstar",
@@ -2966,7 +2867,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "D.M.",
+  initials: "D.G.",
   answer: "Dave Grohl",
   clues: [
     "Drummer for Nirvana",
@@ -2977,7 +2878,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "J.M.",
+  initials: "M.M.",
   answer: "Mac Miller",
   clues: [
     "American rapper and producer",
@@ -2988,7 +2889,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "J.E.",
+  initials: "J.J.",
   answer: "Janet Jackson",
   clues: [
     "Youngest member of Jackson family",
@@ -2999,7 +2900,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "A.C.",
+  initials: "A.L.",
   answer: "Avril Lavigne",
   clues: [
     "Canadian pop-punk singer",
@@ -3021,7 +2922,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "B.E.",
+  initials: "B.R.",
   answer: "Bebe Rexha",
   clues: [
     "American singer-songwriter",
@@ -3076,7 +2977,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "R.M.",
+  initials: "R.F.",
   answer: "Roberta Flack",
   clues: [
     "American singer and pianist",
@@ -3109,7 +3010,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "R.R.",
+  initials: "R.V.",
   answer: "Ritchie Valens",
   clues: [
     "Mexican-American rock pioneer",
@@ -3142,18 +3043,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "A.P.",
-  answer: "A. R. Rahman",
-  clues: [
-    "Indian composer and musician",
-    "Won Oscars for 'Slumdog Millionaire'",
-    "Blends classical, electronic, and world music",
-    "Known for Bollywood hits",
-    "Called the 'Mozart of Madras'"
-  ]
-},
-{
-  initials: "C.P.",
+  initials: "C.S.",
   answer: "Carlos Santana",
   clues: [
     "Mexican-American guitarist",
@@ -3197,7 +3087,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "S.R.",
+  initials: "S.S.",
   answer: "Sufjan Stevens",
   clues: [
     "Indie folk singer-songwriter",
@@ -3230,17 +3120,6 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "E.G.",
-  answer: "Enya",
-  clues: [
-    "Irish singer and songwriter",
-    "Known for ethereal sound",
-    "Hits include 'Only Time'",
-    "Multi-layered vocal harmonies",
-    "Rarely performs live"
-  ]
-},
-{
   initials: "L.R.",
   answer: "Little Richard",
   clues: [
@@ -3264,7 +3143,7 @@ export const INITIALS_DB = {
 },
 {
   initials: "B.K.",
-  answer: "Ben E. King",
+  answer: "Ben King",
   clues: [
     "Soul singer",
     "Hits include 'Stand By Me'",
@@ -3307,7 +3186,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "L.S.",
+  initials: "L.V.",
   answer: "Luther Vandross",
   clues: [
     "R&B and soul singer",
@@ -3340,7 +3219,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "S.W.",
+  initials: "S.B.",
   answer: "Solomon Burke",
   clues: [
     "King of Rock and Soul",
@@ -3417,7 +3296,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "C.B.",
+  initials: "B.B.",
   answer: "Bobby Brown",
   clues: [
     "R&B singer",
@@ -3461,7 +3340,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "S.C.",
+  initials: "S.K.",
   answer: "Solange Knowles",
   clues: [
     "R&B singer-songwriter and producer",
@@ -3483,7 +3362,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "J.D.",
+  initials: "J.G.",
   answer: "Judy Garland",
   clues: [
     "Star of 'The Wizard of Oz'",
@@ -3527,7 +3406,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "A.L.",
+  initials: "A.M.",
   answer: "Alanis Morissette",
   clues: [
     "Canadian singer-songwriter",
@@ -3549,7 +3428,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "A.F.",
+  initials: "F.K.",
   answer: "Fela Kuti",
   clues: [
     "Nigerian Afrobeat pioneer",
@@ -3571,7 +3450,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "D.C.",
+  initials: "D.H.",
   answer: "Donny Hathaway",
   clues: [
     "Soul and gospel singer",
@@ -3604,7 +3483,7 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "G.A.",
+  initials: "G.K.",
   answer: "Gladys Knight",
   clues: [
     "Lead singer of The Pips",
