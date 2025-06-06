@@ -44,6 +44,34 @@ button:hover {
   box-shadow: 0 2px 16px #ff6b6b44;
   transform: translateY(-2px);
 }
+/* New: Flex container for initials, timer, points */
+.question-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.question-header .initials {
+  margin: 0;
+  font-size: 3em;
+  font-weight: bold;
+  letter-spacing: 0.22em;
+  text-shadow: 0 2px 8px #0006;
+}
+.question-header .timer {
+  margin: 0;
+  font-size: 2.3em;
+  font-weight: 600;
+  color: #ffb86b;
+}
+.question-header .points {
+  margin: 0;
+  font-size: 1.3em;
+  color: #4ecdc4;
+}
+
+/* (Keep original classes for backwards compatibility, in case used elsewhere) */
 .initials {
   font-size: 3em;
   font-weight: bold;
@@ -61,12 +89,14 @@ button:hover {
   font-size: 1.3em;
   color: #4ecdc4;
 }
+/* Reduced clue box height and font size */
 .clue {
   background: rgba(164, 93, 234);
   border-radius: 8px;
-  margin: 9px 0;
-  padding: 9px 12px;
-  font-size: 1.15em;
+  margin: 7px 0;
+  padding: 5px 9px;
+  font-size: 1em;
+  line-height: 1.2;
 }
 .scoreboard {
   margin: 18px 0;
@@ -80,9 +110,19 @@ button:hover {
   border-radius: 8px;
   font-size: 1.1em;
 }
+/* Responsive adjustments */
 @media (max-width: 600px) {
   #app { padding: 8px; }
   .screen { padding: 13px 4px; }
-  .initials { font-size: 2em; }
-  .timer { font-size: 1.5em; }
+  .question-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+  }
+  .question-header .initials {
+    font-size: 2em;
+  }
+  .question-header .timer {
+    font-size: 1.5em;
+  }
 }
