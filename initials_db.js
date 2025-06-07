@@ -1894,17 +1894,6 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "J.R.",
-  answer: "Josh Richardson",
-  clues: [
-    "Miami Heat guard",
-    "Drafted 40th in 2015",
-    "Known for defense and shooting",
-    "Played for several NBA teams",
-    "Tennessee alum"
-  ]
-},
-{
   initials: "W.C.",
   answer: "Wendell Carter Jr.",
   clues: [
