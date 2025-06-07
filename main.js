@@ -32,7 +32,7 @@ function shuffle(arr) {
 function getRandomUnusedQuestion(category, usedAnswers) {
   const pool = category === 'randomMix'
     ? [].concat(
-        ...['worldSports','AFL','movieStars','musicians','famousFigures'].map(cat => INITIALS_DB[cat])
+        ...['worldSports','AFL','movieStars','musicians','famousFigures','Pop Artist 2015 on'].map(cat => INITIALS_DB[cat])
       )
     : INITIALS_DB[category];
   const unused = pool.filter(q => !usedAnswers.includes(q.answer));
