@@ -114,11 +114,12 @@ button:hover {
 @media (max-width: 600px) {
   #app { padding: 8px; }
   .screen { padding: 13px 4px; }
-  .question-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3px;
-  }
+  /* .question-header { 
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
+    } 
+    -- REMOVED for always-row layout -- */
   .question-header .initials {
     font-size: 2em;
   }
