@@ -32,7 +32,7 @@ function shuffle(arr) {
 function getRandomUnusedQuestion(category, usedAnswers) {
   const pool = category === 'randomMix'
     ? [].concat(
-        ...['worldSports','afl','movieStars','musicians','famousFigures'].map(cat => INITIALS_DB[cat])
+        ...['worldSports','AFL','movieStars','musicians','famousFigures'].map(cat => INITIALS_DB[cat])
       )
     : INITIALS_DB[category];
   const unused = pool.filter(q => !usedAnswers.includes(q.answer));
@@ -313,7 +313,7 @@ function chooseCategory(category) {
   const allQuestions = category === 'randomMix'
     ? shuffle(
         [].concat(
-          ...['worldSports','afl','movieStars','musicians','famousFigures'].map(cat => INITIALS_DB[cat])
+          ...['worldSports','AFL','movieStars','musicians','famousFigures'].map(cat => INITIALS_DB[cat])
         )
       )
     : shuffle([...INITIALS_DB[category]]);
