@@ -25,7 +25,7 @@ export const INITIALS_DB = {
     },
     // ...more
   ],
-  afl: [
+  AFL: [
   {
     initials: "D.M.",
     answer: "Dustin Martin",
