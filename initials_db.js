@@ -563,17 +563,6 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "J.H.",
-  answer: "Jalen Hardaway",
-  clues: [
-    "Fictional NBA player",
-    "Name used as placeholder",
-    "No actual NBA stats",
-    "Not a real NBA player",
-    "Included for demonstration"
-  ]
-},
-{
   initials: "J.S.",
   answer: "Jabari Smith Jr.",
   clues: [
@@ -1036,17 +1025,6 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "M.W.",
-  answer: "Malik Williams",
-  clues: [
-    "Fictional NBA player",
-    "Used as placeholder",
-    "Not a real NBA player",
-    "No actual NBA stats",
-    "Included for demonstration"
-  ]
-},
-{
   initials: "D.A.",
   answer: "Deni Avdija",
   clues: [
@@ -1275,17 +1253,6 @@ export const INITIALS_DB = {
     "Played for Hornets, Sixers, Raptors",
     "San Diego State alum",
     "Brother also in NBA"
-  ]
-},
-{
-  initials: "M.W.",
-  answer: "Malik Williams",
-  clues: [
-    "Fictional NBA player",
-    "Used for demonstration",
-    "Not an actual NBA player",
-    "No NBA stats",
-    "Placeholder entry"
   ]
 },
 {
@@ -1520,17 +1487,6 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "C.L.",
-  answer: "Caris LeVert",
-  clues: [
-    "Cleveland Cavaliers guard",
-    "Michigan alum",
-    "Drafted in 2016",
-    "Known for scoring and versatility",
-    "Played for Nets, Pacers"
-  ]
-},
-{
   initials: "D.B.",
   answer: "Dillon Brooks",
   clues: [
@@ -1616,17 +1572,6 @@ export const INITIALS_DB = {
     "Drafted by Knicks in 2008",
     "Played for Nuggets, Clippers, Hawks",
     "Known for shooting"
-  ]
-},
-{
-  initials: "C.B.",
-  answer: "Cody Bellinger",
-  clues: [
-    "Fictional NBA player",
-    "Actually MLB star",
-    "Not an NBA athlete",
-    "No NBA stats",
-    "Included as a placeholder"
   ]
 },
 {
@@ -1861,17 +1806,6 @@ export const INITIALS_DB = {
   ]
 },
 {
-  initials: "J.O.",
-  answer: "Jalen O'Neal",
-  clues: [
-    "Fictional NBA player",
-    "Placeholder entry",
-    "No real NBA stats",
-    "Not actually in NBA",
-    "Used for demo"
-  ]
-},
-{
   initials: "I.S.",
   answer: "Isaiah Stewart",
   clues: [
@@ -1880,17 +1814,6 @@ export const INITIALS_DB = {
     "Drafted 16th in 2020",
     "Washington Huskies alum",
     "Nickname is 'Beef Stew'"
-  ]
-},
-{
-  initials: "M.C.",
-  answer: "Mason Crosby",
-  clues: [
-    "Fictional NBA player",
-    "Actually NFL kicker",
-    "No NBA stats",
-    "Included for demonstration",
-    "Not a real basketball player"
   ]
 },
 {
