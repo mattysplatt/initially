@@ -172,7 +172,7 @@ function renderGame() {
             ${state.question ? state.question.initials : ''}
           </div>
           <div style="display:flex; gap:16px; margin-left:auto;">
-            <div class="timer" id="timer" style="min-width:65px;text-align:center; color: #fff;">
+            <div class="timer" id="timer" style="min-width:65px;text-align:center; color: orange;">
               ${state.timer}s
             </div>
             <div class="points" style="min-width:80px;text-align:center; color: #fff;">
