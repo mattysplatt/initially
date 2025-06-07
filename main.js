@@ -137,7 +137,7 @@ function renderCategory() {
       <h2>Select Category</h2>
       <div>${state.players.map(p => `<div>${p.name}${p.isLeader?' 👑':''}</div>`).join('')}</div>
       <div style="margin:16px 0;">
-        ${['worldSports','AFL','movieStars','musicians','famousFigures','randomMix', 'ModernNBA'].map(cat=>`
+        ${['worldSports','AFL','movieStars','musicians','famousFigures','randomMix', 'ModernNBA', 'Pop Artist 2015 on'].map(cat=>`
           <button class="catBtn" data-cat="${cat}">${cat.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase())}</button>
         `).join('')}
       </div>
@@ -333,7 +333,7 @@ function chooseCategory(category) {
   const allQuestions = category === 'randomMix'
     ? shuffle(
         [].concat(
-          ...['worldSports','AFL','movieStars','musicians','famousFigures'].map(cat => INITIALS_DB[cat])
+          ...['worldSports','AFL','movieStars','musicians','famousFigures', 'Pop Artist 2015 on'].map(cat => INITIALS_DB[cat])
         )
       )
     : shuffle([...INITIALS_DB[category]]);
