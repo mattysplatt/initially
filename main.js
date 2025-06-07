@@ -169,10 +169,18 @@ function renderGame() {
           gap:16px;
           margin-bottom: 16px;
         ">
-          <div class="timer" id="timer" style="min-width:65px;text-align:center;">${state.timer}s</div>
-          <div class="points" style="min-width:80px;text-align:center;">${state.points} pts</div>
-          <div class="initials" style="font-size:2em;font-weight:bold;min-width:75px;text-align:center;">${state.question ? state.question.initials : ''}</div>
-          <div class="round" style="min-width:90px;text-align:center;">Round ${state.round}/${state.maxRounds}</div>
+          <div class="initials" style="font-size:2em;font-weight:bold;min-width:75px;text-align:center;">
+            ${state.question ? state.question.initials : ''}
+          </div>
+          <div class="timer" id="timer" style="min-width:65px;text-align:center;">
+            ${state.timer}s
+          </div>
+          <div class="points" style="min-width:80px;text-align:center;">
+            ${state.points} pts
+          </div>
+          <div class="round" style="min-width:90px;text-align:center;">
+            Round ${state.round}/${state.maxRounds}
+          </div>
         </div>
         <div class="clue" style="margin-bottom:10px;">${clue ? clue : ''}</div>
         ${state.incorrectPrompt ? '<div style="color:red;margin:8px 0;">Incorrect, try again!</div>' : ''}
