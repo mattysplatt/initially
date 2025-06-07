@@ -2092,6 +2092,8 @@ export const INITIALS_DB = {
   ]
 }
 ],
+  Pop Artist 2015 on: [
+    { 
   worldSports: [
     {
       initials: "L.M.",
