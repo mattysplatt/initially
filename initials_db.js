@@ -9,7 +9,7 @@ export const INITIALS_DB = {
       "Played for Cavaliers, Heat, and Lakers",
       "Known for his versatility and longevity",
       "NBA's all-time leading scorer",
-      "Won championships in both Eastern and Western conferences"
+      "Won championships in both EasternF and Western conferences"
     ]
   }
 ],worldSports: [
