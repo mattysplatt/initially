@@ -158,32 +158,33 @@ function renderGame() {
   const isCorrect = state.guesses[state.playerId]?.correct;
   $app.innerHTML = `
     <div class="screen">
-      <div class="game-info-box" style="background:#f3e6ff;padding:24px 20px 20px 20px;border-radius:12px;max-width:420px;margin:32px auto;box-shadow:0 4px 24px #c6a0f533;">
-        <div class="category-title" style="font-size:1.15em;font-weight:bold;color:#46178f;margin-bottom:8px;">
+      <div class="game-info-box" style="background:royalblue;padding:24px 20px 20px 20px;border-radius:12px;max-width:420px;margin:32px auto;box-shadow:0 4px 24px #c6a0f533;">
+        <div class="category-title" style="font-size:1.15em;font-weight:bold;color:#fff;margin-bottom:8px;">
           ${displayCategory}
         </div>
         <div class="game-top-row" style="
           display:flex;
           align-items:center;
-          justify-content:space-between;
           gap:16px;
           margin-bottom: 16px;
         ">
-          <div class="initials" style="font-size:2em;font-weight:bold;min-width:75px;text-align:center;">
+          <div class="initials" style="font-size:2em;font-weight:bold;min-width:75px;text-align:center; color: #fff;">
             ${state.question ? state.question.initials : ''}
           </div>
-          <div class="timer" id="timer" style="min-width:65px;text-align:center;">
-            ${state.timer}s
-          </div>
-          <div class="points" style="min-width:80px;text-align:center;">
-            ${state.points} pts
-          </div>
-          <div class="round" style="min-width:90px;text-align:center;">
-            Round ${state.round}/${state.maxRounds}
+          <div style="display:flex; gap:16px; margin-left:auto;">
+            <div class="timer" id="timer" style="min-width:65px;text-align:center; color: #fff;">
+              ${state.timer}s
+            </div>
+            <div class="points" style="min-width:80px;text-align:center; color: #fff;">
+              ${state.points} pts
+            </div>
+            <div class="round" style="min-width:90px;text-align:center; color: #fff;">
+              Round ${state.round}/${state.maxRounds}
+            </div>
           </div>
         </div>
-        <div class="clue" style="margin-bottom:10px;">${clue ? clue : ''}</div>
-        ${state.incorrectPrompt ? '<div style="color:red;margin:8px 0;">Incorrect, try again!</div>' : ''}
+        <div class="clue" style="margin-bottom:10px;color:#fff;">${clue ? clue : ''}</div>
+        ${state.incorrectPrompt ? '<div style="color:#ffd600;margin:8px 0;">Incorrect, try again!</div>' : ''}
         <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''}/>
         <button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
         <div id="gameStatus" style="margin:8px 0;color:#ffd600">${isCorrect ? 'Waiting for round...' : ''}</div>
