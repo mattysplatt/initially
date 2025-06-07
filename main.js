@@ -204,12 +204,17 @@ function renderGame() {
   }
 }
 function renderScoreboard() {
+  // Sort the scoreboard from highest to lowest score
+  const sortedScoreboard = (state.scoreboard || [])
+    .slice()
+    .sort((a, b) => b.score - a.score);
+
   $app.innerHTML = `
     <div class="screen">
       <h2>Scoreboard</h2>
       <div>Round ${state.round-1} Complete</div>
       <div class="scoreboard">
-        ${state.scoreboard.map(item =>
+        ${sortedScoreboard.map(item =>
           `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
         ).join('')}
       </div>
