@@ -1,6 +1,18 @@
 // Example: Only a few entries for brevity. Fill each category with ~100 entries for production.
 export const INITIALS_DB = {
-  worldSports: [
+  modernNBA: [
+  {
+    initials: "L.J.",
+    answer: "LeBron James",
+    clues: [
+      "Four-time NBA champion",
+      "Played for Cavaliers, Heat, and Lakers",
+      "Known for his versatility and longevity",
+      "NBA's all-time leading scorer",
+      "Won championships in both Eastern and Western conferences"
+    ]
+  }
+],worldSports: [
     {
       initials: "L.M.",
       answer: "Lionel Messi",
