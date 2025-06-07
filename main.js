@@ -137,7 +137,7 @@ function renderCategory() {
       <h2>Select Category</h2>
       <div>${state.players.map(p => `<div>${p.name}${p.isLeader?' 👑':''}</div>`).join('')}</div>
       <div style="margin:16px 0;">
-        ${['worldSports','afl','movieStars','musicians','famousFigures','randomMix'].map(cat=>`
+        ${['worldSports','AFL','movieStars','musicians','famousFigures','randomMix', 'ModernNBA'].map(cat=>`
           <button class="catBtn" data-cat="${cat}">${cat.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase())}</button>
         `).join('')}
       </div>
