@@ -2942,9 +2942,7 @@ export const INITIALS_DB = {
       "Large social media following"
     ]
   }
-]
-]
-    { 
+],
   worldSports: [
     {
       initials: "L.M.",
