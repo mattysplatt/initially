@@ -165,7 +165,7 @@ function renderGame() {
         <div class="game-top-row" style="
           display:flex;
           align-items:center;
-          gap:32px;
+          gap:24px;
           margin-bottom: 16px;
         ">
           <div class="initials" style="font-size:2em;font-weight:bold;min-width:75px;text-align:center; color: #fff;">
