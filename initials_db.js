@@ -2092,7 +2092,858 @@ export const INITIALS_DB = {
   ]
 }
 ],
-  Pop Artist 2015 on: [
+  Pop Artist 2015 on: [[
+  {
+    initials: "D.L.",
+    answer: "Dua Lipa",
+    clues: [
+      "English-Albanian pop singer-songwriter",
+      "Debut album released in 2017",
+      "Known for hits like 'New Rules' and 'Don't Start Now'",
+      "Grammy Award winner",
+      "Iconic for her disco-pop revival sound"
+    ]
+  },
+  {
+    initials: "B.E.",
+    answer: "Billie Eilish",
+    clues: [
+      "American singer-songwriter",
+      "Broke through with 'Ocean Eyes'",
+      "Debut album: 'When We All Fall Asleep, Where Do We Go?'",
+      "Youngest artist to win all four major Grammy categories in one night",
+      "Known for dark, moody pop"
+    ]
+  },
+  {
+    initials: "O.R.",
+    answer: "Olivia Rodrigo",
+    clues: [
+      "American singer-songwriter and actress",
+      "Debut single 'drivers license' topped charts in 2021",
+      "Album 'SOUR' was a global hit",
+      "Grammy winner",
+      "Praised for emotional, confessional lyrics"
+    ]
+  },
+  {
+    initials: "S.C.",
+    answer: "Sabrina Carpenter",
+    clues: [
+      "American singer and actress",
+      "Transitioned from Disney Channel to pop stardom",
+      "Known for 'Nonsense' and 'Feather'",
+      "Viral social media presence",
+      "Multiple successful albums post-2015"
+    ]
+  },
+  {
+    initials: "T.S.",
+    answer: "Troye Sivan",
+    clues: [
+      "Australian singer and actor",
+      "Broke out with 'Blue Neighbourhood'",
+      "Hits include 'Youth' and 'My My My!'",
+      "LGBTQ+ pop icon",
+      "Known for dreamy synth-pop"
+    ]
+  },
+  {
+    initials: "K.P.",
+    answer: "Kim Petras",
+    clues: [
+      "German pop singer-songwriter",
+      "Transgender music pioneer",
+      "Known for 'Heart to Break' and 'Unholy' (with Sam Smith)",
+      "Debut album 'Feed the Beast' in 2023",
+      "Grammy Award winner"
+    ]
+  },
+
+  {
+    initials: "A.M.",
+    answer: "Anne-Marie",
+    clues: [
+      "English pop singer-songwriter",
+      "Hits include '2002' and 'Friends' (with Marshmello)",
+      "Debut album 'Speak Your Mind' in 2018",
+      "Known for catchy hooks and collaborations",
+      "Former karate champion"
+    ]
+  },
+  {
+    initials: "A.M.",
+    answer: "Ava Max",
+    clues: [
+      "American pop singer",
+      "Breakout single 'Sweet but Psycho' (2018)",
+      "Debut album 'Heaven & Hell' in 2020",
+      "Known for her signature hairstyle",
+      "Delivers high-energy dance-pop"
+    ]
+  },
+  {
+    initials: "B.R.",
+    answer: "Bebe Rexha",
+    clues: [
+      "American singer-songwriter",
+      "Known for 'Meant to Be' and 'I'm a Mess'",
+      "Frequent collaborations with G-Eazy, Florida Georgia Line",
+      "Debut album 'Expectations' (2018)",
+      "Mixes pop and dance"
+    ]
+  },
+  {
+    initials: "C.G.",
+    answer: "Conan Gray",
+    clues: [
+      "American singer-songwriter",
+      "Debut album 'Kid Krow' (2020)",
+      "Hits include 'Heather' and 'Maniac'",
+      "Popular on TikTok and YouTube",
+      "Emotional, confessional pop style"
+    ]
+  },
+  {
+    initials: "M.R.",
+    answer: "Maggie Rogers",
+    clues: [
+      "American singer-songwriter",
+      "Viral after Pharrell Williams praised her song",
+      "Debut album 'Heard It in a Past Life' (2019)",
+      "Blends folk, dance, and pop",
+      "Known for energetic live performances"
+    ]
+  },
+  {
+    initials: "N.K.",
+    answer: "Normani Kordei",
+    clues: [
+      "Former member of Fifth Harmony",
+      "Solo hits include 'Motivation' and 'Wild Side'",
+      "Impressive dancer and vocalist",
+      "Active in pop and R&B",
+      "Grammy-nominated collaborations"
+    ]
+  },
+  {
+    initials: "A.C.",
+    answer: "Alessia Cara",
+    clues: [
+      "Canadian singer-songwriter",
+      "Debut single 'Here' in 2015",
+      "Album 'Know-It-All' went platinum",
+      "Grammy Award for Best New Artist",
+      "Known for empowering lyrics"
+    ]
+  },
+  {
+    initials: "T.M.",
+    answer: "Tate McRae",
+    clues: [
+      "Canadian singer-songwriter and dancer",
+      "Gained fame on YouTube and TikTok",
+      "Hits include 'you broke me first'",
+      "Debut album 'I Used to Think I Could Fly' (2022)",
+      "Known for emotional storytelling"
+    ]
+  },
+  {
+    initials: "G.A.",
+    answer: "Gracie Abrams",
+    clues: [
+      "American pop singer-songwriter",
+      "Debut EP 'minor' in 2020",
+      "Known for introspective lyricism",
+      "Toured with Taylor Swift",
+      "Described as a voice of Gen Z"
+    ]
+  },
+  {
+    initials: "J.M.",
+    answer: "Julia Michaels",
+    clues: [
+      "American singer-songwriter",
+      "Debut single 'Issues' (2017)",
+      "Prolific songwriter for other artists",
+      "Multiple Grammy nominations",
+      "Known for honest, raw pop"
+    ]
+  },
+  {
+    initials: "K.P",
+    answer: "King Princess",
+    clues: [
+      "American singer, songwriter, and producer",
+      "Debut EP 'Make My Bed' (2018)",
+      "Known for '1950' and queer anthems",
+      "Blends indie and pop",
+      "Outspoken LGBTQ+ figure"
+    ]
+  },
+  {
+    initials: "R.S.",
+    answer: "Rina Sawayama",
+    clues: [
+      "Japanese-British pop artist",
+      "Debut album 'SAWAYAMA' (2020)",
+      "Fuses pop, rock, and electronic",
+      "Praised for genre-defying sound",
+      "LGBTQ+ and Asian representation in pop"
+    ]
+  },
+  {
+    initials: "M.P.",
+    answer: "Maisie Peters",
+    clues: [
+      "English singer-songwriter",
+      "Debut album 'You Signed Up for This' (2021)",
+      "Known for witty, observational lyrics",
+      "Signed to Ed Sheeran's label",
+      "Rising UK pop star"
+    ]
+  },
+  {
+    initials: "S.M.",
+    answer: "Shawn Mendes",
+    clues: [
+      "Canadian pop singer-songwriter",
+      "Broke out on Vine and YouTube",
+      "Debut album 'Handwritten' (2015)",
+      "Hits include 'Stitches' and 'Señorita'",
+      "International pop sensation"
+    ]
+  },
+  {
+    initials: "C.C.",
+    answer: "Camila Cabello",
+    clues: [
+      "Cuban-American singer-songwriter",
+      "Former Fifth Harmony member",
+      "Solo hits include 'Havana' and 'Never Be the Same'",
+      "Debut solo album in 2018",
+      "Grammy-nominated artist"
+    ]
+  },
+  {
+    initials: "Z.L.",
+    answer: "Zara Larsson",
+    clues: [
+      "Swedish pop singer",
+      "International hit 'Lush Life'",
+      "Debut album 'So Good' (2017)",
+      "Known for dance-pop anthems",
+      "Voice for women's rights"
+    ]
+  },
+  {
+    initials: "M.B.",
+    answer: "Madison Beer",
+    clues: [
+      "American singer-songwriter",
+      "Discovered by Justin Bieber",
+      "Debut album 'Life Support' (2021)",
+      "Known for social media influence",
+      "Pop and R&B crossover sound"
+    ]
+  },
+  {
+    initials: "T.L.",
+    answer: "Tove Lo",
+    clues: [
+      "Swedish singer-songwriter",
+      "Breakout hit 'Habits (Stay High)'",
+      "Known for raw, candid lyrics",
+      "Albums include 'Lady Wood' and 'Sunshine Kitty'",
+      "Blends electropop and indie"
+    ]
+  },
+  {
+    initials: "A.B.",
+    answer: "Alec Benjamin",
+    clues: [
+      "American singer-songwriter",
+      "Hit single 'Let Me Down Slowly'",
+      "Debut album 'These Two Windows' (2020)",
+      "Known for storytelling in songs",
+      "Popular on YouTube and TikTok"
+    ]
+  },
+  {
+    initials: "N.H.",
+    answer: "Niall Horan",
+    clues: [
+      "Irish singer-songwriter",
+      "Former member of One Direction",
+      "Solo hits 'Slow Hands' and 'This Town'",
+      "Debut album 'Flicker' (2017)",
+      "Known for acoustic pop"
+    ]
+  },
+  {
+    initials: "J.A.",
+    answer: "James Arthur",
+    clues: [
+      "English singer-songwriter",
+      "Won The X Factor UK in 2012",
+      "Became globally known with 'Say You Won't Let Go'",
+      "Continues to release pop ballads",
+      "Strong UK and European following"
+    ]
+  },
+  {
+    initials: "S.W.",
+    answer: "Sam Walker",
+    clues: [
+      "English singer-songwriter",
+      "Breakthrough with 'Lost Boys'",
+      "Strong streaming presence",
+      "Synth-infused pop sound",
+      "Known for powerful vocals"
+    ]
+  },
+  {
+    initials: "E.K.",
+    answer: "Ella Knox",
+    clues: [
+      "American pop singer",
+      "Gained viral fame on TikTok",
+      "Known for 'Take Me Home'",
+      "Fuses pop and dance",
+      "Active in independent music scene"
+    ]
+  },
+  {
+    initials: "J.B.",
+    answer: "Jonas Blue",
+    clues: [
+      "English DJ and music producer",
+      "Breakout with 'Fast Car' ft. Dakota",
+      "Known for tropical and dance-pop",
+      "Collaborated with JP Cooper, Raye",
+      "Popular in the late 2010s"
+    ]
+  },
+  {
+    initials: "J.J.",
+    answer: "Jax Jones",
+    clues: [
+      "English DJ, producer, and songwriter",
+      "Hit singles 'You Don't Know Me' and 'Instruction'",
+      "Collaborates with various pop vocalists",
+      "Dance-pop and house influences",
+      "Popular in UK and Europe"
+    ]
+  },
+  [
+  {
+    initials: "L.M.",
+    answer: "Lewis Capaldi",
+    clues: [
+      "Scottish singer-songwriter",
+      "Breakout hit 'Someone You Loved'",
+      "Debut album 'Divinely Uninspired to a Hellish Extent'",
+      "Known for emotional ballads",
+      "Distinctive raspy voice"
+    ]
+  },
+  {
+    initials: "D.C.",
+    answer: "Demi Lovato",
+    clues: [
+      "American singer-songwriter and actress",
+      "Hits include 'Sorry Not Sorry' and 'Cool for the Summer'",
+      "Powerful vocals and personal lyrics",
+      "Advocate for mental health",
+      "Starred in Disney's 'Camp Rock' before solo stardom"
+    ]
+  },
+  {
+    initials: "C.B.",
+    answer: "Charlie Puth",
+    clues: [
+      "American singer-songwriter and producer",
+      "Debuted with 'See You Again' with Wiz Khalifa",
+      "Known for perfect pitch and catchy pop",
+      "Hits include 'Attention' and 'We Don't Talk Anymore'",
+      "Classically trained pianist"
+    ]
+  },
+  {
+    initials: "J.D.",
+    answer: "Jessie Reyez",
+    clues: [
+      "Canadian singer-songwriter",
+      "Breakout with 'Figures' in 2016",
+      "Raw, raspy vocal style",
+      "Grammy-nominated for Best Urban Contemporary Album",
+      "Known for honest and emotional lyrics"
+    ]
+  },
+  {
+    initials: "M.J.",
+    answer: "Megan Thee Stallion",
+    clues: [
+      "American rapper and singer",
+      "Breakout single 'Hot Girl Summer'",
+      "Grammy winner for 'Savage Remix' with Beyoncé",
+      "Advocate for women's empowerment",
+      "Known for energetic performances"
+    ]
+  },
+  {
+    initials: "T.R.",
+    answer: "Troye Sivan",
+    clues: [
+      "Australian singer-songwriter and actor",
+      "Debut album 'Blue Neighbourhood'",
+      "Hits include 'Youth' and 'Dance To This'",
+      "LGBTQ+ icon in pop music",
+      "Known for synth-pop sound"
+    ]
+  },
+  {
+    initials: "Y.B.",
+    answer: "Yungblud",
+    clues: [
+      "English singer, songwriter, and musician",
+      "Known for '11 Minutes' and 'Parents'",
+      "Blends punk, pop, and alternative",
+      "Advocates for youth empowerment",
+      "Distinctive energetic style"
+    ]
+  },
+  {
+    initials: "B.M.",
+    answer: "Brynn Elliott",
+    clues: [
+      "American pop singer-songwriter",
+      "Breakout single 'Might Not Like Me'",
+      "Graduated from Harvard",
+      "Known for empowering anthems",
+      "Blends pop and rock influences"
+    ]
+  },
+  {
+    initials: "A.G.",
+    answer: "Ariana Grande",
+    clues: [
+      "American pop superstar",
+      "Hits include 'thank u, next' and '7 rings'",
+      "Grammy Award winner",
+      "Former Nickelodeon star",
+      "Powerful four-octave vocal range"
+    ]
+  },
+  {
+    initials: "H.S.",
+    answer: "Harry Styles",
+    clues: [
+      "English pop singer, songwriter, and actor",
+      "Former member of One Direction",
+      "Debut solo album released in 2017",
+      "Hits include 'Sign of the Times' and 'Watermelon Sugar'",
+      "Known for gender-fluid fashion"
+    ]
+  },
+  {
+    initials: "J.S.",
+    answer: "James Smith",
+    clues: [
+      "English singer-songwriter",
+      "Known for single 'Little Love'",
+      "Finalist on Britain's Got Talent",
+      "Soulful pop with acoustic influences",
+      "Active touring artist in the UK"
+    ]
+  },
+  {
+    initials: "K.F.",
+    answer: "Kiiara Forbes",
+    clues: [
+      "American pop singer-songwriter",
+      "Debut single 'Gold' in 2015",
+      "Album 'Lil Kiiwi' in 2020",
+      "Known for chopped vocal style",
+      "Collaborated with Linkin Park"
+    ]
+  },
+  {
+    initials: "M.L.",
+    answer: "Muna Long",
+    clues: [
+      "American singer-songwriter",
+      "R&B and pop fusion",
+      "Known for 'Baby Boo' and 'Hrs and Hrs'",
+      "Viral on TikTok",
+      "Debut album 'Public Displays of Affection'"
+    ]
+  },
+  {
+    initials: "C.B.",
+    answer: "Chelsea Cutler",
+    clues: [
+      "American pop singer and producer",
+      "Known for 'Your Shirt' and 'Not Ok'",
+      "Debut album 'How to Be Human' (2020)",
+      "Collaborated with Jeremy Zucker",
+      "Blends electronic and acoustic pop"
+    ]
+  },
+  {
+    initials: "D.M.",
+    answer: "Dodie Clark",
+    clues: [
+      "English singer-songwriter",
+      "Gained fame on YouTube",
+      "Known for 'Sick of Losing Soulmates'",
+      "Debut album 'Build A Problem' (2021)",
+      "Intimate, confessional songwriting style"
+    ]
+  },
+  {
+    initials: "A.F.",
+    answer: "Alec Feldman (Alec Benjamin)",
+    clues: [
+      "American singer-songwriter",
+      "Viral hit 'Let Me Down Slowly'",
+      "Debut album in 2020",
+      "Known for storytelling",
+      "Popular on YouTube and TikTok"
+    ]
+  },
+  {
+    initials: "M.H.",
+    answer: "MAX Hellman",
+    clues: [
+      "American pop singer-songwriter",
+      "Breakout hit 'Lights Down Low'",
+      "Energetic stage presence",
+      "Collaborated with gnash and Quinn XCII",
+      "Debut album 'Hell’s Kitchen Angel'"
+    ]
+  },
+  {
+    initials: "L.A.",
+    answer: "Logan Alexander (Logan Henderson)",
+    clues: [
+      "American singer-songwriter, former Big Time Rush",
+      "Solo debut with 'Sleepwalker'",
+      "Blends pop and alternative",
+      "Strong online fanbase",
+      "Known for emotive vocals"
+    ]
+  },
+  {
+    initials: "T.F.",
+    answer: "Tori Forsyth",
+    clues: [
+      "Australian singer-songwriter",
+      "Known for 'Redundant'",
+      "Blends country and pop",
+      "Active in the Australian music scene",
+      "Powerful, emotive stage presence"
+    ]
+  },
+  {
+    initials: "A.S.",
+    answer: "Ashe Simpson",
+    clues: [
+      "American pop singer-songwriter",
+      "Viral hit 'Moral of the Story'",
+      "Debut album 'Ashlyn' (2021)",
+      "Known for cinematic pop",
+      "Featured in 'To All the Boys' movie"
+    ]
+  },
+  {
+    initials: "S.F.",
+    answer: "Sam Fischer",
+    clues: [
+      "Australian pop singer-songwriter",
+      "Known for 'This City'",
+      "Debut EP 'Not A Hobby'",
+      "Collaborated with Demi Lovato",
+      "Emotional, soulful pop"
+    ]
+  },
+  {
+    initials: "G.M.",
+    answer: "Grace Mitchell",
+    clues: [
+      "American pop singer-songwriter",
+      "Debut EP 'Design' in 2014",
+      "Breakout with 'Now'",
+      "Blends indie, synth-pop, and rock",
+      "Known for dynamic vocals"
+    ]
+  },
+  {
+    initials: "B.B.",
+    answer: "Bryce Vine",
+    clues: [
+      "American singer-songwriter",
+      "Hits include 'Drew Barrymore' and 'La La Land'",
+      "Blends pop, hip hop, and alternative",
+      "Debut album 'Carnival' (2019)",
+      "Known for catchy, upbeat hooks"
+    ]
+  },
+  {
+    initials: "T.P.",
+    answer: "Teddy Park",
+    clues: [
+      "American rapper, songwriter, and producer",
+      "Member of 1TYM and producer for K-pop acts",
+      "Known for pop songwriting for Blackpink",
+      "Major influence on Korean pop",
+      "Blends hip-hop and pop"
+    ]
+  },
+  {
+    initials: "B.H.",
+    answer: "Benson Boone",
+    clues: [
+      "American singer-songwriter",
+      "Gained fame on TikTok and American Idol",
+      "Known for 'Ghost Town'",
+      "Debut EP 'Walk Me Home...'",
+      "Emotional, heartfelt pop"
+    ]
+  },
+  {
+    initials: "M.M.",
+    answer: "Maty Noyes",
+    clues: [
+      "American singer-songwriter",
+      "Known for 'Stay' with Kygo",
+      "Solo debut with 'Love Songs From a Lolita'",
+      "Blends pop and soul",
+      "Distinctive raspy vocals"
+    ]
+  },
+  {
+    initials: "R.S.",
+    answer: "Rebecca Sugar",
+    clues: [
+      "American singer-songwriter and animator",
+      "Creator of 'Steven Universe'",
+      "Known for emotional pop ballads",
+      "Award-winning songwriter",
+      "Blends pop with animation"
+    ]
+  },
+  {
+    initials: "G.P.",
+    answer: "Grace Potter",
+    clues: [
+      "American singer-songwriter",
+      "Known for 'Daylight' and 'Love Is Love'",
+      "Grammy-nominated pop/rock artist",
+      "Energetic live performances",
+      "Blends pop, rock, and soul"
+    ]
+  },
+  {
+    initials: "J.B.",
+    answer: "Jon Bellion",
+    clues: [
+      "American singer, songwriter, and producer",
+      "Famous for 'All Time Low'",
+      "Grammy-winning songwriter ('The Monster' by Eminem & Rihanna)",
+      "Known for genre-blending pop",
+      "DIY production style"
+    ]
+  },
+  {
+    initials: "C.M.",
+    answer: "Charlotte Lawrence",
+    clues: [
+      "American pop singer-songwriter",
+      "Debut EP 'Young' in 2018",
+      "Known for 'Joke's On You'",
+      "Featured on 'Birds of Prey' soundtrack",
+      "Daughter of actress Christa Miller"
+    ]
+  },
+  {
+    initials: "J.B.",
+    answer: "Jeremy Zucker",
+    clues: [
+      "American singer-songwriter and producer",
+      "Known for 'comethru' and 'you were good to me'",
+      "Collaborated with Chelsea Cutler",
+      "Introspective, bedroom pop style",
+      "Debut album 'love is not dying'"
+    ]
+  },
+  {
+    initials: "K.T.",
+    answer: "Kina Taylor",
+    clues: [
+      "Italian producer and pop singer",
+      "Viral hit 'Get You The Moon'",
+      "Blends lo-fi and pop",
+      "Popular on TikTok",
+      "Intimate, emotional lyricism"
+    ]
+  },
+  {
+    initials: "M.J.",
+    answer: "Mallrat Johnson",
+    clues: [
+      "Australian singer-songwriter",
+      "Breakout with 'Groceries' and 'Charlie'",
+      "Blends pop and hip hop",
+      "Known for dreamy, relatable lyrics",
+      "Debut album 'Butterfly Blue'"
+    ]
+  },
+  {
+    initials: "F.R.",
+    answer: "Faouzia Rahmani",
+    clues: [
+      "Moroccan-Canadian singer-songwriter",
+      "Known for 'Tears of Gold' and 'Minefields' with John Legend",
+      "Powerful vocals and multilingual lyrics",
+      "Debut EP 'Stripped'",
+      "Emotional, anthemic pop"
+    ]
+  },
+  {
+    initials: "A.J.",
+    answer: "Ava Jules",
+    clues: [
+      "American pop singer and YouTuber",
+      "Viral with 'Fake Friends'",
+      "Debut EP 'Love or Lust?'",
+      "Blends pop and indie",
+      "Strong Gen Z fanbase"
+    ]
+  },
+  {
+    initials: "J.S.",
+    answer: "Jorja Smith",
+    clues: [
+      "English singer-songwriter",
+      "Breakthrough with 'Blue Lights'",
+      "Debut album 'Lost & Found'",
+      "Blend of pop, soul, and R&B",
+      "Mercury Prize-nominated"
+    ]
+  },
+  {
+    initials: "A.B.",
+    answer: "Alexander 23",
+    clues: [
+      "American singer-songwriter and producer",
+      "Breakout with 'IDK You Yet'",
+      "Blends pop and indie folk",
+      "Produced for Olivia Rodrigo",
+      "Debut EP 'I'm Sorry I Love You'"
+    ]
+  },
+  {
+    initials: "E.B.",
+    answer: "Emily Burns",
+    clues: [
+      "British pop singer-songwriter",
+      "Known for 'Is It Just Me?'",
+      "Honest, relatable lyrics",
+      "Debut EP 'Seven Scenes From The Same Summer'",
+      "Gained fame through BBC Introducing"
+    ]
+  },
+  {
+    initials: "A.R.",
+    answer: "A R I Z O N A",
+    clues: [
+      "American pop rock/electronic band",
+      "Known for 'Oceans Away'",
+      "Debut album 'Gallery' (2017)",
+      "Blends pop, indie, and electronic",
+      "Strong streaming presence"
+    ]
+  },
+  {
+    initials: "J.B.",
+    answer: "Jade Bird",
+    clues: [
+      "English singer-songwriter",
+      "Debut self-titled album in 2019",
+      "Hits include 'Lottery' and 'I Get No Joy'",
+      "Blends pop and indie folk",
+      "Winner of the Americana Music Award"
+    ]
+  },
+  {
+    initials: "C.H.",
+    answer: "CYN Harris",
+    clues: [
+      "American pop singer-songwriter",
+      "Mentored by Katy Perry",
+      "Breakout single 'Together'",
+      "Known for quirky, upbeat sound",
+      "Debut album 'Mood Swing'"
+    ]
+  },
+  {
+    initials: "T.H.",
+    answer: "Tate Hudson",
+    clues: [
+      "American pop singer",
+      "Viral on TikTok",
+      "Known for 'Love Me Back'",
+      "Debut album in 2021",
+      "Blends pop and electronic"
+    ]
+  },
+  {
+    initials: "J.H.",
+    answer: "Jack Harlow",
+    clues: [
+      "American rapper and pop artist",
+      "Breakout with 'What's Poppin'",
+      "Crossover appeal in pop and hip hop",
+      "Debut album 'Thats What They All Say'",
+      "Grammy-nominated"
+    ]
+  },
+  {
+    initials: "M.B.",
+    answer: "Mimi Webb",
+    clues: [
+      "British pop singer-songwriter",
+      "Debut single 'Before I Go'",
+      "Known for 'Good Without' and 'House On Fire'",
+      "Debut EP 'Seven Shades of Heartbreak'",
+      "Rich, powerful vocals"
+    ]
+  },
+  {
+    initials: "C.M.",
+    answer: "Claire Rosinkranz",
+    clues: [
+      "American pop singer-songwriter",
+      "Breakout with 'Backyard Boy'",
+      "Debut EP 'BeVerly Hills BoYfRiEnd'",
+      "Viral on TikTok",
+      "Known for quirky, upbeat pop"
+    ]
+  },
+  {
+    initials: "J.B.",
+    answer: "Johnny Orlando",
+    clues: [
+      "Canadian pop singer-songwriter",
+      "Began with YouTube covers",
+      "Known for 'What If' and 'Last Summer'",
+      "Debut EP 'Teenage Fever'",
+      "Large social media following"
+    ]
+  }
+]
+]
     { 
   worldSports: [
     {
