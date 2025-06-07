@@ -2092,7 +2092,7 @@ export const INITIALS_DB = {
   ]
 }
 ],
-  Pop Artist 2015 on: [
+  PopArtist2015on: [
   {
     initials: "D.L.",
     answer: "Dua Lipa",
