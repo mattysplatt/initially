@@ -1,6 +1,34 @@
 // Example: Only a few entries for brevity. Fill each category with ~100 entries for production.
 export const INITIALS_DB = {
-  ModernNBA: [
+ PopStars: [
+    {
+      initials: "T.S.",
+      answer: "Taylor Swift",
+      clues: [
+        "American singer-songwriter",
+        "Known for hits like 'Shake It Off' and 'Blank Space'",
+        "Multiple Grammy Award winner",
+        "Famously re-recorded her albums",
+        "Massive global fanbase called 'Swifties'"
+      ]
+    }
+  ],
+  Football: [
+    {
+      initials: "L.M.",
+      answer: "Lionel Messi",
+      clues: [
+        "Argentinian football (soccer) player",
+        "Won the Ballon d'Or multiple times",
+        "Played for Barcelona and PSG",
+        "2022 FIFA World Cup winner",
+        "Known for his dribbling and scoring"
+      ]
+    }
+    // Add more Football players here
+  ],
+  // ...other categories...
+ModernNBA: [
   {
   initials: "S.C.",
   answer: "Stephen Curry",
