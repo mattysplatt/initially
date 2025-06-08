@@ -83,6 +83,7 @@ let state = {
   unsubLobby: null,
   unsubGame: null,
   incorrectPrompt: false, // NEW: For incorrect answer feedback
+  lastQuestionInitials: '',
 };
 
 // --- DOM ---
