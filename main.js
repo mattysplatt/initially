@@ -313,6 +313,13 @@ function listenLobby() {
     state.clueIdx = lobby.clueIdx;
     state.points = lobby.points;
     state.guesses = lobby.guesses||{};
+    if (
+  state.question && 
+  state.question.initials !== (state.lastQuestionInitials || '')
+) {
+  state.guess = '';
+  state.lastQuestionInitials = state.question.initials;
+}
     if (lobby.status === "waiting") {
       state.screen = 'category'; render();
     } else if (lobby.status === "playing") {
