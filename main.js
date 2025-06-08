@@ -338,6 +338,9 @@ function chooseCategory(category) {
       )
     : shuffle([...INITIALS_DB[category]]);
   const firstQuestion = allQuestions[0];
+
+   state.guess = '';
+  
   set(ref(db, `lobbies/${state.lobbyCode}`), {
     code: state.lobbyCode,
     leader: state.playerId,
