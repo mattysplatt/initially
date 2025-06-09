@@ -1,7 +1,6 @@
 // Example: Only a few entries for brevity. Fill each category with ~100 entries for production.
 export const INITIALS_DB = {
  PopStars: [
-  [
   {
     initials: "T.S.",
     answer: "Taylor Swift",
