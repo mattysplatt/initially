@@ -281,11 +281,14 @@ function renderEnd() {
         ).join('')}
       </div>
       <button id="restartBtn">Play Again</button>
+      <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
+        Return to Start
+      </button>
     </div>
   `;
   document.getElementById('restartBtn').onclick = () => window.location.reload();
+  attachReturnToStartHandler();
 }
-
 // --- Game Logic + Firebase Sync ---
 function createLobby() {
   if (!state.playerName) { state.status = "Enter your name"; render(); return; }
