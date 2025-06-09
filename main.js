@@ -210,10 +210,26 @@ function renderScoreboard() {
     .slice()
     .sort((a, b) => b.score - a.score);
 
+  // 🔴 Find correct guessers for this round
+  let correctGuessers = [];
+  if (state.players.length >= 2 && state.guesses) {
+    correctGuessers = state.players
+      .filter(p => state.guesses[p.id]?.correct)
+      .map(p => p.name);
+  }
+
   $app.innerHTML = `
     <div class="screen">
       <h2>Scoreboard</h2>
       <div>Round ${state.round-1} Complete</div>
+      ${
+        // 🔴 Show correct guessers if there are any
+        (correctGuessers.length > 0)
+        ? `<div style="color: #27ae60; margin: 8px 0;">
+            ${correctGuessers.join(', ')} guessed correctly!
+           </div>`
+        : ''
+      }
       <div class="scoreboard">
         ${sortedScoreboard.map(item =>
           `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
