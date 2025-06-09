@@ -767,7 +767,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "C.C.",
+  initials: "C.J.",
   answer: "Cameron Johnson",
   clues: [
     "Brooklyn Nets forward",
@@ -955,7 +955,7 @@ ModernNBA: [
 },
 {
   initials: "G.T.",
-  answer: "Gary Trent Jr.",
+  answer: "Gary Trent",
   clues: [
     "Toronto Raptors guard",
     "Known for three-point shooting",
@@ -965,7 +965,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "D.V.",
+  initials: "D.D.",
   answer: "Donte DiVincenzo",
   clues: [
     "New York Knicks guard",
@@ -1295,7 +1295,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "A.B.",
+  initials: "A.R.",
   answer: "Austin Reaves",
   clues: [
     "Los Angeles Lakers guard",
@@ -1340,7 +1340,7 @@ ModernNBA: [
 },
 {
   initials: "T.M.",
-  answer: "Trey Murphy III",
+  answer: "Trey Murphy",
   clues: [
     "New Orleans Pelicans forward",
     "Elite three-point shooter",
@@ -1472,7 +1472,7 @@ ModernNBA: [
 },
 {
   initials: "K.P.",
-  answer: "Kevin Porter Jr.",
+  answer: "Kevin Porter",
   clues: [
     "Houston Rockets guard",
     "Known for scoring and playmaking",
@@ -1658,7 +1658,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "J.M.",
+  initials: "D.M.",
   answer: "Doug McDermott",
   clues: [
     "San Antonio Spurs forward",
@@ -1802,7 +1802,7 @@ ModernNBA: [
 },
 {
   initials: "D.J.",
-  answer: "Derrick Jones Jr.",
+  answer: "Derrick Jones",
   clues: [
     "Dallas Mavericks forward",
     "2020 NBA Slam Dunk Champion",
@@ -1923,7 +1923,7 @@ ModernNBA: [
 },
 {
   initials: "W.C.",
-  answer: "Wendell Carter Jr.",
+  answer: "Wendell Carter",
   clues: [
     "Orlando Magic center",
     "Duke Blue Devils alum",
@@ -1933,19 +1933,8 @@ ModernNBA: [
   ]
 },
 {
-  initials: "S.M.",
-  answer: "Shake Milton",
-  clues: [
-    "Detroit Pistons guard",
-    "Drafted 54th in 2018",
-    "SMU alum",
-    "Known for scoring off bench",
-    "Played for 76ers, Wolves"
-  ]
-},
-{
   initials: "O.P.",
-  answer: "Otto Porter Jr.",
+  answer: "Otto Porter",
   clues: [
     "Toronto Raptors forward",
     "NBA champion with Warriors",
@@ -2087,7 +2076,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "T.M.",
+  initials: "T.E.",
   answer: "Tari Eason",
   clues: [
     "Houston Rockets forward",
