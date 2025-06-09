@@ -3392,21 +3392,38 @@ ModernNBA: [
   clues: ["North Melbourne Kangaroos player", "Young prospect", "Debuted in 2023", "Versatile", "Emerging talent"]
 },
 {
-  initials: "M.P.",
-  answer: "Mitch Papley",
-  clues: ["Sydney Swans forward", "Known for pressure acts", "Debuted in 2017", "Consistent goal scorer", "Fan favourite"]
-},
-{
-  initials: "S.M.",
-  answer: "Shai Bolton",
-  clues: ["Richmond Tigers midfielder/forward", "Two-time premiership player", "Known for explosiveness", "Debuted in 2017", "Highlight reel regular"]
-},
-{
-  initials: "R.S.",
-  answer: "Rory Sloane",
-  clues: ["Adelaide Crows midfielder", "Former captain", "Two-time Best and Fairest",
- },
- ],
+      initials: "T.P.",
+      answer: "Tom Papley",
+      clues: [
+        "Sydney Swans forward",
+        "Known for pressure acts",
+        "Debuted in 2017",
+        "Consistent goal scorer",
+        "Fan favourite"
+      ]
+    },
+    {
+      initials: "S.M.",
+      answer: "Shai Bolton",
+      clues: [
+        "Richmond Tigers midfielder/forward",
+        "Two-time premiership player",
+        "Known for explosiveness",
+        "Debuted in 2017",
+        "Highlight reel regular"
+      ]
+    },
+    {
+      initials: "R.S.",
+      answer: "Rory Sloane",
+      clues: [
+        "Adelaide Crows midfielder",
+        "Former captain",
+        "Two-time Best and Fairest"
+      ]
+    }
+    // ... more AFL players
+  ],
   movieStars: [
  {
   initials: "R.D.J.",
