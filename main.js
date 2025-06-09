@@ -230,10 +230,15 @@ function renderScoreboard() {
            </div>`
         : ''
       }
-      <div class="scoreboard">
-        ${sortedScoreboard.map(item =>
-          `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
-        ).join('')}
+     ${sortedScoreboard.map((item, idx) => {
+  // Determine ordinal suffix
+  const pos = idx + 1;
+  let suffix = "th";
+  if (pos === 1) suffix = "st";
+  else if (pos === 2) suffix = "nd";
+  else if (pos === 3) suffix = "rd";
+  return `<div class="score-item"><span>${pos}${suffix} - ${item.name}</span><span>${item.score}</span></div>`;
+}).join('')}
       </div>
       <div style="margin:12px 0;">Correct answer: <b>${state.question && state.question.answer ? state.question.answer : ''}</b></div>
       ${
