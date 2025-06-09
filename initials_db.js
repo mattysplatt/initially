@@ -3261,7 +3261,152 @@ ModernNBA: [
       "Academy graduate"
     ]
   },
-  ],
+   {
+  initials: "T.H.",
+  answer: "Tom Hawkins",
+  clues: ["Geelong Cats key forward", "Three-time premiership player", "Multiple All-Australian", "Known for strength and contested marking", "Debuted in 2007"]
+},
+{
+  initials: "J.C.",
+  answer: "Jeremy Cameron",
+  clues: ["Geelong Cats forward", "2022 Coleman Medalist", "Former GWS Giant", "Known for goal kicking", "Debuted in 2012"]
+},
+{
+  initials: "B.S.",
+  answer: "Bailey Smith",
+  clues: ["Western Bulldogs midfielder", "Known for running power and mullet", "Breakout 2021 Finals series", "Debuted in 2019", "Fan favourite"]
+},
+{
+  initials: "B.D.",
+  answer: "Bailey Dale",
+  clues: ["Western Bulldogs defender", "All-Australian selection", "Known for rebounding and kicking skills", "Debuted in 2015", "Premiership player"]
+},
+{
+  initials: "N.L.",
+  answer: "Noah Long",
+  clues: ["West Coast Eagles forward", "Debuted in 2023", "Known for energy and pressure acts", "Young talent", "Emerging goal sneak"]
+},
+{
+  initials: "A.A.",
+  answer: "Adam Allocca",
+  clues: ["Melbourne Demons player", "Recent draftee", "Debuted in 2023", "Versatile position", "Young prospect"]
+},
+{
+  initials: "J.R.",
+  answer: "Jack Riewoldt",
+  clues: ["Richmond Tigers key forward", "Three-time premiership player", "Multiple Coleman Medals", "Known for marking and leadership", "Debuted in 2007"]
+},
+{
+  initials: "G.L.",
+  answer: "George Lacey",
+  clues: ["St Kilda Saints young defender", "Debuted in 2023", "Known for intercepts", "Emerging talent", "Strong athletic profile"]
+},
+{
+  initials: "B.K.",
+  answer: "Ben Keays",
+  clues: ["Adelaide Crows midfielder/forward", "Known for running and pressure", "Breakout 2021 season", "Debuted in 2016", "Former Lion"]
+},
+{
+  initials: "R.L.",
+  answer: "Ryan Lester",
+  clues: ["Brisbane Lions defender", "Longest-serving current Lion", "Versatile role", "Debuted in 2011", "Premiership player"]
+},
+{
+  initials: "S.D.",
+  answer: "Sam Draper",
+  clues: ["Essendon Bombers ruckman", "Known for athleticism and energy", "Debuted in 2019", "Charismatic presence", "Fan favourite"]
+},
+{
+  initials: "B.K.",
+  answer: "Ben King",
+  clues: ["Gold Coast Suns key forward", "Twin brother of Max King", "Known for marking and goal kicking", "Debuted in 2019", "Top-10 draft pick"]
+},
+{
+  initials: "M.K.",
+  answer: "Max King",
+  clues: ["St Kilda Saints key forward", "Twin brother of Ben King", "Known for contested marks", "Debuted in 2020", "Top-10 draft pick"]
+},
+{
+  initials: "J.M.",
+  answer: "Jacob Weitering",
+  clues: ["Carlton Blues key defender", "Former No.1 draft pick", "Known for intercept marking", "Debuted in 2016", "Leadership group member"]
+},
+{
+  initials: "J.E.",
+  answer: "Jake Elliot",
+  clues: ["Collingwood Magpies forward", "Known for goal sense", "Clutch player", "Debuted in 2016", "Premiership player"]
+},
+{
+  initials: "W.H.",
+  answer: "Will Hayward",
+  clues: ["Sydney Swans forward", "Debuted in 2017", "Known for pressure and goalkicking", "Consistent performer", "South Australian"]
+},
+{
+  initials: "D.Z.",
+  answer: "Daniel Zorko",
+  clues: ["Brisbane Lions midfielder", "Former captain", "Multiple Best and Fairest winner", "Known for intensity", "Debuted in 2012"]
+},
+{
+  initials: "J.M.",
+  answer: "Jake Melksham",
+  clues: ["Melbourne Demons forward", "Versatile role", "Debuted in 2010", "Former Bomber", "Clutch goal kicker"]
+},
+{
+  initials: "B.H.",
+  answer: "Blake Hardwick",
+  clues: ["Hawthorn Hawks defender", "Known for toughness", "Debuted in 2016", "Consistent backman", "Strong tackler"]
+},
+{
+  initials: "A.W.",
+  answer: "Adam Webster",
+  clues: ["Richmond Tigers defender", "Reliable tall defender", "Debuted in 2019", "Intercept marker", "Strong in the contest"]
+},
+{
+  initials: "C.B.",
+  answer: "Charlie Ballard",
+  clues: ["Gold Coast Suns defender", "Intercept specialist", "Debuted in 2018", "Key position player", "Underrated performer"]
+},
+{
+  initials: "N.H.",
+  answer: "Nick Haynes",
+  clues: ["GWS Giants defender", "All-Australian selection", "Known for intercept marking", "Debuted in 2012", "Long-serving Giant"]
+},
+{
+  initials: "T.B.",
+  answer: "Tom Barrass",
+  clues: ["West Coast Eagles defender", "2018 Premiership player", "Key position", "Known for spoiling", "Debuted in 2015"]
+},
+{
+  initials: "J.D.",
+  answer: "Jake Stringer",
+  clues: ["Essendon Bombers forward/midfielder", "Known as 'The Package'", "Premiership player (Western Bulldogs)", "Debuted in 2013", "Explosive player"]
+},
+{
+  initials: "J.R.",
+  answer: "Jack Redden",
+  clues: ["West Coast Eagles midfielder", "2018 Premiership player", "Former Brisbane Lion", "Debuted in 2009", "Retired 2023 (was active until recently)"]
+},
+{
+  initials: "A.F.",
+  answer: "Adam Flanagan",
+  clues: ["North Melbourne Kangaroos player", "Young prospect", "Debuted in 2023", "Versatile", "Emerging talent"]
+},
+{
+  initials: "M.P.",
+  answer: "Mitch Papley",
+  clues: ["Sydney Swans forward", "Known for pressure acts", "Debuted in 2017", "Consistent goal scorer", "Fan favourite"]
+},
+{
+  initials: "S.M.",
+  answer: "Shai Bolton",
+  clues: ["Richmond Tigers midfielder/forward", "Two-time premiership player", "Known for explosiveness", "Debuted in 2017", "Highlight reel regular"]
+},
+{
+  initials: "R.S.",
+  answer: "Rory Sloane",
+  clues: ["Adelaide Crows midfielder", "Former captain", "Two-time Best and Fairest",
+ },
+ ],
   movieStars: [
  {
   initials: "R.D.J.",
