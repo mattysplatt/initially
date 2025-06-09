@@ -485,52 +485,18 @@ function endRound() {
 }
 
 function markReady() {
-  const nextReadyPlayers = [
-    ...(state.readyPlayers || []).filter(id => id !== state.playerId),
-    state.playerId
-  ];
-  set(ref(db, `lobbies/${state.lobbyCode}/readyPlayers`), nextReadyPlayers)
+  update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true })
     .then(() => {
       get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
         const lobby = snap.val();
-        if (!lobby.players || Object.keys(lobby.players).length === 0) {
-          state.status = "No players in lobby! Please reload.";
-          render();
-          return;
-        }
-        const numPlayers = Object.keys(lobby.players).length;
-        if (
-          lobby &&
-          lobby.readyPlayers &&
-          lobby.readyPlayers.length === numPlayers
-        ) {
-          const used = lobby.usedQuestions || [];
-          const maxRounds = lobby.maxRounds || state.maxRounds;
-          if ((lobby.round || 1) < maxRounds) {
-            const q = getRandomUnusedQuestion(lobby.category, used);
-            if (!q) {
-              update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'end' });
-              return;
-            }
-            update(ref(db, `lobbies/${state.lobbyCode}`), {
-              status: 'playing',
-              round: (lobby.round || 1) + 1,
-              question: q,
-              clues: shuffle(q.clues),
-              clueIdx: 0,
-              points: 60,
-              guesses: {},
-              readyPlayers: [],
-              usedQuestions: [...used, q.answer]
-            });
-          } else {
-            update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'end' });
-          }
+        const readyPlayers = Object.values(lobby.players || {}).filter(p => p.ready).length;
+        const numPlayers = Object.keys(lobby.players || {}).length;
+        if (readyPlayers === numPlayers) {
+          // All ready, start next round or end game
         }
       });
     });
 }
-
 // --- App Start ---
 render();
 
