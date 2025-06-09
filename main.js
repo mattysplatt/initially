@@ -210,7 +210,7 @@ function renderScoreboard() {
     .slice()
     .sort((a, b) => b.score - a.score);
 
-  // 🔴 Find correct guessers for this round
+  // Find correct guessers for this round
   let correctGuessers = [];
   if (state.players.length >= 2 && state.guesses) {
     correctGuessers = state.players
@@ -221,36 +221,54 @@ function renderScoreboard() {
   $app.innerHTML = `
     <div class="screen">
       <h2>Scoreboard</h2>
-      <div>Round ${state.round-1} Complete</div>
+      <div>Round ${state.round - 1} Complete</div>
       ${
-        // 🔴 Show correct guessers if there are any
         (correctGuessers.length > 0)
-        ? `<div style="color: #27ae60; margin: 8px 0; font-size: 22px;"">
+        ? `<div style="color: #27ae60; margin: 8px 0; font-size: 22px;">
             ${correctGuessers.join(', ')} guessed correctly!
            </div>`
         : ''
       }
-     ${sortedScoreboard.map((item, idx) => {
-  // Determine ordinal suffix
-  const pos = idx + 1;
-  let suffix = "th";
-  if (pos === 1) suffix = "st";
-  else if (pos === 2) suffix = "nd";
-  else if (pos === 3) suffix = "rd";
-  return `<div class="score-item"><span>${pos}${suffix} - ${item.name}</span><span>${item.score}</span></div>`;
-}).join('')}
-      </div>
+      ${sortedScoreboard.map((item, idx) => {
+        const pos = idx + 1;
+        let suffix = "th";
+        if (pos === 1) suffix = "st";
+        else if (pos === 2) suffix = "nd";
+        else if (pos === 3) suffix = "rd";
+        return `<div class="score-item"><span>${pos}${suffix} - ${item.name}</span><span>${item.score}</span></div>`;
+      }).join('')}
       <div style="margin:12px 0;">Correct answer: <b>${state.question && state.question.answer ? state.question.answer : ''}</b></div>
       ${
         state.players.length === 0
         ? '<div style="color:red;">No players found in lobby. Please reload or rejoin.</div>'
-        : `<button id="readyBtn" ${state.readyPlayers.includes(state.playerId)?'disabled':''}>Ready for Next Round</button>
+        : `<button id="readyBtn" ${state.readyPlayers.includes(state.playerId) ? 'disabled' : ''}>Ready for Next Round</button>
            <div>${state.readyPlayers.length}/${state.players.length} ready</div>`
       }
+      <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
+        Return to Start
+      </button>
     </div>
   `;
+
   if (state.players.length > 0) {
     document.getElementById('readyBtn').onclick = markReady;
+  }
+  attachReturnToStartHandler();
+}
+
+function attachReturnToStartHandler() {
+  const btn = document.getElementById('returnToStartBtn');
+  if (btn) {
+    btn.onclick = async () => {
+      if (state.lobbyCode && state.playerId) {
+        await remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+      }
+      state.screen = 'lobby';
+      state.lobbyCode = '';
+      state.isLeader = false;
+      state.players = [];
+      render();
+    };
   }
 }
 function renderEnd() {
