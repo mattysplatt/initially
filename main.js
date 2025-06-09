@@ -488,12 +488,49 @@ function endRound() {
 function markReady() {
   update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true })
     .then(() => {
-      get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
+      get(ref(db, `lobbies/${state.lobbyCode}`)).then(async snap => {
         const lobby = snap.val();
         const readyPlayers = Object.values(lobby.players || {}).filter(p => p.ready).length;
         const numPlayers = Object.keys(lobby.players || {}).length;
+
         if (readyPlayers === numPlayers) {
-          // All ready, start next round or end game
+          // All players are ready, start next round or end game
+          let round = lobby.round + 1;
+          if (round > (lobby.maxRounds || 10)) {
+            // End game
+            await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
+            return;
+          }
+          // Get next unused question
+          const usedAnswers = lobby.usedQuestions || [];
+          const category = lobby.category;
+          const nextQuestion = getRandomUnusedQuestion(category, usedAnswers);
+          if (!nextQuestion) {
+            // No more questions, end the game
+            await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
+            return;
+          }
+          const newUsedAnswers = [...usedAnswers, nextQuestion.answer];
+
+          // Reset ready flags for all players
+          const players = Object.fromEntries(
+            Object.entries(lobby.players).map(([id, p]) => [id, { ...p, ready: false }])
+          );
+
+          await set(ref(db, `lobbies/${state.lobbyCode}`), {
+            ...lobby,
+            status: "playing",
+            round,
+            question: nextQuestion,
+            clues: shuffle(nextQuestion.clues),
+            clueIdx: 0,
+            points: 60,
+            guesses: {},
+            scoreboard: lobby.scoreboard || [],
+            readyPlayers: [],
+            usedQuestions: newUsedAnswers,
+            players,
+          });
         }
       });
     });
