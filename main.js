@@ -29,6 +29,31 @@ function generateLobbyCode() {
 function shuffle(arr) {
   return arr.map(a => [a, Math.random()]).sort((a, b) => a[1] - b[1]).map(a => a[0]);
 }
+function getShuffledSessionQuestions(category) {
+  let sessionKey = `shuffled_${category}`;
+  let indexKey = `shuffled_index_${category}`;
+  let pool;
+  if (category === 'randomMix') {
+    pool = [].concat(
+      ...['worldSports', 'AFL', 'movieStars', 'musicians', 'PopStars', 'Football', 'famousFigures', 'ModernNBA']
+        .map(cat => INITIALS_DB[cat])
+    );
+  } else {
+    pool = [...INITIALS_DB[category]];
+  }
+  let arr = JSON.parse(sessionStorage.getItem(sessionKey));
+  let idx = parseInt(sessionStorage.getItem(indexKey) || '0', 10);
+  if (!arr || !Array.isArray(arr) || arr.length === 0 || idx >= arr.length) {
+    arr = shuffle(pool);
+    idx = 0;
+    sessionStorage.setItem(sessionKey, JSON.stringify(arr));
+    sessionStorage.setItem(indexKey, '0');
+  }
+  let question = arr[idx];
+  idx++;
+  sessionStorage.setItem(indexKey, idx.toString());
+  return question;
+}
 function getRandomUnusedQuestion(category, usedAnswers) {
   const pool = category === 'randomMix'
     ? [].concat(
@@ -379,15 +404,7 @@ function listenLobby() {
   });
 }
 
-function chooseCategory(category) {
-  const allQuestions = category === 'randomMix'
-    ? shuffle(
-        [].concat(
-          ...['worldSports','AFL','movieStars','musicians', 'PopStars', 'Football', 'famousFigures','randomMix', 'ModernNBA'].map(cat => INITIALS_DB[cat])
-        )
-      )
-    : shuffle([...INITIALS_DB[category]]);
-  const firstQuestion = allQuestions[0]; 
+const firstQuestion = getShuffledSessionQuestions(category);
   
   state.guess = '';
   
