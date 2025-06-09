@@ -225,7 +225,7 @@ function renderScoreboard() {
       ${
         // 🔴 Show correct guessers if there are any
         (correctGuessers.length > 0)
-        ? `<div style="color: #27ae60; margin: 8px 0;">
+        ? `<div style="color: #27ae60; margin: 8px 0; font-size: 22px;"">
             ${correctGuessers.join(', ')} guessed correctly!
            </div>`
         : ''
