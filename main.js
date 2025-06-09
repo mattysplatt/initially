@@ -408,6 +408,7 @@ function chooseCategory(category) {
     maxRounds: 10,
     players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])),
   });
+}
 function startTimer() {
   clearInterval(window.timerInterval);
   state.timer = 10; renderTimer();
