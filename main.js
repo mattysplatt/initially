@@ -138,9 +138,12 @@ function renderCategory() {
       <h2>Select Category</h2>
       <div>${state.players.map(p => `<div>${p.name}${p.isLeader?' 👑':''}</div>`).join('')}</div>
       <div style="margin:16px 0;">
-        ${['worldSports','AFL','movieStars','musicians', 'PopStars', '⚽ Football', 'famousFigures','randomMix', 'ModernNBA'].map(cat=>`
-          <button class="catBtn" data-cat="${cat}">${cat.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase())}</button>
-        `).join('')}
+       ${['worldSports','AFL','movieStars','musicians', 'PopStars', 'Football', 'famousFigures','randomMix', 'ModernNBA']
+  .map(cat => {
+    let label = cat.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase());
+    if (cat === 'Football') label = '⚽ ' + label;
+    return `<button class="catBtn" data-cat="${cat}">${label}</button>`;
+  }).join('')}
       </div>
       <div>${state.isLeader ? '' : 'Waiting for leader to select...'}</div>
     </div>
