@@ -3287,19 +3287,9 @@ ModernNBA: [
   clues: ["West Coast Eagles forward", "Debuted in 2023", "Known for energy and pressure acts", "Young talent", "Emerging goal sneak"]
 },
 {
-  initials: "A.A.",
-  answer: "Adam Allocca",
-  clues: ["Melbourne Demons player", "Recent draftee", "Debuted in 2023", "Versatile position", "Young prospect"]
-},
-{
   initials: "J.R.",
   answer: "Jack Riewoldt",
   clues: ["Richmond Tigers key forward", "Three-time premiership player", "Multiple Coleman Medals", "Known for marking and leadership", "Debuted in 2007"]
-},
-{
-  initials: "G.L.",
-  answer: "George Lacey",
-  clues: ["St Kilda Saints young defender", "Debuted in 2023", "Known for intercepts", "Emerging talent", "Strong athletic profile"]
 },
 {
   initials: "B.K.",
@@ -3333,7 +3323,7 @@ ModernNBA: [
 },
 {
   initials: "J.E.",
-  answer: "Jake Elliot",
+  answer: "Jamie Elliot",
   clues: ["Collingwood Magpies forward", "Known for goal sense", "Clutch player", "Debuted in 2016", "Premiership player"]
 },
 {
@@ -3343,7 +3333,7 @@ ModernNBA: [
 },
 {
   initials: "D.Z.",
-  answer: "Daniel Zorko",
+  answer: "Dayne Zorko",
   clues: ["Brisbane Lions midfielder", "Former captain", "Multiple Best and Fairest winner", "Known for intensity", "Debuted in 2012"]
 },
 {
@@ -3355,11 +3345,6 @@ ModernNBA: [
   initials: "B.H.",
   answer: "Blake Hardwick",
   clues: ["Hawthorn Hawks defender", "Known for toughness", "Debuted in 2016", "Consistent backman", "Strong tackler"]
-},
-{
-  initials: "A.W.",
-  answer: "Adam Webster",
-  clues: ["Richmond Tigers defender", "Reliable tall defender", "Debuted in 2019", "Intercept marker", "Strong in the contest"]
 },
 {
   initials: "C.B.",
@@ -3385,11 +3370,6 @@ ModernNBA: [
   initials: "J.R.",
   answer: "Jack Redden",
   clues: ["West Coast Eagles midfielder", "2018 Premiership player", "Former Brisbane Lion", "Debuted in 2009", "Retired 2023 (was active until recently)"]
-},
-{
-  initials: "A.F.",
-  answer: "Adam Flanagan",
-  clues: ["North Melbourne Kangaroos player", "Young prospect", "Debuted in 2023", "Versatile", "Emerging talent"]
 },
 {
       initials: "T.P.",
@@ -3424,7 +3404,7 @@ ModernNBA: [
     },
     {
   initials: "A.N.",
-  answer: "Adam Naughton",
+  answer: "Aaron Naughton",
   clues: [
     "Western Bulldogs defender",
     "Key position player",
@@ -3490,7 +3470,7 @@ ModernNBA: [
 },
 {
   initials: "K.L.",
-  answer: "Karl Langford",
+  answer: "Kyle Langford",
   clues: [
     "Essendon Bombers utility",
     "Plays forward and midfield",
@@ -3720,19 +3700,8 @@ ModernNBA: [
   ]
 },
 {
-  initials: "J.T.",
-  answer: "Jack Turner",
-  clues: [
-    "Richmond Tigers defender",
-    "Young key position player",
-    "Debuted in 2023",
-    "Strong intercept mark",
-    "Emerging tall"
-  ]
-},
-{
   initials: "L.V.",
-  answer: "Liatham Vandermeer",
+  answer: "Laitham Vandermeer",
   clues: [
     "Western Bulldogs forward",
     "Known for speed",
@@ -3783,17 +3752,6 @@ ModernNBA: [
     "Debuted in 2018",
     "Intercept marker",
     "Premiership player"
-  ]
-},
-{
-  initials: "B.S.",
-  answer: "Blake Schenscher",
-  clues: [
-    "Adelaide Crows ruckman",
-    "Debuted in 2023",
-    "Tall prospect",
-    "Developing ruck/forward",
-    "From SANFL"
   ]
 },
 {
@@ -3885,28 +3843,6 @@ ModernNBA: [
   ]
 },
 {
-  initials: "B.F.",
-  answer: "Brandon Flowers",
-  clues: [
-    "Essendon Bombers midfielder",
-    "Debuted in 2023",
-    "Developing talent",
-    "Inside mid",
-    "From Calder Cannons"
-  ]
-},
-{
-  initials: "O.H.",
-  answer: "Oscar Hough",
-  clues: [
-    "GWS Giants defender",
-    "Debuted in 2023",
-    "Young backman",
-    "Developing key position player",
-    "Academy product"
-  ]
-},
-{
   initials: "C.S.",
   answer: "Cameron Sutcliffe",
   clues: [
@@ -3939,18 +3875,6 @@ ModernNBA: [
     "Fan favourite"
   ]
 },
-{
-  initials: "Z.F.",
-  answer: "Zane Friend",
-  clues: [
-    "Hawthorn Hawks defender",
-    "Debuted in 2024",
-    "Young prospect",
-    "Good skills",
-    "Developing"
-  ]
-},
-  
 {
   initials: "T.M.",
   answer: "Tom McCartin",
@@ -4063,7 +3987,7 @@ ModernNBA: [
 },
 {
   initials: "R.B.",
-  answer: "Rhyan Burns",
+  answer: "Ryan Byrnes",
   clues: [
     "St Kilda Saints forward",
     "Debuted in 2021",
@@ -4095,17 +4019,6 @@ ModernNBA: [
   ]
 },
 {
-  initials: "T.M.",
-  answer: "Tom McKenzie",
-  clues: [
-    "North Melbourne Kangaroos defender",
-    "Debuted in 2023",
-    "Young key defender",
-    "Good intercept skills",
-    "From Sandringham Dragons"
-  ]
-},
-{
   initials: "L.S.",
   answer: "Liam Shiels",
   clues: [
@@ -4114,17 +4027,6 @@ ModernNBA: [
     "Veteran leader",
     "Debuted in 2009",
     "Known for tackling"
-  ]
-},
-{
-  initials: "S.M.",
-  answer: "Sam McKenzie",
-  clues: [
-    "West Coast Eagles midfielder",
-    "Emerging young player",
-    "Debuted in 2023",
-    "Known for ball use",
-    "WA product"
   ]
 },
 {
@@ -4139,19 +4041,8 @@ ModernNBA: [
   ]
 },
 {
-  initials: "B.S.",
-  answer: "Brandon Smith",
-  clues: [
-    "Richmond Tigers midfielder",
-    "Young prospect",
-    "Debuted in 2023",
-    "Known for speed",
-    "Developing talent"
-  ]
-},
-{
   initials: "J.B.",
-  answer: "Josh Butts",
+  answer: "Jordan Butts",
   clues: [
     "Adelaide Crows defender",
     "Key position",
@@ -4293,17 +4184,6 @@ ModernNBA: [
   ]
 },
 {
-  initials: "A.W.",
-  answer: "Aaron Wilson",
-  clues: [
-    "Melbourne Demons rookie",
-    "Debuted in 2024",
-    "Versatile player",
-    "Developing prospect",
-    "Victorian"
-  ]
-},
-{
   initials: "A.A.",
   answer: "Aliir Aliir",
   clues: [
@@ -4367,28 +4247,6 @@ ModernNBA: [
     "Known for speed",
     "Debuted in 2022",
     "Former Gaelic footballer"
-  ]
-},
-{
-  initials: "S.P.",
-  answer: "Sam Pauley",
-  clues: [
-    "Geelong Cats midfielder",
-    "Young player",
-    "Debuted in 2024",
-    "Developing talent",
-    "From TAC Cup"
-  ]
-},
-{
-  initials: "Z.R.",
-  answer: "Zane Reid",
-  clues: [
-    "Fremantle Dockers defender",
-    "Debuted in 2024",
-    "Tall backman",
-    "Developing SANFL product",
-    "Good intercepts"
   ]
 },
 {
