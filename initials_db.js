@@ -3403,7 +3403,7 @@ ModernNBA: [
       ]
     },
     {
-      initials: "S.M.",
+      initials: "S.B.",
       answer: "Shai Bolton",
       clues: [
         "Richmond Tigers midfielder/forward",
@@ -3478,7 +3478,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "R.M.",
+  initials: "R.L.",
   answer: "Rory Lobb",
   clues: [
     "Western Bulldogs ruck/forward",
@@ -3522,8 +3522,8 @@ ModernNBA: [
   ]
 },
 {
-  initials: "A.W.",
-  answer: "Andrew Waterman",
+  initials: "J.W.",
+  answer: "Jake Waterman",
   clues: [
     "West Coast Eagles forward",
     "Reliable goalkicker",
@@ -3544,7 +3544,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "R.B.",
+  initials: "R.M.",
   answer: "Rowan Marshall",
   clues: [
     "St Kilda Saints ruckman",
@@ -3555,7 +3555,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "D.Mc.",
+  initials: "D.M.",
   answer: "Daniel McStay",
   clues: [
     "Collingwood Magpies forward",
@@ -3577,7 +3577,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "R.B.",
+  initials: "R.O.",
   answer: "Reilly O'Brien",
   clues: [
     "Adelaide Crows ruckman",
@@ -3621,7 +3621,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "C.S.",
+  initials: "C.T.",
   answer: "Curtis Taylor",
   clues: [
     "North Melbourne Kangaroos forward",
@@ -3651,17 +3651,6 @@ ModernNBA: [
     "Debuted in 2017",
     "Reliable ball user",
     "Important outside player"
-  ]
-},
-{
-  initials: "B.P.",
-  answer: "Bailey Pritchard",
-  clues: [
-    "Hawthorn Hawks midfielder",
-    "Young, developing player",
-    "Debuted in 2023",
-    "Known for endurance",
-    "Emerging talent"
   ]
 },
 {
@@ -3698,7 +3687,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "K.B.",
+  initials: "K.C.",
   answer: "Kade Chandler",
   clues: [
     "Melbourne Demons forward",
@@ -3720,7 +3709,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "B.P.",
+  initials: "B.B.",
   answer: "Bailey Banfield",
   clues: [
     "Fremantle Dockers forward",
@@ -3743,13 +3732,13 @@ ModernNBA: [
 },
 {
   initials: "L.V.",
-  answer: "Liam Vandermeer",
+  answer: "Liatham Vandermeer",
   clues: [
     "Western Bulldogs forward",
     "Known for speed",
     "Debuted in 2020",
     "Small forward",
-    "Fan favourite"
+    "Drafted 2018 number 37"
   ]
 },
 {
@@ -3831,7 +3820,7 @@ ModernNBA: [
 },
 {
   initials: "B.M.",
-  answer: "Brandon Maynard",
+  answer: "Brayden Maynard",
   clues: [
     "Collingwood Magpies defender",
     "Known for toughness",
@@ -3841,7 +3830,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "C.P.",
+  initials: "C.B.",
   answer: "Connor Budarick",
   clues: [
     "Gold Coast Suns defender",
@@ -3852,36 +3841,25 @@ ModernNBA: [
   ]
 },
 {
-  initials: "J.Mc.",
-  answer: "Jake McKenzie",
-  clues: [
-    "North Melbourne Kangaroos defender",
-    "Drafted in 2023",
-    "Athletic backman",
-    "Emerging player",
-    "Good in the air"
-  ]
-},
-{
-  initials: "F.M.",
+  initials: "F.E.",
   answer: "Francis Evans",
   clues: [
-    "Port Adelaide Power forward",
-    "Debuted in 2021",
-    "Former Geelong Cat",
+    "Plays for Carlton",
+    "Debuted in 2021 for Geelong",
+    "Waers Number 44",
     "Small forward",
     "Known for pressure"
   ]
 },
 {
-  initials: "P.L.",
+  initials: "P.C.",
   answer: "Paul Curtis",
   clues: [
     "North Melbourne Kangaroos forward",
     "Debuted in 2022",
     "Small forward",
     "Goal sense",
-    "Consistent contributor"
+    "Drafted pick 35 in 2021"
   ]
 },
 {
@@ -3940,8 +3918,8 @@ ModernNBA: [
   ]
 },
 {
-  initials: "T.D.",
-  answer: "Tyler Durdin",
+  initials: "C.D.",
+  answer: "Corey Durdin",
   clues: [
     "Carlton Blues forward",
     "Small forward",
@@ -3951,7 +3929,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "S.P.",
+  initials: "S.PP.",
   answer: "Sam Powell-Pepper",
   clues: [
     "Port Adelaide Power midfielder/forward",
@@ -3970,6 +3948,469 @@ ModernNBA: [
     "Young prospect",
     "Good skills",
     "Developing"
+  ]
+},
+  
+{
+  initials: "T.M.",
+  answer: "Tom McCartin",
+  clues: [
+    "Sydney Swans defender",
+    "Key position player",
+    "Brother of Paddy McCartin",
+    "Debuted in 2018",
+    "Reliable in the air"
+  ]
+},
+{
+  initials: "J.M.",
+  answer: "Jack Macrae",
+  clues: [
+    "Western Bulldogs midfielder",
+    "All-Australian selection",
+    "Known for high disposals",
+    "Debuted in 2013",
+    "Consistent performer"
+  ]
+},
+{
+  initials: "J.S.",
+  answer: "Joel Smith",
+  clues: [
+    "Melbourne Demons utility",
+    "Can play forward or back",
+    "Debuted in 2017",
+    "Son of Shaun Smith",
+    "Known for athleticism"
+  ]
+},
+{
+  initials: "N.M.",
+  answer: "Nathan Murphy",
+  clues: [
+    "Collingwood Magpies defender",
+    "Premiership player",
+    "Known for intercept marking",
+    "Debuted in 2018",
+    "Reliable backman"
+  ]
+},
+{
+  initials: "J.B.",
+  answer: "Josh Bowey",
+  clues: [
+    "Melbourne Demons defender",
+    "Premiership player in debut year",
+    "Known for speed and skill",
+    "Debuted in 2021",
+    "Small defender"
+  ]
+},
+{
+  initials: "B.M.",
+  answer: "Ben McKay",
+  clues: [
+    "Essendon Bombers defender",
+    "Twin brother of Harry McKay",
+    "Key position player",
+    "Debuted in 2017",
+    "Known for spoiling"
+  ]
+},
+{
+  initials: "J.C.",
+  answer: "Jake Carlisle",
+  clues: [
+    "St Kilda Saints defender",
+    "Former Essendon Bomber",
+    "Debuted in 2010",
+    "Key position player",
+    "Retired 2022 (recently active)"
+  ]
+},
+{
+  initials: "P.L.",
+  answer: "Patrick Lipinski",
+  clues: [
+    "Collingwood Magpies midfielder",
+    "Former Western Bulldog",
+    "Debuted in 2017",
+    "Known for goal sense",
+    "Premiership player"
+  ]
+},
+{
+  initials: "J.S.",
+  answer: "Josh Sinn",
+  clues: [
+    "Port Adelaide Power defender",
+    "Former first-round pick",
+    "Debuted in 2022",
+    "Known for speed",
+    "From Sandringham Dragons"
+  ]
+},
+{
+  initials: "K.P.",
+  answer: "Kysaiah Pickett",
+  clues: [
+    "Melbourne Demons forward",
+    "Known as 'Kozzy'",
+    "Electric small forward",
+    "Debuted in 2020",
+    "Exciting goal sneak"
+  ]
+},
+{
+  initials: "R.B.",
+  answer: "Rhyan Burns",
+  clues: [
+    "St Kilda Saints forward",
+    "Debuted in 2021",
+    "Known for forward pressure",
+    "Developing goalkicker",
+    "Victorian"
+  ]
+},
+{
+  initials: "S.B.",
+  answer: "Sam Berry",
+  clues: [
+    "Adelaide Crows midfielder",
+    "Known for tackling",
+    "Debuted in 2021",
+    "High pressure player",
+    "From Gippsland Power"
+  ]
+},
+{
+  initials: "A.P.",
+  answer: "Archie Perkins",
+  clues: [
+    "Essendon Bombers midfielder/forward",
+    "Top-10 draft pick",
+    "Debuted in 2021",
+    "Dynamic attacking style",
+    "Known for flair"
+  ]
+},
+{
+  initials: "T.M.",
+  answer: "Tom McKenzie",
+  clues: [
+    "North Melbourne Kangaroos defender",
+    "Debuted in 2023",
+    "Young key defender",
+    "Good intercept skills",
+    "From Sandringham Dragons"
+  ]
+},
+{
+  initials: "L.S.",
+  answer: "Liam Shiels",
+  clues: [
+    "North Melbourne Kangaroos midfielder",
+    "Three-time Hawthorn premiership player",
+    "Veteran leader",
+    "Debuted in 2009",
+    "Known for tackling"
+  ]
+},
+{
+  initials: "S.M.",
+  answer: "Sam McKenzie",
+  clues: [
+    "West Coast Eagles midfielder",
+    "Emerging young player",
+    "Debuted in 2023",
+    "Known for ball use",
+    "WA product"
+  ]
+},
+{
+  initials: "T.C.",
+  answer: "Tom Cutler",
+  clues: [
+    "Essendon Bombers winger",
+    "Former Brisbane Lion",
+    "Debuted in 2014",
+    "Known for running",
+    "Versatile utility"
+  ]
+},
+{
+  initials: "B.S.",
+  answer: "Brandon Smith",
+  clues: [
+    "Richmond Tigers midfielder",
+    "Young prospect",
+    "Debuted in 2023",
+    "Known for speed",
+    "Developing talent"
+  ]
+},
+{
+  initials: "J.B.",
+  answer: "Josh Butts",
+  clues: [
+    "Adelaide Crows defender",
+    "Key position",
+    "Debuted in 2020",
+    "Known for spoiling",
+    "Reliable tall"
+  ]
+},
+{
+  initials: "W.P.",
+  answer: "Will Phillips",
+  clues: [
+    "North Melbourne Kangaroos midfielder",
+    "Top-3 draft pick",
+    "Debuted in 2021",
+    "Known for composure",
+    "Inside mid"
+  ]
+},
+{
+  initials: "G.M.",
+  answer: "Gryan Miers",
+  clues: [
+    "Geelong Cats forward",
+    "Distinctive dreadlocks",
+    "Known for goal assists",
+    "Debuted in 2019",
+    "Premiership player"
+  ]
+},
+{
+  initials: "J.O.",
+  answer: "Jai O'Meara",
+  clues: [
+    "Fremantle Dockers midfielder",
+    "Former Hawthorn and Gold Coast",
+    "Debuted in 2013",
+    "Known for clearance work",
+    "Leadership group"
+  ]
+},
+{
+  initials: "N.B.",
+  answer: "Noah Cumberland",
+  clues: [
+    "Richmond Tigers forward",
+    "Known for pressure",
+    "Debuted in 2022",
+    "Emerging goalkicker",
+    "Queensland product"
+  ]
+},
+{
+  initials: "J.M.",
+  answer: "Josh Mahoney",
+  clues: [
+    "Melbourne Demons forward",
+    "Premiership player",
+    "Debuted in 2001",
+    "Small forward",
+    "Retired but club staff"
+  ]
+},
+{
+  initials: "C.W.",
+  answer: "Connor West",
+  clues: [
+    "West Coast Eagles midfielder",
+    "WAFL recruit",
+    "Debuted in 2021",
+    "Hard at the contest",
+    "Developing inside mid"
+  ]
+},
+{
+  initials: "M.D.B.",
+  answer: "Matt De Boer",
+  clues: [
+    "GWS Giants midfielder",
+    "Former Fremantle Docker",
+    "Tagging specialist",
+    "Debuted in 2009",
+    "Leadership group"
+  ]
+},
+{
+  initials: "J.G.",
+  answer: "Jack Graham",
+  clues: [
+    "Richmond Tigers midfielder",
+    "Premiership player",
+    "Known for tackling",
+    "Debuted in 2017",
+    "Leadership qualities"
+  ]
+},
+{
+  initials: "S.W.",
+  answer: "Sam Wicks",
+  clues: [
+    "Sydney Swans forward",
+    "Rookie elevation",
+    "Known for pressure",
+    "Debuted in 2020",
+    "Small forward"
+  ]
+},
+{
+  initials: "C.B.",
+  answer: "Connor Budarick",
+  clues: [
+    "Gold Coast Suns defender",
+    "Academy product",
+    "Debuted in 2020",
+    "Known for rebound",
+    "Regular in Suns' best 22"
+  ]
+},
+{
+  initials: "J.C.",
+  answer: "Jye Caldwell",
+  clues: [
+    "Essendon Bombers midfielder",
+    "Former GWS Giant",
+    "Debuted in 2019",
+    "Inside mid",
+    "Known for pressure"
+  ]
+},
+{
+  initials: "T.D.K",
+  answer: "Tom De Koning",
+  clues: [
+    "Carlton Blues ruckman",
+    "Brother of Sam De Koning",
+    "Known for athleticism",
+    "Debuted in 2018",
+    "Emerging tall"
+  ]
+},
+{
+  initials: "A.W.",
+  answer: "Aaron Wilson",
+  clues: [
+    "Melbourne Demons rookie",
+    "Debuted in 2024",
+    "Versatile player",
+    "Developing prospect",
+    "Victorian"
+  ]
+},
+{
+  initials: "A.A.",
+  answer: "Aliir Aliir",
+  clues: [
+    "Port Adelaide Power defender",
+    "Sudanese heritage",
+    "All-Australian",
+    "Intercept marking",
+    "Debuted in 2016"
+  ]
+},
+{
+  initials: "C.C.",
+  answer: "Charlie Cameron",
+  clues: [
+    "Brisbane Lions forward",
+    "Known for speed",
+    "All-Australian",
+    "Debuted in 2014",
+    "Exciting small forward"
+  ]
+},
+{
+  initials: "J.P.",
+  answer: "Jack Payne",
+  clues: [
+    "Brisbane Lions defender",
+    "Key position back",
+    "Debuted in 2020",
+    "Strong intercepts",
+    "Developed at Lions Academy"
+  ]
+},
+{
+  initials: "H.C.",
+  answer: "Harry Cunningham",
+  clues: [
+    "Sydney Swans defender",
+    "Long-serving Swan",
+    "Debuted in 2012",
+    "Veteran leader",
+    "Reliable off half-back"
+  ]
+},
+{
+  initials: "T.W.",
+  answer: "Tom Williamson",
+  clues: [
+    "North Melbourne Kangaroos defender",
+    "Former Carlton Blue",
+    "Debuted in 2017",
+    "Recruited as mature-ager",
+    "Rebounding defender"
+  ]
+},
+{
+  initials: "C.B.",
+  answer: "Callum Brown",
+  clues: [
+    "GWS Giants forward",
+    "Irish recruit",
+    "Known for speed",
+    "Debuted in 2022",
+    "Former Gaelic footballer"
+  ]
+},
+{
+  initials: "S.P.",
+  answer: "Sam Pauley",
+  clues: [
+    "Geelong Cats midfielder",
+    "Young player",
+    "Debuted in 2024",
+    "Developing talent",
+    "From TAC Cup"
+  ]
+},
+{
+  initials: "Z.R.",
+  answer: "Zane Reid",
+  clues: [
+    "Fremantle Dockers defender",
+    "Debuted in 2024",
+    "Tall backman",
+    "Developing SANFL product",
+    "Good intercepts"
+  ]
+},
+{
+  initials: "J.R.",
+  answer: "Jack Ross",
+  clues: [
+    "Richmond Tigers midfielder",
+    "Premiership player",
+    "Debuted in 2019",
+    "Inside mid",
+    "Consistent ball-winner"
+  ]
+},
+{
+  initials: "D.H.",
+  answer: "Dylan Hollands",
+  clues: [
+    "Carlton Blues midfielder",
+    "Brother of Oliver Hollands",
+    "Debuted in 2024",
+    "Known for running",
+    "From Murray Bushrangers"
   ]
 }
   ],
