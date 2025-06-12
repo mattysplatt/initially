@@ -3323,9 +3323,9 @@ export const INITIALS_DB = {
     "NBA champion with Warriors",
     "Memphis Tigers alum",
     "High ceiling big man"
-  ]
-}
-],
+   ]
+    }
+  ],
   worldSports: [
     {
       initials: "L.M.",
