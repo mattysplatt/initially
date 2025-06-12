@@ -1245,7 +1245,6 @@ export const INITIALS_DB = {
     clues: ["French defender", "Plays for Barcelona", "La Liga winner", "Known for versatility", "France international"]
   }
   ],
- 
 ModernNBA: [
   {
   initials: "S.C.",
