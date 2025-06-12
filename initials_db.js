@@ -1243,7 +1243,8 @@ export const INITIALS_DB = {
     initials: "J.B.",
     answer: "Jules Koundé",
     clues: ["French defender", "Plays for Barcelona", "La Liga winner", "Known for versatility", "France international"]
-  }
+ ]
+    }
   ],
 ModernNBA: [
   {
