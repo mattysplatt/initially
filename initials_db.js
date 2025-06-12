@@ -718,8 +718,6 @@ export const INITIALS_DB = {
         "Known for his dribbling and scoring"
       ]
     },
-  // Top 1-50 Soccer Players
-[
   {
     initials: "L.M.",
     answer: "Lionel Messi",
