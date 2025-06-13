@@ -773,7 +773,7 @@ export const INITIALS_DB = {
     answer: "Pierre-Emerick Aubameyang",
     clues: ["Gabonese striker","Played for Arsenal, Barcelona, Chelsea","Former Premier League Golden Boot winner","Known for his speed","Key figure for Gabon"]
   },
-    {
+  {
     initials: "J.S.",
     answer: "Jadon Sancho",
     clues: ["English winger","Plays for Manchester United (loan to Dortmund)","Known for dribbling and creativity","Formerly at Borussia Dortmund","England international"]
@@ -848,7 +848,6 @@ export const INITIALS_DB = {
     answer: "Jordan Henderson",
     clues: ["English midfielder","Plays for Ajax (formerly Liverpool)","Champions League and Premier League winner","Former Liverpool captain","Known for leadership"]
   },
- [
   {
     initials: "J.M.",
     answer: "James Maddison",
