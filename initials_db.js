@@ -717,8 +717,12 @@ export const INITIALS_DB = {
         "2022 FIFA World Cup winner",
         "Known for his dribbling and scoring"
       ]
-    }
-    // Add more Football players here
+    },
+    {
+    initials: "C.R.",
+    answer: "Cristiano Ronaldo",
+    clues: ["Portuguese footballer","5 Ballon d'Or awards","Played for Manchester United, Real Madrid, Juventus, Al Nassr","All-time top scorer for Real Madrid","Known for his athleticism and goal scoring"]
+  }
   ],
   // ...other categories...
 ModernNBA: [
