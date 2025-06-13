@@ -747,7 +747,7 @@ export const INITIALS_DB = {
     initials: "R.L.",
     answer: "Robert Lewandowski",
     clues: ["Polish striker","Plays for FC Barcelona","Former Bayern Munich star","FIFA Best Men's Player 2020 and 2021","One of the most prolific goal scorers in Europe"]
-
+  },
   {
     initials: "M.R.",
     answer: "Marcus Rashford",
