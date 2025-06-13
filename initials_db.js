@@ -773,6 +773,327 @@ export const INITIALS_DB = {
     answer: "Pierre-Emerick Aubameyang",
     clues: ["Gabonese striker","Played for Arsenal, Barcelona, Chelsea","Former Premier League Golden Boot winner","Known for his speed","Key figure for Gabon"]
   },
+    {
+    initials: "J.S.",
+    answer: "Jadon Sancho",
+    clues: ["English winger","Plays for Manchester United (loan to Dortmund)","Known for dribbling and creativity","Formerly at Borussia Dortmund","England international"]
+  },
+  {
+    initials: "F.C.",
+    answer: "Frenkie de Jong",
+    clues: ["Dutch midfielder","Plays for Barcelona","Known for his ball control and passing","Former Ajax star","Netherlands international"]
+  },
+  {
+    initials: "M.V.",
+    answer: "Matthijs de Ligt",
+    clues: ["Dutch defender","Plays for Bayern Munich","Former Ajax captain","Known for leadership and strength","Netherlands international"]
+  },
+  {
+    initials: "S.M.",
+    answer: "Sergej Milinković-Savić",
+    clues: ["Serbian midfielder","Plays for Al Hilal (formerly Lazio)","Known for his aerial ability and goals","Serie A Team of the Year","Serbia international"]
+  },
+  {
+    initials: "J.G.",
+    answer: "Jack Grealish",
+    clues: ["English winger","Plays for Manchester City","Known for his dribbling and fouls won","Premier League winner","England international"]
+  },
+  {
+    initials: "M.A.",
+    answer: "Marquinhos",
+    clues: ["Brazilian defender","Plays for PSG","Club captain","Known for versatility and leadership","Brazil international"]
+  },
+  {
+    initials: "K.B.",
+    answer: "Karim Benzema",
+    clues: ["French striker","Played for Real Madrid, Al Ittihad","2022 Ballon d'Or winner","Champions League all-time top scorer for Real Madrid","Known for his finishing"]
+  },
+  {
+    initials: "A.R.",
+    answer: "Andrew Robertson",
+    clues: ["Scottish left-back","Plays for Liverpool","Premier League and Champions League winner","Known for stamina and crossing","Scotland captain"]
+  },
+  {
+    initials: "M.V.",
+    answer: "Marco Verratti",
+    clues: ["Italian midfielder","Plays for Al-Arabi (formerly PSG)","Known for his passing and control","Euro 2020 winner","Italy international"]
+  },
+  {
+    initials: "D.A.",
+    answer: "David Alaba",
+    clues: ["Austrian defender","Plays for Real Madrid","Former Bayern Munich star","Known for versatility","Austria international"]
+  },
+  {
+    initials: "E.M.",
+    answer: "Emiliano Martínez",
+    clues: ["Argentinian goalkeeper","Plays for Aston Villa","2022 World Cup Golden Glove winner","Known for penalty saves","Argentina international"]
+  },
+  {
+    initials: "I.G.",
+    answer: "Ilkay Gündogan",
+    clues: ["German midfielder","Plays for Barcelona (formerly Man City)","Known for late runs and goals","Premier League winner","Germany international"]
+  },
+  {
+    initials: "L.S.",
+    answer: "Luis Suárez",
+    clues: ["Uruguayan striker","Played for Liverpool, Barcelona, Atlético Madrid, Inter Miami","Known for his finishing and tenacity","Multiple Golden Boots","Uruguay's all-time top scorer"]
+  },
+  {
+    initials: "N.K.",
+    answer: "N'Golo Kanté",
+    clues: ["French midfielder","Plays for Al Ittihad (formerly Chelsea)","World Cup winner 2018","Known for interceptions and stamina","Premier League winner with Leicester and Chelsea"]
+  },
+  {
+    initials: "J.H.",
+    answer: "Jordan Henderson",
+    clues: ["English midfielder","Plays for Ajax (formerly Liverpool)","Champions League and Premier League winner","Former Liverpool captain","Known for leadership"]
+  },
+ [
+  {
+    initials: "J.M.",
+    answer: "James Maddison",
+    clues: ["English midfielder", "Plays for Tottenham Hotspur", "Known for creativity and set pieces", "Former Leicester City star", "England international"]
+  },
+  {
+    initials: "R.A.",
+    answer: "Ángel Di María",
+    clues: ["Argentinian winger", "Plays for Benfica", "Former PSG and Real Madrid player", "2022 World Cup winner", "Known for assists and left foot"]
+  },
+  {
+    initials: "E.C.",
+    answer: "Ederson",
+    clues: ["Brazilian goalkeeper", "Plays for Manchester City", "Known for passing and distribution", "Premier League winner", "Brazil international"]
+  },
+  {
+    initials: "T.S.",
+    answer: "Thiago Silva",
+    clues: ["Brazilian defender", "Plays for Chelsea", "Veteran center-back", "Former PSG captain", "Known for leadership"]
+  },
+  {
+    initials: "J.D.",
+    answer: "Josko Gvardiol",
+    clues: ["Croatian defender", "Plays for Manchester City", "Former RB Leipzig", "Known for tackling and composure", "Key at 2022 World Cup"]
+  },
+  {
+    initials: "M.R.",
+    answer: "Mason Mount",
+    clues: ["English midfielder", "Plays for Manchester United", "Former Chelsea star", "Champions League winner", "England international"]
+  },
+  {
+    initials: "L.M.",
+    answer: "Lautaro Martínez",
+    clues: ["Argentinian striker", "Plays for Inter Milan", "2022 World Cup winner", "Known for finishing and movement", "Serie A champion"]
+  },
+  {
+    initials: "O.G.",
+    answer: "Olivier Giroud",
+    clues: ["French striker", "Plays for AC Milan", "France's all-time top scorer", "World Cup winner 2018", "Known for headers"]
+  },
+  {
+    initials: "R.A.",
+    answer: "Alvaro Morata",
+    clues: ["Spanish striker", "Plays for Atlético Madrid", "Former Real Madrid and Chelsea", "Known for movement and heading", "Spain international"]
+  },
+  {
+    initials: "J.M.",
+    answer: "João Félix",
+    clues: ["Portuguese forward", "Plays for Barcelona (on loan from Atlético Madrid)", "Young Player of the Year 2019", "Known for flair", "Portugal international"]
+  },
+  {
+    initials: "W.S.",
+    answer: "William Saliba",
+    clues: ["French defender", "Plays for Arsenal", "Known for calmness on the ball", "Young defensive talent", "France international"]
+  },
+  {
+    initials: "R.G.",
+    answer: "Rodrygo Goes",
+    clues: ["Brazilian forward", "Plays for Real Madrid", "Known for clutch goals in Champions League", "Versatile attacker", "Brazil international"]
+  },
+  {
+    initials: "N.S.",
+    answer: "Nico Schlotterbeck",
+    clues: ["German defender", "Plays for Borussia Dortmund", "Known for tackling", "Bundesliga standout", "Germany international"]
+  },
+  {
+    initials: "D.V.",
+    answer: "Dusan Vlahović",
+    clues: ["Serbian striker", "Plays for Juventus", "Known for physicality and finishing", "Serie A Team of the Year", "Serbia international"]
+  },
+  {
+    initials: "C.G.",
+    answer: "Cristian Romero",
+    clues: ["Argentinian defender", "Plays for Tottenham Hotspur", "2022 World Cup winner", "Known for aggression", "Solid in the Premier League"]
+  },
+  {
+    initials: "F.T.",
+    answer: "Federico Chiesa",
+    clues: ["Italian winger", "Plays for Juventus", "Euro 2020 winner", "Known for dribbling", "Italy international"]
+  },
+  {
+    initials: "M.C.",
+    answer: "Mateo Kovacic",
+    clues: ["Croatian midfielder", "Plays for Manchester City", "Former Chelsea and Real Madrid", "Known for dribbling", "Croatia international"]
+  },
+  {
+    initials: "Y.B.",
+    answer: "Yassine Bounou",
+    clues: ["Moroccan goalkeeper", "Plays for Al-Hilal", "2022 World Cup semi-finalist", "Known as Bono", "AFCON standout"]
+  },
+  {
+    initials: "A.L.",
+    answer: "Alexis Mac Allister",
+    clues: ["Argentinian midfielder", "Plays for Liverpool", "2022 World Cup winner", "Former Brighton player", "Known for passing"]
+  },
+  {
+    initials: "N.M.",
+    answer: "Nicolo Barella",
+    clues: ["Italian midfielder", "Plays for Inter Milan", "Euro 2020 winner", "Known for work rate", "Italy international"]
+  },
+  {
+    initials: "T.H.",
+    answer: "Teun Koopmeiners",
+    clues: ["Dutch midfielder", "Plays for Atalanta", "Europa League winner", "Known for passing and set pieces", "Netherlands international"]
+  },
+  {
+    initials: "D.R.",
+    answer: "Declan Rice",
+    clues: ["English midfielder", "Plays for Arsenal", "Former West Ham captain", "Known for tackles and leadership", "England international"]
+  },
+  {
+    initials: "F.T.",
+    answer: "Fikayo Tomori",
+    clues: ["English defender", "Plays for AC Milan", "Former Chelsea player", "Known for recovery pace", "Serie A champion"]
+  },
+  {
+    initials: "R.L.",
+    answer: "Raphaël Leão",
+    clues: ["Portuguese forward", "Plays for AC Milan", "Serie A MVP 2022", "Known for dribbling", "Portugal international"]
+  },
+  {
+    initials: "M.D.",
+    answer: "Milan Djuric",
+    clues: ["Bosnian striker", "Plays for Salernitana", "Tall target man", "Known for headers", "Bosnia and Herzegovina international"]
+  },
+  {
+    initials: "A.R.",
+    answer: "Achraf Hakimi",
+    clues: ["Moroccan right-back", "Plays for PSG", "Known for pace", "World Cup semi-finalist 2022", "Former Inter Milan player"]
+  },
+  {
+    initials: "S.M.",
+    answer: "Serge Gnabry",
+    clues: ["German winger", "Plays for Bayern Munich", "Known for speed and goals", "Bundesliga winner", "Germany international"]
+  },
+  {
+    initials: "M.K.",
+    answer: "Kai Havertz",
+    clues: ["German forward", "Plays for Arsenal", "Scored winning goal in 2021 Champions League final", "Former Chelsea standout", "Germany international"]
+  },
+  {
+    initials: "S.A.",
+    answer: "Sofyan Amrabat",
+    clues: ["Moroccan midfielder", "Plays for Fiorentina (on loan at Manchester United)", "2022 World Cup standout", "Known for tackling", "Morocco international"]
+  },
+  {
+    initials: "G.J.",
+    answer: "Gabriel Jesus",
+    clues: ["Brazilian forward", "Plays for Arsenal", "Former Manchester City star", "Known for versatility", "Brazil international"]
+  },
+  {
+    initials: "M.A.",
+    answer: "Marcos Acuña",
+    clues: ["Argentinian left-back", "Plays for Sevilla", "2022 World Cup winner", "Europa League winner", "Known for stamina"]
+  },
+  {
+    initials: "I.G.",
+    answer: "Ivan Perišić",
+    clues: ["Croatian winger", "Plays for Hajduk Split (on loan from Tottenham)", "World Cup finalist 2018", "Known for versatility", "Croatia international"]
+  },
+  {
+    initials: "A.L.",
+    answer: "Aymeric Laporte",
+    clues: ["Spanish defender", "Plays for Al Nassr", "Former Manchester City player", "Known for passing", "Spain international"]
+  },
+  {
+    initials: "W.F.",
+    answer: "Wendell Ferreira",
+    clues: ["Brazilian left-back", "Plays for FC Porto", "Consistent in defense", "Known for overlaps", "Brazilian league experience"]
+  },
+  {
+    initials: "J.H.",
+    answer: "Jordan Henderson",
+    clues: ["English midfielder", "Plays for Ajax", "Former Liverpool captain", "Champions League winner", "England international"]
+  },
+  {
+    initials: "A.R.",
+    answer: "Aaron Ramsdale",
+    clues: ["English goalkeeper", "Plays for Arsenal", "Known for reflex saves", "Former Sheffield United", "England international"]
+  },
+  {
+    initials: "G.M.",
+    answer: "Gio Reyna",
+    clues: ["American midfielder", "Plays for Borussia Dortmund", "USMNT international", "Known for creativity", "Young talent in Bundesliga"]
+  },
+  {
+    initials: "M.D.",
+    answer: "Mats Hummels",
+    clues: ["German defender", "Plays for Borussia Dortmund", "World Cup winner 2014", "Known for positioning", "Bundesliga veteran"]
+  },
+  {
+    initials: "M.O.",
+    answer: "Martin Ødegaard",
+    clues: ["Norwegian midfielder", "Plays for Arsenal", "Club captain", "Former Real Madrid", "Known for vision"]
+  },
+  {
+    initials: "S.M.",
+    answer: "Stefan de Vrij",
+    clues: ["Dutch defender", "Plays for Inter Milan", "Serie A champion", "Known for reading the game", "Netherlands international"]
+  },
+  {
+    initials: "H.M.",
+    answer: "Harry Maguire",
+    clues: ["English defender", "Plays for Manchester United", "Known for aerial presence", "England international", "Former Leicester City"]
+  },
+  {
+    initials: "S.D.",
+    answer: "Sergio Dest",
+    clues: ["American right-back", "Plays for PSV Eindhoven (on loan from Barcelona)", "Known for dribbling", "USMNT international", "Former Ajax"]
+  },
+  {
+    initials: "J.A.",
+    answer: "André Onana",
+    clues: ["Cameroonian goalkeeper", "Plays for Manchester United", "Former Inter Milan", "Known for distribution", "Cameroon international"]
+  },
+  {
+    initials: "T.H.",
+    answer: "Theo Hernández",
+    clues: ["French left-back", "Plays for AC Milan", "Known for attacking runs", "Serie A champion", "France international"]
+  },
+  {
+    initials: "P.T.",
+    answer: "Thomas Partey",
+    clues: ["Ghanaian midfielder", "Plays for Arsenal", "Known for breaking up play", "Former Atlético Madrid", "Ghana international"]
+  },
+  {
+    initials: "L.B.",
+    answer: "Leon Bailey",
+    clues: ["Jamaican winger", "Plays for Aston Villa", "Known for pace", "Bundesliga experience", "Jamaica international"]
+  },
+  {
+    initials: "F.D.",
+    answer: "Diogo Dalot",
+    clues: ["Portuguese right-back", "Plays for Manchester United", "Versatile defender", "Former Porto", "Portugal international"]
+  },
+  {
+    initials: "C.C.",
+    answer: "Conor Coady",
+    clues: ["English defender", "Plays for Leicester City", "Former Wolves captain", "Known for leadership", "England international"]
+  },
+  {
+    initials: "M.N.",
+    answer: "Mike Maignan",
+    clues: ["French goalkeeper", "Plays for AC Milan", "Known for shot stopping", "Serie A winner", "France international"]
+  },
   {
     initials: "G.D.",
     answer: "Gianluigi Donnarumma",
