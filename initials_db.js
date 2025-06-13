@@ -764,11 +764,6 @@ export const INITIALS_DB = {
     clues: ["Argentinian forward","Plays for Manchester City","2022 World Cup winner","Known for his energy and finishing","Key young talent"]
   },
   {
-    initials: "R.J.",
-    answer: "Rodri",
-    clues: ["Spanish midfielder","Plays for Manchester City","Known for his positioning and passing","Scored winning goal in 2023 UCL final","Spain international"]
-  },
-  {
     initials: "M.O.",
     answer: "Martin Ødegaard",
     clues: ["Norwegian midfielder","Plays for Arsenal","Club captain","Known for his vision and creativity","Former Real Madrid player"]
@@ -792,6 +787,7 @@ export const INITIALS_DB = {
     initials: "P.K.",
     answer: "Pedri",
     clues: ["Spanish midfielder","Plays for Barcelona","Golden Boy 2021","Known for his intelligence and movement","Spain international"]
+  }
   ],
   // ...other categories...
 ModernNBA: [
