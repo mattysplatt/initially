@@ -722,7 +722,76 @@ export const INITIALS_DB = {
     initials: "C.R.",
     answer: "Cristiano Ronaldo",
     clues: ["Portuguese footballer","5 Ballon d'Or awards","Played for Manchester United, Real Madrid, Juventus, Al Nassr","All-time top scorer for Real Madrid","Known for his athleticism and goal scoring"]
-  }
+  },
+    {
+    initials: "K.M.",
+    answer: "Kylian Mbappé",
+    clues: ["French footballer","Star at PSG","World Cup winner in 2018","Known for his speed and finishing","Youngest French player to score at a World Cup"]
+  },
+   {
+    initials: "E.H.",
+    answer: "Erling Haaland",
+    clues: ["Norwegian footballer","Plays for Manchester City","Premier League Golden Boot winner","Known for his strength and finishing","Broke multiple scoring records at a young age"]
+  },
+  {
+    initials: "K.D.B.",
+    answer: "Kevin De Bruyne",
+    clues: ["Belgian midfielder","Plays for Manchester City","Known for his vision and passing","Multiple Premier League titles","Key playmaker for Belgium"]
+  },
+  {
+    initials: "M.S.",
+    answer: "Mohamed Salah",
+    clues: ["Egyptian forward","Plays for Liverpool","Premier League Golden Boot winner","Key to Liverpool's 2019 Champions League win","Known for his pace and left foot"]
+  },
+  {
+    initials: "R.L.",
+    answer: "Robert Lewandowski",
+    clues: ["Polish striker","Plays for FC Barcelona","Former Bayern Munich star","FIFA Best Men's Player 2020 and 2021","One of the most prolific goal scorers in Europe"]
+
+  {
+    initials: "M.R.",
+    answer: "Marcus Rashford",
+    clues: ["English forward","Plays for Manchester United","Known for his speed and finishing","England international","Noted for activism off the pitch"]
+  },
+  {
+    initials: "H.S.",
+    answer: "Heung-min Son",
+    clues: ["South Korean forward","Plays for Tottenham Hotspur","Premier League Golden Boot winner","Known for his two-footedness and speed","Captain of South Korea"]
+  },
+  {
+    initials: "J.A.",
+    answer: "Julián Álvarez",
+    clues: ["Argentinian forward","Plays for Manchester City","2022 World Cup winner","Known for his energy and finishing","Key young talent"]
+  },
+  {
+    initials: "R.J.",
+    answer: "Rodri",
+    clues: ["Spanish midfielder","Plays for Manchester City","Known for his positioning and passing","Scored winning goal in 2023 UCL final","Spain international"]
+  },
+  {
+    initials: "M.O.",
+    answer: "Martin Ødegaard",
+    clues: ["Norwegian midfielder","Plays for Arsenal","Club captain","Known for his vision and creativity","Former Real Madrid player"]
+  },
+  {
+    initials: "P.E.A.",
+    answer: "Pierre-Emerick Aubameyang",
+    clues: ["Gabonese striker","Played for Arsenal, Barcelona, Chelsea","Former Premier League Golden Boot winner","Known for his speed","Key figure for Gabon"]
+  },
+  {
+    initials: "G.D.",
+    answer: "Gianluigi Donnarumma",
+    clues: ["Italian goalkeeper","Plays for PSG","Euro 2020 Player of the Tournament","Known for his size and reflexes","Italy international"]
+  },
+  {
+    initials: "R.M.",
+    answer: "Riyad Mahrez",
+    clues: ["Algerian winger","Plays for Al-Ahli (formerly Man City)","Key to Leicester's 2016 EPL win","Known for dribbling and left foot","AFCON winner 2019"]
+  },
+  {
+    initials: "P.K.",
+    answer: "Pedri",
+    clues: ["Spanish midfielder","Plays for Barcelona","Golden Boy 2021","Known for his intelligence and movement","Spain international"]
   ],
   // ...other categories...
 ModernNBA: [
