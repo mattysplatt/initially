@@ -1,8 +1,11 @@
+// main.js
+
 import { INITIALS_DB } from './initials_db.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getDatabase, ref, set, get, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
+import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
 
-// Firebase conf
+// --- Firebase Config ---
 const firebaseConfig = {
   apiKey: "AIzaSyC1PocQMYJZP0ABWxeoiUNF7C5mHgsDjpk",
   authDomain: "initialcontact-66089.firebaseapp.com",
@@ -15,6 +18,9 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const auth = getAuth(app);
+
+let isAuthenticated = false;
 
 // --- Utility Functions ---
 function randomId() {
@@ -82,12 +88,13 @@ let state = {
   lobbyRef: null,
   unsubLobby: null,
   unsubGame: null,
-  incorrectPrompt: false, // NEW: For incorrect answer feedback
+  incorrectPrompt: false,
   lastQuestionInitials: '',
 };
 
 // --- DOM ---
 const $app = document.getElementById('app');
+
 function render() {
   $app.innerHTML = '';
   if (state.screen === 'lobby') renderLobby();
@@ -110,8 +117,8 @@ function renderLobby() {
     </div>
   `;
   document.getElementById('playerName').addEventListener('input', e => state.playerName = e.target.value);
-  document.getElementById('createLobby').onclick = createLobby;
-  document.getElementById('joinLobby').onclick = joinLobby;
+  document.getElementById('createLobby').onclick = () => safeDbAction(createLobby);
+  document.getElementById('joinLobby').onclick = () => safeDbAction(joinLobby);
 }
 function renderLobbyCodeScreen() {
   $app.innerHTML = `
@@ -129,7 +136,7 @@ function renderLobbyCodeScreen() {
     alert('Lobby code copied!');
   };
   document.getElementById('startLobbyBtn').onclick = function() {
-    joinLobbyByCode(state.lobbyCode, state.playerName, true);
+    safeDbAction(() => joinLobbyByCode(state.lobbyCode, state.playerName, true));
   };
 }
 function renderCategory() {
@@ -150,7 +157,7 @@ function renderCategory() {
   `;
   if (state.isLeader) {
     document.querySelectorAll('.catBtn').forEach(btn => 
-      btn.onclick = () => chooseCategory(btn.dataset.cat)
+      btn.onclick = () => safeDbAction(() => chooseCategory(btn.dataset.cat))
     );
   }
 }
@@ -200,20 +207,18 @@ function renderGame() {
     guessInput.value = state.guess || '';
     guessInput.focus();
     guessInput.addEventListener('input', e => state.guess = e.target.value);
-    guessInput.addEventListener('keypress', e => { if (e.key === 'Enter') submitGuess(); });
+    guessInput.addEventListener('keypress', e => { if (e.key === 'Enter') safeDbAction(submitGuess); });
   }
   const submitBtn = document.getElementById('submitGuess');
   if (submitBtn && !isCorrect) {
-    submitBtn.onclick = submitGuess;
+    submitBtn.onclick = () => safeDbAction(submitGuess);
   }
 }
 function renderScoreboard() {
-  // Sort the scoreboard from highest to lowest score
   const sortedScoreboard = (state.scoreboard || [])
     .slice()
     .sort((a, b) => b.score - a.score);
 
-  // Find correct guessers for this round
   let correctGuessers = [];
   if (state.players.length >= 2 && state.guesses) {
     correctGuessers = state.players
@@ -254,11 +259,10 @@ function renderScoreboard() {
   `;
 
   if (state.players.length > 0) {
-    document.getElementById('readyBtn').onclick = markReady;
+    document.getElementById('readyBtn').onclick = () => safeDbAction(markReady);
   }
   attachReturnToStartHandler();
 }
-
 function attachReturnToStartHandler() {
   const btn = document.getElementById('returnToStartBtn');
   if (btn) {
@@ -292,7 +296,17 @@ function renderEnd() {
   document.getElementById('restartBtn').onclick = () => window.location.reload();
   attachReturnToStartHandler();
 }
-// --- Game Logic + Firebase Sync ---
+
+// --- Database Actions (guarded by auth) ---
+
+function safeDbAction(fn) {
+  if (!isAuthenticated) {
+    alert('Please wait for authentication.');
+    return;
+  }
+  fn();
+}
+
 function createLobby() {
   if (!state.playerName) { state.status = "Enter your name"; render(); return; }
   state.playerId = randomId();
@@ -339,8 +353,6 @@ function joinLobbyByCode(code, name, leader) {
   });
   listenLobby();
 }
-
-// --- Listen to Lobby (defensive for missing/empty players) ---
 function listenLobby() {
   if (state.unsubLobby) state.unsubLobby();
   const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
@@ -353,19 +365,18 @@ function listenLobby() {
     state.round = lobby.round;
     state.category = lobby.category;
     state.status = '';
-    // DO NOT clear state.guess here; this allows user input to persist even if question changes
     state.question = lobby.question;
     state.clues = lobby.clues;
     state.clueIdx = lobby.clueIdx;
     state.points = lobby.points;
     state.guesses = lobby.guesses||{};
     if (
-  state.question && 
-  state.question.initials !== (state.lastQuestionInitials || '')
-) {
-  state.guess = '';
-  state.lastQuestionInitials = state.question.initials;
-}
+      state.question && 
+      state.question.initials !== (state.lastQuestionInitials || '')
+    ) {
+      state.guess = '';
+      state.lastQuestionInitials = state.question.initials;
+    }
     if (lobby.status === "waiting") {
       state.screen = 'category'; render();
     } else if (lobby.status === "playing") {
@@ -381,7 +392,6 @@ function listenLobby() {
     }
   });
 }
-
 function chooseCategory(category) {
   const allQuestions = category === 'randomMix'
     ? shuffle(
@@ -420,7 +430,7 @@ function startTimer() {
     renderTimer();
     if (state.timer <= 0) {
       clearInterval(window.timerInterval);
-      revealNextClue();
+      safeDbAction(revealNextClue);
     }
   }, 1000);
 }
@@ -437,7 +447,7 @@ function revealNextClue() {
     update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points });
     startTimer();
   } else {
-    endRound();
+    safeDbAction(endRound);
   }
 }
 function submitGuess() {
@@ -452,13 +462,13 @@ function submitGuess() {
       [state.playerId]: { guess, correct: true, points: state.points }
     });
     state.guess = '';
-    endRound();
+    safeDbAction(endRound);
   } else {
-    state.guess = ''; // CLEAR INPUT ON INCORRECT ANSWER
-    state.incorrectPrompt = true; // Show the incorrect prompt
+    state.guess = '';
+    state.incorrectPrompt = true;
     render();
     setTimeout(() => {
-      state.incorrectPrompt = false; // Hide the prompt after 2 seconds
+      state.incorrectPrompt = false;
       render();
     }, 2000);
   }
@@ -487,7 +497,6 @@ function endRound() {
     });
   });
 }
-
 function markReady() {
   update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true })
     .then(() => {
@@ -495,31 +504,23 @@ function markReady() {
         const lobby = snap.val();
         const readyPlayers = Object.values(lobby.players || {}).filter(p => p.ready).length;
         const numPlayers = Object.keys(lobby.players || {}).length;
-
         if (readyPlayers === numPlayers) {
-          // All players are ready, start next round or end game
           let round = lobby.round + 1;
           if (round > (lobby.maxRounds || 10)) {
-            // End game
             await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
             return;
           }
-          // Get next unused question
           const usedAnswers = lobby.usedQuestions || [];
           const category = lobby.category;
           const nextQuestion = getRandomUnusedQuestion(category, usedAnswers);
           if (!nextQuestion) {
-            // No more questions, end the game
             await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
             return;
           }
           const newUsedAnswers = [...usedAnswers, nextQuestion.answer];
-
-          // Reset ready flags for all players
           const players = Object.fromEntries(
             Object.entries(lobby.players).map(([id, p]) => [id, { ...p, ready: false }])
           );
-
           await set(ref(db, `lobbies/${state.lobbyCode}`), {
             ...lobby,
             status: "playing",
@@ -538,12 +539,24 @@ function markReady() {
       });
     });
 }
-// --- App Start ---
-render();
+
+// --- App Start (AFTER AUTH) ---
+signInAnonymously(auth)
+  .catch((error) => {
+    console.error("Auth error", error);
+    alert("Authentication failed. Please refresh.");
+  });
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    isAuthenticated = true;
+    render();
+  }
+});
 
 // --- Clean up player on leave ---
 window.addEventListener('beforeunload', () => {
-  if (state.lobbyCode && state.playerId) {
+  if (isAuthenticated && state.lobbyCode && state.playerId) {
     remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
   }
 });
