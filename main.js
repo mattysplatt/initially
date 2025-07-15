@@ -1,6 +1,7 @@
 import { INITIALS_DB } from './initials_db.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getDatabase, ref, set, get, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
+import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
 
 // Firebase conf
 const firebaseConfig = {
@@ -16,7 +17,69 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// --- Utility Functions ---
+// --- Firebase Auth ---
+const auth = getAuth(app);
+// Global flag: is user authenticated?
+let isAuthenticated = false;
+
+// App State (playerId set after auth)
+let state = {
+  screen: 'lobby',
+  playerName: '',
+  playerId: '',
+  lobbyCode: '',
+  isLeader: false,
+  players: [],
+  category: '',
+  round: 1,
+  maxRounds: 10,
+  question: null,
+  clues: [],
+  clueIdx: 0,
+  points: 60,
+  timer: 10,
+  guess: '',
+  guesses: {},
+  scores: {},
+  scoreboard: [],
+  status: '',
+  readyPlayers: [],
+  lobbyRef: null,
+  unsubLobby: null,
+  unsubGame: null,
+  incorrectPrompt: false,
+  lastQuestionInitials: '',
+};
+
+// --- Wait for authentication before allowing lobby actions ---
+function waitForAuthThen(fn) {
+  if (isAuthenticated) {
+    fn();
+  } else {
+    state.status = "Authenticating, please wait...";
+    render();
+  }
+}
+
+// --- AUTH: Sign in anonymously and assign UID as playerId ---
+signInAnonymously(auth).catch((error) => {
+  state.status = "Authentication failed. Please refresh.";
+  render();
+});
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    isAuthenticated = true;
+    state.playerId = user.uid;
+    render(); // Initial render after user is authenticated
+  } else {
+    isAuthenticated = false;
+    state.playerId = '';
+    state.status = "Authentication required.";
+    render();
+  }
+});
+
+// --- Utility Functions (no change) ---
 function randomId() {
   return Math.random().toString(36).slice(2, 10);
 }
@@ -57,39 +120,14 @@ function levenshtein(a, b) {
   return matrix[a.length][b.length];
 }
 
-// --- App State ---
-let state = {
-  screen: 'lobby',
-  playerName: '',
-  playerId: '',
-  lobbyCode: '',
-  isLeader: false,
-  players: [],
-  category: '',
-  round: 1,
-  maxRounds: 10,
-  question: null,
-  clues: [],
-  clueIdx: 0,
-  points: 60,
-  timer: 10,
-  guess: '',
-  guesses: {},
-  scores: {},
-  scoreboard: [],
-  status: '',
-  readyPlayers: [],
-  lobbyRef: null,
-  unsubLobby: null,
-  unsubGame: null,
-  incorrectPrompt: false, // NEW: For incorrect answer feedback
-  lastQuestionInitials: '',
-};
-
 // --- DOM ---
 const $app = document.getElementById('app');
 function render() {
   $app.innerHTML = '';
+  if (!isAuthenticated) {
+    $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh.</span></div>`;
+    return;
+  }
   if (state.screen === 'lobby') renderLobby();
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
   else if (state.screen === 'category') renderCategory();
@@ -110,8 +148,8 @@ function renderLobby() {
     </div>
   `;
   document.getElementById('playerName').addEventListener('input', e => state.playerName = e.target.value);
-  document.getElementById('createLobby').onclick = createLobby;
-  document.getElementById('joinLobby').onclick = joinLobby;
+  document.getElementById('createLobby').onclick = () => waitForAuthThen(createLobby);
+  document.getElementById('joinLobby').onclick = () => waitForAuthThen(joinLobby);
 }
 function renderLobbyCodeScreen() {
   $app.innerHTML = `
@@ -292,10 +330,10 @@ function renderEnd() {
   document.getElementById('restartBtn').onclick = () => window.location.reload();
   attachReturnToStartHandler();
 }
+
 // --- Game Logic + Firebase Sync ---
 function createLobby() {
   if (!state.playerName) { state.status = "Enter your name"; render(); return; }
-  state.playerId = randomId();
   state.lobbyCode = generateLobbyCode();
   state.isLeader = true;
   const lobbyPath = `lobbies/${state.lobbyCode}`;
@@ -327,7 +365,6 @@ function joinLobby() {
   const name = state.playerName;
   const code = document.getElementById('lobbyCode').value.trim().toUpperCase();
   if (!name || !code) { state.status = "Enter your name and lobby code"; render(); return; }
-  state.playerId = randomId();
   joinLobbyByCode(code, name, false);
 }
 function joinLobbyByCode(code, name, leader) {
@@ -353,19 +390,18 @@ function listenLobby() {
     state.round = lobby.round;
     state.category = lobby.category;
     state.status = '';
-    // DO NOT clear state.guess here; this allows user input to persist even if question changes
     state.question = lobby.question;
     state.clues = lobby.clues;
     state.clueIdx = lobby.clueIdx;
     state.points = lobby.points;
     state.guesses = lobby.guesses||{};
     if (
-  state.question && 
-  state.question.initials !== (state.lastQuestionInitials || '')
-) {
-  state.guess = '';
-  state.lastQuestionInitials = state.question.initials;
-}
+      state.question && 
+      state.question.initials !== (state.lastQuestionInitials || '')
+    ) {
+      state.guess = '';
+      state.lastQuestionInitials = state.question.initials;
+    }
     if (lobby.status === "waiting") {
       state.screen = 'category'; render();
     } else if (lobby.status === "playing") {
@@ -454,11 +490,11 @@ function submitGuess() {
     state.guess = '';
     endRound();
   } else {
-    state.guess = ''; // CLEAR INPUT ON INCORRECT ANSWER
-    state.incorrectPrompt = true; // Show the incorrect prompt
+    state.guess = '';
+    state.incorrectPrompt = true;
     render();
     setTimeout(() => {
-      state.incorrectPrompt = false; // Hide the prompt after 2 seconds
+      state.incorrectPrompt = false;
       render();
     }, 2000);
   }
