@@ -779,29 +779,19 @@ export const INITIALS_DB = {
     clues: ["English winger","Plays for Manchester United (loan to Dortmund)","Known for dribbling and creativity","Formerly at Borussia Dortmund","England international"]
   },
   {
-    initials: "F.C.",
+    initials: "F.d.J.",
     answer: "Frenkie de Jong",
     clues: ["Dutch midfielder","Plays for Barcelona","Known for his ball control and passing","Former Ajax star","Netherlands international"]
   },
   {
-    initials: "M.V.",
+    initials: "M.d.L",
     answer: "Matthijs de Ligt",
     clues: ["Dutch defender","Plays for Bayern Munich","Former Ajax captain","Known for leadership and strength","Netherlands international"]
-  },
-  {
-    initials: "S.M.",
-    answer: "Sergej Milinković-Savić",
-    clues: ["Serbian midfielder","Plays for Al Hilal (formerly Lazio)","Known for his aerial ability and goals","Serie A Team of the Year","Serbia international"]
   },
   {
     initials: "J.G.",
     answer: "Jack Grealish",
     clues: ["English winger","Plays for Manchester City","Known for his dribbling and fouls won","Premier League winner","England international"]
-  },
-  {
-    initials: "M.A.",
-    answer: "Marquinhos",
-    clues: ["Brazilian defender","Plays for PSG","Club captain","Known for versatility and leadership","Brazil international"]
   },
   {
     initials: "K.B.",
@@ -840,7 +830,7 @@ export const INITIALS_DB = {
   },
   {
     initials: "N.K.",
-    answer: "N'Golo Kanté",
+    answer: "NGolo Kante",
     clues: ["French midfielder","Plays for Al Ittihad (formerly Chelsea)","World Cup winner 2018","Known for interceptions and stamina","Premier League winner with Leicester and Chelsea"]
   },
   {
@@ -854,14 +844,9 @@ export const INITIALS_DB = {
     clues: ["English midfielder", "Plays for Tottenham Hotspur", "Known for creativity and set pieces", "Former Leicester City star", "England international"]
   },
   {
-    initials: "R.A.",
+    initials: "A.D.M.",
     answer: "Ángel Di María",
     clues: ["Argentinian winger", "Plays for Benfica", "Former PSG and Real Madrid player", "2022 World Cup winner", "Known for assists and left foot"]
-  },
-  {
-    initials: "E.C.",
-    answer: "Ederson",
-    clues: ["Brazilian goalkeeper", "Plays for Manchester City", "Known for passing and distribution", "Premier League winner", "Brazil international"]
   },
   {
     initials: "T.S.",
@@ -869,12 +854,12 @@ export const INITIALS_DB = {
     clues: ["Brazilian defender", "Plays for Chelsea", "Veteran center-back", "Former PSG captain", "Known for leadership"]
   },
   {
-    initials: "J.D.",
+    initials: "J.G.",
     answer: "Josko Gvardiol",
     clues: ["Croatian defender", "Plays for Manchester City", "Former RB Leipzig", "Known for tackling and composure", "Key at 2022 World Cup"]
   },
   {
-    initials: "M.R.",
+    initials: "M.M.",
     answer: "Mason Mount",
     clues: ["English midfielder", "Plays for Manchester United", "Former Chelsea star", "Champions League winner", "England international"]
   },
@@ -889,12 +874,12 @@ export const INITIALS_DB = {
     clues: ["French striker", "Plays for AC Milan", "France's all-time top scorer", "World Cup winner 2018", "Known for headers"]
   },
   {
-    initials: "R.A.",
+    initials: "A.M.",
     answer: "Alvaro Morata",
     clues: ["Spanish striker", "Plays for Atlético Madrid", "Former Real Madrid and Chelsea", "Known for movement and heading", "Spain international"]
   },
   {
-    initials: "J.M.",
+    initials: "J.F.",
     answer: "João Félix",
     clues: ["Portuguese forward", "Plays for Barcelona (on loan from Atlético Madrid)", "Young Player of the Year 2019", "Known for flair", "Portugal international"]
   },
@@ -919,17 +904,17 @@ export const INITIALS_DB = {
     clues: ["Serbian striker", "Plays for Juventus", "Known for physicality and finishing", "Serie A Team of the Year", "Serbia international"]
   },
   {
-    initials: "C.G.",
+    initials: "C.R.",
     answer: "Cristian Romero",
     clues: ["Argentinian defender", "Plays for Tottenham Hotspur", "2022 World Cup winner", "Known for aggression", "Solid in the Premier League"]
   },
   {
-    initials: "F.T.",
+    initials: "F.C.",
     answer: "Federico Chiesa",
     clues: ["Italian winger", "Plays for Juventus", "Euro 2020 winner", "Known for dribbling", "Italy international"]
   },
   {
-    initials: "M.C.",
+    initials: "M.K.",
     answer: "Mateo Kovacic",
     clues: ["Croatian midfielder", "Plays for Manchester City", "Former Chelsea and Real Madrid", "Known for dribbling", "Croatia international"]
   },
@@ -939,17 +924,17 @@ export const INITIALS_DB = {
     clues: ["Moroccan goalkeeper", "Plays for Al-Hilal", "2022 World Cup semi-finalist", "Known as Bono", "AFCON standout"]
   },
   {
-    initials: "A.L.",
-    answer: "Alexis Mac Allister",
+    initials: "A.M.",
+    answer: "Alexis MacAllister",
     clues: ["Argentinian midfielder", "Plays for Liverpool", "2022 World Cup winner", "Former Brighton player", "Known for passing"]
   },
   {
-    initials: "N.M.",
+    initials: "N.B.",
     answer: "Nicolo Barella",
     clues: ["Italian midfielder", "Plays for Inter Milan", "Euro 2020 winner", "Known for work rate", "Italy international"]
   },
   {
-    initials: "T.H.",
+    initials: "T.K.",
     answer: "Teun Koopmeiners",
     clues: ["Dutch midfielder", "Plays for Atalanta", "Europa League winner", "Known for passing and set pieces", "Netherlands international"]
   },
@@ -974,17 +959,17 @@ export const INITIALS_DB = {
     clues: ["Bosnian striker", "Plays for Salernitana", "Tall target man", "Known for headers", "Bosnia and Herzegovina international"]
   },
   {
-    initials: "A.R.",
+    initials: "A.H.",
     answer: "Achraf Hakimi",
     clues: ["Moroccan right-back", "Plays for PSG", "Known for pace", "World Cup semi-finalist 2022", "Former Inter Milan player"]
   },
   {
-    initials: "S.M.",
+    initials: "S.G.",
     answer: "Serge Gnabry",
     clues: ["German winger", "Plays for Bayern Munich", "Known for speed and goals", "Bundesliga winner", "Germany international"]
   },
   {
-    initials: "M.K.",
+    initials: "K.H.",
     answer: "Kai Havertz",
     clues: ["German forward", "Plays for Arsenal", "Scored winning goal in 2021 Champions League final", "Former Chelsea standout", "Germany international"]
   },
@@ -1004,7 +989,7 @@ export const INITIALS_DB = {
     clues: ["Argentinian left-back", "Plays for Sevilla", "2022 World Cup winner", "Europa League winner", "Known for stamina"]
   },
   {
-    initials: "I.G.",
+    initials: "I.P.",
     answer: "Ivan Perišić",
     clues: ["Croatian winger", "Plays for Hajduk Split (on loan from Tottenham)", "World Cup finalist 2018", "Known for versatility", "Croatia international"]
   },
@@ -1029,12 +1014,12 @@ export const INITIALS_DB = {
     clues: ["English goalkeeper", "Plays for Arsenal", "Known for reflex saves", "Former Sheffield United", "England international"]
   },
   {
-    initials: "G.M.",
+    initials: "G.R.",
     answer: "Gio Reyna",
     clues: ["American midfielder", "Plays for Borussia Dortmund", "USMNT international", "Known for creativity", "Young talent in Bundesliga"]
   },
   {
-    initials: "M.D.",
+    initials: "M.H.",
     answer: "Mats Hummels",
     clues: ["German defender", "Plays for Borussia Dortmund", "World Cup winner 2014", "Known for positioning", "Bundesliga veteran"]
   },
@@ -1044,7 +1029,7 @@ export const INITIALS_DB = {
     clues: ["Norwegian midfielder", "Plays for Arsenal", "Club captain", "Former Real Madrid", "Known for vision"]
   },
   {
-    initials: "S.M.",
+    initials: "S.d.V.",
     answer: "Stefan de Vrij",
     clues: ["Dutch defender", "Plays for Inter Milan", "Serie A champion", "Known for reading the game", "Netherlands international"]
   },
@@ -1059,7 +1044,7 @@ export const INITIALS_DB = {
     clues: ["American right-back", "Plays for PSV Eindhoven (on loan from Barcelona)", "Known for dribbling", "USMNT international", "Former Ajax"]
   },
   {
-    initials: "J.A.",
+    initials: "A.O.",
     answer: "André Onana",
     clues: ["Cameroonian goalkeeper", "Plays for Manchester United", "Former Inter Milan", "Known for distribution", "Cameroon international"]
   },
@@ -1069,7 +1054,7 @@ export const INITIALS_DB = {
     clues: ["French left-back", "Plays for AC Milan", "Known for attacking runs", "Serie A champion", "France international"]
   },
   {
-    initials: "P.T.",
+    initials: "T.P.",
     answer: "Thomas Partey",
     clues: ["Ghanaian midfielder", "Plays for Arsenal", "Known for breaking up play", "Former Atlético Madrid", "Ghana international"]
   },
@@ -1079,7 +1064,7 @@ export const INITIALS_DB = {
     clues: ["Jamaican winger", "Plays for Aston Villa", "Known for pace", "Bundesliga experience", "Jamaica international"]
   },
   {
-    initials: "F.D.",
+    initials: "D.D.",
     answer: "Diogo Dalot",
     clues: ["Portuguese right-back", "Plays for Manchester United", "Versatile defender", "Former Porto", "Portugal international"]
   },
@@ -1089,7 +1074,7 @@ export const INITIALS_DB = {
     clues: ["English defender", "Plays for Leicester City", "Former Wolves captain", "Known for leadership", "England international"]
   },
   {
-    initials: "M.N.",
+    initials: "M.M.",
     answer: "Mike Maignan",
     clues: ["French goalkeeper", "Plays for AC Milan", "Known for shot stopping", "Serie A winner", "France international"]
   },
@@ -1102,11 +1087,6 @@ export const INITIALS_DB = {
     initials: "R.M.",
     answer: "Riyad Mahrez",
     clues: ["Algerian winger","Plays for Al-Ahli (formerly Man City)","Key to Leicester's 2016 EPL win","Known for dribbling and left foot","AFCON winner 2019"]
-  },
-  {
-    initials: "P.K.",
-    answer: "Pedri",
-    clues: ["Spanish midfielder","Plays for Barcelona","Golden Boy 2021","Known for his intelligence and movement","Spain international"]
   }
   ],
   // ...other categories...
