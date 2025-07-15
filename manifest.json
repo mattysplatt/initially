@@ -1,11 +1,11 @@
 {
   "name": "Initials Guessing Game",
   "short_name": "InitialsGame",
+  "description": "A web game to guess initials.",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#222222",
-  "description": "A web game to guess initials.",
   "icons": [
     {
       "src": "icon-192.png",
@@ -17,5 +17,7 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "orientation": "any",
+  "scope": "."
 }
