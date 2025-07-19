@@ -19,10 +19,9 @@ const db = getDatabase(app);
 
 // --- Firebase Auth ---
 const auth = getAuth(app);
-// Global flag: is user authenticated?
 let isAuthenticated = false;
 
-// App State (playerId set after auth)
+// App State
 let state = {
   screen: 'lobby',
   playerName: '',
@@ -51,35 +50,7 @@ let state = {
   lastQuestionInitials: '',
 };
 
-// --- Wait for authentication before allowing lobby actions ---
-function waitForAuthThen(fn) {
-  if (isAuthenticated) {
-    fn();
-  } else {
-    state.status = "Authenticating, please wait...";
-    render();
-  }
-}
-
-// --- AUTH: Sign in anonymously and assign UID as playerId ---
-signInAnonymously(auth).catch((error) => {
-  state.status = "Authentication failed. Please refresh.";
-  render();
-});
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    isAuthenticated = true;
-    state.playerId = user.uid;
-    render(); // Initial render after user is authenticated
-  } else {
-    isAuthenticated = false;
-    state.playerId = '';
-    state.status = "Authentication required.";
-    render();
-  }
-});
-
-// --- Utility Functions (no change) ---
+// Utility Functions
 function randomId() {
   return Math.random().toString(36).slice(2, 10);
 }
@@ -245,6 +216,8 @@ function renderGame() {
     submitBtn.onclick = submitGuess;
   }
 }
+
+// NEW renderScoreboard with player ready ticks and no ready count
 function renderScoreboard() {
   // Sort the scoreboard from highest to lowest score
   const sortedScoreboard = (state.scoreboard || [])
@@ -276,14 +249,16 @@ function renderScoreboard() {
         if (pos === 1) suffix = "st";
         else if (pos === 2) suffix = "nd";
         else if (pos === 3) suffix = "rd";
-        return `<div class="score-item"><span>${pos}${suffix} - ${item.name}</span><span>${item.score}</span></div>`;
+        // Find the player object to check if they're ready
+        const playerObj = state.players.find(p => p.name === item.name);
+        const tick = playerObj && playerObj.ready ? ' <span style="color:#27ae60;font-weight:bold;">&#10003;</span>' : '';
+        return `<div class="score-item"><span>${pos}${suffix} - ${item.name}${tick}</span><span>${item.score}</span></div>`;
       }).join('')}
       <div style="margin:12px 0;">Correct answer: <b>${state.question && state.question.answer ? state.question.answer : ''}</b></div>
       ${
         state.players.length === 0
         ? '<div style="color:red;">No players found in lobby. Please reload or rejoin.</div>'
-        : `<button id="readyBtn" ${state.readyPlayers.includes(state.playerId) ? 'disabled' : ''}>Ready for Next Round</button>
-           <div>${state.readyPlayers.length}/${state.players.length} ready</div>`
+        : `<button id="readyBtn" ${state.players.find(p=>p.id===state.playerId)?.ready ? 'disabled' : ''}>Ready for Next Round</button>`
       }
       <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
         Return to Start
@@ -332,6 +307,31 @@ function renderEnd() {
 }
 
 // --- Game Logic + Firebase Sync ---
+function waitForAuthThen(fn) {
+  if (isAuthenticated) {
+    fn();
+  } else {
+    state.status = "Authenticating, please wait...";
+    render();
+  }
+}
+
+signInAnonymously(auth).catch((error) => {
+  state.status = "Authentication failed. Please refresh.";
+  render();
+});
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    isAuthenticated = true;
+    state.playerId = user.uid;
+    render();
+  } else {
+    isAuthenticated = false;
+    state.playerId = '';
+    state.status = "Authentication required.";
+    render();
+  }
+});
 function createLobby() {
   if (!state.playerName) { state.status = "Enter your name"; render(); return; }
   state.lobbyCode = generateLobbyCode();
@@ -376,8 +376,6 @@ function joinLobbyByCode(code, name, leader) {
   });
   listenLobby();
 }
-
-// --- Listen to Lobby (defensive for missing/empty players) ---
 function listenLobby() {
   if (state.unsubLobby) state.unsubLobby();
   const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
@@ -417,7 +415,6 @@ function listenLobby() {
     }
   });
 }
-
 function chooseCategory(category) {
   const allQuestions = category === 'randomMix'
     ? shuffle(
@@ -524,6 +521,7 @@ function endRound() {
   });
 }
 
+// Update ready state per player and reset for a new round
 function markReady() {
   update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true })
     .then(() => {
@@ -574,6 +572,7 @@ function markReady() {
       });
     });
 }
+
 // --- App Start ---
 render();
 
