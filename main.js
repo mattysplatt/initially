@@ -459,28 +459,123 @@ function renderCategory() {
     "worldSports", "AFL", "movieStars", "musicians", "PopStars",
     "Football", "famousFigures", "randomMix", "ModernNBA"
   ];
+
   $app.innerHTML = `
-    <div class="screen">
-      <h2>Select Category</h2>
-      <div class="category-container" id="categoryContainer"></div>
-      ${state.mode === 'multi' ? `<div>${state.players.map(p => `<div>${p.name}${p.isLeader?' 👑':''}</div>`).join('')}</div>` : ''}
-      <div style="margin-top:10px;">
-        ${state.mode === 'multi' && !state.isLeader ? 'Waiting for leader to select...' : ''}
+    <div class="cat-page-wrapper">
+      <div class="lobby-box">
+        <div class="lobby-title">Lobby</div>
+        <div class="lobby-players" id="lobbyPlayers">
+          ${state.players && state.players.length
+            ? state.players.map(p => `<div class="lobby-player">${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')
+            : '<div style="color:#aaa;">Waiting for players...</div>'}
+        </div>
       </div>
-      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
+      <div class="category-container" id="categoryContainer"></div>
+      ${state.mode === 'multi' && !state.isLeader ? `<div class="leader-wait-msg">Waiting for leader to select...</div>` : ''}
+      <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
     </div>
     <style>
+      .cat-page-wrapper {
+        min-height: 100vh;
+        background: #18102c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 30px;
+      }
+      .lobby-box {
+        width: 97vw;
+        max-width: 500px;
+        min-height: 64px;
+        background: #fff;
+        border-radius: 17px;
+        box-shadow: 0 4px 24px #0001, 0 1px 0 #ffd600;
+        color: #18102c;
+        margin: 20px 0 28px 0;
+        padding: 8px 0 12px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .lobby-title {
+        font-size: 1.28em;
+        font-weight: bold;
+        margin-bottom: 6px;
+        color: #222;
+        letter-spacing: 0.03em;
+      }
+      .lobby-players {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+        justify-content: center;
+        width: 100%;
+        font-size: 1.18em;
+      }
+      .lobby-player {
+        color: #18102c;
+        background: #ffd60014;
+        border-radius: 8px;
+        padding: 7px 17px;
+        font-weight: 500;
+        margin: 1px 0;
+        box-shadow: 0 1px 0 #ffd60022;
+      }
+
       .category-container {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 18px;
-        margin: 28px auto 18px auto;
-        max-width: 440px;
+        grid-template-columns: repeat(2, minmax(145px, 1fr));
+        gap: 20px;
+        margin: 24px auto 18px auto;
+        max-width: 500px;
+        width: 97vw;
       }
-      .category-btn {
+      .category-btn-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: url('DeckBackground.png') center center / cover no-repeat;
+        border-radius: 15px;
+        min-height: 94px;
+        cursor: pointer;
+        box-shadow: 0 2px 12px #0002;
+        transition: transform 0.13s, box-shadow 0.13s;
+        border: 2.5px solid #ffd60033;
+      }
+      .category-btn-box:active {
+        transform: scale(0.98);
+        box-shadow: 0 1px 6px #0001;
+      }
+      .category-btn-box.disabled {
+        filter: grayscale(0.92) brightness(1.11) opacity(0.72);
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+      .category-btn-label {
+        font-size: 1.15em;
+        color: #18102c;
+        font-weight: bold;
+        letter-spacing: 0.02em;
+        text-shadow: 1px 2px 8px #fff, 0 2px 3px #ffd60099;
+        text-align: center;
+        padding: 10px 5px;
+        width: 100%;
+        user-select: none;
+      }
+      .leader-wait-msg {
+        color: #ffd600;
         font-size: 1.1em;
-        padding: 17px 0;
-        border-radius: 10px;
+        margin-bottom: 12px;
+        margin-top: -11px;
+      }
+      .cat-return-btn {
+        width: 90vw;
+        max-width: 350px;
+        margin-top: 22px;
+        font-size: 1.1em;
+        padding: 15px 0;
+        border-radius: 8px;
         border: none;
         background: #ffd600;
         color: #222;
@@ -489,37 +584,52 @@ function renderCategory() {
         box-shadow: 1px 2px 8px #0002;
         transition: background 0.2s, transform 0.12s;
       }
-      .category-btn:disabled {
-        background: #eee;
-        color: #aaa;
-        cursor: not-allowed;
-        opacity: 0.8;
+      .cat-return-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      @media (max-width: 600px) {
+        .lobby-box {
+          max-width: 99vw;
+          font-size: 1.11em;
+        }
+        .category-container {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+        .category-btn-label {
+          font-size: 1.02em;
+          padding: 8px 2px;
+        }
       }
     </style>
   `;
+
   const catDiv = document.getElementById('categoryContainer');
   categories.forEach(cat => {
-    let label = cat.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase());
+    let label = cat.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
     if (cat === 'Football') label = '⚽ ' + label;
-    const btn = document.createElement('button');
-    btn.className = 'category-btn';
-    btn.textContent = label;
-    if (state.mode === 'multi' && !state.isLeader) btn.disabled = true;
-    btn.onclick = () => {
-      if (state.mode === 'multi') {
-        chooseCategory(cat);
-      } else {
-        startSinglePlayerGame(cat);
-      }
-    };
-    catDiv.appendChild(btn);
+    const box = document.createElement('div');
+    box.className = 'category-btn-box' +
+      ((state.mode === 'multi' && !state.isLeader) ? ' disabled' : '');
+    box.innerHTML = `<div class="category-btn-label">${label}</div>`;
+    if (!(state.mode === 'multi' && !state.isLeader)) {
+      box.onclick = () => {
+        if (state.mode === 'multi') {
+          chooseCategory(cat);
+        } else {
+          startSinglePlayerGame(cat);
+        }
+      };
+    }
+    catDiv.appendChild(box);
   });
+
   document.getElementById('returnLandingBtn').onclick = () => {
     state.screen = 'landing';
     render();
   };
 }
-
 // --- SINGLEPLAYER GAME STARTER ---
 function startSinglePlayerGame(category) {
   const allQuestions = shuffle([...INITIALS_DB[category]]);
