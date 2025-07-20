@@ -100,14 +100,28 @@ function renderLanding() {
     <div class="landing-screen" style="
       background: url('Initially Logo.png') no-repeat center center/cover;
       min-height: 100vh;
+      width: 100vw;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
     ">
-      <div style="background: rgba(0,0,0,0.55); padding: 32px 24px; border-radius: 18px; box-shadow: 0 4px 32px #3338;">
-        <h1 style="color: #fff; font-size: 2.5em; margin-bottom: 32px; text-shadow: 1px 2px 4px #000a;">Initial Contact</h1>
+      <div style="
+        background: rgba(0,0,0,0.25); 
+        padding: 32px 24px; 
+        border-radius: 18px; 
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: none;
+        min-width: 350px;
+      ">
         <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button><br/>
         <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button><br/>
         <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button><br/>
@@ -136,7 +150,7 @@ function renderLanding() {
     </style>
   `;
 
-  // Change: All buttons take you to the lobby screen
+  // All buttons route to lobby/login
   document.getElementById('playFreeBtn').onclick = () => {
     state.screen = 'lobby';
     render();
@@ -154,7 +168,6 @@ function renderLanding() {
     render();
   };
 }
-
 // MAIN RENDER FUNCTION
 function render() {
   $app.innerHTML = '';
