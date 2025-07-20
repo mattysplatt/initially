@@ -523,7 +523,7 @@ function renderCategory() {
       }
       .category-container {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 18px;
         justify-content: center;
         align-items: flex-start;
@@ -532,9 +532,11 @@ function renderCategory() {
         width: 100vw;
       }
       .category-btn-box {
-        background: url('DeckBackgroundWhite.png') center center / contain no-repeat;
-        width: 165px;
-        height: 240px;
+        background: url('DeckBackgroundwhite..png') center center / contain no-repeat;
+        width: 100%;
+        aspect-ratio: 165 / 240;
+        max-width: 165px;
+        max-height: 240px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -543,7 +545,7 @@ function renderCategory() {
         padding: 0;
         margin: 0 auto;
         overflow: hidden;
-        box-sizing: content-box;
+        box-sizing: border-box;
         position: relative;
         cursor: pointer;
         transition: background 0.2s, transform 0.12s;
@@ -615,10 +617,9 @@ function renderCategory() {
           max-width: 99vw;
         }
         .category-btn-box {
-          width: min(92vw, 165px);
-          height: calc(min(92vw, 165px) * 240 / 165);
-          max-width: 165px;
-          max-height: 240px;
+          max-width: 92vw;
+          max-height: calc(92vw * 240 / 165);
+          aspect-ratio: 165 / 240;
         }
         .category-btn-label {
           font-size: 0.7em;
