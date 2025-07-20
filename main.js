@@ -462,7 +462,7 @@ function renderCategory() {
 
   $app.innerHTML = `
     <div class="cat-page-wrapper">
-      <div class="lobby-box">
+      <div class="lobby-box" style="margin: 20px auto 28px auto;">
         <div class="lobby-title">Lobby</div>
         <div class="lobby-players" id="lobbyPlayers">
           ${state.players && state.players.length
@@ -485,6 +485,7 @@ function renderCategory() {
         width: 100%;
       }
       .category-btn-box {
+        min-width: 140px;
         width: 100%;
         max-width: 330px;
         aspect-ratio: 165 / 240;
@@ -525,15 +526,16 @@ function renderCategory() {
       }
       @media (max-width: 700px) {
         .category-container {
+          grid-template-columns: 1fr 1fr;
           max-width: 98vw;
         }
         .category-btn-box {
           max-width: 98vw;
         }
       }
-      @media (max-width: 600px) {
+      @media (max-width: 430px) {
         .category-container {
-          grid-template-columns: 1fr;
+          grid-template-columns: 1fr 1fr;
           max-width: 99vw;
         }
         .category-btn-box {
