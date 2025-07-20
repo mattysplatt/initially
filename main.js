@@ -339,15 +339,107 @@ function renderLobby() {
 }
 function renderLobbyCodeScreen() {
   $app.innerHTML = `
-    <div class="screen">
-      <h2>Lobby Created!</h2>
-      <div>Your lobby code:</div>
-      <div id="lobbyCodeDisplay" style="font-size:2em;font-weight:bold;margin:12px;">${state.lobbyCode}</div>
-      <button id="copyLobbyCodeBtn">Copy Code</button>
-      <p>Share this code with friends to join your lobby.</p>
-      <button id="startLobbyBtn">Start Lobby</button>
-      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
+    <div class="lobby-screen">
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
+      <div class="lobby-form">
+        <div style="font-size:1.18em; color:#fff; margin-bottom:10px;">
+          Share this code with your friends to join the lobby:
+        </div>
+        <div class="lobby-code-box">${state.lobbyCode}</div>
+        <button id="copyLobbyCodeBtn" class="landing-btn">Copy Code</button>
+        <button id="startLobbyBtn" class="landing-btn">Start Lobby</button>
+        <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
+      </div>
     </div>
+    <style>
+      .lobby-screen {
+        background: #18102c;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 32px;
+      }
+      .lobby-logo {
+        width: 350px;
+        max-width: 90vw;
+        margin: 40px auto 24px auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .lobby-form {
+        background: rgba(0,0,0,0.16);
+        padding: 32px 16px 24px 16px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 350px;
+      }
+      .lobby-code-box {
+        font-size: 2.6em;
+        font-weight: bold;
+        letter-spacing: 0.18em;
+        color: #222;
+        background: #ffd600;
+        border-radius: 13px;
+        padding: 21px 18px 13px 18px;
+        margin: 18px 0 20px 0;
+        text-align: center;
+        box-shadow: 1px 4px 16px #0001;
+        user-select: all;
+      }
+      .landing-btn {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        margin: 9px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .lobby-return-btn {
+        background: #fff;
+        color: #18102c;
+        margin-top: 18px;
+      }
+      .lobby-return-btn:hover {
+        background: #ffd600;
+        color: #222;
+      }
+      @media (max-width: 600px) {
+        .lobby-logo {
+          width: 80vw;
+          margin-top: 7vw;
+        }
+        .lobby-form {
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
+        }
+        .lobby-code-box {
+          font-size: 2em;
+          padding: 14px 8px 11px 8px;
+        }
+        .landing-btn {
+          font-size: 1em;
+          padding: 13px 0;
+        }
+      }
+    </style>
   `;
   document.getElementById('copyLobbyCodeBtn').onclick = function() {
     navigator.clipboard.writeText(state.lobbyCode);
@@ -361,7 +453,6 @@ function renderLobbyCodeScreen() {
     render();
   };
 }
-
 // --- CATEGORY GRID FOR BOTH MODES ---
 function renderCategory() {
   const categories = [
