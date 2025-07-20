@@ -460,7 +460,7 @@ function renderCategory() {
     "Football", "famousFigures", "randomMix", "ModernNBA"
   ];
 
-  // Set your DeckBackgroundwhitewhite.png’s real dimensions here:
+  // Set your DeckBackgroundwhite.png’s real dimensions here:
   const deckWidth = 320;
   const deckHeight = 220;
 
@@ -525,6 +525,7 @@ function renderCategory() {
         margin: 1px 0;
         box-shadow: 0 1px 0 #ffd60022;
       }
+
       .category-container {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -534,47 +535,49 @@ function renderCategory() {
         width: 97vw;
         justify-items: center;
       }
-      .category-btn-box {
-        position: relative;
+      .category-deck {
+        width: ${deckWidth}px;
+        height: ${deckHeight}px;
+        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
-        width: ${deckWidth}px;
-        height: ${deckHeight}px;
-        cursor: pointer;
-        transition: transform 0.13s, box-shadow 0.13s;
-        /* No border, no extra background */
-        border: none;
-        box-shadow: 0 2px 12px #0002;
-        padding: 0;
+        position: relative;
+        /* No border or extra background! */
       }
-      .category-btn-box:active {
-        transform: scale(0.98);
-        box-shadow: 0 1px 6px #0001;
-      }
-      .category-btn-box.disabled {
-        filter: grayscale(0.92) brightness(1.11) opacity(0.72);
-        pointer-events: none;
-        cursor: not-allowed;
-      }
-      .category-btn-label {
-        font-size: 1.44em;
-        color: #18102c;
-        font-weight: bold;
-        letter-spacing: 0.02em;
-        text-shadow: 1px 2px 8px #fff, 0 2px 3px #ffd60099;
-        text-align: center;
-        background: rgba(255,255,255,0.77);
-        border-radius: 10px;
-        padding: 10px 20px;
-        user-select: none;
-        margin: 0;
-        position: absolute;
-        left: 50%; top: 50%; transform: translate(-50%, -50%);
-        box-sizing: border-box;
+      .category-btn-inside {
         width: 80%;
-        max-width: 97%;
+        min-width: 0;
+        max-width: 90%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        z-index: 1;
+      }
+      .landing-btn {
+        width: 100%;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+        text-align: center;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .category-deck.disabled .landing-btn {
+        background: #eee;
+        color: #aaa;
+        cursor: not-allowed;
+        pointer-events: none;
       }
       .leader-wait-msg {
         color: #ffd600;
@@ -617,15 +620,14 @@ function renderCategory() {
           gap: 18px;
           max-width: 99vw;
         }
-        .category-btn-box {
+        .category-deck {
           width: 92vw;
           height: calc(92vw * ${deckHeight} / ${deckWidth});
           max-width: ${deckWidth}px;
           max-height: ${deckHeight}px;
         }
-        .category-btn-label {
-          font-size: 1.05em;
-          padding: 8px 3vw;
+        .category-btn-inside {
+          font-size: 1em;
         }
       }
     </style>
@@ -635,12 +637,16 @@ function renderCategory() {
   categories.forEach(cat => {
     let label = cat.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
     if (cat === 'Football') label = '⚽ ' + label;
-    const box = document.createElement('div');
-    box.className = 'category-btn-box' +
+    const deck = document.createElement('div');
+    deck.className = 'category-deck' +
       ((state.mode === 'multi' && !state.isLeader) ? ' disabled' : '');
-    box.innerHTML = `<div class="category-btn-label">${label}</div>`;
+    deck.innerHTML = `
+      <button class="landing-btn category-btn-inside" ${state.mode === 'multi' && !state.isLeader ? 'disabled' : ''}>
+        ${label}
+      </button>
+    `;
     if (!(state.mode === 'multi' && !state.isLeader)) {
-      box.onclick = () => {
+      deck.querySelector('button').onclick = () => {
         if (state.mode === 'multi') {
           chooseCategory(cat);
         } else {
@@ -648,7 +654,7 @@ function renderCategory() {
         }
       };
     }
-    catDiv.appendChild(box);
+    catDiv.appendChild(deck);
   });
 
   document.getElementById('returnLandingBtn').onclick = () => {
