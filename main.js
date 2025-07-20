@@ -524,12 +524,13 @@ function renderCategory() {
       .category-container {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 4px;
+        gap: 1px;
         justify-content: center;
         align-items: flex-start;
-        margin: 24px auto 18px auto;
+        margin: 8px auto 18px auto;
         max-width: 700px;
         width: 100vw;
+        padding: 0;
       }
       .category-btn-box {
         background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
