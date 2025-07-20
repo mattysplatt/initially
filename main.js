@@ -97,31 +97,8 @@ const $app = document.getElementById('app');
 // LANDING PAGE
 function renderLanding() {
   $app.innerHTML = `
-    <div class="landing-screen" style="
-      background: url('IntiallyLogo.png') no-repeat center center/cover;
-      min-height: 100vh;
-      width: 100vw;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 10;
-    ">
-      <div style="
-        background: rgba(0,0,0,0.25); 
-        padding: 32px 24px; 
-        border-radius: 18px; 
-        box-shadow: 0 4px 32px #3338;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: none;
-        min-width: 350px;
-      ">
+    <div class="landing-screen">
+      <div class="button-container">
         <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button><br/>
         <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button><br/>
         <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button><br/>
@@ -129,11 +106,38 @@ function renderLanding() {
       </div>
     </div>
     <style>
+      .landing-screen {
+        background: url('IntiallyLogo.png') no-repeat top center;
+        background-size: contain;
+        min-height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 10;
+      }
+      .button-container {
+        margin-top: 42vw; /* Push buttons below the image, scales with viewport width */
+        background: rgba(0,0,0,0.18);
+        padding: 24px 16px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 90vw;
+        width: 350px;
+      }
       .landing-btn {
-        width: 270px;
+        width: 90vw;
+        max-width: 270px;
         margin: 12px 0;
-        padding: 18px 0;
-        font-size: 1.15em;
+        padding: 16px 0;
+        font-size: 1.1em;
         border: none;
         border-radius: 7px;
         background: #ffd600;
@@ -146,6 +150,30 @@ function renderLanding() {
       .landing-btn:hover {
         background: #ffb300;
         transform: scale(1.03);
+      }
+      @media (max-width: 600px) {
+        .landing-screen {
+          background-size: 90vw auto;
+        }
+        .button-container {
+          margin-top: 67vw; /* More push for tall mobile screens */
+          width: 95vw;
+          padding: 14px 4vw;
+        }
+        .landing-btn {
+          width: 100%;
+          font-size: 1em;
+          padding: 14px 0;
+        }
+      }
+      @media (min-width: 601px) and (max-width: 1024px) {
+        .landing-screen {
+          background-size: 60vw auto;
+        }
+        .button-container {
+          margin-top: 38vw;
+          width: 70vw;
+        }
       }
     </style>
   `;
