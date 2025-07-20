@@ -524,16 +524,19 @@ function renderCategory() {
   text-align: left;             /* left align text within the box */
 }
       .category-container {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1px;
-        justify-content: center;
-        align-items: flex-start;
-        margin: 8px auto 18px auto;
-        max-width: 700px;
-        width: 100vw;
-        padding: 0;
-      }
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 0;
+  background: rgba(0,0,0,0.10);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #3334;
+  margin: 38px auto 0 auto;
+  max-width: 332px;         /* MATCHES deck width + gap */
+  width: 100%;
+  justify-content: center;  /* Center container */
+  align-items: flex-start;
+}
       .category-btn-box {
         background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
         width: 100%;
