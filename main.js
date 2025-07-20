@@ -526,15 +526,15 @@ function renderCategory() {
       .category-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2px;
+  gap: 4px;
   padding: 0;
   background: rgba(0,0,0,0.10);
   border-radius: 18px;
   box-shadow: 0 4px 32px #3334;
   margin: 38px auto 0 auto;
-  max-width: 332px;         /* MATCHES deck width + gap */
+  max-width: 380px;         
   width: 100%;
-  justify-content: center;  /* Center container */
+  justify-content: center;  
   align-items: flex-start;
 }
       .category-btn-box {
