@@ -533,69 +533,53 @@ function renderCategory() {
         max-width: 700px;
         width: 100vw;
       }
-     .category-btn-box {
-  background: url('DeckBackground.png') center center / contain no-repeat;
-  width: 320px;
-  height: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  box-shadow: 0 2px 12px #0002;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-  box-sizing: content-box;
-  position: relative;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.12s;
-}
-
-.category-btn-box.disabled {
-  filter: grayscale(0.92) brightness(1.11) opacity(0.72);
-  pointer-events: none;
-  cursor: not-allowed;
-}
-
-.category-btn-label {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #18102c;           /* Black writing */
-  background: #ffd600;      /* Gold background */
-  border-radius: 7px;
-  padding: 12px 24px;
-  box-shadow: 1px 2px 8px #0002;
-  text-align: center;
-  user-select: none;
-  margin: 0;
-  border: none;
-  outline: none;
-  width: auto;
-  max-width: 90%;
-  line-height: 1.2;
-  box-sizing: border-box;
-  word-break: break-word;
-  white-space: normal;
-  display: block;
-}
-
-.category-btn-box:active .category-btn-label,
-.category-btn-box:focus .category-btn-label {
-  background: #ffb300;
-}
-
-@media (max-width: 600px) {
-  .category-btn-box {
-    width: min(92vw, 320px);
-    height: calc(min(92vw, 320px) * 220 / 320);
-    max-width: 320px;
-    max-height: 220px;
-  }
-  .category-btn-label {
-    font-size: 1em;
-    padding: 9px 10px;
-  }
-}
+      .category-btn-box {
+        background: url('DeckBackground.png') center center / contain no-repeat;
+        width: 220px;
+        height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        box-shadow: 0 2px 12px #0002;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        box-sizing: content-box;
+        position: relative;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .category-btn-box.disabled {
+        filter: grayscale(0.92) brightness(1.11) opacity(0.72);
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+      .category-btn-label {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #18102c;           /* Black writing */
+        background: #ffd600;      /* Gold background */
+        border-radius: 7px;
+        padding: 12px 24px;
+        box-shadow: 1px 2px 8px #0002;
+        text-align: center;
+        user-select: none;
+        margin: 0;
+        border: none;
+        outline: none;
+        width: auto;
+        max-width: 90%;
+        line-height: 1.2;
+        box-sizing: border-box;
+        word-break: break-word;
+        white-space: normal;
+        display: block;
+      }
+      .category-btn-box:active .category-btn-label,
+      .category-btn-box:focus .category-btn-label {
+        background: #ffb300;
+      }
       .leader-wait-msg {
         color: #ffd600;
         font-size: 1.1em;
@@ -636,13 +620,14 @@ function renderCategory() {
           max-width: 99vw;
         }
         .category-btn-box {
-          width: min(92vw, 320px);
-          height: calc(min(92vw, 320px) * 220 / 320);
-          max-width: 320px;
-          max-height: 220px;
+          width: min(92vw, 220px);
+          height: calc(min(92vw, 220px) * 320 / 220);
+          max-width: 220px;
+          max-height: 320px;
         }
         .category-btn-label {
           font-size: 1em;
+          padding: 9px 10px;
         }
       }
     </style>
@@ -692,8 +677,6 @@ function startSinglePlayerGame(category) {
   state.screen = 'game';
   render();
 }
-
-// --- REST OF YOUR GAME LOGIC (UNCHANGED) BELOW ---
 
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
