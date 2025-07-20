@@ -97,62 +97,29 @@ const $app = document.getElementById('app');
 // LANDING PAGE
 function renderLanding() {
   $app.innerHTML = `
-    <div class="landing-screen">
-      <img src="IntiallyLogo.png" alt="Initially Logo" class="landing-logo" draggable="false" />
-      <div class="button-container">
-        <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button>
-        <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button>
-        <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button>
+    <div class="landing-screen" style="
+      background: url('Initially Logo.png') no-repeat center center/cover;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    ">
+      <div style="background: rgba(0,0,0,0.55); padding: 32px 24px; border-radius: 18px; box-shadow: 0 4px 32px #3338;">
+        <h1 style="color: #fff; font-size: 2.5em; margin-bottom: 32px; text-shadow: 1px 2px 4px #000a;">Initial Contact</h1>
+        <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button><br/>
+        <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button><br/>
+        <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button><br/>
         <button id="monthlyBtn" class="landing-btn">MONTHLY CHALLENGE</button>
       </div>
     </div>
     <style>
-      html, body, #app, .landing-screen {
-        height: 100%;
-        min-height: 100vh;
-        margin: 0;
-        padding: 0;
-      }
-
-      .landing-screen {
-        background: #18102c;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        min-height: 100vh;
-        width: 100vw;
-        overflow-y: auto;
-        padding-bottom: 32px;
-      }
-      .landing-logo {
-        width: 430px;
-        max-width: 90vw;
-        margin-top: 4vw;
-        margin-bottom: 5vw;
-        height: auto;
-        display: block;
-        pointer-events: none;
-        user-select: none;
-      }
-      .button-container {
-        background: rgba(0,0,0,0.16);
-        padding: 28px 12px 22px 12px;
-        border-radius: 18px;
-        box-shadow: 0 4px 32px #3338;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 360px;
-      }
       .landing-btn {
-        width: 100%;
-        min-width: 175px;
-        max-width: 320px;
+        width: 270px;
         margin: 12px 0;
-        padding: 16px 0;
-        font-size: 1.1em;
+        padding: 18px 0;
+        font-size: 1.15em;
         border: none;
         border-radius: 7px;
         background: #ffd600;
@@ -166,37 +133,10 @@ function renderLanding() {
         background: #ffb300;
         transform: scale(1.03);
       }
-
-      @media (max-width: 600px) {
-        .landing-logo {
-          width: 88vw;
-          margin-top: 9vw;
-          margin-bottom: 10vw;
-        }
-        .button-container {
-          max-width: 98vw;
-          padding: 15px 2vw 12px 2vw;
-        }
-        .landing-btn {
-          font-size: 1em;
-          padding: 13px 0;
-        }
-      }
-
-      @media (min-width: 601px) and (max-width: 1024px) {
-        .landing-logo {
-          width: 60vw;
-          margin-top: 6vw;
-          margin-bottom: 7vw;
-        }
-        .button-container {
-          max-width: 80vw;
-        }
-      }
     </style>
   `;
 
-  // All buttons route to lobby/login
+  // Change: All buttons take you to the lobby screen
   document.getElementById('playFreeBtn').onclick = () => {
     state.screen = 'lobby';
     render();
@@ -211,66 +151,6 @@ function renderLanding() {
   };
   document.getElementById('monthlyBtn').onclick = () => {
     state.screen = 'lobby';
-    render();
-  };
-}
-// MAIN RENDER FUNCTION
-function render() {
-  $app.innerHTML = '';
-  if (!isAuthenticated) {
-    $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh.</span></div>`;
-    return;
-  }
-  if (state.screen === 'landing') renderLanding();
-  else if (state.screen === 'lobby') renderLobby();
-  else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
-  else if (state.screen === 'category') renderCategory();
-  else if (state.screen === 'game') renderGame();
-  else if (state.screen === 'scoreboard') renderScoreboard();
-  else if (state.screen === 'end') renderEnd();
-}
-
-function renderLobby() {
-  $app.innerHTML = `
-    <div class="screen">
-      <h1>Initial Contact</h1>
-      <input type="text" id="playerName" value="${state.playerName||''}" maxlength="20" placeholder="Enter your name" /><br/>
-      <input type="text" id="lobbyCode" maxlength="10" placeholder="Enter lobby code (optional)" /><br/>
-      <button id="createLobby">Create New Lobby</button>
-      <button id="joinLobby">Join Lobby</button>
-      <div id="lobbyStatus" style="margin:8px 0;color:#ffd600">${state.status||''}</div>
-      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
-    </div>
-  `;
-  document.getElementById('playerName').addEventListener('input', e => state.playerName = e.target.value);
-  document.getElementById('createLobby').onclick = () => waitForAuthThen(createLobby);
-  document.getElementById('joinLobby').onclick = () => waitForAuthThen(joinLobby);
-  document.getElementById('returnLandingBtn').onclick = () => {
-    state.screen = 'landing';
-    render();
-  };
-}
-function renderLobbyCodeScreen() {
-  $app.innerHTML = `
-    <div class="screen">
-      <h2>Lobby Created!</h2>
-      <div>Your lobby code:</div>
-      <div id="lobbyCodeDisplay" style="font-size:2em;font-weight:bold;margin:12px;">${state.lobbyCode}</div>
-      <button id="copyLobbyCodeBtn">Copy Code</button>
-      <p>Share this code with friends to join your lobby.</p>
-      <button id="startLobbyBtn">Start Lobby</button>
-      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
-    </div>
-  `;
-  document.getElementById('copyLobbyCodeBtn').onclick = function() {
-    navigator.clipboard.writeText(state.lobbyCode);
-    alert('Lobby code copied!');
-  };
-  document.getElementById('startLobbyBtn').onclick = function() {
-    joinLobbyByCode(state.lobbyCode, state.playerName, true);
-  };
-  document.getElementById('returnLandingBtn').onclick = () => {
-    state.screen = 'landing';
     render();
   };
 }
