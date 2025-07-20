@@ -384,7 +384,7 @@ function renderLobbyCodeScreen() {
         font-weight: bold;
         letter-spacing: 0.18em;
         color: #222;
-        background: #ffd600;
+        background: #fff;
         border-radius: 13px;
         padding: 21px 18px 13px 18px;
         margin: 18px 0 20px 0;
