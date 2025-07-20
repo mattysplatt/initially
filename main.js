@@ -563,8 +563,14 @@ function markReady() {
         const readyPlayers = Object.values(lobby.players || {}).filter(p => p.ready).length;
         const numPlayers = Object.keys(lobby.players || {}).length;
 
+        // --- Play Again logic: if game over, reset to category selection
+        if (lobby.status === "end" && readyPlayers === numPlayers) {
+          await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "waiting" });
+          return;
+        }
+
+        // --- In-game logic: next round or end game
         if (readyPlayers === numPlayers) {
-          // All players are ready, start next round or end game
           let round = lobby.round + 1;
           if (round > (lobby.maxRounds || 10)) {
             // End game
@@ -605,7 +611,6 @@ function markReady() {
       });
     });
 }
-
 // --- App Start ---
 render();
 
