@@ -476,7 +476,7 @@ function renderCategory() {
     </div>
     <style>
       .cat-page-wrapper {
-        background: #000;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         width: 100vw;
       }
@@ -508,7 +508,7 @@ function renderCategory() {
         cursor: pointer;
         transition: background 0.2s, transform 0.12s;
       }
-      /* No hover or active styles */
+      /* No hover or active effect */
       .category-btn-label {
         font-size: 1.1em;
         font-weight: bold;
