@@ -136,19 +136,21 @@ function renderLanding() {
     </style>
   `;
 
+  // Change: All buttons take you to the lobby screen
   document.getElementById('playFreeBtn').onclick = () => {
-    state.screen = 'category';
+    state.screen = 'lobby';
     render();
   };
   document.getElementById('playPurchasedBtn').onclick = () => {
-    state.screen = 'category';
+    state.screen = 'lobby';
     render();
   };
   document.getElementById('purchaseBtn').onclick = () => {
-    // Not linked for now
+    state.screen = 'lobby';
+    render();
   };
   document.getElementById('monthlyBtn').onclick = () => {
-    state.screen = 'category';
+    state.screen = 'lobby';
     render();
   };
 }
