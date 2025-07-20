@@ -195,11 +195,11 @@ function renderLanding() {
     </style>
   `;
 
-  document.getElementById('playFreeBtn').onclick = () => {
-    state.mode = 'single';
-    state.screen = 'category';
-    render();
-  };
+ document.getElementById('playFreeBtn').onclick = () => {
+  state.mode = 'single';
+  state.screen = 'lobby';
+  render();
+};
   document.getElementById('playPurchasedBtn').onclick =
     document.getElementById('purchaseBtn').onclick =
     document.getElementById('monthlyBtn').onclick = () => {
