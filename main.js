@@ -628,6 +628,7 @@ function renderCategory() {
             : '<div style="color:#aaa;">Waiting for players...</div>'}
         </div>
       </div>
+    </div>
       <div class="category-container" id="categoryContainer"></div>
       ${state.mode === 'multi' && !state.isLeader ? `<div class="leader-wait-msg">Waiting for leader to select...</div>` : ''}
       <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
