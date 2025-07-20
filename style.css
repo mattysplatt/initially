@@ -131,10 +131,6 @@ body {
 
 .category-btn:hover,
 .category-btn:active,
-.category-btn-box:hover,
-.category-btn-box:active {
-  background: #ffb300;
-  transform: scale(1.03);
 }
 
 .category-btn.disabled,
