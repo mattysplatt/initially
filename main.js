@@ -94,47 +94,6 @@ function levenshtein(a, b) {
 // --- DOM ---
 const $app = document.getElementById('app');
 
-// --- Utility Functions ---
-function randomId() {
-  return Math.random().toString(36).slice(2, 10);
-}
-function generateLobbyCode() {
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  let code = '';
-  for (let i = 0; i < 5; i++) code += letters.charAt(Math.floor(Math.random() * letters.length));
-  return code;
-}
-function shuffle(arr) {
-  return arr.map(a => [a, Math.random()]).sort((a, b) => a[1] - b[1]).map(a => a[0]);
-}
-function getRandomUnusedQuestion(category, usedAnswers) {
-  const pool = category === 'randomMix'
-    ? [].concat(
-        ...['worldSports','AFL','movieStars','musicians', 'PopStars', 'Football', 'famousFigures','randomMix', 'ModernNBA'].map(cat => INITIALS_DB[cat])
-      )
-    : INITIALS_DB[category];
-  const unused = pool.filter(q => !usedAnswers.includes(q.answer));
-  if (unused.length === 0) return null;
-  return unused[Math.floor(Math.random() * unused.length)];
-}
-function levenshtein(a, b) {
-  const matrix = Array.from({length: a.length + 1}, () => []);
-  for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
-  for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
-  for (let i = 1; i <= a.length; i++) {
-    for (let j = 1; j <= b.length; j++) {
-      matrix[i][j] = a[i-1] === b[j-1]
-        ? matrix[i-1][j-1]
-        : Math.min(
-            matrix[i-1][j-1] + 1,
-            matrix[i][j-1] + 1,
-            matrix[i-1][j] + 1
-          );
-    }
-  }
-  return matrix[a.length][b.length];
-}
-
 // --- App State ---
 const state = {
   screen: 'landing',
