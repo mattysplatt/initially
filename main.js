@@ -94,32 +94,151 @@ function levenshtein(a, b) {
 // --- DOM ---
 const $app = document.getElementById('app');
 
-// LANDING PAGE
+// --- Utility Functions ---
+function randomId() {
+  return Math.random().toString(36).slice(2, 10);
+}
+function generateLobbyCode() {
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let code = '';
+  for (let i = 0; i < 5; i++) code += letters.charAt(Math.floor(Math.random() * letters.length));
+  return code;
+}
+function shuffle(arr) {
+  return arr.map(a => [a, Math.random()]).sort((a, b) => a[1] - b[1]).map(a => a[0]);
+}
+function getRandomUnusedQuestion(category, usedAnswers) {
+  const pool = category === 'randomMix'
+    ? [].concat(
+        ...['worldSports','AFL','movieStars','musicians', 'PopStars', 'Football', 'famousFigures','randomMix', 'ModernNBA'].map(cat => INITIALS_DB[cat])
+      )
+    : INITIALS_DB[category];
+  const unused = pool.filter(q => !usedAnswers.includes(q.answer));
+  if (unused.length === 0) return null;
+  return unused[Math.floor(Math.random() * unused.length)];
+}
+function levenshtein(a, b) {
+  const matrix = Array.from({length: a.length + 1}, () => []);
+  for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+  for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      matrix[i][j] = a[i-1] === b[j-1]
+        ? matrix[i-1][j-1]
+        : Math.min(
+            matrix[i-1][j-1] + 1,
+            matrix[i][j-1] + 1,
+            matrix[i-1][j] + 1
+          );
+    }
+  }
+  return matrix[a.length][b.length];
+}
+
+// --- App State ---
+const state = {
+  screen: 'landing',
+  playerName: '',
+  playerId: '',
+  lobbyCode: '',
+  isLeader: false,
+  players: [],
+  round: 1,
+  category: '',
+  status: '',
+  question: {},
+  clues: [],
+  clueIdx: 0,
+  points: 60,
+  guesses: {},
+  scoreboard: [],
+  readyPlayers: [],
+  usedQuestions: [],
+  maxRounds: 10,
+  guess: '',
+  timer: 10,
+  lastQuestionInitials: null,
+  incorrectPrompt: false,
+  lobbyRef: null,
+  unsubLobby: null,
+};
+let isAuthenticated = false;
+const $app = document.getElementById('app');
+
+// --- Main Render Function ---
+function render() {
+  $app.innerHTML = '';
+  if (!isAuthenticated) {
+    $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh.</span></div>`;
+    return;
+  }
+  if (state.screen === 'landing') renderLanding();
+  else if (state.screen === 'lobby') renderLobby();
+  else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
+  else if (state.screen === 'category') renderCategory();
+  else if (state.screen === 'game') renderGame();
+  else if (state.screen === 'scoreboard') renderScoreboard();
+  else if (state.screen === 'end') renderEnd();
+}
+
+// --- Landing Page ---
 function renderLanding() {
   $app.innerHTML = `
-    <div class="landing-screen" style="
-      background: url('Initially Logo.png') no-repeat center center/cover;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-    ">
-      <div style="background: rgba(0,0,0,0.55); padding: 32px 24px; border-radius: 18px; box-shadow: 0 4px 32px #3338;">
-        <h1 style="color: #fff; font-size: 2.5em; margin-bottom: 32px; text-shadow: 1px 2px 4px #000a;">Initial Contact</h1>
-        <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button><br/>
-        <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button><br/>
-        <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button><br/>
+    <div class="landing-screen">
+      <img src="IntiallyLogo.png" alt="Initially Logo" class="landing-logo" draggable="false" />
+      <div class="button-container">
+        <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button>
+        <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button>
+        <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button>
         <button id="monthlyBtn" class="landing-btn">MONTHLY CHALLENGE</button>
       </div>
     </div>
     <style>
+      html, body, #app, .landing-screen {
+        height: 100%;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      .landing-screen {
+        background: #18102c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        width: 100vw;
+        overflow-y: auto;
+        padding-bottom: 32px;
+      }
+      .landing-logo {
+        width: 430px;
+        max-width: 90vw;
+        margin-top: 4vw;
+        margin-bottom: 5vw;
+        height: auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .button-container {
+        background: rgba(0,0,0,0.16);
+        padding: 28px 12px 22px 12px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 360px;
+      }
       .landing-btn {
-        width: 270px;
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
         margin: 12px 0;
-        padding: 18px 0;
-        font-size: 1.15em;
+        padding: 16px 0;
+        font-size: 1.1em;
         border: none;
         border-radius: 7px;
         background: #ffd600;
@@ -133,32 +252,94 @@ function renderLanding() {
         background: #ffb300;
         transform: scale(1.03);
       }
+      @media (max-width: 600px) {
+        .landing-logo {
+          width: 88vw;
+          margin-top: 9vw;
+          margin-bottom: 10vw;
+        }
+        .button-container {
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
+        }
+        .landing-btn {
+          font-size: 1em;
+          padding: 13px 0;
+        }
+      }
+      @media (min-width: 601px) and (max-width: 1024px) {
+        .landing-logo {
+          width: 60vw;
+          margin-top: 6vw;
+          margin-bottom: 7vw;
+        }
+        .button-container {
+          max-width: 80vw;
+        }
+      }
     </style>
   `;
-
-  // Change: All buttons take you to the lobby screen
-  document.getElementById('playFreeBtn').onclick = () => {
-    state.screen = 'lobby';
-    render();
-  };
-  document.getElementById('playPurchasedBtn').onclick = () => {
-    state.screen = 'lobby';
-    render();
-  };
-  document.getElementById('purchaseBtn').onclick = () => {
-    state.screen = 'lobby';
-    render();
-  };
+  document.getElementById('playFreeBtn').onclick =
+  document.getElementById('playPurchasedBtn').onclick =
+  document.getElementById('purchaseBtn').onclick =
   document.getElementById('monthlyBtn').onclick = () => {
     state.screen = 'lobby';
     render();
   };
 }
+
+// --- Lobby Screens ---
+function renderLobby() {
+  $app.innerHTML = `
+    <div class="screen">
+      <h1>Initial Contact</h1>
+      <input type="text" id="playerName" value="${state.playerName||''}" maxlength="20" placeholder="Enter your name" /><br/>
+      <input type="text" id="lobbyCode" maxlength="10" placeholder="Enter lobby code (optional)" /><br/>
+      <button id="createLobby">Create New Lobby</button>
+      <button id="joinLobby">Join Lobby</button>
+      <div id="lobbyStatus" style="margin:8px 0;color:#ffd600">${state.status||''}</div>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
+    </div>
+  `;
+  document.getElementById('playerName').addEventListener('input', e => state.playerName = e.target.value);
+  document.getElementById('createLobby').onclick = () => waitForAuthThen(createLobby);
+  document.getElementById('joinLobby').onclick = () => waitForAuthThen(joinLobby);
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
+}
+function renderLobbyCodeScreen() {
+  $app.innerHTML = `
+    <div class="screen">
+      <h2>Lobby Created!</h2>
+      <div>Your lobby code:</div>
+      <div id="lobbyCodeDisplay" style="font-size:2em;font-weight:bold;margin:12px;">${state.lobbyCode}</div>
+      <button id="copyLobbyCodeBtn">Copy Code</button>
+      <p>Share this code with friends to join your lobby.</p>
+      <button id="startLobbyBtn">Start Lobby</button>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
+    </div>
+  `;
+  document.getElementById('copyLobbyCodeBtn').onclick = function() {
+    navigator.clipboard.writeText(state.lobbyCode);
+    alert('Lobby code copied!');
+  };
+  document.getElementById('startLobbyBtn').onclick = function() {
+    joinLobbyByCode(state.lobbyCode, state.playerName, true);
+  };
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
+}
+
+// --- Category Selection ---
 function renderCategory() {
   $app.innerHTML = `
     <div class="screen">
       <h2>Select Category</h2>
-      <div>${state.players.map(p => `<div>${p.name}${p.isLeader?' 👑':''}</div>`).join('')}</div>
+      <div>${state.players.map(p => `<div>${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')}</div>
       <div style="margin:16px 0;">
        ${['worldSports','AFL','movieStars','musicians', 'PopStars', 'Football', 'famousFigures','randomMix', 'ModernNBA']
   .map(cat => {
@@ -181,6 +362,8 @@ function renderCategory() {
     render();
   };
 }
+
+// --- Game Play ---
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
   const displayCategory = state.category
@@ -240,14 +423,12 @@ function renderGame() {
   };
 }
 
-// NEW renderScoreboard with player ready ticks and no ready count
+// --- Scoreboard ---
 function renderScoreboard() {
-  // Sort the scoreboard from highest to lowest score
   const sortedScoreboard = (state.scoreboard || [])
     .slice()
     .sort((a, b) => b.score - a.score);
 
-  // Find correct guessers for this round
   let correctGuessers = [];
   if (state.players.length >= 2 && state.guesses) {
     correctGuessers = state.players
@@ -272,7 +453,6 @@ function renderScoreboard() {
         if (pos === 1) suffix = "st";
         else if (pos === 2) suffix = "nd";
         else if (pos === 3) suffix = "rd";
-        // Find the player object to check if they're ready
         const playerObj = state.players.find(p => p.name === item.name);
         const tick = playerObj && playerObj.ready ? ' <span style="color:#27ae60;font-weight:bold;">&#10003;</span>' : '';
         return `<div class="score-item"><span>${pos}${suffix} - ${item.name}${tick}</span><span>${item.score}</span></div>`;
@@ -300,21 +480,7 @@ function renderScoreboard() {
   };
 }
 
-function attachReturnToStartHandler() {
-  const btn = document.getElementById('returnToStartBtn');
-  if (btn) {
-    btn.onclick = async () => {
-      if (state.lobbyCode && state.playerId) {
-        await remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-      }
-      state.screen = 'lobby';
-      state.lobbyCode = '';
-      state.isLeader = false;
-      state.players = [];
-      render();
-    };
-  }
-}
+// --- End of Game Screen ---
 function renderEnd() {
   $app.innerHTML = `
     <div class="screen">
@@ -331,12 +497,29 @@ function renderEnd() {
       <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
-  document.getElementById('restartBtn').onclick = () => window.location.reload();
+  document.getElementById('restartBtn').onclick = markReady;
   attachReturnToStartHandler();
   document.getElementById('returnLandingBtn').onclick = () => {
     state.screen = 'landing';
     render();
   };
+}
+
+// --- Return to Start Handler ---
+function attachReturnToStartHandler() {
+  const btn = document.getElementById('returnToStartBtn');
+  if (btn) {
+    btn.onclick = async () => {
+      if (state.lobbyCode && state.playerId) {
+        await remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+      }
+      state.screen = 'lobby';
+      state.lobbyCode = '';
+      state.isLeader = false;
+      state.players = [];
+      render();
+    };
+  }
 }
 
 // --- Game Logic + Firebase Sync ---
@@ -349,6 +532,7 @@ function waitForAuthThen(fn) {
   }
 }
 
+// --- Firebase Auth ---
 signInAnonymously(auth).catch((error) => {
   state.status = "Authentication failed. Please refresh.";
   render();
@@ -365,6 +549,8 @@ onAuthStateChanged(auth, (user) => {
     render();
   }
 });
+
+// --- Lobby Logic ---
 function createLobby() {
   if (!state.playerName) { state.status = "Enter your name"; render(); return; }
   state.lobbyCode = generateLobbyCode();
@@ -457,9 +643,7 @@ function chooseCategory(category) {
       )
     : shuffle([...INITIALS_DB[category]]);
   const firstQuestion = allQuestions[0]; 
-  
   state.guess = '';
-  
   set(ref(db, `lobbies/${state.lobbyCode}`), {
     code: state.lobbyCode,
     leader: state.playerId,
@@ -554,7 +738,7 @@ function endRound() {
   });
 }
 
-// Update ready state per player and reset for a new round
+// --- Ready/Play Again Logic ---
 function markReady() {
   update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true })
     .then(() => {
@@ -563,13 +747,13 @@ function markReady() {
         const readyPlayers = Object.values(lobby.players || {}).filter(p => p.ready).length;
         const numPlayers = Object.keys(lobby.players || {}).length;
 
-        // --- Play Again logic: if game over, reset to category selection
+        // Play Again logic: if game over, reset to category selection
         if (lobby.status === "end" && readyPlayers === numPlayers) {
           await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "waiting" });
           return;
         }
 
-        // --- In-game logic: next round or end game
+        // In-game logic: next round or end game
         if (readyPlayers === numPlayers) {
           let round = lobby.round + 1;
           if (round > (lobby.maxRounds || 10)) {
@@ -611,6 +795,7 @@ function markReady() {
       });
     });
 }
+
 // --- App Start ---
 render();
 
