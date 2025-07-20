@@ -9,7 +9,7 @@ html, body {
 body {
   font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: #fff;
   min-height: 100vh;
   min-width: 100vw;
   margin: 0;
@@ -22,7 +22,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center vertically and horizontally */
+  justify-content: center;
   min-height: 100vh;
   width: 100vw;
   padding-bottom: 32px;
@@ -75,6 +75,77 @@ body {
   transform: scale(1.03);
 }
 
+/* === CATEGORY/DECK GRID === */
+.category-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  padding: 24px;
+  background: rgba(0,0,0,0.10);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #3334;
+  margin: 38px auto 0 auto;
+  max-width: 700px;
+  max-height: 70vh; 
+  overflow-y: auto;
+}
+
+/* Scrollbar styling (optional) */
+.category-container::-webkit-scrollbar {
+  width: 10px;
+  background: #322763;
+  border-radius: 10px;
+}
+.category-container::-webkit-scrollbar-thumb {
+  background: #6657ac;
+  border-radius: 10px;
+}
+
+/* === CATEGORY/DECK BUTTON === */
+.category-btn {
+  background-image: url('DeckBackground.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 120px;
+  border: none;
+  color: #fff;
+  font-size: 1.3rem;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 2px 10px #0004;
+  transition: transform 0.12s, box-shadow 0.12s, filter 0.16s;
+  outline: none;
+  margin: 0;
+  text-shadow: 0 2px 8px #000b, 0 1px 2px #3338;
+  filter: brightness(0.98) saturate(1.12);
+}
+
+.category-btn:hover,
+.category-btn:focus {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px #0006;
+  filter: brightness(1.10) saturate(1.23);
+}
+
+/* === MOBILE RESPONSIVENESS === */
+@media (max-width: 700px) {
+  .category-container {
+    grid-template-columns: 1fr;
+    max-height: 60vh;
+    padding: 10px;
+    gap: 15px;
+  }
+  .category-btn {
+    height: 90px;
+    font-size: 1.08rem;
+  }
+}
+
 /* === MAIN APP LAYOUT === */
 #app {
   width: 100vw;
@@ -92,17 +163,8 @@ body {
   margin: 0 auto;
 }
 
-input[type="text"], input[type="number"] {
-  padding: 14px;
-  font-size: 1.2em;
-  border: none;
-  border-radius: 10px;
-  margin: 8px 0;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-button {
+/* === GENERAL BUTTONS === */
+button:not(.category-btn):not(.landing-btn) {
   background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
   color: white;
   border: none;
@@ -111,87 +173,21 @@ button {
   font-size: 1.05em;
   margin: 6px 3px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background 0.18s, transform 0.12s;
 }
 
-button:hover {
-  box-shadow: 0 2px 16px #ff6b6b44;
-  transform: translateY(-2px);
+button:not(.category-btn):not(.landing-btn):hover {
+  background: linear-gradient(45deg, #ff4e4e, #fca3a3);
+  transform: scale(1.03);
 }
 
-/* Main game info */
-.question-header, .game-top-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.initials, .question-header .initials {
-  margin: 0;
-  font-size: 3em;
-  font-weight: bold;
-  letter-spacing: 0.22em;
-  text-shadow: 0 2px 8px #0006;
-}
-
-.timer, .question-header .timer {
-  margin: 0;
-  font-size: 2.3em;
-  font-weight: 600;
-  color: #ffb86b;
-}
-
-.points, .question-header .points {
-  margin: 0;
-  font-size: 1.3em;
-  color: #4ecdc4;
-}
-
-.clue {
-  background: rgba(164, 93, 234);
-  border-radius: 8px;
-  margin: 7px 0;
-  padding: 5px 9px;
-  font-size: 1em;
-  line-height: 1.2;
-}
-
-.scoreboard {
-  margin: 18px 0;
-}
-
-.score-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 6px;
-  margin: 4px 0;
-  background: rgba(255,255,255,0.08);
-  border-radius: 8px;
-  font-size: 1.1em;
-}
-
-@media (max-width: 600px) {
-  .landing-screen {
-    justify-content: flex-start;
-    padding-top: 9vw;
-  }
-  .landing-logo {
-    width: 88vw;
-    margin-top: 0;
-    margin-bottom: 10vw;
-  }
-  .button-container {
-    max-width: 98vw;
-    padding: 15px 2vw 12px 2vw;
-  }
-  .landing-btn {
-    font-size: 1em;
-    padding: 13px 0;
-  }
-  #app { padding: 8px; }
-  .screen { padding: 13px 4px; }
-  .initials, .question-header .initials { font-size: 2em; }
-  .timer, .question-header .timer { font-size: 1.5em; }
+/* === INPUTS === */
+input[type="text"], input[type="number"] {
+  padding: 14px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 10px;
+  margin: 8px 0;
+  width: 100%;
+  box-sizing: border-box;
 }
