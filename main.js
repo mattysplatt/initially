@@ -616,22 +616,19 @@ function renderCategory() {
           max-width: 98vw;
         }
       }
-      @media (max-width: 600px) {
-        .category-container {
-          grid-template-columns: 1fr;
-          gap: 2px;
-          max-width: 99vw;
-        }
-        .category-btn-box {
-          max-width: 92vw;
-          max-height: calc(92vw * 240 / 165);
-          aspect-ratio: 165 / 240;
-        }
-        .category-btn-label {
-          font-size: 0.7em;
-          padding: 7px 8px;
-        }
-      }
+     @media (max-width: 600px) {
+  .category-container {
+    grid-template-columns: 1fr;
+    max-width: 98vw;
+    column-gap: 0;
+    row-gap: 4px;
+    padding: 0;
+  }
+  .category-btn-box {
+    max-width: 98vw;
+    width: 100%;
+  }
+}
     </style>
   `;
 
