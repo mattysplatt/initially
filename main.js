@@ -459,8 +459,8 @@ function renderCategory() {
     "worldSports", "AFL", "movieStars", "musicians", "PopStars",
     "Football", "famousFigures", "randomMix", "ModernNBA"
   ];
-  const deckWidth = 220;
-  const deckHeight = 320;
+  const deckWidth = 165;   // 220 * 0.75
+  const deckHeight = 240;  // 320 * 0.75
 
   $app.innerHTML = `
     <div class="cat-page-wrapper">
@@ -526,7 +526,7 @@ function renderCategory() {
       .category-container {
         display: flex;
         flex-wrap: wrap;
-        gap: 26px;
+        gap: 18px;
         justify-content: center;
         align-items: flex-start;
         margin: 24px auto 18px auto;
@@ -534,9 +534,9 @@ function renderCategory() {
         width: 100vw;
       }
       .category-btn-box {
-        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
-        width: 220px;
-        height: 320px;
+        background: url('DeckBackgroundWhite.png') center center / contain no-repeat;
+        width: 165px;
+        height: 240px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -556,12 +556,12 @@ function renderCategory() {
         cursor: not-allowed;
       }
       .category-btn-label {
-        font-size: 1.2em;
+        font-size: 0.9em;
         font-weight: bold;
-        color: #18102c;           /* Black writing */
-        background: #ffd600;      /* Gold background */
+        color: #18102c;
+        background: #ffd600;
         border-radius: 7px;
-        padding: 12px 24px;
+        padding: 9px 18px;
         box-shadow: 1px 2px 8px #0002;
         text-align: center;
         user-select: none;
@@ -570,7 +570,7 @@ function renderCategory() {
         outline: none;
         width: auto;
         max-width: 90%;
-        line-height: 1.2;
+        line-height: 1.1;
         box-sizing: border-box;
         word-break: break-word;
         white-space: normal;
@@ -616,18 +616,18 @@ function renderCategory() {
           font-size: 1.11em;
         }
         .category-container {
-          gap: 18px;
+          gap: 11px;
           max-width: 99vw;
         }
         .category-btn-box {
-          width: min(92vw, 220px);
-          height: calc(min(92vw, 220px) * 320 / 220);
-          max-width: 220px;
-          max-height: 320px;
+          width: min(92vw, 165px);
+          height: calc(min(92vw, 165px) * 240 / 165);
+          max-width: 165px;
+          max-height: 240px;
         }
         .category-btn-label {
-          font-size: 1em;
-          padding: 9px 10px;
+          font-size: 0.7em;
+          padding: 7px 8px;
         }
       }
     </style>
