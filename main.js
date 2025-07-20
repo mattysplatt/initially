@@ -1,4 +1,4 @@
-import { INITIALS_DB } from './initials_db.js';
+eimport { INITIALS_DB } from './initials_db.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getDatabase, ref, set, get, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
@@ -94,53 +94,7 @@ function levenshtein(a, b) {
 // --- DOM ---
 const $app = document.getElementById('app');
 
-// --- App State ---
-const state = {
-  screen: 'landing',
-  playerName: '',
-  playerId: '',
-  lobbyCode: '',
-  isLeader: false,
-  players: [],
-  round: 1,
-  category: '',
-  status: '',
-  question: {},
-  clues: [],
-  clueIdx: 0,
-  points: 60,
-  guesses: {},
-  scoreboard: [],
-  readyPlayers: [],
-  usedQuestions: [],
-  maxRounds: 10,
-  guess: '',
-  timer: 10,
-  lastQuestionInitials: null,
-  incorrectPrompt: false,
-  lobbyRef: null,
-  unsubLobby: null,
-};
-let isAuthenticated = false;
-const $app = document.getElementById('app');
-
-// --- Main Render Function ---
-function render() {
-  $app.innerHTML = '';
-  if (!isAuthenticated) {
-    $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh.</span></div>`;
-    return;
-  }
-  if (state.screen === 'landing') renderLanding();
-  else if (state.screen === 'lobby') renderLobby();
-  else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
-  else if (state.screen === 'category') renderCategory();
-  else if (state.screen === 'game') renderGame();
-  else if (state.screen === 'scoreboard') renderScoreboard();
-  else if (state.screen === 'end') renderEnd();
-}
-
-// --- Landing Page ---
+// LANDING PAGE
 function renderLanding() {
   $app.innerHTML = `
     <div class="landing-screen">
@@ -159,6 +113,7 @@ function renderLanding() {
         margin: 0;
         padding: 0;
       }
+
       .landing-screen {
         background: #18102c;
         display: flex;
@@ -211,6 +166,7 @@ function renderLanding() {
         background: #ffb300;
         transform: scale(1.03);
       }
+
       @media (max-width: 600px) {
         .landing-logo {
           width: 88vw;
@@ -226,6 +182,7 @@ function renderLanding() {
           padding: 13px 0;
         }
       }
+
       @media (min-width: 601px) and (max-width: 1024px) {
         .landing-logo {
           width: 60vw;
@@ -238,16 +195,41 @@ function renderLanding() {
       }
     </style>
   `;
-  document.getElementById('playFreeBtn').onclick =
-  document.getElementById('playPurchasedBtn').onclick =
-  document.getElementById('purchaseBtn').onclick =
+
+  // All buttons route to lobby/login
+  document.getElementById('playFreeBtn').onclick = () => {
+    state.screen = 'lobby';
+    render();
+  };
+  document.getElementById('playPurchasedBtn').onclick = () => {
+    state.screen = 'lobby';
+    render();
+  };
+  document.getElementById('purchaseBtn').onclick = () => {
+    state.screen = 'lobby';
+    render();
+  };
   document.getElementById('monthlyBtn').onclick = () => {
     state.screen = 'lobby';
     render();
   };
 }
+// MAIN RENDER FUNCTION
+function render() {
+  $app.innerHTML = '';
+  if (!isAuthenticated) {
+    $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh.</span></div>`;
+    return;
+  }
+  if (state.screen === 'landing') renderLanding();
+  else if (state.screen === 'lobby') renderLobby();
+  else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
+  else if (state.screen === 'category') renderCategory();
+  else if (state.screen === 'game') renderGame();
+  else if (state.screen === 'scoreboard') renderScoreboard();
+  else if (state.screen === 'end') renderEnd();
+}
 
-// --- Lobby Screens ---
 function renderLobby() {
   $app.innerHTML = `
     <div class="screen">
@@ -292,13 +274,11 @@ function renderLobbyCodeScreen() {
     render();
   };
 }
-
-// --- Category Selection ---
 function renderCategory() {
   $app.innerHTML = `
     <div class="screen">
       <h2>Select Category</h2>
-      <div>${state.players.map(p => `<div>${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')}</div>
+      <div>${state.players.map(p => `<div>${p.name}${p.isLeader?' 👑':''}</div>`).join('')}</div>
       <div style="margin:16px 0;">
        ${['worldSports','AFL','movieStars','musicians', 'PopStars', 'Football', 'famousFigures','randomMix', 'ModernNBA']
   .map(cat => {
@@ -321,8 +301,6 @@ function renderCategory() {
     render();
   };
 }
-
-// --- Game Play ---
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
   const displayCategory = state.category
@@ -382,12 +360,14 @@ function renderGame() {
   };
 }
 
-// --- Scoreboard ---
+// NEW renderScoreboard with player ready ticks and no ready count
 function renderScoreboard() {
+  // Sort the scoreboard from highest to lowest score
   const sortedScoreboard = (state.scoreboard || [])
     .slice()
     .sort((a, b) => b.score - a.score);
 
+  // Find correct guessers for this round
   let correctGuessers = [];
   if (state.players.length >= 2 && state.guesses) {
     correctGuessers = state.players
@@ -412,6 +392,7 @@ function renderScoreboard() {
         if (pos === 1) suffix = "st";
         else if (pos === 2) suffix = "nd";
         else if (pos === 3) suffix = "rd";
+        // Find the player object to check if they're ready
         const playerObj = state.players.find(p => p.name === item.name);
         const tick = playerObj && playerObj.ready ? ' <span style="color:#27ae60;font-weight:bold;">&#10003;</span>' : '';
         return `<div class="score-item"><span>${pos}${suffix} - ${item.name}${tick}</span><span>${item.score}</span></div>`;
@@ -439,7 +420,21 @@ function renderScoreboard() {
   };
 }
 
-// --- End of Game Screen ---
+function attachReturnToStartHandler() {
+  const btn = document.getElementById('returnToStartBtn');
+  if (btn) {
+    btn.onclick = async () => {
+      if (state.lobbyCode && state.playerId) {
+        await remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+      }
+      state.screen = 'lobby';
+      state.lobbyCode = '';
+      state.isLeader = false;
+      state.players = [];
+      render();
+    };
+  }
+}
 function renderEnd() {
   $app.innerHTML = `
     <div class="screen">
@@ -456,29 +451,12 @@ function renderEnd() {
       <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
-  document.getElementById('restartBtn').onclick = markReady;
+  document.getElementById('restartBtn').onclick = () => window.location.reload();
   attachReturnToStartHandler();
   document.getElementById('returnLandingBtn').onclick = () => {
     state.screen = 'landing';
     render();
   };
-}
-
-// --- Return to Start Handler ---
-function attachReturnToStartHandler() {
-  const btn = document.getElementById('returnToStartBtn');
-  if (btn) {
-    btn.onclick = async () => {
-      if (state.lobbyCode && state.playerId) {
-        await remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-      }
-      state.screen = 'lobby';
-      state.lobbyCode = '';
-      state.isLeader = false;
-      state.players = [];
-      render();
-    };
-  }
 }
 
 // --- Game Logic + Firebase Sync ---
@@ -491,7 +469,6 @@ function waitForAuthThen(fn) {
   }
 }
 
-// --- Firebase Auth ---
 signInAnonymously(auth).catch((error) => {
   state.status = "Authentication failed. Please refresh.";
   render();
@@ -508,8 +485,6 @@ onAuthStateChanged(auth, (user) => {
     render();
   }
 });
-
-// --- Lobby Logic ---
 function createLobby() {
   if (!state.playerName) { state.status = "Enter your name"; render(); return; }
   state.lobbyCode = generateLobbyCode();
@@ -602,7 +577,9 @@ function chooseCategory(category) {
       )
     : shuffle([...INITIALS_DB[category]]);
   const firstQuestion = allQuestions[0]; 
+  
   state.guess = '';
+  
   set(ref(db, `lobbies/${state.lobbyCode}`), {
     code: state.lobbyCode,
     leader: state.playerId,
@@ -697,7 +674,7 @@ function endRound() {
   });
 }
 
-// --- Ready/Play Again Logic ---
+// Update ready state per player and reset for a new round
 function markReady() {
   update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true })
     .then(() => {
@@ -706,14 +683,8 @@ function markReady() {
         const readyPlayers = Object.values(lobby.players || {}).filter(p => p.ready).length;
         const numPlayers = Object.keys(lobby.players || {}).length;
 
-        // Play Again logic: if game over, reset to category selection
-        if (lobby.status === "end" && readyPlayers === numPlayers) {
-          await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "waiting" });
-          return;
-        }
-
-        // In-game logic: next round or end game
         if (readyPlayers === numPlayers) {
+          // All players are ready, start next round or end game
           let round = lobby.round + 1;
           if (round > (lobby.maxRounds || 10)) {
             // End game
