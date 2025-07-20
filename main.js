@@ -475,63 +475,14 @@ function renderCategory() {
       <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
     </div>
     <style>
-      .cat-page-wrapper {
-        min-height: 100vh;
-        background: #18102c;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-bottom: 30px;
-      }
-      .lobby-box {
-        width: 97vw;
-        max-width: 500px;
-        min-height: 64px;
-        background: #fff;
-        border-radius: 17px;
-        box-shadow: 0 4px 24px #0001, 0 1px 0 #ffd600;
-        color: #18102c;
-        margin: 20px 0 28px 0;
-        padding: 8px 0 12px 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .lobby-title {
-        font-size: 1.28em;
-        font-weight: bold;
-        margin-bottom: 6px;
-        color: #222;
-        letter-spacing: 0.03em;
-      }
-      .lobby-players {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px 16px;
-        justify-content: flex-start;
-        width: 100%;
-        font-size: 1.28em;
-      }
-      .lobby-player {
-        color: #18102c;
-        background: #ffd60014;
-        border-radius: 8px;
-        padding: 7px 17px;
-        font-weight: bold;
-        margin: 1px 0;
-        box-shadow: 0 1px 0 #ffd60022;
-        text-align: left;
-      }
       .category-container {
         display: grid;
-        grid-template-columns: 1fr;
-        row-gap: 12px;
-        column-gap: 0;
-        max-width: 340px;
-        width: 100%;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        max-width: 700px;
         margin: 0 auto;
         padding: 0;
-        justify-content: center;
+        width: 100%;
       }
       .category-btn-box {
         width: 100%;
@@ -550,11 +501,6 @@ function renderCategory() {
         position: relative;
         cursor: pointer;
         transition: background 0.2s, transform 0.12s;
-      }
-      .category-btn-box.disabled {
-        filter: grayscale(0.92) brightness(1.11) opacity(0.72);
-        pointer-events: none;
-        cursor: not-allowed;
       }
       .category-btn-label {
         font-size: 1.1em;
@@ -577,35 +523,6 @@ function renderCategory() {
         white-space: normal;
         display: block;
       }
-      .category-btn-box:active .category-btn-label,
-      .category-btn-box:focus .category-btn-label {
-        background: #ffb300;
-      }
-      .leader-wait-msg {
-        color: #ffd600;
-        font-size: 1.1em;
-        margin-bottom: 12px;
-        margin-top: -11px;
-      }
-      .cat-return-btn {
-        width: 90vw;
-        max-width: 350px;
-        margin-top: 22px;
-        font-size: 1.1em;
-        padding: 15px 0;
-        border-radius: 8px;
-        border: none;
-        background: #ffd600;
-        color: #222;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 1px 2px 8px #0002;
-        transition: background 0.2s, transform 0.12s;
-      }
-      .cat-return-btn:hover {
-        background: #ffb300;
-        transform: scale(1.03);
-      }
       @media (max-width: 700px) {
         .category-container {
           max-width: 98vw;
@@ -614,8 +531,9 @@ function renderCategory() {
           max-width: 98vw;
         }
       }
-      @media (max-width: 480px) {
+      @media (max-width: 600px) {
         .category-container {
+          grid-template-columns: 1fr;
           max-width: 99vw;
         }
         .category-btn-box {
