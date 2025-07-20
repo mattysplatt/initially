@@ -615,17 +615,17 @@ function renderCategory() {
           gap: 18px;
           max-width: 99vw;
         }
-        .category-btn-box {
-          width: 92vw;
-          height: calc(92vw * ${deckHeight} / ${deckWidth});
-          max-width: ${deckWidth}px;
-          max-height: ${deckHeight}px;
-        }
-        .category-btn-label {
-          font-size: 1.05em;
-          padding: 8px 3vw;
-        }
-      }
+      .category-btn-box {
+    width: 92vw;
+    height: calc(92vw * 220 / 320); /* maintain PNG aspect ratio */
+    max-width: 320px;
+    max-height: 220px;
+  }
+  .category-btn-label {
+    font-size: 1em;
+    width: 90%;
+  }
+}
     </style>
   `;
 
