@@ -78,14 +78,13 @@ body {
 /* === CATEGORY/DECK GRID === */
 .category-container {
   display: grid;
-  grid-template-columns: 1fr;  /* Always single column */
-  row-gap: 12px;
-  column-gap: 0;
+  grid-template-columns: 1fr 1fr; /* Two columns on desktop/tablet */
+  gap: 12px;
   background: rgba(0,0,0,0.10);
   border-radius: 18px;
   box-shadow: 0 4px 32px #3334;
   margin: 10px auto 0 auto;
-  max-width: 340px;
+  max-width: 700px;
   width: 100%;
   padding: 0;
   justify-content: center;
@@ -172,7 +171,7 @@ body {
   background: #ffb300;
 }
 
-/* === LOBBY STYLES (copied from your renderCategory inline style) === */
+/* === LOBBY STYLES === */
 .lobby-box {
   width: 97vw;
   max-width: 500px;
@@ -244,9 +243,10 @@ body {
   transform: scale(1.03);
 }
 
-/* === RESPONSIVE FIX: Make sure all works on mobile === */
+/* === RESPONSIVE FIX: 1 column on mobile === */
 @media (max-width: 700px) {
   .category-container {
+    grid-template-columns: 1fr;
     max-width: 98vw;
   }
   .category-btn,
