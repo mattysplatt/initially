@@ -1,25 +1,97 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  width: 100vw;
+}
+
 body {
   font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-  margin: 0;
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-height: 100vh;
+  min-width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
+
+/* === LANDING PAGE CENTERING === */
+.landing-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center vertically and horizontally */
+  min-height: 100vh;
+  width: 100vw;
+  padding-bottom: 32px;
+  background: #18102c;
+  box-sizing: border-box;
+}
+
+.landing-logo {
+  width: 430px;
+  max-width: 90vw;
+  margin-bottom: 5vw;
+  margin-top: 0;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+.button-container {
+  background: rgba(0,0,0,0.16);
+  padding: 28px 12px 22px 12px;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #3338;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 360px;
+}
+
+.landing-btn {
+  width: 100%;
+  min-width: 175px;
+  max-width: 320px;
+  margin: 12px 0;
+  padding: 16px 0;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 7px;
+  background: #ffd600;
+  color: #222;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 1px 2px 8px #0002;
+  transition: background 0.2s, transform 0.12s;
+}
+
+.landing-btn:hover {
+  background: #ffb300;
+  transform: scale(1.03);
+}
+
+/* === MAIN APP LAYOUT === */
 #app {
   width: 100vw;
   max-width: 600px;
+  margin: 0 auto;
   padding: 24px;
+  box-sizing: border-box;
 }
+
 .screen {
-  background: rgba(68, 76, 173);
+  background: rgba(68, 76, 173, 1);
   border-radius: 22px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.16);
   padding: 30px 20px;
   margin: 0 auto;
 }
+
 input[type="text"], input[type="number"] {
   padding: 14px;
   font-size: 1.2em;
@@ -29,6 +101,7 @@ input[type="text"], input[type="number"] {
   width: 100%;
   box-sizing: border-box;
 }
+
 button {
   background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
   color: white;
@@ -40,56 +113,42 @@ button {
   cursor: pointer;
   transition: 0.2s;
 }
+
 button:hover {
   box-shadow: 0 2px 16px #ff6b6b44;
   transform: translateY(-2px);
 }
-/* New: Flex container for initials, timer, points */
-.question-header {
+
+/* Main game info */
+.question-header, .game-top-row {
   display: flex;
   align-items: center;
   gap: 16px;
   margin-bottom: 10px;
   flex-wrap: wrap;
 }
-.question-header .initials {
+
+.initials, .question-header .initials {
   margin: 0;
   font-size: 3em;
   font-weight: bold;
   letter-spacing: 0.22em;
   text-shadow: 0 2px 8px #0006;
 }
-.question-header .timer {
+
+.timer, .question-header .timer {
   margin: 0;
   font-size: 2.3em;
   font-weight: 600;
   color: #ffb86b;
 }
-.question-header .points {
+
+.points, .question-header .points {
   margin: 0;
   font-size: 1.3em;
   color: #4ecdc4;
 }
 
-/* (Keep original classes for backwards compatibility, in case used elsewhere) */
-.initials {
-  font-size: 3em;
-  font-weight: bold;
-  letter-spacing: 0.22em;
-  text-shadow: 0 2px 8px #0006;
-  margin: 18px 0;
-}
-.timer {
-  font-size: 2.3em;
-  font-weight: 600;
-  color: #ffb86b;
-  margin: 8px 0;
-}
-.points {
-  font-size: 1.3em;
-  color: #4ecdc4;
-}
-/* Reduced clue box height and font size */
 .clue {
   background: rgba(164, 93, 234);
   border-radius: 8px;
@@ -98,9 +157,11 @@ button:hover {
   font-size: 1em;
   line-height: 1.2;
 }
+
 .scoreboard {
   margin: 18px 0;
 }
+
 .score-item {
   display: flex;
   justify-content: space-between;
@@ -110,20 +171,27 @@ button:hover {
   border-radius: 8px;
   font-size: 1.1em;
 }
-/* Responsive adjustments */
+
 @media (max-width: 600px) {
+  .landing-screen {
+    justify-content: flex-start;
+    padding-top: 9vw;
+  }
+  .landing-logo {
+    width: 88vw;
+    margin-top: 0;
+    margin-bottom: 10vw;
+  }
+  .button-container {
+    max-width: 98vw;
+    padding: 15px 2vw 12px 2vw;
+  }
+  .landing-btn {
+    font-size: 1em;
+    padding: 13px 0;
+  }
   #app { padding: 8px; }
   .screen { padding: 13px 4px; }
-  /* .question-header { 
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 3px;
-    } 
-    -- REMOVED for always-row layout -- */
-  .question-header .initials {
-    font-size: 2em;
-  }
-  .question-header .timer {
-    font-size: 1.5em;
-  }
+  .initials, .question-header .initials { font-size: 2em; }
+  .timer, .question-header .timer { font-size: 1.5em; }
 }
