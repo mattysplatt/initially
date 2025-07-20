@@ -38,7 +38,21 @@
 </head>
 <body>
   <div id="app">
-    <div class="screen">
+
+    <!-- CATEGORY SELECTION SCREEN -->
+    <div class="category-container" id="categoryContainer">
+      <!-- Category buttons will be rendered by JavaScript with class="category-btn" -->
+      <!-- Example static category buttons for illustration (remove if using JS) -->
+      <!--
+      <button class="category-btn">Animals</button>
+      <button class="category-btn">Movies</button>
+      <button class="category-btn">Science</button>
+      <button class="category-btn">Sports</button>
+      -->
+    </div>
+
+    <!-- GAME SCREEN: Hidden until a category is selected -->
+    <div class="screen" id="gameScreen" style="display:none;">
       <div class="question-header">
         <span class="initials">AB</span>
         <span class="timer">29</span>
@@ -55,8 +69,8 @@
       <div class="clue">Your clue goes here.</div>
       <!-- Rest of your game UI here -->
     </div>
+
   </div>
   <script type="module" src="main.js"></script>
-  <!-- Your script here, if you want to add an inline or external script -->
 </body>
 </html>
