@@ -532,7 +532,7 @@ function renderCategory() {
         width: 100vw;
       }
       .category-btn-box {
-        background: url('DeckBackgroundwhite..png') center center / contain no-repeat;
+        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
         width: 100%;
         aspect-ratio: 165 / 240;
         max-width: 165px;
