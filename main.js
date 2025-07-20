@@ -460,7 +460,7 @@ function renderCategory() {
     "Football", "famousFigures", "randomMix", "ModernNBA"
   ];
 
-  // Set your DeckBackground.png’s real dimensions here:
+  // Set your DeckBackgroundwhitewhite.png’s real dimensions here:
   const deckWidth = 320;
   const deckHeight = 220;
 
@@ -539,7 +539,7 @@ function renderCategory() {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: url('DeckBackground.png') center center / contain no-repeat;
+        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
         width: ${deckWidth}px;
         height: ${deckHeight}px;
         cursor: pointer;
