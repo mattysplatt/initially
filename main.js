@@ -5,7 +5,7 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gsta
 
 // Firebase conf
 const firebaseConfig = {
-  apiKey: "AIzaSyC1PocQMYJZP0ABWxeoiUNF7C5mHgsDjpk",
+  apiKey: "AIzaSy-C1PocQMYJZP0ABWxeoiUNF7C5mHgsDjpk",
   authDomain: "initialcontact-66089.firebaseapp.com",
   databaseURL: "https://initialcontact-66089-default-rtdb.asia-southeast1.firebasedatabase.app/",
   projectId: "initialcontact-66089",
@@ -23,7 +23,7 @@ let isAuthenticated = false;
 
 // App State
 let state = {
-  screen: 'lobby',
+  screen: 'landing', 
   playerName: '',
   playerId: '',
   lobbyCode: '',
@@ -50,7 +50,7 @@ let state = {
   lastQuestionInitials: '',
 };
 
-// Utility Functions
+
 function randomId() {
   return Math.random().toString(36).slice(2, 10);
 }
@@ -93,13 +93,75 @@ function levenshtein(a, b) {
 
 // --- DOM ---
 const $app = document.getElementById('app');
+
+// LANDING PAGE
+function renderLanding() {
+  $app.innerHTML = `
+    <div class="landing-screen" style="
+      background: url('your-image-url-here') no-repeat center center/cover;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    ">
+      <div style="background: rgba(0,0,0,0.55); padding: 32px 24px; border-radius: 18px; box-shadow: 0 4px 32px #3338;">
+        <h1 style="color: #fff; font-size: 2.5em; margin-bottom: 32px; text-shadow: 1px 2px 4px #000a;">Initial Contact</h1>
+        <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button><br/>
+        <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button><br/>
+        <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button><br/>
+        <button id="monthlyBtn" class="landing-btn">MONTHLY CHALLENGE</button>
+      </div>
+    </div>
+    <style>
+      .landing-btn {
+        width: 270px;
+        margin: 12px 0;
+        padding: 18px 0;
+        font-size: 1.15em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+    </style>
+  `;
+
+  document.getElementById('playFreeBtn').onclick = () => {
+    state.screen = 'category';
+    render();
+  };
+  document.getElementById('playPurchasedBtn').onclick = () => {
+    state.screen = 'category';
+    render();
+  };
+  document.getElementById('purchaseBtn').onclick = () => {
+    // Not linked for now
+  };
+  document.getElementById('monthlyBtn').onclick = () => {
+    state.screen = 'category';
+    render();
+  };
+}
+
+// MAIN RENDER FUNCTION
 function render() {
   $app.innerHTML = '';
   if (!isAuthenticated) {
     $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh.</span></div>`;
     return;
   }
-  if (state.screen === 'lobby') renderLobby();
+  if (state.screen === 'landing') renderLanding();
+  else if (state.screen === 'lobby') renderLobby();
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
   else if (state.screen === 'category') renderCategory();
   else if (state.screen === 'game') renderGame();
@@ -116,11 +178,16 @@ function renderLobby() {
       <button id="createLobby">Create New Lobby</button>
       <button id="joinLobby">Join Lobby</button>
       <div id="lobbyStatus" style="margin:8px 0;color:#ffd600">${state.status||''}</div>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
   document.getElementById('playerName').addEventListener('input', e => state.playerName = e.target.value);
   document.getElementById('createLobby').onclick = () => waitForAuthThen(createLobby);
   document.getElementById('joinLobby').onclick = () => waitForAuthThen(joinLobby);
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 function renderLobbyCodeScreen() {
   $app.innerHTML = `
@@ -131,6 +198,7 @@ function renderLobbyCodeScreen() {
       <button id="copyLobbyCodeBtn">Copy Code</button>
       <p>Share this code with friends to join your lobby.</p>
       <button id="startLobbyBtn">Start Lobby</button>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
   document.getElementById('copyLobbyCodeBtn').onclick = function() {
@@ -139,6 +207,10 @@ function renderLobbyCodeScreen() {
   };
   document.getElementById('startLobbyBtn').onclick = function() {
     joinLobbyByCode(state.lobbyCode, state.playerName, true);
+  };
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
   };
 }
 function renderCategory() {
@@ -155,6 +227,7 @@ function renderCategory() {
   }).join('')}
       </div>
       <div>${state.isLeader ? '' : 'Waiting for leader to select...'}</div>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
   if (state.isLeader) {
@@ -162,6 +235,10 @@ function renderCategory() {
       btn.onclick = () => chooseCategory(btn.dataset.cat)
     );
   }
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
@@ -202,6 +279,7 @@ function renderGame() {
         <button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
         <div id="gameStatus" style="margin:8px 0;color:#ffd600">${isCorrect ? 'Waiting for round...' : ''}</div>
       </div>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
   const guessInput = document.getElementById('guessInput');
@@ -215,6 +293,10 @@ function renderGame() {
   if (submitBtn && !isCorrect) {
     submitBtn.onclick = submitGuess;
   }
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 
 // NEW renderScoreboard with player ready ticks and no ready count
@@ -263,6 +345,7 @@ function renderScoreboard() {
       <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
         Return to Start
       </button>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
 
@@ -270,6 +353,10 @@ function renderScoreboard() {
     document.getElementById('readyBtn').onclick = markReady;
   }
   attachReturnToStartHandler();
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 
 function attachReturnToStartHandler() {
@@ -300,10 +387,15 @@ function renderEnd() {
       <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
         Return to Start
       </button>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
   document.getElementById('restartBtn').onclick = () => window.location.reload();
   attachReturnToStartHandler();
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 
 // --- Game Logic + Firebase Sync ---
