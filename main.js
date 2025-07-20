@@ -459,8 +459,6 @@ function renderCategory() {
     "worldSports", "AFL", "movieStars", "musicians", "PopStars",
     "Football", "famousFigures", "randomMix", "ModernNBA"
   ];
-  const deckWidth = 165;   // 220 * 0.75
-  const deckHeight = 240;  // 320 * 0.75
 
   $app.innerHTML = `
     <div class="cat-page-wrapper">
@@ -524,8 +522,8 @@ function renderCategory() {
         box-shadow: 0 1px 0 #ffd60022;
       }
       .category-container {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         gap: 18px;
         justify-content: center;
         align-items: flex-start;
@@ -543,7 +541,7 @@ function renderCategory() {
         border: none;
         box-shadow: 0 2px 12px #0002;
         padding: 0;
-        margin: 0;
+        margin: 0 auto;
         overflow: hidden;
         box-sizing: content-box;
         position: relative;
@@ -611,11 +609,8 @@ function renderCategory() {
         }
       }
       @media (max-width: 600px) {
-        .lobby-box {
-          max-width: 99vw;
-          font-size: 1.11em;
-        }
         .category-container {
+          grid-template-columns: 1fr;
           gap: 11px;
           max-width: 99vw;
         }
