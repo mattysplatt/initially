@@ -524,27 +524,28 @@ function renderCategory() {
 
       .category-container {
         display: grid;
-        grid-template-columns: repeat(2, minmax(145px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(2, minmax(200px, 1fr));
+        gap: 28px;
         margin: 24px auto 18px auto;
-        max-width: 500px;
+        max-width: 600px;
         width: 97vw;
       }
-     .category-btn-box {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: url('DeckBackground.png') center center / contain no-repeat;
-  border-radius: 15px;
-  height: 160px; /* Or set to DeckBackground.png's real height */
-  width: 100%;   /* grid will control width */
-  cursor: pointer;
-  box-shadow: 0 2px 12px #0002;
-  transition: transform 0.13s, box-shadow 0.13s;
-  border: 2.5px solid #ffd60033;
-  background-color: #fff; /* fallback for transparent PNG */
-}
+      .category-btn-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: url('DeckBackground.png') center center / contain no-repeat;
+        border-radius: 15px;
+        height: 240px; /* 50% bigger than before */
+        width: 100%;
+        cursor: pointer;
+        box-shadow: 0 2px 12px #0002;
+        transition: transform 0.13s, box-shadow 0.13s;
+        border: 2.5px solid #ffd60033;
+        background-color: transparent;
+        /* No extra white, just the PNG and shadow */
+      }
       .category-btn-box:active {
         transform: scale(0.98);
         box-shadow: 0 1px 6px #0001;
@@ -555,7 +556,7 @@ function renderCategory() {
         cursor: not-allowed;
       }
       .category-btn-label {
-        font-size: 1.15em;
+        font-size: 1.36em;
         color: #18102c;
         font-weight: bold;
         letter-spacing: 0.02em;
@@ -564,6 +565,9 @@ function renderCategory() {
         padding: 10px 5px;
         width: 100%;
         user-select: none;
+        background: rgba(255,255,255,0.78);
+        border-radius: 10px;
+        margin: 0 18px;
       }
       .leader-wait-msg {
         color: #ffd600;
@@ -597,10 +601,13 @@ function renderCategory() {
         }
         .category-container {
           grid-template-columns: 1fr;
-          gap: 15px;
+          gap: 20px;
+        }
+        .category-btn-box {
+          height: 170px;
         }
         .category-btn-label {
-          font-size: 1.02em;
+          font-size: 1em;
           padding: 8px 2px;
         }
       }
