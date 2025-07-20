@@ -103,7 +103,7 @@ body {
 
 /* === CATEGORY/DECK BUTTON === */
 .category-btn {
-  background-image: url('DeckBackground.png');
+  background-image: url('DeckBackgroundwhite.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -137,8 +137,8 @@ body {
   .category-container {
     grid-template-columns: 1fr;
     max-height: 60vh;
-    padding: 10px;
-    gap: 15px;
+    padding: 4px;
+    gap: 4px;
   }
   .category-btn {
     height: 90px;
