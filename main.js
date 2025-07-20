@@ -24,6 +24,7 @@ let isAuthenticated = false;
 // App State
 let state = {
   screen: 'landing', // <-- Default to landing page!
+  mode: '', // 'single' or 'multi'
   playerName: '',
   playerId: '',
   lobbyCode: '',
@@ -48,6 +49,7 @@ let state = {
   unsubGame: null,
   incorrectPrompt: false,
   lastQuestionInitials: '',
+  usedAnswers: []
 };
 
 // Utility Functions
@@ -113,7 +115,6 @@ function renderLanding() {
         margin: 0;
         padding: 0;
       }
-
       .landing-screen {
         background: #18102c;
         display: flex;
@@ -166,7 +167,6 @@ function renderLanding() {
         background: #ffb300;
         transform: scale(1.03);
       }
-
       @media (max-width: 600px) {
         .landing-logo {
           width: 88vw;
@@ -182,7 +182,6 @@ function renderLanding() {
           padding: 13px 0;
         }
       }
-
       @media (min-width: 601px) and (max-width: 1024px) {
         .landing-logo {
           width: 60vw;
@@ -196,24 +195,20 @@ function renderLanding() {
     </style>
   `;
 
-  // All buttons route to lobby/login
   document.getElementById('playFreeBtn').onclick = () => {
-    state.screen = 'lobby';
+    state.mode = 'single';
+    state.screen = 'category';
     render();
   };
-  document.getElementById('playPurchasedBtn').onclick = () => {
-    state.screen = 'lobby';
-    render();
-  };
-  document.getElementById('purchaseBtn').onclick = () => {
-    state.screen = 'lobby';
-    render();
-  };
-  document.getElementById('monthlyBtn').onclick = () => {
-    state.screen = 'lobby';
-    render();
-  };
+  document.getElementById('playPurchasedBtn').onclick =
+    document.getElementById('purchaseBtn').onclick =
+    document.getElementById('monthlyBtn').onclick = () => {
+      state.mode = 'multi';
+      state.screen = 'lobby';
+      render();
+    };
 }
+
 // MAIN RENDER FUNCTION
 function render() {
   $app.innerHTML = '';
@@ -274,33 +269,96 @@ function renderLobbyCodeScreen() {
     render();
   };
 }
+
+// --- CATEGORY GRID FOR BOTH MODES ---
 function renderCategory() {
+  const categories = [
+    "worldSports", "AFL", "movieStars", "musicians", "PopStars",
+    "Football", "famousFigures", "randomMix", "ModernNBA"
+  ];
   $app.innerHTML = `
     <div class="screen">
       <h2>Select Category</h2>
-      <div>${state.players.map(p => `<div>${p.name}${p.isLeader?' 👑':''}</div>`).join('')}</div>
-      <div style="margin:16px 0;">
-       ${['worldSports','AFL','movieStars','musicians', 'PopStars', 'Football', 'famousFigures','randomMix', 'ModernNBA']
-  .map(cat => {
-    let label = cat.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase());
-    if (cat === 'Football') label = '⚽ ' + label;
-    return `<button class="catBtn" data-cat="${cat}">${label}</button>`;
-  }).join('')}
+      <div class="category-container" id="categoryContainer"></div>
+      ${state.mode === 'multi' ? `<div>${state.players.map(p => `<div>${p.name}${p.isLeader?' 👑':''}</div>`).join('')}</div>` : ''}
+      <div style="margin-top:10px;">
+        ${state.mode === 'multi' && !state.isLeader ? 'Waiting for leader to select...' : ''}
       </div>
-      <div>${state.isLeader ? '' : 'Waiting for leader to select...'}</div>
       <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
+    <style>
+      .category-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+        margin: 28px auto 18px auto;
+        max-width: 440px;
+      }
+      .category-btn {
+        font-size: 1.1em;
+        padding: 17px 0;
+        border-radius: 10px;
+        border: none;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .category-btn:disabled {
+        background: #eee;
+        color: #aaa;
+        cursor: not-allowed;
+        opacity: 0.8;
+      }
+    </style>
   `;
-  if (state.isLeader) {
-    document.querySelectorAll('.catBtn').forEach(btn => 
-      btn.onclick = () => chooseCategory(btn.dataset.cat)
-    );
-  }
+  const catDiv = document.getElementById('categoryContainer');
+  categories.forEach(cat => {
+    let label = cat.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase());
+    if (cat === 'Football') label = '⚽ ' + label;
+    const btn = document.createElement('button');
+    btn.className = 'category-btn';
+    btn.textContent = label;
+    if (state.mode === 'multi' && !state.isLeader) btn.disabled = true;
+    btn.onclick = () => {
+      if (state.mode === 'multi') {
+        chooseCategory(cat);
+      } else {
+        startSinglePlayerGame(cat);
+      }
+    };
+    catDiv.appendChild(btn);
+  });
   document.getElementById('returnLandingBtn').onclick = () => {
     state.screen = 'landing';
     render();
   };
 }
+
+// --- SINGLEPLAYER GAME STARTER ---
+function startSinglePlayerGame(category) {
+  const allQuestions = shuffle([...INITIALS_DB[category]]);
+  const firstQuestion = allQuestions[0];
+  state.category = category;
+  state.round = 1;
+  state.maxRounds = 10;
+  state.question = firstQuestion;
+  state.clues = shuffle(firstQuestion.clues);
+  state.clueIdx = 0;
+  state.points = 60;
+  state.guess = '';
+  state.guesses = {};
+  state.scores = {};
+  state.scoreboard = [];
+  state.usedAnswers = [firstQuestion.answer];
+  state.screen = 'game';
+  render();
+}
+
+// --- REST OF YOUR GAME LOGIC (UNCHANGED) BELOW ---
+
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
   const displayCategory = state.category
@@ -360,14 +418,11 @@ function renderGame() {
   };
 }
 
-// NEW renderScoreboard with player ready ticks and no ready count
 function renderScoreboard() {
-  // Sort the scoreboard from highest to lowest score
   const sortedScoreboard = (state.scoreboard || [])
     .slice()
     .sort((a, b) => b.score - a.score);
 
-  // Find correct guessers for this round
   let correctGuessers = [];
   if (state.players.length >= 2 && state.guesses) {
     correctGuessers = state.players
@@ -392,7 +447,6 @@ function renderScoreboard() {
         if (pos === 1) suffix = "st";
         else if (pos === 2) suffix = "nd";
         else if (pos === 3) suffix = "rd";
-        // Find the player object to check if they're ready
         const playerObj = state.players.find(p => p.name === item.name);
         const tick = playerObj && playerObj.ready ? ' <span style="color:#27ae60;font-weight:bold;">&#10003;</span>' : '';
         return `<div class="score-item"><span>${pos}${suffix} - ${item.name}${tick}</span><span>${item.score}</span></div>`;
@@ -435,6 +489,7 @@ function attachReturnToStartHandler() {
     };
   }
 }
+
 function renderEnd() {
   $app.innerHTML = `
     <div class="screen">
@@ -577,9 +632,7 @@ function chooseCategory(category) {
       )
     : shuffle([...INITIALS_DB[category]]);
   const firstQuestion = allQuestions[0]; 
-  
   state.guess = '';
-  
   set(ref(db, `lobbies/${state.lobbyCode}`), {
     code: state.lobbyCode,
     leader: state.playerId,
@@ -674,7 +727,6 @@ function endRound() {
   });
 }
 
-// Update ready state per player and reset for a new round
 function markReady() {
   update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true })
     .then(() => {
@@ -684,25 +736,19 @@ function markReady() {
         const numPlayers = Object.keys(lobby.players || {}).length;
 
         if (readyPlayers === numPlayers) {
-          // All players are ready, start next round or end game
           let round = lobby.round + 1;
           if (round > (lobby.maxRounds || 10)) {
-            // End game
             await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
             return;
           }
-          // Get next unused question
           const usedAnswers = lobby.usedQuestions || [];
           const category = lobby.category;
           const nextQuestion = getRandomUnusedQuestion(category, usedAnswers);
           if (!nextQuestion) {
-            // No more questions, end the game
             await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
             return;
           }
           const newUsedAnswers = [...usedAnswers, nextQuestion.answer];
-
-          // Reset ready flags for all players
           const players = Object.fromEntries(
             Object.entries(lobby.players).map(([id, p]) => [id, { ...p, ready: false }])
           );
@@ -729,7 +775,6 @@ function markReady() {
 // --- App Start ---
 render();
 
-// --- Clean up player on leave ---
 window.addEventListener('beforeunload', () => {
   if (state.lobbyCode && state.playerId) {
     remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
