@@ -475,6 +475,11 @@ function renderCategory() {
       <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
     </div>
     <style>
+      .cat-page-wrapper {
+        background: #000;
+        min-height: 100vh;
+        width: 100vw;
+      }
       .category-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -503,6 +508,7 @@ function renderCategory() {
         cursor: pointer;
         transition: background 0.2s, transform 0.12s;
       }
+      /* No hover or active styles */
       .category-btn-label {
         font-size: 1.1em;
         font-weight: bold;
