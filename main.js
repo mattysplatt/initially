@@ -23,7 +23,7 @@ let isAuthenticated = false;
 
 // App State
 let state = {
-  screen: 'landing', 
+  screen: 'landing', // <-- Default to landing page!
   playerName: '',
   playerId: '',
   lobbyCode: '',
@@ -50,7 +50,7 @@ let state = {
   lastQuestionInitials: '',
 };
 
-
+// Utility Functions
 function randomId() {
   return Math.random().toString(36).slice(2, 10);
 }
@@ -98,7 +98,7 @@ const $app = document.getElementById('app');
 function renderLanding() {
   $app.innerHTML = `
     <div class="landing-screen" style="
-      background: url('your-image-url-here') no-repeat center center/cover;
+      background: url('Initially Logo.png') no-repeat center center/cover;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
