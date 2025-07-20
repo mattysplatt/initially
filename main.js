@@ -627,8 +627,64 @@ function renderCategory() {
             ? state.players.map(p => `<div class="lobby-player">${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')
             : '<div style="color:#aaa;">Waiting for players...</div>'}
         </div>
-      </div>
     </div>
+      <div class="category-container" id="categoryContainer"></div>
+      ${state.mode === 'multi' && !state.isLeader ? `<div class="leader-wait-msg">Waiting for leader to select...</div>` : ''}
+      <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
+    </div>
+    <style>
+      .cat-page-wrapper {
+        min-height: 100vh;
+        background: #18102c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 30px;
+      }
+      .lobby-box {
+        width: 97vw;
+        max-width: 500px;
+        min-height: 64px;
+        background: #fff;
+        border-radius: 17px;
+        box-shadow: 0 4px 24px #0001, 0 1px 0 #ffd600;
+        color: #18102c;
+        margin: 20px 0 28px 0;
+        padding: 8px 0 12px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .lobby-title {
+        font-size: 1.28em;
+        font-weight: bold;
+        margin-bottom: 6px;
+        color: #222;
+        letter-spacing: 0.03em;
+      }
+      .lobby-players {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 16px;function renderCategory() {
+  const categories = [
+    "worldSports", "AFL", "movieStars", "musicians", "PopStars",
+    "Football", "famousFigures", "randomMix", "ModernNBA"
+  ];
+
+  // Set your DeckBackgroundwhite.png’s real dimensions here:
+  const deckWidth = 320;
+  const deckHeight = 220;
+
+  $app.innerHTML = `
+    <div class="cat-page-wrapper">
+      <div class="lobby-box">
+        <div class="lobby-title">Lobby</div>
+        <div class="lobby-players" id="lobbyPlayers">
+          ${state.players && state.players.length
+            ? state.players.map(p => `<div class="lobby-player">${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')
+            : '<div style="color:#aaa;">Waiting for players...</div>'}
+        </div>
+      </div>
       <div class="category-container" id="categoryContainer"></div>
       ${state.mode === 'multi' && !state.isLeader ? `<div class="leader-wait-msg">Waiting for leader to select...</div>` : ''}
       <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
@@ -721,7 +777,6 @@ function renderCategory() {
         box-shadow: 1px 2px 8px #0002;
         transition: background 0.2s, transform 0.12s;
         text-align: center;
-        /* Don't use position absolute, so it stays inside container */
       }
       .landing-btn:hover {
         background: #ffb300;
