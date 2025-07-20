@@ -530,19 +530,21 @@ function renderCategory() {
         max-width: 500px;
         width: 97vw;
       }
-      .category-btn-box {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: url('DeckBackground.png') center center / cover no-repeat;
-        border-radius: 15px;
-        min-height: 94px;
-        cursor: pointer;
-        box-shadow: 0 2px 12px #0002;
-        transition: transform 0.13s, box-shadow 0.13s;
-        border: 2.5px solid #ffd60033;
-      }
+     .category-btn-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('DeckBackground.png') center center / contain no-repeat;
+  border-radius: 15px;
+  height: 160px; /* Or set to DeckBackground.png's real height */
+  width: 100%;   /* grid will control width */
+  cursor: pointer;
+  box-shadow: 0 2px 12px #0002;
+  transition: transform 0.13s, box-shadow 0.13s;
+  border: 2.5px solid #ffd60033;
+  background-color: #fff; /* fallback for transparent PNG */
+}
       .category-btn-box:active {
         transform: scale(0.98);
         box-shadow: 0 1px 6px #0001;
