@@ -534,32 +534,23 @@ function renderCategory() {
         width: 97vw;
         justify-items: center;
       }
-      .category-btn-box {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: url('DeckBackground.png') center center / contain no-repeat;
-        width: ${deckWidth}px;
-        height: ${deckHeight}px;
-        cursor: pointer;
-        transition: transform 0.13s, box-shadow 0.13s;
-        /* No border, no extra background */
-        border: none;
-        box-shadow: 0 2px 12px #0002;
-        padding: 0;
-      }
-      .category-btn-box:active {
-        transform: scale(0.98);
-        box-shadow: 0 1px 6px #0001;
-      }
-      .category-btn-box.disabled {
-        filter: grayscale(0.92) brightness(1.11) opacity(0.72);
-        pointer-events: none;
-        cursor: not-allowed;
-      }
-      .category-btn-label {
-  font-size: 1.5em;
+     .category-btn-box {
+  background: url('DeckBackground.png') center center / contain no-repeat;
+  width: 320px;  /* match PNG */
+  height: 220px; /* match PNG */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.13s, box-shadow 0.13s;
+  border: none;
+  box-shadow: 0 2px 12px #0002;
+  padding: 0;
+  overflow: hidden; /* Prevent label overflow */
+}
+.category-btn-label {
+  font-size: 1.4em;
   font-weight: bold;
   color: #ffd600;
   letter-spacing: 0.03em;
@@ -570,15 +561,18 @@ function renderCategory() {
   text-align: center;
   user-select: none;
   margin: 0;
-  position: absolute;
-  left: 50%; top: 50%; transform: translate(-50%, -50%);
-  box-sizing: border-box;
   width: 85%;
-  max-width: 95%;
-  /* Remove background and border-radius */
+  max-width: 90%;
+  padding: 0;
   background: none;
   border-radius: 0;
-  padding: 0;
+  line-height: 1.15;
+  white-space: normal;
+  position: static; /* Not absolute */
+  transform: none;
+  box-sizing: border-box;
+  display: block;
+  word-break: break-word;
 }
       .leader-wait-msg {
         color: #ffd600;
