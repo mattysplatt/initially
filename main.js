@@ -98,7 +98,7 @@ const $app = document.getElementById('app');
 function renderLanding() {
   $app.innerHTML = `
     <div class="landing-screen" style="
-      background: url('Initially Logo.png') no-repeat center center/cover;
+      background: url('IntiallyLogo.png') no-repeat center center/cover;
       min-height: 100vh;
       width: 100vw;
       display: flex;
