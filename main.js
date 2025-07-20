@@ -613,7 +613,7 @@ function renderCategory() {
       @media (max-width: 600px) {
         .category-container {
           grid-template-columns: 1fr;
-          gap: 11px;
+          gap: 2px;
           max-width: 99vw;
         }
         .category-btn-box {
