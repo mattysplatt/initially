@@ -219,7 +219,7 @@ function render() {
   if (state.screen === 'landing') renderLanding();
   else if (state.screen === 'lobby') renderLobby();
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
-  else if (state.screen === 'category') renderCategory(); // <-- FIXED HERE
+  else if (state.screen === 'category') (); // <-- FIXED HERE
   else if (state.screen === 'game') renderGame();
   else if (state.screen === 'scoreboard') renderScoreboard();
   else if (state.screen === 'end') renderEnd();
@@ -459,8 +459,8 @@ function renderCategory() {
     "worldSports", "AFL", "movieStars", "musicians", "PopStars",
     "Football", "famousFigures", "randomMix", "ModernNBA"
   ];
-  const deckWidth = 320;
-  const deckHeight = 220;
+  const deckWidth = 220;
+  const deckHeight = 320;
 
   $app.innerHTML = `
     <div class="cat-page-wrapper">
