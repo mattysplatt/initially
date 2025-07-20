@@ -5,7 +5,7 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gsta
 
 // Firebase conf
 const firebaseConfig = {
-  apiKey: "AIzaSy-C1PocQMYJZP0ABWxeoiUNF7C5mHgsDjpk",
+  apiKey: "AIzaSyC1PocQMYJZP0ABWxeoiUNF7C5mHgsDjpk",
   authDomain: "initialcontact-66089.firebaseapp.com",
   databaseURL: "https://initialcontact-66089-default-rtdb.asia-southeast1.firebasedatabase.app/",
   projectId: "initialcontact-66089",
