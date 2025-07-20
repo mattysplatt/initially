@@ -460,218 +460,7 @@ function renderCategory() {
     "Football", "famousFigures", "randomMix", "ModernNBA"
   ];
 
-  // Set your DeckBackgroundwhite.png’s real dimensions here:
-  const deckWidth = 320;
-  const deckHeight = 220;
-
-  $app.innerHTML = `
-    <div class="cat-page-wrapper">
-      <div class="lobby-box">
-        <div class="lobby-title">Lobby</div>
-        <div class="lobby-players" id="lobbyPlayers">
-          ${state.players && state.players.length
-            ? state.players.map(p => `<div class="lobby-player">${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')
-            : '<div style="color:#aaa;">Waiting for players...</div>'}
-        </div>
-      </div>
-      <div class="category-container" id="categoryContainer"></div>
-      ${state.mode === 'multi' && !state.isLeader ? `<div class="leader-wait-msg">Waiting for leader to select...</div>` : ''}
-      <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
-    </div>
-    <style>
-      .cat-page-wrapper {
-        min-height: 100vh;
-        background: #18102c;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-bottom: 30px;
-      }
-      .lobby-box {
-        width: 97vw;
-        max-width: 500px;
-        min-height: 64px;
-        background: #fff;
-        border-radius: 17px;
-        box-shadow: 0 4px 24px #0001, 0 1px 0 #ffd600;
-        color: #18102c;
-        margin: 20px 0 28px 0;
-        padding: 8px 0 12px 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .lobby-title {
-        font-size: 1.28em;
-        font-weight: bold;
-        margin-bottom: 6px;
-        color: #222;
-        letter-spacing: 0.03em;
-      }
-      .lobby-players {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px 16px;
-        justify-content: center;
-        width: 100%;
-        font-size: 1.18em;
-      }
-      .lobby-player {
-        color: #18102c;
-        background: #ffd60014;
-        border-radius: 8px;
-        padding: 7px 17px;
-        font-weight: 500;
-        margin: 1px 0;
-        box-shadow: 0 1px 0 #ffd60022;
-      }
-
-      .category-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 26px;
-        margin: 24px auto 18px auto;
-        max-width: ${deckWidth * 2 + 30}px;
-        width: 97vw;
-        justify-items: center;
-      }
-      .category-deck {
-        width: ${deckWidth}px;
-        height: ${deckHeight}px;
-        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        /* No border or extra background! */
-      }
-      .category-btn-inside {
-        width: 80%;
-        min-width: 0;
-        max-width: 90%;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-50%);
-        z-index: 1;
-      }
-      .landing-btn {
-        width: 100%;
-        padding: 16px 0;
-        font-size: 1.1em;
-        border: none;
-        border-radius: 7px;
-        background: #ffd600;
-        color: #222;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 1px 2px 8px #0002;
-        transition: background 0.2s, transform 0.12s;
-        text-align: center;
-      }
-      .landing-btn:hover {
-        background: #ffb300;
-        transform: scale(1.03);
-      }
-      .category-deck.disabled .landing-btn {
-        background: #eee;
-        color: #aaa;
-        cursor: not-allowed;
-        pointer-events: none;
-      }
-      .leader-wait-msg {
-        color: #ffd600;
-        font-size: 1.1em;
-        margin-bottom: 12px;
-        margin-top: -11px;
-      }
-      .cat-return-btn {
-        width: 90vw;
-        max-width: 350px;
-        margin-top: 22px;
-        font-size: 1.1em;
-        padding: 15px 0;
-        border-radius: 8px;
-        border: none;
-        background: #ffd600;
-        color: #222;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 1px 2px 8px #0002;
-        transition: background 0.2s, transform 0.12s;
-      }
-      .cat-return-btn:hover {
-        background: #ffb300;
-        transform: scale(1.03);
-      }
-      @media (max-width: 900px) {
-        .category-container {
-          grid-template-columns: 1fr;
-          max-width: ${deckWidth + 10}px;
-        }function renderCategory() {
-  const categories = [
-    "worldSports", "AFL", "movieStars", "musicians", "PopStars",
-    "Football", "famousFigures", "randomMix", "ModernNBA"
-  ];
-
-  // Set your DeckBackgroundwhite.png’s real dimensions here:
-  const deckWidth = 320;   // Change to your actual PNG width
-  const deckHeight = 220;  // Change to your actual PNG height
-
-  $app.innerHTML = `
-    <div class="cat-page-wrapper">
-      <div class="lobby-box">
-        <div class="lobby-title">Lobby</div>
-        <div class="lobby-players" id="lobbyPlayers">
-          ${state.players && state.players.length
-            ? state.players.map(p => `<div class="lobby-player">${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')
-            : '<div style="color:#aaa;">Waiting for players...</div>'}
-        </div>
-    </div>
-      <div class="category-container" id="categoryContainer"></div>
-      ${state.mode === 'multi' && !state.isLeader ? `<div class="leader-wait-msg">Waiting for leader to select...</div>` : ''}
-      <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
-    </div>
-    <style>
-      .cat-page-wrapper {
-        min-height: 100vh;
-        background: #18102c;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-bottom: 30px;
-      }
-      .lobby-box {
-        width: 97vw;
-        max-width: 500px;
-        min-height: 64px;
-        background: #fff;
-        border-radius: 17px;
-        box-shadow: 0 4px 24px #0001, 0 1px 0 #ffd600;
-        color: #18102c;
-        margin: 20px 0 28px 0;
-        padding: 8px 0 12px 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .lobby-title {
-        font-size: 1.28em;
-        font-weight: bold;
-        margin-bottom: 6px;
-        color: #222;
-        letter-spacing: 0.03em;
-      }
-      .lobby-players {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px 16px;function renderCategory() {
-  const categories = [
-    "worldSports", "AFL", "movieStars", "musicians", "PopStars",
-    "Football", "famousFigures", "randomMix", "ModernNBA"
-  ];
-
-  // Set your DeckBackgroundwhite.png’s real dimensions here:
+  // Set your DeckBackground.png’s real dimensions here:
   const deckWidth = 320;
   const deckHeight = 220;
 
@@ -745,48 +534,47 @@ function renderCategory() {
         width: 97vw;
         justify-items: center;
       }
-      .category-deck {
-        width: ${deckWidth}px;
-        height: ${deckHeight}px;
-        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
+      .category-btn-box {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative;
-        overflow: hidden;
-        border-radius: 20px; /* Match your PNG's corners if they're rounded */
+        background: url('DeckBackground.png') center center / contain no-repeat;
+        width: ${deckWidth}px;
+        height: ${deckHeight}px;
+        cursor: pointer;
+        transition: transform 0.13s, box-shadow 0.13s;
+        /* No border, no extra background */
+        border: none;
         box-shadow: 0 2px 12px #0002;
+        padding: 0;
       }
-      .category-btn-inside {
-        width: 80%;
-        max-width: 85%;
-        margin: 0 auto;
-        z-index: 1;
-        white-space: normal;
+      .category-btn-box:active {
+        transform: scale(0.98);
+        box-shadow: 0 1px 6px #0001;
       }
-      .landing-btn {
-        width: 100%;
-        padding: 16px 0;
-        font-size: 1.1em;
-        border: none;
-        border-radius: 7px;
-        background: #ffd600;
-        color: #222;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 1px 2px 8px #0002;
-        transition: background 0.2s, transform 0.12s;
-        text-align: center;
-      }
-      .landing-btn:hover {
-        background: #ffb300;
-        transform: scale(1.03);
-      }
-      .category-deck.disabled .landing-btn {
-        background: #eee;
-        color: #aaa;
-        cursor: not-allowed;
+      .category-btn-box.disabled {
+        filter: grayscale(0.92) brightness(1.11) opacity(0.72);
         pointer-events: none;
+        cursor: not-allowed;
+      }
+      .category-btn-label {
+        font-size: 1.44em;
+        color: #18102c;
+        font-weight: bold;
+        letter-spacing: 0.02em;
+        text-shadow: 1px 2px 8px #fff, 0 2px 3px #ffd60099;
+        text-align: center;
+        background: rgba(255,255,255,0.77);
+        border-radius: 10px;
+        padding: 10px 20px;
+        user-select: none;
+        margin: 0;
+        position: absolute;
+        left: 50%; top: 50%; transform: translate(-50%, -50%);
+        box-sizing: border-box;
+        width: 80%;
+        max-width: 97%;
       }
       .leader-wait-msg {
         color: #ffd600;
@@ -829,14 +617,15 @@ function renderCategory() {
           gap: 18px;
           max-width: 99vw;
         }
-        .category-deck {
+        .category-btn-box {
           width: 92vw;
           height: calc(92vw * ${deckHeight} / ${deckWidth});
           max-width: ${deckWidth}px;
           max-height: ${deckHeight}px;
         }
-        .category-btn-inside {
-          font-size: 1em;
+        .category-btn-label {
+          font-size: 1.05em;
+          padding: 8px 3vw;
         }
       }
     </style>
@@ -846,16 +635,12 @@ function renderCategory() {
   categories.forEach(cat => {
     let label = cat.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
     if (cat === 'Football') label = '⚽ ' + label;
-    const deck = document.createElement('div');
-    deck.className = 'category-deck' +
+    const box = document.createElement('div');
+    box.className = 'category-btn-box' +
       ((state.mode === 'multi' && !state.isLeader) ? ' disabled' : '');
-    deck.innerHTML = `
-      <button class="landing-btn category-btn-inside" ${state.mode === 'multi' && !state.isLeader ? 'disabled' : ''}>
-        ${label}
-      </button>
-    `;
+    box.innerHTML = `<div class="category-btn-label">${label}</div>`;
     if (!(state.mode === 'multi' && !state.isLeader)) {
-      deck.querySelector('button').onclick = () => {
+      box.onclick = () => {
         if (state.mode === 'multi') {
           chooseCategory(cat);
         } else {
@@ -863,7 +648,7 @@ function renderCategory() {
         }
       };
     }
-    catDiv.appendChild(deck);
+    catDiv.appendChild(box);
   });
 
   document.getElementById('returnLandingBtn').onclick = () => {
