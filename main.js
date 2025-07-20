@@ -608,6 +608,159 @@ function renderCategory() {
         .category-container {
           grid-template-columns: 1fr;
           max-width: ${deckWidth + 10}px;
+        }function renderCategory() {
+  const categories = [
+    "worldSports", "AFL", "movieStars", "musicians", "PopStars",
+    "Football", "famousFigures", "randomMix", "ModernNBA"
+  ];
+
+  // Set your DeckBackgroundwhite.png’s real dimensions here:
+  const deckWidth = 320;   // Change to your actual PNG width
+  const deckHeight = 220;  // Change to your actual PNG height
+
+  $app.innerHTML = `
+    <div class="cat-page-wrapper">
+      <div class="lobby-box">
+        <div class="lobby-title">Lobby</div>
+        <div class="lobby-players" id="lobbyPlayers">
+          ${state.players && state.players.length
+            ? state.players.map(p => `<div class="lobby-player">${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')
+            : '<div style="color:#aaa;">Waiting for players...</div>'}
+        </div>
+      </div>
+      <div class="category-container" id="categoryContainer"></div>
+      ${state.mode === 'multi' && !state.isLeader ? `<div class="leader-wait-msg">Waiting for leader to select...</div>` : ''}
+      <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
+    </div>
+    <style>
+      .cat-page-wrapper {
+        min-height: 100vh;
+        background: #18102c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 30px;
+      }
+      .lobby-box {
+        width: 97vw;
+        max-width: 500px;
+        min-height: 64px;
+        background: #fff;
+        border-radius: 17px;
+        box-shadow: 0 4px 24px #0001, 0 1px 0 #ffd600;
+        color: #18102c;
+        margin: 20px 0 28px 0;
+        padding: 8px 0 12px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .lobby-title {
+        font-size: 1.28em;
+        font-weight: bold;
+        margin-bottom: 6px;
+        color: #222;
+        letter-spacing: 0.03em;
+      }
+      .lobby-players {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+        justify-content: center;
+        width: 100%;
+        font-size: 1.18em;
+      }
+      .lobby-player {
+        color: #18102c;
+        background: #ffd60014;
+        border-radius: 8px;
+        padding: 7px 17px;
+        font-weight: 500;
+        margin: 1px 0;
+        box-shadow: 0 1px 0 #ffd60022;
+      }
+      .category-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 26px;
+        margin: 24px auto 18px auto;
+        max-width: ${deckWidth * 2 + 30}px;
+        width: 97vw;
+        justify-items: center;
+      }
+      .category-deck {
+        width: ${deckWidth}px;
+        height: ${deckHeight}px;
+        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px; /* Match your PNG's corners if they're rounded */
+        box-shadow: 0 2px 12px #0002;
+      }
+      .category-btn-inside {
+        width: 80%;
+        max-width: 85%;
+        margin: 0 auto;
+        z-index: 1;
+        white-space: normal;
+      }
+      .landing-btn {
+        width: 100%;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+        text-align: center;
+        /* Don't use position absolute, so it stays inside container */
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .category-deck.disabled .landing-btn {
+        background: #eee;
+        color: #aaa;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+      .leader-wait-msg {
+        color: #ffd600;
+        font-size: 1.1em;
+        margin-bottom: 12px;
+        margin-top: -11px;
+      }
+      .cat-return-btn {
+        width: 90vw;
+        max-width: 350px;
+        margin-top: 22px;
+        font-size: 1.1em;
+        padding: 15px 0;
+        border-radius: 8px;
+        border: none;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .cat-return-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      @media (max-width: 900px) {
+        .category-container {
+          grid-template-columns: 1fr;
+          max-width: ${deckWidth + 10}px;
         }
       }
       @media (max-width: 600px) {
