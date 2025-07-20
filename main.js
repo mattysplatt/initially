@@ -219,7 +219,7 @@ function render() {
   if (state.screen === 'landing') renderLanding();
   else if (state.screen === 'lobby') renderLobby();
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
-  else if (state.screen === 'category') renderCategory();
+  else if (state.screen === 'category') ();
   else if (state.screen === 'game') renderGame();
   else if (state.screen === 'scoreboard') renderScoreboard();
   else if (state.screen === 'end') renderEnd();
@@ -459,8 +459,6 @@ function renderCategory() {
     "worldSports", "AFL", "movieStars", "musicians", "PopStars",
     "Football", "famousFigures", "randomMix", "ModernNBA"
   ];
-
-  // Set your DeckBackgroundwhite.png’s real dimensions here:
   const deckWidth = 320;
   const deckHeight = 220;
 
@@ -526,54 +524,60 @@ function renderCategory() {
         box-shadow: 0 1px 0 #ffd60022;
       }
       .category-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        flex-wrap: wrap;
         gap: 26px;
+        justify-content: center;
+        align-items: flex-start;
         margin: 24px auto 18px auto;
-        max-width: ${deckWidth * 2 + 30}px;
-        width: 97vw;
-        justify-items: center;
+        max-width: 700px;
+        width: 100vw;
       }
-     .category-btn-box {
-  background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
-  width: 320px;  /* match PNG */
-  height: 220px; /* match PNG */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  cursor: pointer;
-  transition: transform 0.13s, box-shadow 0.13s;
-  border: none;
-  box-shadow: 0 2px 12px #0002;
-  padding: 0;
-  overflow: hidden; /* Prevent label overflow */
-}
-.category-btn-label {
-  font-size: 1.4em;
-  font-weight: bold;
-  color: #ffd600;
-  letter-spacing: 0.03em;
-  text-shadow:
-    0 2px 8px #bfa200cc,
-    0 0px 2px #fffbe8,
-    0 0px 16px #ffd60044;
-  text-align: center;
-  user-select: none;
-  margin: 0;
-  width: 85%;
-  max-width: 90%;
-  padding: 0;
-  background: none;
-  border-radius: 0;
-  line-height: 1.15;
-  white-space: normal;
-  position: static; /* Not absolute */
-  transform: none;
-  box-sizing: border-box;
-  display: block;
-  word-break: break-word;
-}
+      .category-btn-box {
+        background: url('DeckBackground.png') center center / contain no-repeat;
+        width: ${deckWidth}px;
+        height: ${deckHeight}px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 2px 12px #0002;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        box-sizing: content-box;
+        position: relative;
+        transition: transform 0.13s, box-shadow 0.13s;
+      }
+      .category-btn-box.disabled {
+        filter: grayscale(0.92) brightness(1.11) opacity(0.72);
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+      .category-btn-label {
+        font-size: 1.4em;
+        font-weight: bold;
+        color: #ffd600;
+        letter-spacing: 0.03em;
+        text-shadow:
+          0 2px 8px #bfa200cc,
+          0 0px 2px #fffbe8,
+          0 0px 16px #ffd60044;
+        text-align: center;
+        user-select: none;
+        margin: 0;
+        width: 85%;
+        max-width: 90%;
+        background: none;
+        border-radius: 0;
+        line-height: 1.15;
+        white-space: normal;
+        box-sizing: border-box;
+        display: block;
+        word-break: break-word;
+        padding: 0;
+      }
       .leader-wait-msg {
         color: #ffd600;
         font-size: 1.1em;
@@ -599,10 +603,9 @@ function renderCategory() {
         background: #ffb300;
         transform: scale(1.03);
       }
-      @media (max-width: 900px) {
+      @media (max-width: 700px) {
         .category-container {
-          grid-template-columns: 1fr;
-          max-width: ${deckWidth + 10}px;
+          max-width: 98vw;
         }
       }
       @media (max-width: 600px) {
@@ -611,21 +614,19 @@ function renderCategory() {
           font-size: 1.11em;
         }
         .category-container {
-          grid-template-columns: 1fr;
           gap: 18px;
           max-width: 99vw;
         }
-      .category-btn-box {
-    width: 92vw;
-    height: calc(92vw * 220 / 320); /* maintain PNG aspect ratio */
-    max-width: 320px;
-    max-height: 220px;
-  }
-  .category-btn-label {
-    font-size: 1em;
-    width: 90%;
-  }
-}
+        .category-btn-box {
+          width: min(92vw, 320px);
+          height: calc(min(92vw, 320px) * 220 / 320);
+          max-width: 320px;
+          max-height: 220px;
+        }
+        .category-btn-label {
+          font-size: 1em;
+        }
+      }
     </style>
   `;
 
