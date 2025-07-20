@@ -98,43 +98,58 @@ const $app = document.getElementById('app');
 function renderLanding() {
   $app.innerHTML = `
     <div class="landing-screen">
+      <img src="IntiallyLogo.png" alt="Initially Logo" class="landing-logo" draggable="false" />
       <div class="button-container">
-        <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button><br/>
-        <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button><br/>
-        <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button><br/>
+        <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button>
+        <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button>
+        <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button>
         <button id="monthlyBtn" class="landing-btn">MONTHLY CHALLENGE</button>
       </div>
     </div>
     <style>
-      .landing-screen {
-        background: url('IntiallyLogo.png') no-repeat top center;
-        background-size: contain;
+      html, body, #app, .landing-screen {
+        height: 100%;
         min-height: 100vh;
-        width: 100vw;
+        margin: 0;
+        padding: 0;
+      }
+
+      .landing-screen {
+        background: #18102c;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 10;
+        min-height: 100vh;
+        width: 100vw;
+        overflow-y: auto;
+        padding-bottom: 32px;
+      }
+      .landing-logo {
+        width: 430px;
+        max-width: 90vw;
+        margin-top: 4vw;
+        margin-bottom: 5vw;
+        height: auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
       }
       .button-container {
-        margin-top: 42vw; /* Push buttons below the image, scales with viewport width */
-        background: rgba(0,0,0,0.18);
-        padding: 24px 16px;
+        background: rgba(0,0,0,0.16);
+        padding: 28px 12px 22px 12px;
         border-radius: 18px;
         box-shadow: 0 4px 32px #3338;
         display: flex;
         flex-direction: column;
         align-items: center;
-        max-width: 90vw;
-        width: 350px;
+        width: 100%;
+        max-width: 360px;
       }
       .landing-btn {
-        width: 90vw;
-        max-width: 270px;
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
         margin: 12px 0;
         padding: 16px 0;
         font-size: 1.1em;
@@ -151,28 +166,31 @@ function renderLanding() {
         background: #ffb300;
         transform: scale(1.03);
       }
+
       @media (max-width: 600px) {
-        .landing-screen {
-          background-size: 90vw auto;
+        .landing-logo {
+          width: 88vw;
+          margin-top: 9vw;
+          margin-bottom: 10vw;
         }
         .button-container {
-          margin-top: 67vw; /* More push for tall mobile screens */
-          width: 95vw;
-          padding: 14px 4vw;
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
         }
         .landing-btn {
-          width: 100%;
           font-size: 1em;
-          padding: 14px 0;
+          padding: 13px 0;
         }
       }
+
       @media (min-width: 601px) and (max-width: 1024px) {
-        .landing-screen {
-          background-size: 60vw auto;
+        .landing-logo {
+          width: 60vw;
+          margin-top: 6vw;
+          margin-bottom: 7vw;
         }
         .button-container {
-          margin-top: 38vw;
-          width: 70vw;
+          max-width: 80vw;
         }
       }
     </style>
