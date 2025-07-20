@@ -219,7 +219,7 @@ function render() {
   if (state.screen === 'landing') renderLanding();
   else if (state.screen === 'lobby') renderLobby();
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
-  else if (state.screen === 'category') ();
+  else if (state.screen === 'category') renderCategory(); // <-- FIXED HERE
   else if (state.screen === 'game') renderGame();
   else if (state.screen === 'scoreboard') renderScoreboard();
   else if (state.screen === 'end') renderEnd();
