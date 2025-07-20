@@ -460,6 +460,10 @@ function renderCategory() {
     "Football", "famousFigures", "randomMix", "ModernNBA"
   ];
 
+  // Set your DeckBackground.png’s real dimensions here:
+  const deckWidth = 320;
+  const deckHeight = 220;
+
   $app.innerHTML = `
     <div class="cat-page-wrapper">
       <div class="lobby-box">
@@ -521,14 +525,14 @@ function renderCategory() {
         margin: 1px 0;
         box-shadow: 0 1px 0 #ffd60022;
       }
-
       .category-container {
         display: grid;
-        grid-template-columns: repeat(2, minmax(200px, 1fr));
-        gap: 28px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 26px;
         margin: 24px auto 18px auto;
-        max-width: 600px;
+        max-width: ${deckWidth * 2 + 30}px;
         width: 97vw;
+        justify-items: center;
       }
       .category-btn-box {
         position: relative;
@@ -536,15 +540,14 @@ function renderCategory() {
         align-items: center;
         justify-content: center;
         background: url('DeckBackground.png') center center / contain no-repeat;
-        border-radius: 15px;
-        height: 240px; /* 50% bigger than before */
-        width: 100%;
+        width: ${deckWidth}px;
+        height: ${deckHeight}px;
         cursor: pointer;
-        box-shadow: 0 2px 12px #0002;
         transition: transform 0.13s, box-shadow 0.13s;
-        border: 2.5px solid #ffd60033;
-        background-color: transparent;
-        /* No extra white, just the PNG and shadow */
+        /* No border, no extra background */
+        border: none;
+        box-shadow: 0 2px 12px #0002;
+        padding: 0;
       }
       .category-btn-box:active {
         transform: scale(0.98);
@@ -556,18 +559,22 @@ function renderCategory() {
         cursor: not-allowed;
       }
       .category-btn-label {
-        font-size: 1.36em;
+        font-size: 1.44em;
         color: #18102c;
         font-weight: bold;
         letter-spacing: 0.02em;
         text-shadow: 1px 2px 8px #fff, 0 2px 3px #ffd60099;
         text-align: center;
-        padding: 10px 5px;
-        width: 100%;
-        user-select: none;
-        background: rgba(255,255,255,0.78);
+        background: rgba(255,255,255,0.77);
         border-radius: 10px;
-        margin: 0 18px;
+        padding: 10px 20px;
+        user-select: none;
+        margin: 0;
+        position: absolute;
+        left: 50%; top: 50%; transform: translate(-50%, -50%);
+        box-sizing: border-box;
+        width: 80%;
+        max-width: 97%;
       }
       .leader-wait-msg {
         color: #ffd600;
@@ -594,6 +601,12 @@ function renderCategory() {
         background: #ffb300;
         transform: scale(1.03);
       }
+      @media (max-width: 900px) {
+        .category-container {
+          grid-template-columns: 1fr;
+          max-width: ${deckWidth + 10}px;
+        }
+      }
       @media (max-width: 600px) {
         .lobby-box {
           max-width: 99vw;
@@ -601,14 +614,18 @@ function renderCategory() {
         }
         .category-container {
           grid-template-columns: 1fr;
-          gap: 20px;
+          gap: 18px;
+          max-width: 99vw;
         }
         .category-btn-box {
-          height: 170px;
+          width: 92vw;
+          height: calc(92vw * ${deckHeight} / ${deckWidth});
+          max-width: ${deckWidth}px;
+          max-height: ${deckHeight}px;
         }
         .category-btn-label {
-          font-size: 1em;
-          padding: 8px 2px;
+          font-size: 1.05em;
+          padding: 8px 3vw;
         }
       }
     </style>
