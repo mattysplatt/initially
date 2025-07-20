@@ -79,8 +79,8 @@ body {
 .category-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 22px;
-  padding: 24px;
+  gap: 4px;
+  padding: 4px;
   background: rgba(0,0,0,0.10);
   border-radius: 18px;
   box-shadow: 0 4px 32px #3334;
