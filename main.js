@@ -534,7 +534,7 @@ function renderCategory() {
         width: 100vw;
       }
       .category-btn-box {
-        background: url('DeckBackground.png') center center / contain no-repeat;
+        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
         width: 220px;
         height: 320px;
         display: flex;
