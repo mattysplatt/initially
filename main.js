@@ -98,7 +98,7 @@ const $app = document.getElementById('app');
 function renderLanding() {
   $app.innerHTML = `
     <div class="landing-screen">
-      <img src="Initiallylogo.png" alt="Initially Logo" class="landing-logo" draggable="false" />
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="landing-logo" draggable="false" />
       <div class="button-container">
         <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button>
         <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button>
