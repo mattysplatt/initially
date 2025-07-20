@@ -80,11 +80,11 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4px;
-  padding: 4px;
+  padding: 0px;
   background: rgba(0,0,0,0.10);
   border-radius: 18px;
   box-shadow: 0 4px 32px #3334;
-  margin: 38px auto 0 auto;
+  margin: 10px auto 0 auto;
   max-width: 700px;
   max-height: 70vh; 
   overflow-y: auto;
