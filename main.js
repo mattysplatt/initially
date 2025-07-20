@@ -559,23 +559,27 @@ function renderCategory() {
         cursor: not-allowed;
       }
       .category-btn-label {
-        font-size: 1.44em;
-        color: #18102c;
-        font-weight: bold;
-        letter-spacing: 0.02em;
-        text-shadow: 1px 2px 8px #fff, 0 2px 3px #ffd60099;
-        text-align: center;
-        background: rgba(255,255,255,0.77);
-        border-radius: 10px;
-        padding: 10px 20px;
-        user-select: none;
-        margin: 0;
-        position: absolute;
-        left: 50%; top: 50%; transform: translate(-50%, -50%);
-        box-sizing: border-box;
-        width: 80%;
-        max-width: 97%;
-      }
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ffd600;
+  letter-spacing: 0.03em;
+  text-shadow:
+    0 2px 8px #bfa200cc,
+    0 0px 2px #fffbe8,
+    0 0px 16px #ffd60044;
+  text-align: center;
+  user-select: none;
+  margin: 0;
+  position: absolute;
+  left: 50%; top: 50%; transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  width: 85%;
+  max-width: 95%;
+  /* Remove background and border-radius */
+  background: none;
+  border-radius: 0;
+  padding: 0;
+}
       .leader-wait-msg {
         color: #ffd600;
         font-size: 1.1em;
