@@ -899,6 +899,13 @@ function chooseCategory(category) {
     players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])),
   });
 }
+// --- Timer and Clue Logic Patch for Initial Contact ---
+
+function renderTimer() {
+  const el = document.getElementById('timer');
+  if (el) el.textContent = state.timer + 's';
+}
+
 function startTimer() {
   clearInterval(window.timerInterval);
   state.timer = 10;
@@ -915,18 +922,23 @@ function startTimer() {
   }, 1000);
 }
 
+/**
+ * Reveal the next clue (if any), restart timer,
+ * or end the round if all clues are used.
+ * This patch ensures the game never goes to category screen
+ * during active round!
+ */
 function revealNextClueOrEnd() {
-  // Only reveal clue if there are clues left
   let clueIdx = state.clueIdx;
   let points = state.points;
-
-  // 5 clues per round, index 0-4
+  // 5 clues per round (index 0-4)
   if (clueIdx < 4) {
     clueIdx++;
     points -= 10;
-    // Update state and Firebase
+    // Sync to Firebase for all players
     update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points })
       .then(() => {
+        // Update local state too
         state.clueIdx = clueIdx;
         state.points = points;
         state.timer = 10;
@@ -939,6 +951,11 @@ function revealNextClueOrEnd() {
   }
 }
 
+/**
+ * Handles player guess submission.
+ * Awards points and ends round if guess is correct.
+ * Otherwise, prompts and lets timer/clue flow continue.
+ */
 function submitGuess() {
   if (!state.guess) return;
   const guess = state.guess.trim();
@@ -967,6 +984,10 @@ function submitGuess() {
   }
 }
 
+/**
+ * End the round, update scores, and show scoreboard.
+ * Syncs to Firebase so all players see results.
+ */
 function endRound() {
   clearInterval(window.timerInterval);
   get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
@@ -989,7 +1010,7 @@ function endRound() {
       });
     }
 
-    // Show scoreboard for ready-up
+    // Show scoreboard for ready-up (never category screen here!)
     update(ref(db, `lobbies/${state.lobbyCode}`), {
       status: "scoreboard",
       scoreboard: scoreboard
