@@ -460,6 +460,10 @@ function renderCategory() {
     "Football", "famousFigures", "randomMix", "ModernNBA"
   ];
 
+  // Set your DeckBackgroundwhitewhite.png’s real dimensions here:
+  const deckWidth = 320;
+  const deckHeight = 220;
+
   $app.innerHTML = `
     <div class="cat-page-wrapper">
       <div class="lobby-box">
@@ -504,57 +508,50 @@ function renderCategory() {
         color: #222;
         letter-spacing: 0.03em;
       }
-    .lobby-players {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 16px;
-  justify-content: flex-start; /* left-justify */
-  width: 100%;
-  font-size: 1.28em;           /* increase font size */
-}
-
-.lobby-player {
-  color: #18102c;
-  background: #ffd60014;
-  border-radius: 8px;
-  padding: 7px 17px;
-  font-weight: bold;            /* make bold */
-  margin: 1px 0;
-  box-shadow: 0 1px 0 #ffd60022;
-  text-align: left;             /* left align text within the box */
-}
-      .category-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  padding: 0;
-  background: rgba(0,0,0,0.10);
-  border-radius: 18px;
-  box-shadow: 0 4px 32px #3334;
-  margin: 38px auto 0 auto;
-  max-width: 332px;         /* MATCHES deck width + gap */
-  width: 100%;
-  justify-content: center;  /* Center container */
-  align-items: flex-start;
-}
-      .category-btn-box {
-        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
+      .lobby-players {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 16px;
+        justify-content: center;
         width: 100%;
-        aspect-ratio: 165 / 240;
-        max-width: 165px;
-        max-height: 240px;
+        font-size: 1.18em;
+      }
+      .lobby-player {
+        color: #18102c;
+        background: #ffd60014;
+        border-radius: 8px;
+        padding: 7px 17px;
+        font-weight: 500;
+        margin: 1px 0;
+        box-shadow: 0 1px 0 #ffd60022;
+      }
+      .category-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 26px;
+        margin: 24px auto 18px auto;
+        max-width: ${deckWidth * 2 + 30}px;
+        width: 97vw;
+        justify-items: center;
+      }
+      .category-btn-box {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
+        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
+        width: ${deckWidth}px;
+        height: ${deckHeight}px;
+        cursor: pointer;
+        transition: transform 0.13s, box-shadow 0.13s;
+        /* No border, no extra background */
         border: none;
         box-shadow: 0 2px 12px #0002;
         padding: 0;
-        margin: 0 auto;
-        overflow: hidden;
-        box-sizing: border-box;
-        position: relative;
-        cursor: pointer;
-        transition: background 0.2s, transform 0.12s;
+      }
+      .category-btn-box:active {
+        transform: scale(0.98);
+        box-shadow: 0 1px 6px #0001;
       }
       .category-btn-box.disabled {
         filter: grayscale(0.92) brightness(1.11) opacity(0.72);
@@ -562,29 +559,22 @@ function renderCategory() {
         cursor: not-allowed;
       }
       .category-btn-label {
-        font-size: 0.9em;
-        font-weight: bold;
+        font-size: 1.44em;
         color: #18102c;
-        background: #ffd600;
-        border-radius: 7px;
-        padding: 9px 18px;
-        box-shadow: 1px 2px 8px #0002;
+        font-weight: bold;
+        letter-spacing: 0.02em;
+        text-shadow: 1px 2px 8px #fff, 0 2px 3px #ffd60099;
         text-align: center;
+        background: rgba(255,255,255,0.77);
+        border-radius: 10px;
+        padding: 10px 20px;
         user-select: none;
         margin: 0;
-        border: none;
-        outline: none;
-        width: auto;
-        max-width: 90%;
-        line-height: 1.1;
+        position: absolute;
+        left: 50%; top: 50%; transform: translate(-50%, -50%);
         box-sizing: border-box;
-        word-break: break-word;
-        white-space: normal;
-        display: block;
-      }
-      .category-btn-box:active .category-btn-label,
-      .category-btn-box:focus .category-btn-label {
-        background: #ffb300;
+        width: 80%;
+        max-width: 97%;
       }
       .leader-wait-msg {
         color: #ffd600;
@@ -611,25 +601,31 @@ function renderCategory() {
         background: #ffb300;
         transform: scale(1.03);
       }
-      @media (max-width: 700px) {
+      @media (max-width: 900px) {
         .category-container {
-          max-width: 98vw;
+          grid-template-columns: 1fr;
+          max-width: ${deckWidth + 10}px;
         }
       }
       @media (max-width: 600px) {
+        .lobby-box {
+          max-width: 99vw;
+          font-size: 1.11em;
+        }
         .category-container {
           grid-template-columns: 1fr;
-          gap: 2px;
+          gap: 18px;
           max-width: 99vw;
         }
         .category-btn-box {
-          max-width: 92vw;
-          max-height: calc(92vw * 240 / 165);
-          aspect-ratio: 165 / 240;
+          width: 92vw;
+          height: calc(92vw * ${deckHeight} / ${deckWidth});
+          max-width: ${deckWidth}px;
+          max-height: ${deckHeight}px;
         }
         .category-btn-label {
-          font-size: 0.7em;
-          padding: 7px 8px;
+          font-size: 1.05em;
+          padding: 8px 3vw;
         }
       }
     </style>
@@ -679,6 +675,8 @@ function startSinglePlayerGame(category) {
   state.screen = 'game';
   render();
 }
+
+// --- REST OF YOUR GAME LOGIC (UNCHANGED) BELOW ---
 
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
