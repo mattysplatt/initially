@@ -23,8 +23,8 @@ let isAuthenticated = false;
 
 // App State
 let state = {
-  screen: 'landing', 
-  mode: '',
+  screen: 'landing', // <-- Default to landing page!
+  mode: '', // 'single' or 'multi'
   playerName: '',
   playerId: '',
   lobbyCode: '',
@@ -462,7 +462,7 @@ function renderCategory() {
 
   $app.innerHTML = `
     <div class="cat-page-wrapper">
-      <div class="lobby-box" style="margin: 20px auto 28px auto;">
+      <div class="lobby-box">
         <div class="lobby-title">Lobby</div>
         <div class="lobby-players" id="lobbyPlayers">
           ${state.players && state.players.length
@@ -476,46 +476,98 @@ function renderCategory() {
     </div>
     <style>
       .cat-page-wrapper {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
-        width: 100vw;
+        background: #18102c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 30px;
       }
+      .lobby-box {
+        width: 97vw;
+        max-width: 500px;
+        min-height: 64px;
+        background: #fff;
+        border-radius: 17px;
+        box-shadow: 0 4px 24px #0001, 0 1px 0 #ffd600;
+        color: #18102c;
+        margin: 20px 0 28px 0;
+        padding: 8px 0 12px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .lobby-title {
+        font-size: 1.28em;
+        font-weight: bold;
+        margin-bottom: 6px;
+        color: #222;
+        letter-spacing: 0.03em;
+      }
+    .lobby-players {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  justify-content: flex-start; /* left-justify */
+  width: 100%;
+  font-size: 1.28em;           /* increase font size */
+}
+
+.lobby-player {
+  color: #18102c;
+  background: #ffd60014;
+  border-radius: 8px;
+  padding: 7px 17px;
+  font-weight: bold;            /* make bold */
+  margin: 1px 0;
+  box-shadow: 0 1px 0 #ffd60022;
+  text-align: left;             /* left align text within the box */
+}
       .category-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        max-width: 700px;
-        margin: 0 auto;
-        padding: 0;
-        width: 100%;
-      }
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 0;
+  background: rgba(0,0,0,0.10);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #3334;
+  margin: 38px auto 0 auto;
+  max-width: 332px;         /* MATCHES deck width + gap */
+  width: 100%;
+  justify-content: center;  /* Center container */
+  align-items: flex-start;
+}
       .category-btn-box {
-        min-width: 140px;
+        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
         width: 100%;
-        max-width: 330px;
         aspect-ratio: 165 / 240;
-        margin: 0 auto;
+        max-width: 165px;
+        max-height: 240px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
         border: none;
         box-shadow: 0 2px 12px #0002;
         padding: 0;
+        margin: 0 auto;
         overflow: hidden;
         box-sizing: border-box;
         position: relative;
         cursor: pointer;
         transition: background 0.2s, transform 0.12s;
       }
-      /* No hover or active effect */
+      .category-btn-box.disabled {
+        filter: grayscale(0.92) brightness(1.11) opacity(0.72);
+        pointer-events: none;
+        cursor: not-allowed;
+      }
       .category-btn-label {
-        font-size: 1.1em;
+        font-size: 0.9em;
         font-weight: bold;
         color: #18102c;
         background: #ffd600;
         border-radius: 7px;
-        padding: 12px 18px;
+        padding: 9px 18px;
         box-shadow: 1px 2px 8px #0002;
         text-align: center;
         user-select: none;
@@ -530,22 +582,54 @@ function renderCategory() {
         white-space: normal;
         display: block;
       }
+      .category-btn-box:active .category-btn-label,
+      .category-btn-box:focus .category-btn-label {
+        background: #ffb300;
+      }
+      .leader-wait-msg {
+        color: #ffd600;
+        font-size: 1.1em;
+        margin-bottom: 12px;
+        margin-top: -11px;
+      }
+      .cat-return-btn {
+        width: 90vw;
+        max-width: 350px;
+        margin-top: 22px;
+        font-size: 1.1em;
+        padding: 15px 0;
+        border-radius: 8px;
+        border: none;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .cat-return-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
       @media (max-width: 700px) {
         .category-container {
-          grid-template-columns: 1fr 1fr;
-          max-width: 98vw;
-        }
-        .category-btn-box {
           max-width: 98vw;
         }
       }
-      @media (max-width: 430px) {
+      @media (max-width: 600px) {
         .category-container {
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: 1fr;
+          gap: 2px;
           max-width: 99vw;
         }
         .category-btn-box {
-          max-width: 99vw;
+          max-width: 92vw;
+          max-height: calc(92vw * 240 / 165);
+          aspect-ratio: 165 / 240;
+        }
+        .category-btn-label {
+          font-size: 0.7em;
+          padding: 7px 8px;
         }
       }
     </style>
@@ -594,7 +678,6 @@ function startSinglePlayerGame(category) {
   state.usedAnswers = [firstQuestion.answer];
   state.screen = 'game';
   render();
-  startTimer();
 }
 
 function renderGame() {
@@ -827,14 +910,9 @@ function listenLobby() {
   const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
   state.lobbyRef = lobbyRef;
   state.unsubLobby = onValue(lobbyRef, snap => {
-    if (!snap.exists()) {
-      state.status = "Lobby not found";
-      state.screen = 'lobby';
-      render();
-      return;
-    }
+    if (!snap.exists()) { state.status = "Lobby not found"; state.screen = 'lobby'; render(); return; }
     const lobby = snap.val();
-    state.players = Object.entries(lobby.players || {}).map(([id, p]) => ({ ...p, id }));
+    state.players = Object.entries(lobby.players||{}).map(([id, p])=>({...p, id}));
     state.isLeader = (state.playerId === lobby.leader);
     state.round = lobby.round;
     state.category = lobby.category;
@@ -843,31 +921,26 @@ function listenLobby() {
     state.clues = lobby.clues;
     state.clueIdx = lobby.clueIdx;
     state.points = lobby.points;
-    state.guesses = lobby.guesses || {};
+    state.guesses = lobby.guesses||{};
     if (
-      state.question &&
+      state.question && 
       state.question.initials !== (state.lastQuestionInitials || '')
     ) {
       state.guess = '';
       state.lastQuestionInitials = state.question.initials;
     }
     if (lobby.status === "waiting") {
-      state.screen = 'category';
-      render();
+      state.screen = 'category'; render();
     } else if (lobby.status === "playing") {
-      const wasGameScreen = state.screen === 'game';
-      state.screen = 'game';
-      render();
-      if (!wasGameScreen) startTimer();
+      state.screen = 'game'; render();
+      startTimer();
     } else if (lobby.status === "scoreboard") {
-      state.scoreboard = lobby.scoreboard || [];
-      state.readyPlayers = lobby.readyPlayers || [];
-      state.screen = 'scoreboard';
-      render();
+      state.scoreboard = lobby.scoreboard||[];
+      state.readyPlayers = lobby.readyPlayers||[];
+      state.screen = 'scoreboard'; render();
     } else if (lobby.status === "end") {
-      state.scoreboard = lobby.scoreboard || [];
-      state.screen = 'end';
-      render();
+      state.scoreboard = lobby.scoreboard||[];
+      state.screen = 'end'; render();
     }
   });
 }
@@ -899,63 +972,34 @@ function chooseCategory(category) {
     players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])),
   });
 }
-// --- Timer and Clue Logic Patch for Initial Contact ---
-
-function renderTimer() {
-  const el = document.getElementById('timer');
-  if (el) el.textContent = state.timer + 's';
-}
-
 function startTimer() {
   clearInterval(window.timerInterval);
-  state.timer = 10;
-  renderTimer();
-
+  state.timer = 10; renderTimer();
   window.timerInterval = setInterval(() => {
     state.timer--;
     renderTimer();
-
     if (state.timer <= 0) {
       clearInterval(window.timerInterval);
-      revealNextClueOrEnd();
+      revealNextClue();
     }
   }, 1000);
 }
-
-/**
- * Reveal the next clue (if any), restart timer,
- * or end the round if all clues are used.
- * This patch ensures the game never goes to category screen
- * during active round!
- */
-function revealNextClueOrEnd() {
+function renderTimer() {
+  const el = document.getElementById('timer');
+  if (el) el.textContent = state.timer+'s';
+}
+function revealNextClue() {
   let clueIdx = state.clueIdx;
   let points = state.points;
-  // 5 clues per round (index 0-4)
   if (clueIdx < 4) {
     clueIdx++;
     points -= 10;
-    // Sync to Firebase for all players
-    update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points })
-      .then(() => {
-        // Update local state too
-        state.clueIdx = clueIdx;
-        state.points = points;
-        state.timer = 10;
-        render();
-        startTimer();
-      });
+    update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points });
+    startTimer();
   } else {
-    // All clues used, end round
     endRound();
   }
 }
-
-/**
- * Handles player guess submission.
- * Awards points and ends round if guess is correct.
- * Otherwise, prompts and lets timer/clue flow continue.
- */
 function submitGuess() {
   if (!state.guess) return;
   const guess = state.guess.trim();
@@ -963,17 +1007,13 @@ function submitGuess() {
   const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
   const user = normalize(guess);
   const correct = normalize(state.question.answer);
-
   if (levenshtein(user, correct) <= 3) {
-    // Correct guess: mark player, award points, end round
     update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
       [state.playerId]: { guess, correct: true, points: state.points }
-    }).then(() => {
-      state.guess = '';
-      endRound();
     });
+    state.guess = '';
+    endRound();
   } else {
-    // Incorrect: prompt and let continue
     state.guess = '';
     state.incorrectPrompt = true;
     render();
@@ -983,25 +1023,17 @@ function submitGuess() {
     }, 2000);
   }
 }
-
-/**
- * End the round, update scores, and show scoreboard.
- * Syncs to Firebase so all players see results.
- */
 function endRound() {
   clearInterval(window.timerInterval);
   get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
     const lobby = snap.val();
     const guesses = lobby.guesses || {};
     const players = lobby.players || {};
-
     let scoreboard = Object.entries(players).map(([id, p]) => {
       let guess = guesses[id];
       let add = (guess && guess.correct) ? lobby.points : 0;
       return { name: p.name, score: (p.score||0) + add };
     });
-
-    // Update player scores in Firebase
     for (let [id, p] of Object.entries(players)) {
       let guess = guesses[id];
       let add = (guess && guess.correct) ? lobby.points : 0;
@@ -1009,8 +1041,6 @@ function endRound() {
         score: (p.score||0) + add
       });
     }
-
-    // Show scoreboard for ready-up (never category screen here!)
     update(ref(db, `lobbies/${state.lobbyCode}`), {
       status: "scoreboard",
       scoreboard: scoreboard
