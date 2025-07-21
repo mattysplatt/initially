@@ -923,7 +923,10 @@ function revealNextClue() {
   if (clueIdx < 4) {
     clueIdx++;
     points -= 10;
-    update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points });
+    update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points }).then(() => {
+      state.timer = 10;
+      startTimer();
+    });
   } else {
     endRound();
   }
