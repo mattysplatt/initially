@@ -894,9 +894,11 @@ function chooseCategory(category) {
 function startTimer() {
   clearInterval(window.timerInterval);
   state.timer = 10; renderTimer();
+  console.log("Timer started");
   window.timerInterval = setInterval(() => {
     state.timer--;
     renderTimer();
+    console.log("Timer tick", state.timer);
     if (state.timer <= 0) {
       clearInterval(window.timerInterval);
       revealNextClue();
