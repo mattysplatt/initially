@@ -848,8 +848,10 @@ function listenLobby() {
     if (lobby.status === "waiting") {
       state.screen = 'category'; render();
     } else if (lobby.status === "playing") {
-      state.screen = 'game'; render();
-      startTimer();
+  const wasGameScreen = state.screen === 'game';
+  state.screen = 'game'; render();
+  if (!wasGameScreen) startTimer();
+}
     } else if (lobby.status === "scoreboard") {
       state.scoreboard = lobby.scoreboard||[];
       state.readyPlayers = lobby.readyPlayers||[];
@@ -911,7 +913,6 @@ function revealNextClue() {
     clueIdx++;
     points -= 10;
     update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points });
-    startTimer();
   } else {
     endRound();
   }
