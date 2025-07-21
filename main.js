@@ -903,33 +903,42 @@ function startTimer() {
   clearInterval(window.timerInterval);
   state.timer = 10;
   renderTimer();
+
   window.timerInterval = setInterval(() => {
     state.timer--;
     renderTimer();
+
     if (state.timer <= 0) {
       clearInterval(window.timerInterval);
-      revealNextClue();
+      revealNextClueOrEnd();
     }
   }, 1000);
 }
-function renderTimer() {
-  const el = document.getElementById('timer');
-  if (el) el.textContent = state.timer+'s';
-}
-function revealNextClue() {
+
+function revealNextClueOrEnd() {
+  // Only reveal clue if there are clues left
   let clueIdx = state.clueIdx;
   let points = state.points;
-  if (clueIdx < 4) { // Up to 5 clues (index 0-4)
+
+  // 5 clues per round, index 0-4
+  if (clueIdx < 4) {
     clueIdx++;
     points -= 10;
-    update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points }).then(() => {
-      state.timer = 10;
-      startTimer();
-    });
+    // Update state and Firebase
+    update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points })
+      .then(() => {
+        state.clueIdx = clueIdx;
+        state.points = points;
+        state.timer = 10;
+        render();
+        startTimer();
+      });
   } else {
+    // All clues used, end round
     endRound();
   }
 }
+
 function submitGuess() {
   if (!state.guess) return;
   const guess = state.guess.trim();
@@ -937,13 +946,17 @@ function submitGuess() {
   const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
   const user = normalize(guess);
   const correct = normalize(state.question.answer);
+
   if (levenshtein(user, correct) <= 3) {
+    // Correct guess: mark player, award points, end round
     update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
       [state.playerId]: { guess, correct: true, points: state.points }
+    }).then(() => {
+      state.guess = '';
+      endRound();
     });
-    state.guess = '';
-    endRound();
   } else {
+    // Incorrect: prompt and let continue
     state.guess = '';
     state.incorrectPrompt = true;
     render();
@@ -953,17 +966,21 @@ function submitGuess() {
     }, 2000);
   }
 }
+
 function endRound() {
   clearInterval(window.timerInterval);
   get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
     const lobby = snap.val();
     const guesses = lobby.guesses || {};
     const players = lobby.players || {};
+
     let scoreboard = Object.entries(players).map(([id, p]) => {
       let guess = guesses[id];
       let add = (guess && guess.correct) ? lobby.points : 0;
       return { name: p.name, score: (p.score||0) + add };
     });
+
+    // Update player scores in Firebase
     for (let [id, p] of Object.entries(players)) {
       let guess = guesses[id];
       let add = (guess && guess.correct) ? lobby.points : 0;
@@ -971,6 +988,8 @@ function endRound() {
         score: (p.score||0) + add
       });
     }
+
+    // Show scoreboard for ready-up
     update(ref(db, `lobbies/${state.lobbyCode}`), {
       status: "scoreboard",
       scoreboard: scoreboard
