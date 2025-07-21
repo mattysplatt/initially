@@ -901,12 +901,11 @@ function chooseCategory(category) {
 }
 function startTimer() {
   clearInterval(window.timerInterval);
-  state.timer = 10; renderTimer();
-  console.log("Timer started");
+  state.timer = 10;
+  renderTimer();
   window.timerInterval = setInterval(() => {
     state.timer--;
     renderTimer();
-    console.log("Timer tick", state.timer);
     if (state.timer <= 0) {
       clearInterval(window.timerInterval);
       revealNextClue();
@@ -920,7 +919,7 @@ function renderTimer() {
 function revealNextClue() {
   let clueIdx = state.clueIdx;
   let points = state.points;
-  if (clueIdx < 4) {
+  if (clueIdx < 4) { // Up to 5 clues (index 0-4)
     clueIdx++;
     points -= 10;
     update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points }).then(() => {
