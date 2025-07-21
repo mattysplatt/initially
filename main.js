@@ -908,11 +908,12 @@ function chooseCategory(category) {
 }
 function startTimer() {
   clearInterval(window.timerInterval);
-  state.timer = 10; // or whatever your starting time is
+  state.timer = 10; // or your desired starting seconds
   window.timerInterval = setInterval(() => {
-    state.timer--;
-    renderGame(); // update whole screen, not just timer
-    if (state.timer <= 0) {
+    renderGame(); // Update the whole guessing screen so the timer is visible and live
+    if (state.timer > 1) {
+      state.timer--;
+    } else {
       clearInterval(window.timerInterval);
       revealNextClue();
     }
@@ -920,19 +921,15 @@ function startTimer() {
 }
 
 function revealNextClue() {
-  let clueIdx = state.clueIdx;
-  let points = state.points;
-  // Check if there are more clues left
-  if (clueIdx < state.clues.length - 1) {
-    clueIdx++;
-    points -= 10;
-    state.clueIdx = clueIdx;
-    state.points = points;
-    state.timer = 10; // reset timer for new clue
-    renderGame();    
-    startTimer();    
+  // Are there more clues left?
+  if (state.clueIdx < state.clues.length - 1) {
+    state.clueIdx++;            // Advance to next clue
+    state.points -= 10;         // Reduce points by 10
+    state.timer = 10;           // Reset timer for new clue
+    renderGame();               // Show updated clue and points
+    startTimer();               // Start timer again for next clue
   } else {
-    endRound();
+    endRound();                 // No more clues, end the round
   }
 }
 function submitGuess() {
