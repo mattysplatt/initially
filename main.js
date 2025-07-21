@@ -23,8 +23,8 @@ let isAuthenticated = false;
 
 // App State
 let state = {
-  screen: 'landing', // <-- Default to landing page!
-  mode: '', // 'single' or 'multi'
+  screen: 'landing', 
+  mode: '',
   playerName: '',
   playerId: '',
   lobbyCode: '',
