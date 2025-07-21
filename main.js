@@ -594,6 +594,7 @@ function startSinglePlayerGame(category) {
   state.usedAnswers = [firstQuestion.answer];
   state.screen = 'game';
   render();
+  startTimer();
 }
 
 function renderGame() {
