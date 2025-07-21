@@ -459,10 +459,8 @@ function renderCategory() {
     "worldSports", "AFL", "movieStars", "musicians", "PopStars",
     "Football", "famousFigures", "randomMix", "ModernNBA"
   ];
-
-  // Set your DeckBackgroundwhitewhite.png’s real dimensions here:
-  const deckWidth = 320;
-  const deckHeight = 220;
+  const deckWidth = 220;
+  const deckHeight = 320;
 
   $app.innerHTML = `
     <div class="cat-page-wrapper">
@@ -526,56 +524,78 @@ function renderCategory() {
         box-shadow: 0 1px 0 #ffd60022;
       }
       .category-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 26px;
-        margin: 24px auto 18px auto;
-        max-width: ${deckWidth * 2 + 30}px;
-        width: 97vw;
-        justify-items: center;
-      }
-      .category-btn-box {
-        position: relative;
         display: flex;
-        align-items: center;
+        flex-wrap: wrap;
+        gap: 26px;
         justify-content: center;
-        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
-        width: ${deckWidth}px;
-        height: ${deckHeight}px;
-        cursor: pointer;
-        transition: transform 0.13s, box-shadow 0.13s;
-        /* No border, no extra background */
-        border: none;
-        box-shadow: 0 2px 12px #0002;
-        padding: 0;
+        align-items: flex-start;
+        margin: 24px auto 18px auto;
+        max-width: 700px;
+        width: 100vw;
       }
-      .category-btn-box:active {
-        transform: scale(0.98);
-        box-shadow: 0 1px 6px #0001;
-      }
-      .category-btn-box.disabled {
-        filter: grayscale(0.92) brightness(1.11) opacity(0.72);
-        pointer-events: none;
-        cursor: not-allowed;
-      }
-      .category-btn-label {
-        font-size: 1.44em;
-        color: #18102c;
-        font-weight: bold;
-        letter-spacing: 0.02em;
-        text-shadow: 1px 2px 8px #fff, 0 2px 3px #ffd60099;
-        text-align: center;
-        background: rgba(255,255,255,0.77);
-        border-radius: 10px;
-        padding: 10px 20px;
-        user-select: none;
-        margin: 0;
-        position: absolute;
-        left: 50%; top: 50%; transform: translate(-50%, -50%);
-        box-sizing: border-box;
-        width: 80%;
-        max-width: 97%;
-      }
+     .category-btn-box {
+  background: url('DeckBackground.png') center center / contain no-repeat;
+  width: 320px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: 0 2px 12px #0002;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  box-sizing: content-box;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.12s;
+}
+
+.category-btn-box.disabled {
+  filter: grayscale(0.92) brightness(1.11) opacity(0.72);
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.category-btn-label {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #18102c;           /* Black writing */
+  background: #ffd600;      /* Gold background */
+  border-radius: 7px;
+  padding: 12px 24px;
+  box-shadow: 1px 2px 8px #0002;
+  text-align: center;
+  user-select: none;
+  margin: 0;
+  border: none;
+  outline: none;
+  width: auto;
+  max-width: 90%;
+  line-height: 1.2;
+  box-sizing: border-box;
+  word-break: break-word;
+  white-space: normal;
+  display: block;
+}
+
+.category-btn-box:active .category-btn-label,
+.category-btn-box:focus .category-btn-label {
+  background: #ffb300;
+}
+
+@media (max-width: 600px) {
+  .category-btn-box {
+    width: min(92vw, 320px);
+    height: calc(min(92vw, 320px) * 220 / 320);
+    max-width: 320px;
+    max-height: 220px;
+  }
+  .category-btn-label {
+    font-size: 1em;
+    padding: 9px 10px;
+  }
+}
       .leader-wait-msg {
         color: #ffd600;
         font-size: 1.1em;
@@ -601,10 +621,9 @@ function renderCategory() {
         background: #ffb300;
         transform: scale(1.03);
       }
-      @media (max-width: 900px) {
+      @media (max-width: 700px) {
         .category-container {
-          grid-template-columns: 1fr;
-          max-width: ${deckWidth + 10}px;
+          max-width: 98vw;
         }
       }
       @media (max-width: 600px) {
@@ -613,19 +632,17 @@ function renderCategory() {
           font-size: 1.11em;
         }
         .category-container {
-          grid-template-columns: 1fr;
           gap: 18px;
           max-width: 99vw;
         }
         .category-btn-box {
-          width: 92vw;
-          height: calc(92vw * ${deckHeight} / ${deckWidth});
-          max-width: ${deckWidth}px;
-          max-height: ${deckHeight}px;
+          width: min(92vw, 320px);
+          height: calc(min(92vw, 320px) * 220 / 320);
+          max-width: 320px;
+          max-height: 220px;
         }
         .category-btn-label {
-          font-size: 1.05em;
-          padding: 8px 3vw;
+          font-size: 1em;
         }
       }
     </style>
