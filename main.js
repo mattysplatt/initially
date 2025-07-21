@@ -602,50 +602,68 @@ function renderGame() {
     ? state.category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
     : '';
   const isCorrect = state.guesses[state.playerId]?.correct;
+
   $app.innerHTML = `
-    <div class="screen">
-      <div class="game-info-box" style="background:royalblue;padding:24px 20px 20px 20px;border-radius:12px;max-width:420px;margin:32px auto;box-shadow:0 4px 24px #c6a0f533;">
-        <div class="category-title" style="font-size:1.15em;font-weight:bold;color:#fff;margin-bottom:8px;">
-          ${displayCategory}
+    <div class="guessing-screen">
+      <!-- Category Title -->
+      <h2 id="category-title" style="text-transform:uppercase;text-align:center;letter-spacing:2px;margin-top:30px;">
+        ${displayCategory}
+      </h2>
+
+      <!-- Initials and Timer Row -->
+      <div class="initials-row" style="display:flex;align-items:center;justify-content:center;margin:30px 0 10px 0;">
+        <div id="initials-box" style="background:#fff;color:#000;font-size:3em;padding:30px 50px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-align:center;">
+          ${state.question ? state.question.initials : ''}
         </div>
-        <div class="game-top-row" style="
-          display:flex;
-          align-items:center;
-          gap:24px;
-          margin-bottom: 16px;
-        ">
-          <div class="initials" style="font-size:2em;font-weight:bold;min-width:75px;text-align:center; color: #fff;">
-            ${state.question ? state.question.initials : ''}
-          </div>
-          <div style="display:flex; gap:16px; margin-left:auto;">
-            <div class="timer" id="timer" style="min-width:65px;text-align:center; color: orange;">
-              ${state.timer}s
-            </div>
-            <div class="points" style="min-width:80px;text-align:center; color: #fff;">
-              ${state.points} pts
-            </div>
-            <div class="round" style="min-width:90px;text-align:center; color: #fff;">
-              Round ${state.round}/${state.maxRounds}
-            </div>
-          </div>
-        </div>
-        <div class="clue" style="margin-bottom:10px;color:#fff;">${clue ? clue : ''}</div>
-        ${state.incorrectPrompt ? '<div style="color:#ffd600;margin:8px 0;">Incorrect, try again!</div>' : ''}
-        <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''}/>
-        <button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
-        <div id="gameStatus" style="margin:8px 0;color:#ffd600">${isCorrect ? 'Waiting for round...' : ''}</div>
+        <span id="countdown-timer" style="color:red;font-size:2em;font-weight:bold;margin-left:24px;">
+          ${state.timer}s
+        </span>
       </div>
+      
+      <!-- Clue -->
+      <div id="clues" style="font-size:2em;margin:20px 0;text-align:center;width:80%;">
+        ${clue ? clue : ''}
+      </div>
+      
+      <!-- Answer Input -->
+      <input 
+        type="text"
+        id="answer-box"
+        maxlength="50"
+        placeholder="Enter your answer..."
+        ${isCorrect ? 'disabled' : ''}
+        style="font-size:1.3em;padding:10px;margin:15px 0 5px 0;width:60%;border-radius:8px;border:1px solid #ccc;text-align:center;"
+      />
+
+      <!-- Bottom Row: Points and Submit Button -->
+      <div class="bottom-row" style="display:flex;flex-direction:column;width:60%;align-items:center;">
+        <span id="points-value" style="align-self:flex-start;font-size:1.1em;margin-bottom:10px;">
+          Points: ${state.points}
+        </span>
+        <button 
+          id="submit-btn"
+          ${isCorrect ? 'disabled' : ''}
+          style="margin:0 auto;padding:12px 32px;font-size:1.2em;background:#222;color:#fff;border:none;border-radius:10px;cursor:pointer;transition:background 0.2s;"
+        >
+          Submit
+        </button>
+        <div id="gameStatus" style="margin:8px 0;color:#ffd600">${isCorrect ? 'Waiting for round...' : ''}</div>
+        ${state.incorrectPrompt ? '<div style="color:#ffd600;margin:8px 0;">Incorrect, try again!</div>' : ''}
+      </div>
+
       <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
-  const guessInput = document.getElementById('guessInput');
+
+  // JS logic for inputs/buttons
+  const guessInput = document.getElementById('answer-box');
   if (guessInput && !isCorrect) {
     guessInput.value = state.guess || '';
     guessInput.focus();
     guessInput.addEventListener('input', e => state.guess = e.target.value);
     guessInput.addEventListener('keypress', e => { if (e.key === 'Enter') submitGuess(); });
   }
-  const submitBtn = document.getElementById('submitGuess');
+  const submitBtn = document.getElementById('submit-btn');
   if (submitBtn && !isCorrect) {
     submitBtn.onclick = submitGuess;
   }
