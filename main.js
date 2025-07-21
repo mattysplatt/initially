@@ -598,9 +598,7 @@ function startSinglePlayerGame(category) {
 
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
-  const displayCategory = state.category
-    ? state.category.toUpperCase()
-    : '';
+  const displayCategory = state.category ? state.category.toUpperCase() : '';
   const isCorrect = state.guesses[state.playerId]?.correct;
 
   $app.innerHTML = `
@@ -610,12 +608,26 @@ function renderGame() {
         ${displayCategory}
       </h2>
 
-      <!-- Initials and Timer Row -->
-      <div class="initials-row" style="display:flex;align-items:center;justify-content:center;margin:30px 0 10px 0;">
-        <div id="initials-box" style="background:#fff;color:#000;font-size:3em;padding:30px 50px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-align:center;">
+      <!-- Initials Box Centered Below Category -->
+      <div style="display:flex;justify-content:center;">
+        <div id="initials-box" style="
+          background:#fff;
+          color:#000;
+          font-size:4em;
+          font-weight:bold;
+          padding:40px 70px;
+          border-radius:16px;
+          box-shadow:0 2px 12px rgba(0,0,0,0.08);
+          text-align:center;
+          margin:24px 0 0 0;
+        ">
           ${state.question ? state.question.initials : ''}
         </div>
-        <span id="countdown-timer" style="color:red;font-size:2em;font-weight:bold;margin-left:24px;">
+      </div>
+
+      <!-- Timer and rest of UI below -->
+      <div style="display:flex; align-items:center; justify-content:center; gap:24px; margin:30px 0 10px 0;">
+        <span id="countdown-timer" style="color:red;font-size:2em;font-weight:bold;">
           ${state.timer}s
         </span>
       </div>
