@@ -908,28 +908,29 @@ function chooseCategory(category) {
 }
 function startTimer() {
   clearInterval(window.timerInterval);
-  state.timer = 10; renderTimer();
+  state.timer = 10; // or whatever your starting time is
   window.timerInterval = setInterval(() => {
     state.timer--;
-    renderTimer();
+    renderGame(); // update whole screen, not just timer
     if (state.timer <= 0) {
       clearInterval(window.timerInterval);
       revealNextClue();
     }
   }, 1000);
 }
-function renderTimer() {
-  const el = document.getElementById('timer');
-  if (el) el.textContent = state.timer+'s';
-}
+
 function revealNextClue() {
   let clueIdx = state.clueIdx;
   let points = state.points;
-  if (clueIdx < 4) {
+  // Check if there are more clues left
+  if (clueIdx < state.clues.length - 1) {
     clueIdx++;
     points -= 10;
-    update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points });
-    startTimer();
+    state.clueIdx = clueIdx;
+    state.points = points;
+    state.timer = 10; // reset timer for new clue
+    renderGame();    
+    startTimer();    
   } else {
     endRound();
   }
