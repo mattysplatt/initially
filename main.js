@@ -827,9 +827,14 @@ function listenLobby() {
   const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
   state.lobbyRef = lobbyRef;
   state.unsubLobby = onValue(lobbyRef, snap => {
-    if (!snap.exists()) { state.status = "Lobby not found"; state.screen = 'lobby'; render(); return; }
+    if (!snap.exists()) {
+      state.status = "Lobby not found";
+      state.screen = 'lobby';
+      render();
+      return;
+    }
     const lobby = snap.val();
-    state.players = Object.entries(lobby.players||{}).map(([id, p])=>({...p, id}));
+    state.players = Object.entries(lobby.players || {}).map(([id, p]) => ({ ...p, id }));
     state.isLeader = (state.playerId === lobby.leader);
     state.round = lobby.round;
     state.category = lobby.category;
@@ -838,28 +843,31 @@ function listenLobby() {
     state.clues = lobby.clues;
     state.clueIdx = lobby.clueIdx;
     state.points = lobby.points;
-    state.guesses = lobby.guesses||{};
+    state.guesses = lobby.guesses || {};
     if (
-      state.question && 
+      state.question &&
       state.question.initials !== (state.lastQuestionInitials || '')
     ) {
       state.guess = '';
       state.lastQuestionInitials = state.question.initials;
     }
     if (lobby.status === "waiting") {
-      state.screen = 'category'; render();
+      state.screen = 'category';
+      render();
     } else if (lobby.status === "playing") {
-  const wasGameScreen = state.screen === 'game';
-  state.screen = 'game'; render();
-  if (!wasGameScreen) startTimer();
-}
+      const wasGameScreen = state.screen === 'game';
+      state.screen = 'game';
+      render();
+      if (!wasGameScreen) startTimer();
     } else if (lobby.status === "scoreboard") {
-      state.scoreboard = lobby.scoreboard||[];
-      state.readyPlayers = lobby.readyPlayers||[];
-      state.screen = 'scoreboard'; render();
+      state.scoreboard = lobby.scoreboard || [];
+      state.readyPlayers = lobby.readyPlayers || [];
+      state.screen = 'scoreboard';
+      render();
     } else if (lobby.status === "end") {
-      state.scoreboard = lobby.scoreboard||[];
-      state.screen = 'end'; render();
+      state.scoreboard = lobby.scoreboard || [];
+      state.screen = 'end';
+      render();
     }
   });
 }
