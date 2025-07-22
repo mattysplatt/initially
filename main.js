@@ -224,64 +224,33 @@ function render() {
 
 function renderLobby() {
   $app.innerHTML = `
-    <div class="lobby-screen" style="
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      padding-bottom:32px;
-      background: url('ScreenBackground.png') center center / cover no-repeat;
-    ">
-      <h2 style="
-        text-align:center;
-        font-size:2.7em;
-        font-weight:bold;
-        margin-top:48px;
-        margin-bottom:22px;
-        color:#fff;
-        text-shadow:0 2px 14px #0006;
-      ">
-        Lobby
-      </h2>
-      <div style="
-        background:#fff;
-        border-radius:14px;
-        box-shadow:0 2px 14px #0002;
-        padding:20px 36px;
-        margin-bottom:24px;
-        min-width:220px;
-        max-width:90vw;
-        text-align:center;
-      ">
-        ${state.players && state.players.length
-          ? state.players.map(player =>
-              `<div style="color:#18102c; font-weight:bold; font-size:1.25em; margin-bottom:10px;">${player.name}</div>`
-            ).join('')
-          : `<div style="color:#888; font-size:1.1em;">No players joined yet.</div>`
-        }
-      </div>
-      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" style="width:200px; margin-bottom:18px;" />
+    <div class="lobby-screen">
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
       <div class="lobby-form">
-        <div style="font-size:1.18em; color:#fff; margin-bottom:10px;">
-          Share this code with your friends to join the lobby:
-        </div>
-        <div class="lobby-code-box" style="
-          font-size:2.6em; font-weight:bold; letter-spacing:0.18em; color:#222;
-          background:#fff; border-radius:13px; padding:21px 18px 13px 18px; margin-bottom:15px;">
-          ${state.lobbyCode}
-        </div>
-        <button id="copyLobbyCodeBtn" class="landing-btn">Copy Code</button>
-        <button id="startLobbyBtn" class="landing-btn">Start Lobby</button>
+        <input type="text" id="playerName" value="${state.playerName || ''}" maxlength="20" placeholder="Enter your name" class="lobby-input" />
+        <input type="text" id="lobbyCode" maxlength="10" placeholder="Enter lobby code (optional)" class="lobby-input" />
+        <button id="createLobby" class="landing-btn">Create New Lobby</button>
+        <button id="joinLobby" class="landing-btn">Join Lobby</button>
+        <div id="lobbyStatus" style="margin:10px 0;color:#ffd600;min-height:24px;">${state.status || ''}</div>
         <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
       </div>
     </div>
     <style>
       .lobby-screen {
-        background: url('ScreenBackground.png') center center / cover no-repeat, #18102c;
+        background: #18102c;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 32px;
       }
       .lobby-logo {
-        width: 200px;
-        margin-bottom: 18px;
+        width: 350px;
+        max-width: 90vw;
+        margin: 40px auto 24px auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
       }
       .lobby-form {
         background: rgba(0,0,0,0.16);
@@ -294,14 +263,19 @@ function renderLobby() {
         width: 100%;
         max-width: 350px;
       }
-      .lobby-code-box {
-        font-size: 2.6em;
-        font-weight: bold;
-        letter-spacing: 0.18em;
-        color: #222;
+      .lobby-input {
+        width: 100%;
+        padding: 14px 10px;
+        font-size: 1.08em;
+        margin: 8px 0 14px 0;
+        border-radius: 7px;
+        border: none;
         background: #fff;
-        border-radius: 13px;
-        padding: 21px 18px 13px 18px;
+        box-shadow: 1px 2px 8px #0001;
+        outline: none;
+      }
+      .lobby-input:focus {
+        border: 2px solid #ffd600;
       }
       .landing-btn {
         width: 100%;
@@ -437,7 +411,7 @@ function renderLobbyCodeScreen() {
       }
       .lobby-return-btn {
         background: #fff;
-        color: url('ScreenBackground.png');
+        color: #18102c;
         margin-top: 18px;
       }
       .lobby-return-btn:hover {
@@ -535,7 +509,7 @@ function renderCategory() {
       .category-btn-label {
         font-size: 1.1em;
         font-weight: bold;
-        color: url('ScreenBackground.png');
+        color: #18102c;
         background: #ffd600;
         border-radius: 7px;
         padding: 12px 18px;
@@ -648,14 +622,14 @@ function renderGame() {
   const isCorrect = state.guesses[state.playerId]?.correct;
 
   $app.innerHTML = `
-    <div class="game-screen" style="background: url('ScreenBackground.png'); min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
+    <div class="game-screen" style="background: #18102c; min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
       <div style="width:100%; text-align:center; margin-top:38px;">
         <div class="category" style="font-size:2em; font-weight:700; color:#ffd600; margin-bottom:18px; letter-spacing:1.5px;">
           ${displayCategory}
         </div>
       </div>
       <div style="display:flex; align-items:center; justify-content:center; gap:32px; margin-bottom: 22px;">
-        <div class="initials-box" style="background: #fff; color: url('ScreenBackground.png'); font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
+        <div class="initials-box" style="background: #fff; color: #18102c; font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
           ${state.question ? state.question.initials : ''}
         </div>
        <div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
@@ -666,7 +640,7 @@ function renderGame() {
         <span style="font-size:1.6em; color:#ffd600; font-weight:700;">Points: <b>${state.points}</b></span>
         <span style="font-size:1.6em; color:#fff; font-weight:700;">Round <b>${state.round}/${state.maxRounds}</b></span>
       </div>
-      <div class="clue-box" style="background: #fff; color: url('ScreenBackground.png'); font-size: 1.15em; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px; box-shadow: 0 2px 8px #0002;">
+      <div class="clue-box" style="background: #fff; color: #18102c; font-size: 1.15em; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px; box-shadow: 0 2px 8px #0002;">
         ${clue ? clue : ''}
       </div>
       ${state.incorrectPrompt ? `<div style="color:#ff3333; margin-bottom:14px; font-weight: bold;"><span>&#10060;</span> Incorrect, try again!</div>` : ""}
@@ -675,8 +649,8 @@ function renderGame() {
         width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 14px; border-radius: 9px; border: 2px solid #ffd600; margin-bottom: 12px; box-shadow: 0 2px 8px #0001;
         outline: none; text-align: center;" />
       <button id="submitGuess" ${isCorrect ? 'disabled' : ''} style="
-        width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 0; border-radius: 9px; border: none; background: #ffd600; color: url('ScreenBackground.png'); font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px #0002; margin-bottom: 12px;">Submit Guess</button>
-      <button id="returnLandingBtn" style="margin-top: 18px; background: #fff; color: url('ScreenBackground.png'); border-radius: 9px; border: none; font-size: 1em; font-weight: bold; padding: 12px 0; width: 90vw; max-width: 340px;">Return to Home</button>
+        width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 0; border-radius: 9px; border: none; background: #ffd600; color: #18102c; font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px #0002; margin-bottom: 12px;">Submit Guess</button>
+      <button id="returnLandingBtn" style="margin-top: 18px; background: #fff; color: #18102c; border-radius: 9px; border: none; font-size: 1em; font-weight: bold; padding: 12px 0; width: 90vw; max-width: 340px;">Return to Home</button>
     </div>
     <style>
       @media (max-width: 500px) {
@@ -733,7 +707,7 @@ function renderScoreboard() {
       <div style="width:100%; max-width:440px; margin-bottom:18px;">
         <table class="scoreboard-table" style="width:100%; border-collapse:separate; border-spacing:0; box-shadow:0 2px 14px #0002; background:#fff; border-radius:14px; overflow:hidden;">
           <thead>
-            <tr style="background:#4169e1; color:url('ScreenBackground.png'); font-size:1.15em; font-weight:700;">
+            <tr style="background:#4169e1; color:#18102c; font-size:1.15em; font-weight:700;">
               <th style="padding:18px 0; width:68px;">Place</th>
               <th style="padding:18px 0;">Name</th>
               <th style="padding:18px 0; width:68px;">Score</th>
@@ -745,14 +719,14 @@ function renderScoreboard() {
               // Gold trophy SVG for 1st place, otherwise just the number
               const placeIcon = pos === 1
                 ? `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="#ffd600" style="vertical-align:middle;"><path d="M12 2a1 1 0 0 0-1 1v2H6V5a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v3c0 3.53 2.61 6.43 6 6.92V17H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2h-2v-2.08c3.39-.49 6-3.39 6-6.92V5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v1h-5V3a1 1 0 0 0-1-1zm-8 3h1v3c0 2.76 2.24 5 5 5h8c2.76 0 5-2.24 5-5V5h1v3c0 4.41-3.59 8-8 8s-8-3.59-8-8V5z"/></svg>`
-                : `<span style="font-size:1.25em; color:url('ScreenBackground.png');">${pos}</span>`;
+                : `<span style="font-size:1.25em; color:#18102c;">${pos}</span>`;
               const playerObj = state.players.find(p => p.name === item.name);
               const tick = playerObj && playerObj.ready ? ' <span style="color:#27ae60;font-weight:bold;">&#10003;</span>' : '';
               return `
                 <tr style="border-bottom:1px solid #ffd600;">
                   <td style="text-align:center; padding:12px 0;">${placeIcon}</td>
-                  <td style="font-size:1.12em; color:url('ScreenBackground.png'); font-weight:600; text-align:center;">${item.name}${tick}</td>
-                  <td style="text-align:center; font-size:1.12em; font-weight:700; color:url('ScreenBackground.png');">${item.score}</td>
+                  <td style="font-size:1.12em; color:#18102c; font-weight:600; text-align:center;">${item.name}${tick}</td>
+                  <td style="text-align:center; font-size:1.12em; font-weight:700; color:#18102c;">${item.score}</td>
                 </tr>
               `;
             }).join('')}
@@ -763,12 +737,12 @@ function renderScoreboard() {
       ${
         state.players.length === 0
         ? '<div style="color:red;">No players found in lobby. Please reload or rejoin.</div>'
-        : `<button id="readyBtn" ${state.players.find(p=>p.id===state.playerId)?.ready ? 'disabled' : ''} style="background:#ffd600; color:url('ScreenBackground.png'); font-weight:bold; font-size:1.1em; padding:12px 24px; border:none; border-radius:9px; margin-top:8px; margin-bottom:8px;">Ready for Next Round</button>`
+        : `<button id="readyBtn" ${state.players.find(p=>p.id===state.playerId)?.ready ? 'disabled' : ''} style="background:#ffd600; color:#18102c; font-weight:bold; font-size:1.1em; padding:12px 24px; border:none; border-radius:9px; margin-top:8px; margin-bottom:8px;">Ready for Next Round</button>`
       }
       <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:9px; cursor:pointer; margin-top:16px;">
         Return to Start
       </button>
-      <button id="returnLandingBtn" style="margin-top:24px; background:#fff; color:url('ScreenBackground.png'); border-radius:9px; border:none; font-size:1.1em; font-weight:bold; padding:12px 0; width:90vw; max-width:340px;">Return to Home</button>
+      <button id="returnLandingBtn" style="margin-top:24px; background:#fff; color:#18102c; border-radius:9px; border:none; font-size:1.1em; font-weight:bold; padding:12px 0; width:90vw; max-width:340px;">Return to Home</button>
       <style>
         @media (max-width:600px) {
           .scoreboard-table th, .scoreboard-table td { font-size:1em !important; padding:7px 0 !important; }
