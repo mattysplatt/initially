@@ -640,7 +640,7 @@ function renderGame() {
         <span style="font-size:1.6em; color:#ffd600; font-weight:700;">Points: <b>${state.points}</b></span>
         <span style="font-size:1.6em; color:#fff; font-weight:700;">Round <b>${state.round}/${state.maxRounds}</b></span>
       </div>
-      <div class="clue-box" style="background: #fff; color: url('ScreenBackground.png'); font-size: 1.15em; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px; box-shadow: 0 2px 8px #0002;">
+      <div class="clue-box" style="background: #fff; color: #18102c; font-size: 1.15em; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px; box-shadow: 0 2px 8px #0002;">
         ${clue ? clue : ''}
       </div>
       ${state.incorrectPrompt ? `<div style="color:#ff3333; margin-bottom:14px; font-weight: bold;"><span>&#10060;</span> Incorrect, try again!</div>` : ""}
