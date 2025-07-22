@@ -116,7 +116,7 @@ function renderLanding() {
         padding: 0;
       }
       .landing-screen {
-        background: #18102c;
+        background: url('ScreenBackground.png');
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -350,7 +350,7 @@ function renderLobbyCodeScreen() {
     </div>
     <style>
       .lobby-screen {
-        background: #18102c;
+        background: url('ScreenBackground.png');
         min-height: 100vh;
         display: flex;
         flex-direction: column;
