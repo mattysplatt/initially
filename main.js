@@ -23,7 +23,8 @@ let isAuthenticated = false;
 
 // App State
 let state = {
-  screen: 'lobby',
+  screen: 'landing', // <-- Default to landing page!
+  mode: '', // 'single' or 'multi'
   playerName: '',
   playerId: '',
   lobbyCode: '',
@@ -48,6 +49,7 @@ let state = {
   unsubGame: null,
   incorrectPrompt: false,
   lastQuestionInitials: '',
+  usedAnswers: []
 };
 
 // Utility Functions
@@ -93,13 +95,129 @@ function levenshtein(a, b) {
 
 // --- DOM ---
 const $app = document.getElementById('app');
+
+// LANDING PAGE
+function renderLanding() {
+  $app.innerHTML = `
+    <div class="landing-screen">
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="landing-logo" draggable="false" />
+      <div class="button-container">
+        <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button>
+        <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button>
+        <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button>
+        <button id="monthlyBtn" class="landing-btn">MONTHLY CHALLENGE</button>
+      </div>
+    </div>
+    <style>
+      html, body, #app, .landing-screen {
+        height: 100%;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      .landing-screen {
+        background: #18102c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        width: 100vw;
+        overflow-y: auto;
+        padding-bottom: 32px;
+      }
+      .landing-logo {
+        width: 430px;
+        max-width: 90vw;
+        margin-top: 4vw;
+        margin-bottom: 5vw;
+        height: auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .button-container {
+        background: rgba(0,0,0,0.16);
+        padding: 28px 12px 22px 12px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 360px;
+      }
+      .landing-btn {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        margin: 12px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      @media (max-width: 600px) {
+        .landing-logo {
+          width: 88vw;
+          margin-top: 9vw;
+          margin-bottom: 10vw;
+        }
+        .button-container {
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
+        }
+        .landing-btn {
+          font-size: 1em;
+          padding: 13px 0;
+        }
+      }
+      @media (min-width: 601px) and (max-width: 1024px) {
+        .landing-logo {
+          width: 60vw;
+          margin-top: 6vw;
+          margin-bottom: 7vw;
+        }
+        .button-container {
+          max-width: 80vw;
+        }
+      }
+    </style>
+  `;
+
+ document.getElementById('playFreeBtn').onclick = () => {
+  state.mode = 'single';
+  state.screen = 'lobby';
+  render();
+};
+  document.getElementById('playPurchasedBtn').onclick =
+    document.getElementById('purchaseBtn').onclick =
+    document.getElementById('monthlyBtn').onclick = () => {
+      state.mode = 'multi';
+      state.screen = 'lobby';
+      render();
+    };
+}
+
+// MAIN RENDER FUNCTION
 function render() {
   $app.innerHTML = '';
   if (!isAuthenticated) {
     $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh.</span></div>`;
     return;
   }
-  if (state.screen === 'lobby') renderLobby();
+  if (state.screen === 'landing') renderLanding();
+  else if (state.screen === 'lobby') renderLobby();
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
   else if (state.screen === 'category') renderCategory();
   else if (state.screen === 'game') renderGame();
@@ -109,29 +227,219 @@ function render() {
 
 function renderLobby() {
   $app.innerHTML = `
-    <div class="screen">
-      <h1>Initial Contact</h1>
-      <input type="text" id="playerName" value="${state.playerName||''}" maxlength="20" placeholder="Enter your name" /><br/>
-      <input type="text" id="lobbyCode" maxlength="10" placeholder="Enter lobby code (optional)" /><br/>
-      <button id="createLobby">Create New Lobby</button>
-      <button id="joinLobby">Join Lobby</button>
-      <div id="lobbyStatus" style="margin:8px 0;color:#ffd600">${state.status||''}</div>
+    <div class="lobby-screen">
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
+      <div class="lobby-form">
+        <input type="text" id="playerName" value="${state.playerName || ''}" maxlength="20" placeholder="Enter your name" class="lobby-input" />
+        <input type="text" id="lobbyCode" maxlength="10" placeholder="Enter lobby code (optional)" class="lobby-input" />
+        <button id="createLobby" class="landing-btn">Create New Lobby</button>
+        <button id="joinLobby" class="landing-btn">Join Lobby</button>
+        <div id="lobbyStatus" style="margin:10px 0;color:#ffd600;min-height:24px;">${state.status || ''}</div>
+        <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
+      </div>
     </div>
+    <style>
+      .lobby-screen {
+        background: #18102c;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 32px;
+      }
+      .lobby-logo {
+        width: 350px;
+        max-width: 90vw;
+        margin: 40px auto 24px auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .lobby-form {
+        background: rgba(0,0,0,0.16);
+        padding: 32px 16px 24px 16px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 350px;
+      }
+      .lobby-input {
+        width: 100%;
+        padding: 14px 10px;
+        font-size: 1.08em;
+        margin: 8px 0 14px 0;
+        border-radius: 7px;
+        border: none;
+        background: #fff;
+        box-shadow: 1px 2px 8px #0001;
+        outline: none;
+      }
+      .lobby-input:focus {
+        border: 2px solid #ffd600;
+      }
+      .landing-btn {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        margin: 9px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .lobby-return-btn {
+        background: #fff;
+        color: #18102c;
+        margin-top: 18px;
+      }
+      .lobby-return-btn:hover {
+        background: #ffd600;
+        color: #222;
+      }
+      @media (max-width: 600px) {
+        .lobby-logo {
+          width: 80vw;
+          margin-top: 7vw;
+        }
+        .lobby-form {
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
+        }
+        .lobby-input {
+          font-size: 1em;
+          padding: 12px 7px;
+        }
+        .landing-btn {
+          font-size: 1em;
+          padding: 13px 0;
+        }
+      }
+    </style>
   `;
   document.getElementById('playerName').addEventListener('input', e => state.playerName = e.target.value);
   document.getElementById('createLobby').onclick = () => waitForAuthThen(createLobby);
   document.getElementById('joinLobby').onclick = () => waitForAuthThen(joinLobby);
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 function renderLobbyCodeScreen() {
   $app.innerHTML = `
-    <div class="screen">
-      <h2>Lobby Created!</h2>
-      <div>Your lobby code:</div>
-      <div id="lobbyCodeDisplay" style="font-size:2em;font-weight:bold;margin:12px;">${state.lobbyCode}</div>
-      <button id="copyLobbyCodeBtn">Copy Code</button>
-      <p>Share this code with friends to join your lobby.</p>
-      <button id="startLobbyBtn">Start Lobby</button>
+    <div class="lobby-screen">
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
+      <div class="lobby-form">
+        <div style="font-size:1.18em; color:#fff; margin-bottom:10px;">
+          Share this code with your friends to join the lobby:
+        </div>
+        <div class="lobby-code-box">${state.lobbyCode}</div>
+        <button id="copyLobbyCodeBtn" class="landing-btn">Copy Code</button>
+        <button id="startLobbyBtn" class="landing-btn">Start Lobby</button>
+        <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
+      </div>
     </div>
+    <style>
+      .lobby-screen {
+        background: #18102c;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 32px;
+      }
+      .lobby-logo {
+        width: 350px;
+        max-width: 90vw;
+        margin: 40px auto 24px auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .lobby-form {
+        background: rgba(0,0,0,0.16);
+        padding: 32px 16px 24px 16px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 350px;
+      }
+      .lobby-code-box {
+        font-size: 2.6em;
+        font-weight: bold;
+        letter-spacing: 0.18em;
+        color: #222;
+        background: #fff;
+        border-radius: 13px;
+        padding: 21px 18px 13px 18px;
+        margin: 18px 0 20px 0;
+        text-align: center;
+        box-shadow: 1px 4px 16px #0001;
+        user-select: all;
+      }
+      .landing-btn {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        margin: 9px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .lobby-return-btn {
+        background: #fff;
+        color: #18102c;
+        margin-top: 18px;
+      }
+      .lobby-return-btn:hover {
+        background: #ffd600;
+        color: #222;
+      }
+      @media (max-width: 600px) {
+        .lobby-logo {
+          width: 80vw;
+          margin-top: 7vw;
+        }
+        .lobby-form {
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
+        }
+        .lobby-code-box {
+          font-size: 2em;
+          padding: 14px 8px 11px 8px;
+        }
+        .landing-btn {
+          font-size: 1em;
+          padding: 13px 0;
+        }
+      }
+    </style>
   `;
   document.getElementById('copyLobbyCodeBtn').onclick = function() {
     navigator.clipboard.writeText(state.lobbyCode);
@@ -140,29 +448,154 @@ function renderLobbyCodeScreen() {
   document.getElementById('startLobbyBtn').onclick = function() {
     joinLobbyByCode(state.lobbyCode, state.playerName, true);
   };
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
+// --- CATEGORY GRID FOR BOTH MODES ---
 function renderCategory() {
+  const categories = [
+    "worldSports", "AFL", "movieStars", "musicians", "PopStars",
+    "Football", "famousFigures", "randomMix", "ModernNBA"
+  ];
+
   $app.innerHTML = `
-    <div class="screen">
-      <h2>Select Category</h2>
-      <div>${state.players.map(p => `<div>${p.name}${p.isLeader?' 👑':''}</div>`).join('')}</div>
-      <div style="margin:16px 0;">
-       ${['worldSports','AFL','movieStars','musicians', 'PopStars', 'Football', 'famousFigures','randomMix', 'ModernNBA']
-  .map(cat => {
-    let label = cat.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase());
-    if (cat === 'Football') label = '⚽ ' + label;
-    return `<button class="catBtn" data-cat="${cat}">${label}</button>`;
-  }).join('')}
+    <div class="cat-page-wrapper">
+      <div class="lobby-box" style="margin: 20px auto 28px auto;">
+        <div class="lobby-title">Lobby</div>
+        <div class="lobby-players" id="lobbyPlayers">
+          ${state.players && state.players.length
+            ? state.players.map(p => `<div class="lobby-player">${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')
+            : '<div style="color:#aaa;">Waiting for players...</div>'}
+        </div>
       </div>
-      <div>${state.isLeader ? '' : 'Waiting for leader to select...'}</div>
+      <div class="category-container" id="categoryContainer"></div>
+      ${state.mode === 'multi' && !state.isLeader ? `<div class="leader-wait-msg">Waiting for leader to select...</div>` : ''}
+      <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
     </div>
+    <style>
+      .cat-page-wrapper {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        width: 100vw;
+      }
+      .category-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+      }
+      .category-btn-box {
+        min-width: 140px;
+        width: 100%;
+        max-width: 330px;
+        aspect-ratio: 165 / 240;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
+        border: none;
+        box-shadow: 0 2px 12px #0002;
+        padding: 0;
+        overflow: hidden;
+        box-sizing: border-box;
+        position: relative;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.12s;
+      }
+      /* No hover or active effect */
+      .category-btn-label {
+        font-size: 1.1em;
+        font-weight: bold;
+        color: #18102c;
+        background: #ffd600;
+        border-radius: 7px;
+        padding: 12px 18px;
+        box-shadow: 1px 2px 8px #0002;
+        text-align: center;
+        user-select: none;
+        margin: 0;
+        border: none;
+        outline: none;
+        width: auto;
+        max-width: 90%;
+        line-height: 1.1;
+        box-sizing: border-box;
+        word-break: break-word;
+        white-space: normal;
+        display: block;
+      }
+      @media (max-width: 700px) {
+        .category-container {
+          grid-template-columns: 1fr 1fr;
+          max-width: 98vw;
+        }
+        .category-btn-box {
+          max-width: 98vw;
+        }
+      }
+      @media (max-width: 430px) {
+        .category-container {
+          grid-template-columns: 1fr 1fr;
+          max-width: 99vw;
+        }
+        .category-btn-box {
+          max-width: 99vw;
+        }
+      }
+    </style>
   `;
-  if (state.isLeader) {
-    document.querySelectorAll('.catBtn').forEach(btn => 
-      btn.onclick = () => chooseCategory(btn.dataset.cat)
-    );
-  }
+
+  const catDiv = document.getElementById('categoryContainer');
+  categories.forEach(cat => {
+    let label = cat.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+    if (cat === 'Football') label = '⚽ ' + label;
+    const box = document.createElement('div');
+    box.className = 'category-btn-box' +
+      ((state.mode === 'multi' && !state.isLeader) ? ' disabled' : '');
+    box.innerHTML = `<div class="category-btn-label">${label}</div>`;
+    if (!(state.mode === 'multi' && !state.isLeader)) {
+      box.onclick = () => {
+        if (state.mode === 'multi') {
+          chooseCategory(cat);
+        } else {
+          startSinglePlayerGame(cat);
+        }
+      };
+    }
+    catDiv.appendChild(box);
+  });
+
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
+// --- SINGLEPLAYER GAME STARTER ---
+function startSinglePlayerGame(category) {
+  const allQuestions = shuffle([...INITIALS_DB[category]]);
+  const firstQuestion = allQuestions[0];
+  state.category = category;
+  state.round = 1;
+  state.maxRounds = 10;
+  state.question = firstQuestion;
+  state.clues = shuffle(firstQuestion.clues);
+  state.clueIdx = 0;
+  state.points = 60;
+  state.guess = '';
+  state.guesses = {};
+  state.scores = {};
+  state.scoreboard = [];
+  state.usedAnswers = [firstQuestion.answer];
+  state.screen = 'game';
+  render();
+}
+
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
   const displayCategory = state.category
@@ -202,6 +635,7 @@ function renderGame() {
         <button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
         <div id="gameStatus" style="margin:8px 0;color:#ffd600">${isCorrect ? 'Waiting for round...' : ''}</div>
       </div>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
   const guessInput = document.getElementById('guessInput');
@@ -215,16 +649,17 @@ function renderGame() {
   if (submitBtn && !isCorrect) {
     submitBtn.onclick = submitGuess;
   }
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 
-// NEW renderScoreboard with player ready ticks and no ready count
 function renderScoreboard() {
-  // Sort the scoreboard from highest to lowest score
   const sortedScoreboard = (state.scoreboard || [])
     .slice()
     .sort((a, b) => b.score - a.score);
 
-  // Find correct guessers for this round
   let correctGuessers = [];
   if (state.players.length >= 2 && state.guesses) {
     correctGuessers = state.players
@@ -249,7 +684,6 @@ function renderScoreboard() {
         if (pos === 1) suffix = "st";
         else if (pos === 2) suffix = "nd";
         else if (pos === 3) suffix = "rd";
-        // Find the player object to check if they're ready
         const playerObj = state.players.find(p => p.name === item.name);
         const tick = playerObj && playerObj.ready ? ' <span style="color:#27ae60;font-weight:bold;">&#10003;</span>' : '';
         return `<div class="score-item"><span>${pos}${suffix} - ${item.name}${tick}</span><span>${item.score}</span></div>`;
@@ -263,6 +697,7 @@ function renderScoreboard() {
       <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
         Return to Start
       </button>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
 
@@ -270,6 +705,10 @@ function renderScoreboard() {
     document.getElementById('readyBtn').onclick = markReady;
   }
   attachReturnToStartHandler();
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 
 function attachReturnToStartHandler() {
@@ -287,6 +726,7 @@ function attachReturnToStartHandler() {
     };
   }
 }
+
 function renderEnd() {
   $app.innerHTML = `
     <div class="screen">
@@ -300,10 +740,15 @@ function renderEnd() {
       <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
         Return to Start
       </button>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
   document.getElementById('restartBtn').onclick = () => window.location.reload();
   attachReturnToStartHandler();
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 
 // --- Game Logic + Firebase Sync ---
@@ -424,9 +869,7 @@ function chooseCategory(category) {
       )
     : shuffle([...INITIALS_DB[category]]);
   const firstQuestion = allQuestions[0]; 
-  
   state.guess = '';
-  
   set(ref(db, `lobbies/${state.lobbyCode}`), {
     code: state.lobbyCode,
     leader: state.playerId,
@@ -521,7 +964,6 @@ function endRound() {
   });
 }
 
-// Update ready state per player and reset for a new round
 function markReady() {
   update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true })
     .then(() => {
@@ -531,25 +973,19 @@ function markReady() {
         const numPlayers = Object.keys(lobby.players || {}).length;
 
         if (readyPlayers === numPlayers) {
-          // All players are ready, start next round or end game
           let round = lobby.round + 1;
           if (round > (lobby.maxRounds || 10)) {
-            // End game
             await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
             return;
           }
-          // Get next unused question
           const usedAnswers = lobby.usedQuestions || [];
           const category = lobby.category;
           const nextQuestion = getRandomUnusedQuestion(category, usedAnswers);
           if (!nextQuestion) {
-            // No more questions, end the game
             await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
             return;
           }
           const newUsedAnswers = [...usedAnswers, nextQuestion.answer];
-
-          // Reset ready flags for all players
           const players = Object.fromEntries(
             Object.entries(lobby.players).map(([id, p]) => [id, { ...p, ready: false }])
           );
@@ -576,7 +1012,6 @@ function markReady() {
 // --- App Start ---
 render();
 
-// --- Clean up player on leave ---
 window.addEventListener('beforeunload', () => {
   if (state.lobbyCode && state.playerId) {
     remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
