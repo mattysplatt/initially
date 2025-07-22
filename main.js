@@ -223,211 +223,117 @@ function render() {
 }
 
 function renderLobby() {
-  // If not in a lobby, show entry fields
-  if (!state.lobbyCode) {
-    $app.innerHTML = `
-      <div class="lobby-screen" style="
-        min-height:100vh;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        background: url('ScreenBackground.png') center center / cover no-repeat;
-        padding-top: 32px;
-      ">
-        <h2 style="
-          width: 100%;
-          text-align: center;
-          font-size: 2.7em;
-          font-weight: bold;
-          margin-top: 0;
-          margin-bottom: 22px;
-          color: #fff;
-          text-shadow: 0 2px 14px #0006;
-        ">
-          Lobby
-        </h2>
-        <div style="
-          background:#fff;
-          border-radius:14px;
-          box-shadow:0 2px 14px #0002;
-          padding:18px 28px;
-          margin-bottom:24px;
-          min-width:220px;
-          max-width:90vw;
-          text-align:center;
-        ">
-          <input id="playerName" type="text" placeholder="Your Name" style="font-size:1em; margin-bottom:10px; width:80%; padding:7px; border-radius:6px; border:1px solid #ccc;">
-          <br>
-          <input id="lobbyCode" type="text" placeholder="Lobby Code (to join)" style="font-size:0.9em; margin-bottom:10px; width:80%; padding:5px; border-radius:6px; border:1px solid #ccc;">
-          <br>
-          <button id="createLobby" class="landing-btn" style="margin-bottom:10px;">Create Lobby</button>
-          <button id="joinLobby" class="landing-btn">Join Lobby</button>
-        </div>
-        <button id="returnLandingBtn" class="landing-btn lobby-return-btn" style="margin-top:18px;">Return to Home</button>
+  $app.innerHTML = `
+    <div class="lobby-screen">
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
+      <div class="lobby-form">
+      <input id="playerName" type="text" placeholder="Your Name" style="font-size:1em; margin-bottom:10px; width:80%; padding:5px; border-radius:6px; border:1px solid #ccc;">
+<br>
+<input id="lobbyCode" type="text" placeholder="Lobby Code (to join)" style="font-size:1em; margin-bottom:10px; width:80%; padding:5px; border-radius:6px; border:1px solid #ccc;">
+        <button id="createLobby" class="landing-btn">Create New Lobby</button>
+        <button id="joinLobby" class="landing-btn">Join Lobby</button>
+        <div id="lobbyStatus" style="margin:10px 0;color:#ffd600;min-height:24px;">${state.status || ''}</div>
+        <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
       </div>
-      <style>
-        .lobby-screen {
-          min-height: 100vh;
-          width: 100vw;
+    </div>
+    <style>
+      .lobby-screen {
+        background: url('ScreenBackground.png');
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 32px;
+      }
+      .lobby-logo {
+        width: 350px;
+        max-width: 90vw;
+        margin: 40px auto 24px auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .lobby-form {
+        background: rgba(0,0,0,0.16);
+        padding: 32px 16px 24px 16px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 350px;
+      }
+      .lobby-input {
+        width: 100%;
+        padding: 14px 10px;
+        font-size: 1.08em;
+        margin: 8px 0 14px 0;
+        border-radius: 7px;
+        border: none;
+        background: #fff;
+        box-shadow: 1px 2px 8px #0001;
+        outline: none;
+      }
+      .lobby-input:focus {
+        border: 2px solid #ffd600;
+      }
+      .landing-btn {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        margin: 9px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .lobby-return-btn {
+        background: #fff;
+        color: url('ScreenBackground.png');
+        margin-top: 18px;
+      }
+      .lobby-return-btn:hover {
+        background: #ffd600;
+        color: #222;
+      }
+      @media (max-width: 600px) {
+        .lobby-logo {
+          width: 80vw;
+          margin-top: 7vw;
+        }
+        .lobby-form {
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
+        }
+        .lobby-input {
+          font-size: 1em;
+          padding: 12px 7px;
         }
         .landing-btn {
-          width: 100%;
-          min-width: 140px;
-          max-width: 320px;
-          margin: 9px 0;
+          font-size: 1em;
           padding: 13px 0;
-          font-size: 1.05em;
-          border: none;
-          border-radius: 7px;
-          background: #ffd600;
-          color: #222;
-          font-weight: bold;
-          cursor: pointer;
-          box-shadow: 1px 2px 8px #0002;
-          transition: background 0.2s, transform 0.12s;
         }
-        .landing-btn:hover {
-          background: #ffb300;
-          transform: scale(1.03);
-        }
-        .lobby-return-btn {
-          background: #fff;
-          color: #18102c;
-          margin-top: 18px;
-        }
-        .lobby-return-btn:hover {
-          background: #ffd600;
-          color: #222;
-        }
-      </style>
-    `;
-
-    // Add event listeners as needed
-    const playerNameInput = document.getElementById('playerName');
-    if (playerNameInput) playerNameInput.addEventListener('input', e => state.playerName = e.target.value);
-
-    const createLobbyBtn = document.getElementById('createLobby');
-    if (createLobbyBtn) createLobbyBtn.onclick = () => waitForAuthThen(createLobby);
-
-    const joinLobbyBtn = document.getElementById('joinLobby');
-    if (joinLobbyBtn) joinLobbyBtn.onclick = () => waitForAuthThen(joinLobby);
-
-    const returnLandingBtn = document.getElementById('returnLandingBtn');
-    if (returnLandingBtn) returnLandingBtn.onclick = () => {
-      state.screen = 'landing';
-      render();
-    };
-
-  } else {
-    // In a lobby: show code and player list
-    $app.innerHTML = `
-      <div class="lobby-screen" style="
-        min-height:100vh;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        background: url('ScreenBackground.png') center center / cover no-repeat;
-        padding-top: 32px;
-      ">
-        <h2 style="
-          width: 100%;
-          text-align: center;
-          font-size: 2.7em;
-          font-weight: bold;
-          margin-top: 0;
-          margin-bottom: 22px;
-          color: #fff;
-          text-shadow: 0 2px 14px #0006;
-        ">
-          Lobby
-        </h2>
-        <div style="font-size:1.18em; color:#fff; margin-bottom:10px;">
-          Share this code with your friends to join the lobby:
-        </div>
-        <div class="lobby-code-box" style="
-          font-size:2.6em; font-weight:bold; letter-spacing:0.18em; color:#222;
-          background:#fff; border-radius:13px; padding:16px 14px 10px 14px; margin-bottom:15px;">
-          ${state.lobbyCode}
-        </div>
-        <div style="
-          background:#fff;
-          border-radius:14px;
-          box-shadow:0 2px 14px #0002;
-          padding:17px 26px;
-          margin-bottom:24px;
-          min-width:220px;
-          max-width:90vw;
-          text-align:center;
-        ">
-          ${state.players && state.players.length
-            ? state.players.map(player =>
-                `<div style="color:#18102c; font-weight:bold; font-size:1.25em; margin-bottom:10px;">${player.name}</div>`
-              ).join('')
-            : `<div style="color:#888; font-size:1.1em;">No players joined yet.</div>`
-          }
-        </div>
-        <button id="copyLobbyCodeBtn" class="landing-btn">Copy Code</button>
-        <button id="returnLandingBtn" class="landing-btn lobby-return-btn" style="margin-top:18px;">Return to Home</button>
-      </div>
-      <style>
-        .lobby-screen {
-          min-height: 100vh;
-          width: 100vw;
-        }
-        .lobby-code-box {
-          font-size: 2.6em;
-          font-weight: bold;
-          letter-spacing: 0.18em;
-          color: #222;
-          background: #fff;
-          border-radius: 13px;
-          padding: 16px 14px 10px 14px;
-          margin-bottom: 15px;
-        }
-        .landing-btn {
-          width: 100%;
-          min-width: 140px;
-          max-width: 320px;
-          margin: 9px 0;
-          padding: 13px 0;
-          font-size: 1.05em;
-          border: none;
-          border-radius: 7px;
-          background: #ffd600;
-          color: #222;
-          font-weight: bold;
-          cursor: pointer;
-          box-shadow: 1px 2px 8px #0002;
-          transition: background 0.2s, transform 0.12s;
-        }
-        .landing-btn:hover {
-          background: #ffb300;
-          transform: scale(1.03);
-        }
-        .lobby-return-btn {
-          background: #fff;
-          color: #18102c;
-          margin-top: 18px;
-        }
-        .lobby-return-btn:hover {
-          background: #ffd600;
-          color: #222;
-        }
-      </style>
-    `;
-
-    // Add event listeners as needed
-    const copyLobbyCodeBtn = document.getElementById('copyLobbyCodeBtn');
-    if (copyLobbyCodeBtn) copyLobbyCodeBtn.onclick = () => {
-      navigator.clipboard.writeText(state.lobbyCode);
-    };
-
-    const returnLandingBtn = document.getElementById('returnLandingBtn');
-    if (returnLandingBtn) returnLandingBtn.onclick = () => {
-      state.screen = 'landing';
-      render();
-    };
-  }
+      }
+    </style>
+  `;
+  document.getElementById('playerName').addEventListener('input', e => state.playerName = e.target.value);
+  document.getElementById('createLobby').onclick = () => waitForAuthThen(createLobby);
+  document.getElementById('joinLobby').onclick = () => waitForAuthThen(joinLobby);
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 function renderLobbyCodeScreen() {
   $app.innerHTML = `
