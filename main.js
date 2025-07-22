@@ -217,7 +217,7 @@ function render() {
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
   else if (state.screen === 'category') renderCategory();
   else if (state.screen === 'countdown') renderCountdown(); // <-- Add this line
-  else if (state.screen === 'game') renderGame();
+  else if (state.screen === 'game') ();
   else if (state.screen === 'scoreboard') renderScoreboard();
   else if (state.screen === 'end') renderEnd();
 }
@@ -622,17 +622,23 @@ function renderGame() {
   const isCorrect = state.guesses[state.playerId]?.correct;
 
   $app.innerHTML = `
-    <div class="game-screen" style="background: #18102c; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
-      <div class="game-header" style="margin-top: 40px; margin-bottom: 24px;">
-        <div class="category" style="color: #ffd600; font-size: 1.2em; font-weight: bold; letter-spacing: 1px;">${displayCategory}</div>
-        <div class="round-points" style="display: flex; gap: 20px; margin-top: 8px;">
-          <span style="color: #fff;">Round <b>${state.round}/${state.maxRounds}</b></span>
-          <span style="color: #ffd600;">Points: <b>${state.points}</b></span>
-          <span style="color: orange;">Timer: <b id="timer">${state.timer}s</b></span>
+    <div class="game-screen" style="background: #18102c; min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
+      <div style="width:100%; text-align:center; margin-top:38px;">
+        <div class="category" style="font-size:2em; font-weight:700; color:#ffd600; margin-bottom:18px; letter-spacing:1.5px;">
+          ${displayCategory}
         </div>
       </div>
-      <div class="initials-box" style="background: #ffd600; color: #18102c; font-size: 2.8em; font-weight: bold; border-radius: 14px; padding: 26px 44px; margin-bottom: 18px; box-shadow: 0 2px 16px #0002;">
-        ${state.question ? state.question.initials : ''}
+      <div style="display:flex; align-items:center; justify-content:center; gap:32px; margin-bottom: 22px;">
+        <div class="initials-box" style="background: #ffd600; color: #18102c; font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
+          ${state.question ? state.question.initials : ''}
+        </div>
+        <div class="timer-box" style="background: #fffbe6; color: orange; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
+          <span id="timer">${state.timer}s</span>
+        </div>
+      </div>
+      <div class="round-score-row" style="display:flex; gap:36px; justify-content:center; margin-bottom:28px;">
+        <span style="font-size:1.6em; color:#ffd600; font-weight:700;">Points: <b>${state.points}</b></span>
+        <span style="font-size:1.6em; color:#fff; font-weight:700;">Round <b>${state.round}/${state.maxRounds}</b></span>
       </div>
       <div class="clue-box" style="background: #fff; color: #18102c; font-size: 1.15em; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px; box-shadow: 0 2px 8px #0002;">
         ${clue ? clue : ''}
@@ -648,9 +654,12 @@ function renderGame() {
     </div>
     <style>
       @media (max-width: 500px) {
-        .initials-box { font-size: 2em; padding: 18px 14vw; }
-        .clue-box { font-size: 1em; padding: 10px 8vw; }
-        #guessInput, #submitGuess, #returnLandingBtn { font-size: 1em; padding: 11px 0; }
+        .category { font-size:1.3em !important; }
+        .initials-box { font-size: 2em !important; padding: 12px 8vw !important; }
+        .timer-box { font-size: 1.5em !important; padding: 8px 6vw !important; }
+        .round-score-row span { font-size:1em !important; }
+        .clue-box { font-size: 1em !important; padding: 10px 8vw !important; }
+        #guessInput, #submitGuess, #returnLandingBtn { font-size: 1em !important; padding: 11px 0 !important; }
       }
     </style>
   `;
