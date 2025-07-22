@@ -224,33 +224,64 @@ function render() {
 
 function renderLobby() {
   $app.innerHTML = `
-    <div class="lobby-screen">
-      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
+    <div class="lobby-screen" style="
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding-bottom:32px;
+      background: url('ScreenBackground.png') center center / cover no-repeat;
+    ">
+      <h2 style="
+        text-align:center;
+        font-size:2.7em;
+        font-weight:bold;
+        margin-top:48px;
+        margin-bottom:22px;
+        color:#fff;
+        text-shadow:0 2px 14px #0006;
+      ">
+        Lobby
+      </h2>
+      <div style="
+        background:#fff;
+        border-radius:14px;
+        box-shadow:0 2px 14px #0002;
+        padding:20px 36px;
+        margin-bottom:24px;
+        min-width:220px;
+        max-width:90vw;
+        text-align:center;
+      ">
+        ${state.players && state.players.length
+          ? state.players.map(player =>
+              `<div style="color:#18102c; font-weight:bold; font-size:1.25em; margin-bottom:10px;">${player.name}</div>`
+            ).join('')
+          : `<div style="color:#888; font-size:1.1em;">No players joined yet.</div>`
+        }
+      </div>
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" style="width:200px; margin-bottom:18px;" />
       <div class="lobby-form">
-        <input type="text" id="playerName" value="${state.playerName || ''}" maxlength="20" placeholder="Enter your name" class="lobby-input" />
-        <input type="text" id="lobbyCode" maxlength="10" placeholder="Enter lobby code (optional)" class="lobby-input" />
-        <button id="createLobby" class="landing-btn">Create New Lobby</button>
-        <button id="joinLobby" class="landing-btn">Join Lobby</button>
-        <div id="lobbyStatus" style="margin:10px 0;color:#ffd600;min-height:24px;">${state.status || ''}</div>
+        <div style="font-size:1.18em; color:#fff; margin-bottom:10px;">
+          Share this code with your friends to join the lobby:
+        </div>
+        <div class="lobby-code-box" style="
+          font-size:2.6em; font-weight:bold; letter-spacing:0.18em; color:#222;
+          background:#fff; border-radius:13px; padding:21px 18px 13px 18px; margin-bottom:15px;">
+          ${state.lobbyCode}
+        </div>
+        <button id="copyLobbyCodeBtn" class="landing-btn">Copy Code</button>
+        <button id="startLobbyBtn" class="landing-btn">Start Lobby</button>
         <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
       </div>
     </div>
     <style>
       .lobby-screen {
-        background: url('ScreenBackground.png');
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-bottom: 32px;
+        background: url('ScreenBackground.png') center center / cover no-repeat, #18102c;
       }
       .lobby-logo {
-        width: 350px;
-        max-width: 90vw;
-        margin: 40px auto 24px auto;
-        display: block;
-        pointer-events: none;
-        user-select: none;
+        width: 200px;
+        margin-bottom: 18px;
       }
       .lobby-form {
         background: rgba(0,0,0,0.16);
@@ -263,19 +294,14 @@ function renderLobby() {
         width: 100%;
         max-width: 350px;
       }
-      .lobby-input {
-        width: 100%;
-        padding: 14px 10px;
-        font-size: 1.08em;
-        margin: 8px 0 14px 0;
-        border-radius: 7px;
-        border: none;
+      .lobby-code-box {
+        font-size: 2.6em;
+        font-weight: bold;
+        letter-spacing: 0.18em;
+        color: #222;
         background: #fff;
-        box-shadow: 1px 2px 8px #0001;
-        outline: none;
-      }
-      .lobby-input:focus {
-        border: 2px solid #ffd600;
+        border-radius: 13px;
+        padding: 21px 18px 13px 18px;
       }
       .landing-btn {
         width: 100%;
@@ -299,7 +325,7 @@ function renderLobby() {
       }
       .lobby-return-btn {
         background: #fff;
-        color: url('ScreenBackground.png');
+        color: #18102c;
         margin-top: 18px;
       }
       .lobby-return-btn:hover {
