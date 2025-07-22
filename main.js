@@ -707,7 +707,7 @@ function renderScoreboard() {
       <div style="width:100%; max-width:440px; margin-bottom:18px;">
         <table class="scoreboard-table" style="width:100%; border-collapse:separate; border-spacing:0; box-shadow:0 2px 14px #0002; background:#fff; border-radius:14px; overflow:hidden;">
           <thead>
-            <tr style="background:#ffd600; color:#18102c; font-size:1.15em; font-weight:700;">
+            <tr style="background:#4169e1; color:#18102c; font-size:1.15em; font-weight:700;">
               <th style="padding:18px 0; width:68px;">Place</th>
               <th style="padding:18px 0;">Name</th>
               <th style="padding:18px 0; width:68px;">Score</th>
