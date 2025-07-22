@@ -695,7 +695,16 @@ function renderScoreboard() {
   }
 
   $app.innerHTML = `
-    <div class="screen" style="background: url('ScreenBackground.png') min-height:100vh; display:flex; flex-direction:column; align-items:center; padding-bottom:32px;">
+  <div class="screen" style="
+  background: url('ScreenBackground.png') center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 32px;
+">
       <h2 style="color:#ffd600; font-size:2.2em; margin-top:38px; margin-bottom:4px;">Scoreboard</h2>
       <div style="color:#fff; font-size:1.25em; margin-bottom:18px;">Round ${state.round - 1} Complete</div>
       ${
