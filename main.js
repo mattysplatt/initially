@@ -865,6 +865,14 @@ function listenLobby() {
     }
     if (lobby.status === "waiting") {
       state.screen = 'category'; render();
+    } else if (lobby.status === "countdown") {
+      state.screen = 'countdown'; render();
+      // If this client is the leader, set status to playing after 3 seconds
+      if (state.isLeader) {
+        setTimeout(() => {
+          update(ref(db, `lobbies/${state.lobbyCode}`), { status: "playing" });
+        }, 3000);
+      }
     } else if (lobby.status === "playing") {
       state.screen = 'game'; render();
       startTimer();
@@ -888,29 +896,25 @@ function chooseCategory(category) {
     : shuffle([...INITIALS_DB[category]]);
   const firstQuestion = allQuestions[0];
   state.guess = '';
-  state.screen = 'countdown'; // <--- Show countdown screen
-  render();
-
-  // Delay the Firebase game start logic for 3 seconds:
-  setTimeout(() => {
-    set(ref(db, `lobbies/${state.lobbyCode}`), {
-      code: state.lobbyCode,
-      leader: state.playerId,
-      status: "playing",
-      category,
-      round: 1,
-      question: firstQuestion,
-      clues: shuffle(firstQuestion.clues),
-      clueIdx: 0,
-      points: 60,
-      guesses: {},
-      scoreboard: [],
-      readyPlayers: [],
-      usedQuestions: [firstQuestion.answer],
-      maxRounds: 10,
-      players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])),
-    });
-  }, 3000);
+  // Set lobby status to "countdown" so all players see the countdown
+  set(ref(db, `lobbies/${state.lobbyCode}`), {
+    code: state.lobbyCode,
+    leader: state.playerId,
+    status: "countdown",
+    category,
+    round: 1,
+    question: firstQuestion,
+    clues: shuffle(firstQuestion.clues),
+    clueIdx: 0,
+    points: 60,
+    guesses: {},
+    scoreboard: [],
+    readyPlayers: [],
+    usedQuestions: [firstQuestion.answer],
+    maxRounds: 10,
+    players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])),
+  });
+  // The leader will handle switching from countdown to playing after 3 seconds in the listener
 }
 function startTimer() {
   clearInterval(window.timerInterval);
