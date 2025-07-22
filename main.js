@@ -632,9 +632,9 @@ function renderGame() {
         <div class="initials-box" style="background: #ffd600; color: #18102c; font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
           ${state.question ? state.question.initials : ''}
         </div>
-        <div class="timer-box" style="background: #fffbe6; color: orange; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
-          <span id="timer">${state.timer}s</span>
-        </div>
+       <div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
+      <span id="timer">${state.timer}s</span>
+      </div>
       </div>
       <div class="round-score-row" style="display:flex; gap:36px; justify-content:center; margin-bottom:28px;">
         <span style="font-size:1.6em; color:#ffd600; font-weight:700;">Points: <b>${state.points}</b></span>
