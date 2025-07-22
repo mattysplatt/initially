@@ -473,11 +473,13 @@ function renderCategory() {
       <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
     </div>
     <style>
-      .cat-page-wrapper {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        width: 100vw;
-      }
+     .cat-page-wrapper {
+  background: url('ScreenBackground.png') center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  width: 100vw;
+}
       .category-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
