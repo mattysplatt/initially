@@ -23,8 +23,8 @@ let isAuthenticated = false;
 
 // App State
 let state = {
-  screen: 'landing',
-  mode: '',
+  screen: 'landing', // <-- Default to landing page!
+  mode: '', // 'single' or 'multi'
   playerName: '',
   playerId: '',
   lobbyCode: '',
@@ -109,12 +109,98 @@ function renderLanding() {
       </div>
     </div>
     <style>
-      /* ... your landing page CSS ... */
+      html, body, #app, .landing-screen {
+        height: 100%;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      .landing-screen {
+        background: #18102c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        width: 100vw;
+        overflow-y: auto;
+        padding-bottom: 32px;
+      }
+      .landing-logo {
+        width: 430px;
+        max-width: 90vw;
+        margin-top: 4vw;
+        margin-bottom: 5vw;
+        height: auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .button-container {
+        background: rgba(0,0,0,0.16);
+        padding: 28px 12px 22px 12px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 360px;
+      }
+      .landing-btn {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        margin: 12px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      @media (max-width: 600px) {
+        .landing-logo {
+          width: 88vw;
+          margin-top: 9vw;
+          margin-bottom: 10vw;
+        }
+        .button-container {
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
+        }
+        .landing-btn {
+          font-size: 1em;
+          padding: 13px 0;
+        }
+      }
+      @media (min-width: 601px) and (max-width: 1024px) {
+        .landing-logo {
+          width: 60vw;
+          margin-top: 6vw;
+          margin-bottom: 7vw;
+        }
+        .button-container {
+          max-width: 80vw;
+        }
+      }
     </style>
   `;
 
-  document.getElementById('playFreeBtn').onclick =
-    document.getElementById('playPurchasedBtn').onclick =
+ document.getElementById('playFreeBtn').onclick = () => {
+  state.mode = 'single';
+  state.screen = 'lobby';
+  render();
+};
+  document.getElementById('playPurchasedBtn').onclick =
     document.getElementById('purchaseBtn').onclick =
     document.getElementById('monthlyBtn').onclick = () => {
       state.mode = 'multi';
@@ -123,29 +209,7 @@ function renderLanding() {
     };
 }
 
-// --- COUNTDOWN SCREEN ---
-function renderCountdown() {
-  $app.innerHTML = `
-    <div class="countdown-screen" style="text-align:center; min-height:100vh; background:#18102c;">
-      <img src="Landing-bg.png" alt="Background" style="width:100%;max-width:640px;display:block;margin:0 auto 36px auto;" draggable="false" />
-      <div style="font-size:2em;color:#ffd600;margin-bottom:16px;">The game begins in</div>
-      <div id="countdownNumber" style="font-size:7em;color:#fff;font-weight:bold;margin-top:40px;">3</div>
-    </div>
-  `;
-  let countdown = 3;
-  const countdownEl = document.getElementById('countdownNumber');
-  const interval = setInterval(() => {
-    countdown--;
-    if (countdownEl) countdownEl.textContent = countdown;
-    if (countdown === 0) {
-      clearInterval(interval);
-      state.screen = 'game';
-      render();
-    }
-  }, 1000);
-}
-
-// --- MAIN RENDER FUNCTION ---
+// MAIN RENDER FUNCTION
 function render() {
   $app.innerHTML = '';
   if (!isAuthenticated) {
@@ -156,16 +220,363 @@ function render() {
   else if (state.screen === 'lobby') renderLobby();
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
   else if (state.screen === 'category') renderCategory();
-  else if (state.screen === 'countdown') renderCountdown();
   else if (state.screen === 'game') renderGame();
   else if (state.screen === 'scoreboard') renderScoreboard();
   else if (state.screen === 'end') renderEnd();
 }
 
-// --- RENDER LOBBY, LOBBY CODE SCREEN, CATEGORY, GAME, SCOREBOARD, END ---
-// (These functions remain as in your previous code. For brevity, not repeated here. You can insert your current renderLobby, renderLobbyCodeScreen, etc.)
+function renderLobby() {
+  $app.innerHTML = `
+    <div class="lobby-screen">
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
+      <div class="lobby-form">
+        <input type="text" id="playerName" value="${state.playerName || ''}" maxlength="20" placeholder="Enter your name" class="lobby-input" />
+        <input type="text" id="lobbyCode" maxlength="10" placeholder="Enter lobby code (optional)" class="lobby-input" />
+        <button id="createLobby" class="landing-btn">Create New Lobby</button>
+        <button id="joinLobby" class="landing-btn">Join Lobby</button>
+        <div id="lobbyStatus" style="margin:10px 0;color:#ffd600;min-height:24px;">${state.status || ''}</div>
+        <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
+      </div>
+    </div>
+    <style>
+      .lobby-screen {
+        background: #18102c;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 32px;
+      }
+      .lobby-logo {
+        width: 350px;
+        max-width: 90vw;
+        margin: 40px auto 24px auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .lobby-form {
+        background: rgba(0,0,0,0.16);
+        padding: 32px 16px 24px 16px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 350px;
+      }
+      .lobby-input {
+        width: 100%;
+        padding: 14px 10px;
+        font-size: 1.08em;
+        margin: 8px 0 14px 0;
+        border-radius: 7px;
+        border: none;
+        background: #fff;
+        box-shadow: 1px 2px 8px #0001;
+        outline: none;
+      }
+      .lobby-input:focus {
+        border: 2px solid #ffd600;
+      }
+      .landing-btn {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        margin: 9px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .lobby-return-btn {
+        background: #fff;
+        color: #18102c;
+        margin-top: 18px;
+      }
+      .lobby-return-btn:hover {
+        background: #ffd600;
+        color: #222;
+      }
+      @media (max-width: 600px) {
+        .lobby-logo {
+          width: 80vw;
+          margin-top: 7vw;
+        }
+        .lobby-form {
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
+        }
+        .lobby-input {
+          font-size: 1em;
+          padding: 12px 7px;
+        }
+        .landing-btn {
+          font-size: 1em;
+          padding: 13px 0;
+        }
+      }
+    </style>
+  `;
+  document.getElementById('playerName').addEventListener('input', e => state.playerName = e.target.value);
+  document.getElementById('createLobby').onclick = () => waitForAuthThen(createLobby);
+  document.getElementById('joinLobby').onclick = () => waitForAuthThen(joinLobby);
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
+}
+function renderLobbyCodeScreen() {
+  $app.innerHTML = `
+    <div class="lobby-screen">
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
+      <div class="lobby-form">
+        <div style="font-size:1.18em; color:#fff; margin-bottom:10px;">
+          Share this code with your friends to join the lobby:
+        </div>
+        <div class="lobby-code-box">${state.lobbyCode}</div>
+        <button id="copyLobbyCodeBtn" class="landing-btn">Copy Code</button>
+        <button id="startLobbyBtn" class="landing-btn">Start Lobby</button>
+        <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
+      </div>
+    </div>
+    <style>
+      .lobby-screen {
+        background: #18102c;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 32px;
+      }
+      .lobby-logo {
+        width: 350px;
+        max-width: 90vw;
+        margin: 40px auto 24px auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .lobby-form {
+        background: rgba(0,0,0,0.16);
+        padding: 32px 16px 24px 16px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 350px;
+      }
+      .lobby-code-box {
+        font-size: 2.6em;
+        font-weight: bold;
+        letter-spacing: 0.18em;
+        color: #222;
+        background: #fff;
+        border-radius: 13px;
+        padding: 21px 18px 13px 18px;
+        margin: 18px 0 20px 0;
+        text-align: center;
+        box-shadow: 1px 4px 16px #0001;
+        user-select: all;
+      }
+      .landing-btn {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        margin: 9px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .lobby-return-btn {
+        background: #fff;
+        color: #18102c;
+        margin-top: 18px;
+      }
+      .lobby-return-btn:hover {
+        background: #ffd600;
+        color: #222;
+      }
+      @media (max-width: 600px) {
+        .lobby-logo {
+          width: 80vw;
+          margin-top: 7vw;
+        }
+        .lobby-form {
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
+        }
+        .lobby-code-box {
+          font-size: 2em;
+          padding: 14px 8px 11px 8px;
+        }
+        .landing-btn {
+          font-size: 1em;
+          padding: 13px 0;
+        }
+      }
+    </style>
+  `;
+  document.getElementById('copyLobbyCodeBtn').onclick = function() {
+    navigator.clipboard.writeText(state.lobbyCode);
+    alert('Lobby code copied!');
+  };
+  document.getElementById('startLobbyBtn').onclick = function() {
+    joinLobbyByCode(state.lobbyCode, state.playerName, true);
+  };
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
+}
+// --- CATEGORY GRID FOR BOTH MODES ---
+function renderCategory() {
+  const categories = [
+    "worldSports", "AFL", "movieStars", "musicians", "PopStars",
+    "Football", "famousFigures", "randomMix", "ModernNBA"
+  ];
 
-// --- SINGLEPLAYER GAME STARTER (with countdown) ---
+  $app.innerHTML = `
+    <div class="cat-page-wrapper">
+      <div class="lobby-box" style="margin: 20px auto 28px auto;">
+        <div class="lobby-title">Lobby</div>
+        <div class="lobby-players" id="lobbyPlayers">
+          ${state.players && state.players.length
+            ? state.players.map(p => `<div class="lobby-player">${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')
+            : '<div style="color:#aaa;">Waiting for players...</div>'}
+        </div>
+      </div>
+      <div class="category-container" id="categoryContainer"></div>
+      ${state.mode === 'multi' && !state.isLeader ? `<div class="leader-wait-msg">Waiting for leader to select...</div>` : ''}
+      <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
+    </div>
+    <style>
+      .cat-page-wrapper {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        width: 100vw;
+      }
+      .category-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+      }
+      .category-btn-box {
+        min-width: 140px;
+        width: 100%;
+        max-width: 330px;
+        aspect-ratio: 165 / 240;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
+        border: none;
+        box-shadow: 0 2px 12px #0002;
+        padding: 0;
+        overflow: hidden;
+        box-sizing: border-box;
+        position: relative;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.12s;
+      }
+      /* No hover or active effect */
+      .category-btn-label {
+        font-size: 1.1em;
+        font-weight: bold;
+        color: #18102c;
+        background: #ffd600;
+        border-radius: 7px;
+        padding: 12px 18px;
+        box-shadow: 1px 2px 8px #0002;
+        text-align: center;
+        user-select: none;
+        margin: 0;
+        border: none;
+        outline: none;
+        width: auto;
+        max-width: 90%;
+        line-height: 1.1;
+        box-sizing: border-box;
+        word-break: break-word;
+        white-space: normal;
+        display: block;
+      }
+      @media (max-width: 700px) {
+        .category-container {
+          grid-template-columns: 1fr 1fr;
+          max-width: 98vw;
+        }
+        .category-btn-box {
+          max-width: 98vw;
+        }
+      }
+      @media (max-width: 430px) {
+        .category-container {
+          grid-template-columns: 1fr 1fr;
+          max-width: 99vw;
+        }
+        .category-btn-box {
+          max-width: 99vw;
+        }
+      }
+    </style>
+  `;
+
+  const catDiv = document.getElementById('categoryContainer');
+  categories.forEach(cat => {
+    let label = cat.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+    if (cat === 'Football') label = '⚽ ' + label;
+    const box = document.createElement('div');
+    box.className = 'category-btn-box' +
+      ((state.mode === 'multi' && !state.isLeader) ? ' disabled' : '');
+    box.innerHTML = `<div class="category-btn-label">${label}</div>`;
+    if (!(state.mode === 'multi' && !state.isLeader)) {
+      box.onclick = () => {
+        if (state.mode === 'multi') {
+          chooseCategory(cat);
+        } else {
+          startSinglePlayerGame(cat);
+        }
+      };
+    }
+    catDiv.appendChild(box);
+  });
+
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
+}
+// --- SINGLEPLAYER GAME STARTER ---
 function startSinglePlayerGame(category) {
   const allQuestions = shuffle([...INITIALS_DB[category]]);
   const firstQuestion = allQuestions[0];
@@ -181,55 +592,174 @@ function startSinglePlayerGame(category) {
   state.scores = {};
   state.scoreboard = [];
   state.usedAnswers = [firstQuestion.answer];
-  state.screen = 'countdown';
+  state.screen = 'game';
   render();
 }
 
-// --- MULTIPLAYER CATEGORY PICK (with countdown and delay before game start) ---
-function chooseCategory(category) {
-  const allQuestions = category === 'randomMix'
-    ? shuffle(
-        [].concat(
-          ...['worldSports','AFL','movieStars','musicians', 'PopStars', 'Football', 'famousFigures','randomMix', 'ModernNBA'].map(cat => INITIALS_DB[cat])
-        )
-      )
-    : shuffle([...INITIALS_DB[category]]);
-  const firstQuestion = allQuestions[0];
-  state.guess = '';
-  state.category = category;
-  state.round = 1;
-  state.question = firstQuestion;
-  state.clues = shuffle(firstQuestion.clues);
-  state.clueIdx = 0;
-  state.points = 60;
-  state.guesses = {};
-  state.scoreboard = [];
-  state.usedAnswers = [firstQuestion.answer];
-  state.screen = 'countdown';
-  render();
-  setTimeout(() => {
-    set(ref(db, `lobbies/${state.lobbyCode}`), {
-      code: state.lobbyCode,
-      leader: state.playerId,
-      status: "playing",
-      category,
-      round: 1,
-      question: firstQuestion,
-      clues: shuffle(firstQuestion.clues),
-      clueIdx: 0,
-      points: 60,
-      guesses: {},
-      scoreboard: [],
-      readyPlayers: [],
-      usedQuestions: [firstQuestion.answer],
-      maxRounds: 10,
-      players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])),
-    });
-  }, 3000);
+function renderGame() {
+  const clue = state.clues[state.clueIdx] || '';
+  const displayCategory = state.category
+    ? state.category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
+    : '';
+  const isCorrect = state.guesses[state.playerId]?.correct;
+  $app.innerHTML = `
+    <div class="screen">
+      <div class="game-info-box" style="background:royalblue;padding:24px 20px 20px 20px;border-radius:12px;max-width:420px;margin:32px auto;box-shadow:0 4px 24px #c6a0f533;">
+        <div class="category-title" style="font-size:1.15em;font-weight:bold;color:#fff;margin-bottom:8px;">
+          ${displayCategory}
+        </div>
+        <div class="game-top-row" style="
+          display:flex;
+          align-items:center;
+          gap:24px;
+          margin-bottom: 16px;
+        ">
+          <div class="initials" style="font-size:2em;font-weight:bold;min-width:75px;text-align:center; color: #fff;">
+            ${state.question ? state.question.initials : ''}
+          </div>
+          <div style="display:flex; gap:16px; margin-left:auto;">
+            <div class="timer" id="timer" style="min-width:65px;text-align:center; color: orange;">
+              ${state.timer}s
+            </div>
+            <div class="points" style="min-width:80px;text-align:center; color: #fff;">
+              ${state.points} pts
+            </div>
+            <div class="round" style="min-width:90px;text-align:center; color: #fff;">
+              Round ${state.round}/${state.maxRounds}
+            </div>
+          </div>
+        </div>
+        <div class="clue" style="margin-bottom:10px;color:#fff;">${clue ? clue : ''}</div>
+        ${state.incorrectPrompt ? '<div style="color:#ffd600;margin:8px 0;">Incorrect, try again!</div>' : ''}
+        <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''}/>
+        <button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
+        <div id="gameStatus" style="margin:8px 0;color:#ffd600">${isCorrect ? 'Waiting for round...' : ''}</div>
+      </div>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
+    </div>
+  `;
+  const guessInput = document.getElementById('guessInput');
+  if (guessInput && !isCorrect) {
+    guessInput.value = state.guess || '';
+    guessInput.focus();
+    guessInput.addEventListener('input', e => state.guess = e.target.value);
+    guessInput.addEventListener('keypress', e => { if (e.key === 'Enter') submitGuess(); });
+  }
+  const submitBtn = document.getElementById('submitGuess');
+  if (submitBtn && !isCorrect) {
+    submitBtn.onclick = submitGuess;
+  }
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 
-// --- REMAINING GAME LOGIC (AUTH, LOBBY, GAME, SCOREBOARD, END, ETC.) ---
-// (All remaining functions from your previous file stay the same.)
+function renderScoreboard() {
+  const sortedScoreboard = (state.scoreboard || [])
+    .slice()
+    .sort((a, b) => b.score - a.score);
+
+  let correctGuessers = [];
+  if (state.players.length >= 2 && state.guesses) {
+    correctGuessers = state.players
+      .filter(p => state.guesses[p.id]?.correct)
+      .map(p => p.name);
+  }
+
+  $app.innerHTML = `
+    <div class="screen">
+      <h2>Scoreboard</h2>
+      <div>Round ${state.round - 1} Complete</div>
+      ${
+        (correctGuessers.length > 0)
+        ? `<div style="color: #27ae60; margin: 8px 0; font-size: 22px;">
+            ${correctGuessers.join(', ')} guessed correctly!
+           </div>`
+        : ''
+      }
+      ${sortedScoreboard.map((item, idx) => {
+        const pos = idx + 1;
+        let suffix = "th";
+        if (pos === 1) suffix = "st";
+        else if (pos === 2) suffix = "nd";
+        else if (pos === 3) suffix = "rd";
+        const playerObj = state.players.find(p => p.name === item.name);
+        const tick = playerObj && playerObj.ready ? ' <span style="color:#27ae60;font-weight:bold;">&#10003;</span>' : '';
+        return `<div class="score-item"><span>${pos}${suffix} - ${item.name}${tick}</span><span>${item.score}</span></div>`;
+      }).join('')}
+      <div style="margin:12px 0;">Correct answer: <b>${state.question && state.question.answer ? state.question.answer : ''}</b></div>
+      ${
+        state.players.length === 0
+        ? '<div style="color:red;">No players found in lobby. Please reload or rejoin.</div>'
+        : `<button id="readyBtn" ${state.players.find(p=>p.id===state.playerId)?.ready ? 'disabled' : ''}>Ready for Next Round</button>`
+      }
+      <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
+        Return to Start
+      </button>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
+    </div>
+  `;
+
+  if (state.players.length > 0) {
+    document.getElementById('readyBtn').onclick = markReady;
+  }
+  attachReturnToStartHandler();
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
+}
+
+function attachReturnToStartHandler() {
+  const btn = document.getElementById('returnToStartBtn');
+  if (btn) {
+    btn.onclick = async () => {
+      if (state.lobbyCode && state.playerId) {
+        await remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+      }
+      state.screen = 'lobby';
+      state.lobbyCode = '';
+      state.isLeader = false;
+      state.players = [];
+      render();
+    };
+  }
+}
+
+function renderEnd() {
+  $app.innerHTML = `
+    <div class="screen">
+      <h2>Game Over</h2>
+      <div class="scoreboard">
+        ${state.scoreboard.map(item =>
+          `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
+        ).join('')}
+      </div>
+      <button id="restartBtn">Play Again</button>
+      <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
+        Return to Start
+      </button>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
+    </div>
+  `;
+  document.getElementById('restartBtn').onclick = () => window.location.reload();
+  attachReturnToStartHandler();
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
+}
+
+// --- Game Logic + Firebase Sync ---
+function waitForAuthThen(fn) {
+  if (isAuthenticated) {
+    fn();
+  } else {
+    state.status = "Authenticating, please wait...";
+    render();
+  }
+}
 
 signInAnonymously(auth).catch((error) => {
   state.status = "Authentication failed. Please refresh.";
@@ -247,6 +777,237 @@ onAuthStateChanged(auth, (user) => {
     render();
   }
 });
+function createLobby() {
+  if (!state.playerName) { state.status = "Enter your name"; render(); return; }
+  state.lobbyCode = generateLobbyCode();
+  state.isLeader = true;
+  const lobbyPath = `lobbies/${state.lobbyCode}`;
+  const playerObj = {
+    name: state.playerName, score: 0, isLeader: true, ready: false
+  };
+  set(ref(db, lobbyPath), {
+    code: state.lobbyCode,
+    leader: state.playerId,
+    status: "waiting",
+    category: "",
+    round: 0,
+    question: {},
+    clues: [],
+    clueIdx: 0,
+    points: 60,
+    players: { [state.playerId]: playerObj },
+    guesses: {},
+    scoreboard: [],
+    readyPlayers: [],
+    usedQuestions: [],
+    maxRounds: 10
+  }).then(() => {
+    state.screen = 'lobbyCode';
+    render();
+  });
+}
+function joinLobby() {
+  const name = state.playerName;
+  const code = document.getElementById('lobbyCode').value.trim().toUpperCase();
+  if (!name || !code) { state.status = "Enter your name and lobby code"; render(); return; }
+  joinLobbyByCode(code, name, false);
+}
+function joinLobbyByCode(code, name, leader) {
+  state.lobbyCode = code;
+  state.isLeader = leader;
+  const lobbyPath = `lobbies/${code}`;
+  set(ref(db, `${lobbyPath}/players/${state.playerId}`), {
+    name, score: 0, isLeader: leader, ready: false
+  });
+  listenLobby();
+}
+function listenLobby() {
+  if (state.unsubLobby) state.unsubLobby();
+  const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
+  state.lobbyRef = lobbyRef;
+  state.unsubLobby = onValue(lobbyRef, snap => {
+    if (!snap.exists()) { state.status = "Lobby not found"; state.screen = 'lobby'; render(); return; }
+    const lobby = snap.val();
+    state.players = Object.entries(lobby.players||{}).map(([id, p])=>({...p, id}));
+    state.isLeader = (state.playerId === lobby.leader);
+    state.round = lobby.round;
+    state.category = lobby.category;
+    state.status = '';
+    state.question = lobby.question;
+    state.clues = lobby.clues;
+    state.clueIdx = lobby.clueIdx;
+    state.points = lobby.points;
+    state.guesses = lobby.guesses||{};
+    if (
+      state.question && 
+      state.question.initials !== (state.lastQuestionInitials || '')
+    ) {
+      state.guess = '';
+      state.lastQuestionInitials = state.question.initials;
+    }
+    if (lobby.status === "waiting") {
+      state.screen = 'category'; render();
+    } else if (lobby.status === "playing") {
+      state.screen = 'game'; render();
+      startTimer();
+    } else if (lobby.status === "scoreboard") {
+      state.scoreboard = lobby.scoreboard||[];
+      state.readyPlayers = lobby.readyPlayers||[];
+      state.screen = 'scoreboard'; render();
+    } else if (lobby.status === "end") {
+      state.scoreboard = lobby.scoreboard||[];
+      state.screen = 'end'; render();
+    }
+  });
+}
+function chooseCategory(category) {
+  const allQuestions = category === 'randomMix'
+    ? shuffle(
+        [].concat(
+          ...['worldSports','AFL','movieStars','musicians', 'PopStars', 'Football', 'famousFigures','randomMix', 'ModernNBA'].map(cat => INITIALS_DB[cat])
+        )
+      )
+    : shuffle([...INITIALS_DB[category]]);
+  const firstQuestion = allQuestions[0]; 
+  state.guess = '';
+  set(ref(db, `lobbies/${state.lobbyCode}`), {
+    code: state.lobbyCode,
+    leader: state.playerId,
+    status: "playing",
+    category,
+    round: 1,
+    question: firstQuestion,
+    clues: shuffle(firstQuestion.clues),
+    clueIdx: 0,
+    points: 60,
+    guesses: {},
+    scoreboard: [],
+    readyPlayers: [],
+    usedQuestions: [firstQuestion.answer],
+    maxRounds: 10,
+    players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])),
+  });
+}
+function startTimer() {
+  clearInterval(window.timerInterval);
+  state.timer = 10; renderTimer();
+  window.timerInterval = setInterval(() => {
+    state.timer--;
+    renderTimer();
+    if (state.timer <= 0) {
+      clearInterval(window.timerInterval);
+      revealNextClue();
+    }
+  }, 1000);
+}
+function renderTimer() {
+  const el = document.getElementById('timer');
+  if (el) el.textContent = state.timer+'s';
+}
+function revealNextClue() {
+  let clueIdx = state.clueIdx;
+  let points = state.points;
+  if (clueIdx < 4) {
+    clueIdx++;
+    points -= 10;
+    update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points });
+    startTimer();
+  } else {
+    endRound();
+  }
+}
+function submitGuess() {
+  if (!state.guess) return;
+  const guess = state.guess.trim();
+  if (!guess) return;
+  const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
+  const user = normalize(guess);
+  const correct = normalize(state.question.answer);
+  if (levenshtein(user, correct) <= 3) {
+    update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
+      [state.playerId]: { guess, correct: true, points: state.points }
+    });
+    state.guess = '';
+    endRound();
+  } else {
+    state.guess = '';
+    state.incorrectPrompt = true;
+    render();
+    setTimeout(() => {
+      state.incorrectPrompt = false;
+      render();
+    }, 2000);
+  }
+}
+function endRound() {
+  clearInterval(window.timerInterval);
+  get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
+    const lobby = snap.val();
+    const guesses = lobby.guesses || {};
+    const players = lobby.players || {};
+    let scoreboard = Object.entries(players).map(([id, p]) => {
+      let guess = guesses[id];
+      let add = (guess && guess.correct) ? lobby.points : 0;
+      return { name: p.name, score: (p.score||0) + add };
+    });
+    for (let [id, p] of Object.entries(players)) {
+      let guess = guesses[id];
+      let add = (guess && guess.correct) ? lobby.points : 0;
+      update(ref(db, `lobbies/${state.lobbyCode}/players/${id}`), {
+        score: (p.score||0) + add
+      });
+    }
+    update(ref(db, `lobbies/${state.lobbyCode}`), {
+      status: "scoreboard",
+      scoreboard: scoreboard
+    });
+  });
+}
+
+function markReady() {
+  update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true })
+    .then(() => {
+      get(ref(db, `lobbies/${state.lobbyCode}`)).then(async snap => {
+        const lobby = snap.val();
+        const readyPlayers = Object.values(lobby.players || {}).filter(p => p.ready).length;
+        const numPlayers = Object.keys(lobby.players || {}).length;
+
+        if (readyPlayers === numPlayers) {
+          let round = lobby.round + 1;
+          if (round > (lobby.maxRounds || 10)) {
+            await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
+            return;
+          }
+          const usedAnswers = lobby.usedQuestions || [];
+          const category = lobby.category;
+          const nextQuestion = getRandomUnusedQuestion(category, usedAnswers);
+          if (!nextQuestion) {
+            await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
+            return;
+          }
+          const newUsedAnswers = [...usedAnswers, nextQuestion.answer];
+          const players = Object.fromEntries(
+            Object.entries(lobby.players).map(([id, p]) => [id, { ...p, ready: false }])
+          );
+
+          await set(ref(db, `lobbies/${state.lobbyCode}`), {
+            ...lobby,
+            status: "playing",
+            round,
+            question: nextQuestion,
+            clues: shuffle(nextQuestion.clues),
+            clueIdx: 0,
+            points: 60,
+            guesses: {},
+            scoreboard: lobby.scoreboard || [],
+            readyPlayers: [],
+            usedQuestions: newUsedAnswers,
+            players,
+          });
+        }
+      });
+    });
+}
 
 // --- App Start ---
 render();
