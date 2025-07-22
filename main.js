@@ -195,18 +195,14 @@ function renderLanding() {
     </style>
   `;
 
- document.getElementById('playFreeBtn').onclick = () => {
-  state.mode = 'single';
-  state.screen = 'lobby';
-  render();
-};
+document.getElementById('playFreeBtn').onclick =
   document.getElementById('playPurchasedBtn').onclick =
-    document.getElementById('purchaseBtn').onclick =
-    document.getElementById('monthlyBtn').onclick = () => {
-      state.mode = 'multi';
-      state.screen = 'lobby';
-      render();
-    };
+  document.getElementById('purchaseBtn').onclick =
+  document.getElementById('monthlyBtn').onclick = () => {
+    state.mode = 'multi';
+    state.screen = 'lobby';
+    render();
+  };
 }
 
 // MAIN RENDER FUNCTION
