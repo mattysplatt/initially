@@ -1,192 +1,130 @@
-
-html, body {
-  height: 100%;
+body {
+  font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
   margin: 0;
-  padding: 0;
-  background: #18102c;
-  font-family: 'Roboto', Arial, sans-serif;
-  color: #fff;
-}
-
-#app {
-  min-height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-}
-
-.guessing-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  min-height: 100vh;
-}
-
-#category-title {
-  text-transform: uppercase;
-  text-align: center;
-  width: 100%;
-  margin-top: 30px;
-  font-size: 2.2em;
-  letter-spacing: 2px;
-  color: #ffd600;
-}
-
-.initials-row {
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 30px 0 10px 0;
-  width: 100%;
 }
-
-#initials-box {
-  background: #fff;
-  color: #000;
-  font-size: 3em;
-  padding: 32px 56px;
-  border-radius: 14px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.09);
-  text-align: center;
+#app {
+  width: 100vw;
+  max-width: 600px;
+  padding: 24px;
 }
-
-#countdown-timer {
-  color: red;
-  font-size: 4.2em;
-  font-weight: bold;
-  align-self: center;
-  margin-left: 28px;
-  text-shadow: 0 0 8px #0009;
-}
-
-#clues {
-  font-size: 2em;
-  margin: 20px 0 10px 0;
-  text-align: center;
-  width: 75%;
-  color: #fff;
-  letter-spacing: 1px;
-  font-weight: 500;
-}
-
-#answer-box {
-  font-size: 1.3em;
-  padding: 12px;
-  margin: 15px 0 5px 0;
-  width: 60%;
-  border-radius: 8px;
-  border: 1.5px solid #ffd600;
-  text-align: center;
-  background: #fff;
-  color: #222;
-  outline: none;
-  box-shadow: 0 1px 8px #0002;
-  transition: border-color 0.2s;
-}
-#answer-box:focus {
-  border-color: #ff3333;
-}
-
-.bottom-row {
-  display: flex;
-  flex-direction: column;
-  width: 60%;
-  align-items: center;
-}
-
-#points-value {
-  align-self: flex-start;
-  font-size: 2em;  
-  color: #ffd600;
-  margin-bottom: 12px;
-  margin-left: 3px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-}
-
-#submit-btn {
+.screen {
+  background: rgba(68, 76, 173);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+  padding: 30px 20px;
   margin: 0 auto;
-  padding: 13px 38px;
+}
+input[type="text"], input[type="number"] {
+  padding: 14px;
   font-size: 1.2em;
-  background: #ffd600;
-  color: #222;
   border: none;
   border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  box-shadow: 1px 2px 8px #0003;
-  transition: background 0.2s, transform 0.12s;
-}
-
-#submit-btn:disabled {
-  background: #ccc;
-  color: #888;
-  cursor: not-allowed;
-}
-
-#submit-btn:hover:not(:disabled) {
-  background: #ffb300;
-  transform: scale(1.05);
-}
-
-#gameStatus {
   margin: 8px 0;
-  color: #ffd600;
-  font-size: 1.1em;
-  min-height: 18px;
+  width: 100%;
+  box-sizing: border-box;
 }
-
-.incorrect-prompt {
-  color: #ffd600;
-  margin: 8px 0;
-  font-size: 1.1em;
-}
-
-#returnLandingBtn {
-  margin-top: 32px;
-  padding: 12px 30px;
-  background: #fff;
-  color: #18102c;
-  border: none;
-  border-radius: 8px;
-  font-size: 1em;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 1px 2px 8px #0003;
-  transition: background 0.2s, color 0.2s;
-}
-
-#returnLandingBtn:hover {
-  background: #ffd600;
-  color: #222;
-}
-
-@media (max-width: 700px) {
-  #initials-box {
-    font-size: 2em;
-    padding: 18px 16vw;
-  }
-  #clues {
-    font-size: 1.3em;
-    width: 95%;
-  }
-  #answer-box, .bottom-row {
-    width: 90%;
-  }
-}
-
-@media (max-width: 500px) {
-  #category-title { font-size: 1.2em; }
-  #initials-box { font-size: 1.15em; padding: 10px 8vw; }
-  #clues { font-size: 1em; }
-  #answer-box, .bottom-row { width: 98%; }
-  #points-value { font-size: 1em; }
-  #submit-btn, #returnLandingBtn { font-size: 1em; padding: 10px 8vw; }
-}
-
-/* General button style for all pages */
 button {
-  font-family: 'Roboto', Arial, sans-serif;
+  background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 26px;
+  font-size: 1.05em;
+  margin: 6px 3px;
+  cursor: pointer;
+  transition: 0.2s;
 }
+button:hover {
+  box-shadow: 0 2px 16px #ff6b6b44;
+  transform: translateY(-2px);
+}
+/* New: Flex container for initials, timer, points */
+.question-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.question-header .initials {
+  margin: 0;
+  font-size: 3em;
+  font-weight: bold;
+  letter-spacing: 0.22em;
+  text-shadow: 0 2px 8px #0006;
+}
+.question-header .timer {
+  margin: 0;
+  font-size: 2.3em;
+  font-weight: 600;
+  color: #ffb86b;
+}
+.question-header .points {
+  margin: 0;
+  font-size: 1.3em;
+  color: #4ecdc4;
+}
+
+/* (Keep original classes for backwards compatibility, in case used elsewhere) */
+.initials {
+  font-size: 3em;
+  font-weight: bold;
+  letter-spacing: 0.22em;
+  text-shadow: 0 2px 8px #0006;
+  margin: 18px 0;
+}
+.timer {
+  font-size: 2.3em;
+  font-weight: 600;
+  color: #ffb86b;
+  margin: 8px 0;
+}
+.points {
+  font-size: 1.3em;
+  color: #4ecdc4;
+}
+/* Reduced clue box height and font size */
+.clue {
+  background: rgba(164, 93, 234);
+  border-radius: 8px;
+  margin: 7px 0;
+  padding: 5px 9px;
+  font-size: 1em;
+  line-height: 1.2;
+}
+.scoreboard {
+  margin: 18px 0;
+}
+.score-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 6px;
+  margin: 4px 0;
+  background: rgba(255,255,255,0.08);
+  border-radius: 8px;
+  font-size: 1.1em;
+}
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  #app { padding: 8px; }
+  .screen { padding: 13px 4px; }
+  /* .question-header { 
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
+    } 
+    -- REMOVED for always-row layout -- */
+  .question-header .initials {
+    font-size: 2em;
+  }
+  .question-header .timer {
+    font-size: 1.5em;
+  }
+}
+
