@@ -620,42 +620,41 @@ function renderGame() {
     ? state.category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
     : '';
   const isCorrect = state.guesses[state.playerId]?.correct;
+
   $app.innerHTML = `
-    <div class="screen">
-      <div class="game-info-box" style="background:royalblue;padding:24px 20px 20px 20px;border-radius:12px;max-width:420px;margin:32px auto;box-shadow:0 4px 24px #c6a0f533;">
-        <div class="category-title" style="font-size:1.15em;font-weight:bold;color:#fff;margin-bottom:8px;">
-          ${displayCategory}
+    <div class="game-screen" style="background: #18102c; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start;">
+      <div class="game-header" style="margin-top: 40px; margin-bottom: 24px;">
+        <div class="category" style="color: #ffd600; font-size: 1.2em; font-weight: bold; letter-spacing: 1px;">${displayCategory}</div>
+        <div class="round-points" style="display: flex; gap: 20px; margin-top: 8px;">
+          <span style="color: #fff;">Round <b>${state.round}/${state.maxRounds}</b></span>
+          <span style="color: #ffd600;">Points: <b>${state.points}</b></span>
+          <span style="color: orange;">Timer: <b id="timer">${state.timer}s</b></span>
         </div>
-        <div class="game-top-row" style="
-          display:flex;
-          align-items:center;
-          gap:24px;
-          margin-bottom: 16px;
-        ">
-          <div class="initials" style="font-size:2em;font-weight:bold;min-width:75px;text-align:center; color: #fff;">
-            ${state.question ? state.question.initials : ''}
-          </div>
-          <div style="display:flex; gap:16px; margin-left:auto;">
-            <div class="timer" id="timer" style="min-width:65px;text-align:center; color: orange;">
-              ${state.timer}s
-            </div>
-            <div class="points" style="min-width:80px;text-align:center; color: #fff;">
-              ${state.points} pts
-            </div>
-            <div class="round" style="min-width:90px;text-align:center; color: #fff;">
-              Round ${state.round}/${state.maxRounds}
-            </div>
-          </div>
-        </div>
-        <div class="clue" style="margin-bottom:10px;color:#fff;">${clue ? clue : ''}</div>
-        ${state.incorrectPrompt ? '<div style="color:#ffd600;margin:8px 0;">Incorrect, try again!</div>' : ''}
-        <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''}/>
-        <button id="submitGuess" ${isCorrect ? 'disabled' : ''}>Submit Guess</button>
-        <div id="gameStatus" style="margin:8px 0;color:#ffd600">${isCorrect ? 'Waiting for round...' : ''}</div>
       </div>
-      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
+      <div class="initials-box" style="background: #ffd600; color: #18102c; font-size: 2.8em; font-weight: bold; border-radius: 14px; padding: 26px 44px; margin-bottom: 18px; box-shadow: 0 2px 16px #0002;">
+        ${state.question ? state.question.initials : ''}
+      </div>
+      <div class="clue-box" style="background: #fff; color: #18102c; font-size: 1.15em; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px; box-shadow: 0 2px 8px #0002;">
+        ${clue ? clue : ''}
+      </div>
+      ${state.incorrectPrompt ? `<div style="color:#ff3333; margin-bottom:14px; font-weight: bold;"><span>&#10060;</span> Incorrect, try again!</div>` : ""}
+      ${isCorrect ? `<div style="color:#27ae60; margin-bottom:14px; font-weight: bold;"><span>&#10003;</span> Correct! Waiting for next round...</div>` : ""}
+      <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''} style="
+        width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 14px; border-radius: 9px; border: 2px solid #ffd600; margin-bottom: 12px; box-shadow: 0 2px 8px #0001;
+        outline: none; text-align: center;" />
+      <button id="submitGuess" ${isCorrect ? 'disabled' : ''} style="
+        width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 0; border-radius: 9px; border: none; background: #ffd600; color: #18102c; font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px #0002; margin-bottom: 12px;">Submit Guess</button>
+      <button id="returnLandingBtn" style="margin-top: 18px; background: #fff; color: #18102c; border-radius: 9px; border: none; font-size: 1em; font-weight: bold; padding: 12px 0; width: 90vw; max-width: 340px;">Return to Home</button>
     </div>
+    <style>
+      @media (max-width: 500px) {
+        .initials-box { font-size: 2em; padding: 18px 14vw; }
+        .clue-box { font-size: 1em; padding: 10px 8vw; }
+        #guessInput, #submitGuess, #returnLandingBtn { font-size: 1em; padding: 11px 0; }
+      }
+    </style>
   `;
+
   const guessInput = document.getElementById('guessInput');
   if (guessInput && !isCorrect) {
     guessInput.value = state.guess || '';
