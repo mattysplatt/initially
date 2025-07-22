@@ -227,8 +227,9 @@ function renderLobby() {
     <div class="lobby-screen">
       <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
       <div class="lobby-form">
-        <input type="text" id="playerName" value="${state.playerName || ''}" maxlength="20" placeholder="Enter your name" class="lobby-input" />
-        <input type="text" id="lobbyCode" maxlength="10" placeholder="Enter lobby code (optional)" class="lobby-input" />
+      <input id="playerName" type="text" placeholder="Your Name" style="font-size:1em; margin-bottom:10px; width:80%; padding:7px; border-radius:6px; border:1px solid #ccc;">
+<br>
+<input id="lobbyCode" type="text" placeholder="Lobby Code (to join)" style="font-size:0.9em; margin-bottom:10px; width:80%; padding:5px; border-radius:6px; border:1px solid #ccc;">
         <button id="createLobby" class="landing-btn">Create New Lobby</button>
         <button id="joinLobby" class="landing-btn">Join Lobby</button>
         <div id="lobbyStatus" style="margin:10px 0;color:#ffd600;min-height:24px;">${state.status || ''}</div>
