@@ -217,7 +217,7 @@ function render() {
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
   else if (state.screen === 'category') renderCategory();
   else if (state.screen === 'countdown') renderCountdown(); // <-- Add this line
-  else if (state.screen === 'game') ();
+  else if (state.screen === 'game') renderGame();
   else if (state.screen === 'scoreboard') renderScoreboard();
   else if (state.screen === 'end') renderEnd();
 }
