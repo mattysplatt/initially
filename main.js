@@ -595,7 +595,7 @@ function startSinglePlayerGame(category) {
 // -----Countdown screen before game starts-----
 function renderCountdown() {
   $app.innerHTML = `
-    <div class="countdown-screen" style="text-align:center; min-height:100vh; background:#18102c;">
+    <div class="countdown-screen" style="text-align:center; min-height:100vh; background: url('ScreenBackground.png')">
       <img src="Initiallylogonew.png" alt="Background" style="width:100%;max-width:640px;display:block;margin:0 auto 36px auto;" draggable="false" />
       <div style="font-size:2em;color:#ffd600;margin-bottom:16px;">The game begins in</div>
       <div id="countdownNumber" style="font-size:7em;color:#fff;font-weight:bold;margin-top:40px;">3</div>
@@ -694,7 +694,7 @@ function renderScoreboard() {
   }
 
   $app.innerHTML = `
-    <div class="screen" style="background:#18102c; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding-bottom:32px;">
+    <div class="screen" style="background: url('ScreenBackground.png') min-height:100vh; display:flex; flex-direction:column; align-items:center; padding-bottom:32px;">
       <h2 style="color:#ffd600; font-size:2.2em; margin-top:38px; margin-bottom:4px;">Scoreboard</h2>
       <div style="color:#fff; font-size:1.25em; margin-bottom:18px;">Round ${state.round - 1} Complete</div>
       ${
