@@ -596,7 +596,7 @@ function startSinglePlayerGame(category) {
 function renderCountdown() {
   $app.innerHTML = `
     <div class="countdown-screen" style="text-align:center; min-height:100vh; background:#18102c;">
-      <img src="Landing-bg.png" alt="Background" style="width:100%;max-width:640px;display:block;margin:0 auto 36px auto;" draggable="false" />
+      <img src="Initiallylogonew.png" alt="Background" style="width:100%;max-width:640px;display:block;margin:0 auto 36px auto;" draggable="false" />
       <div style="font-size:2em;color:#ffd600;margin-bottom:16px;">The game begins in</div>
       <div id="countdownNumber" style="font-size:7em;color:#fff;font-weight:bold;margin-top:40px;">3</div>
     </div>
