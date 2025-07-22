@@ -694,36 +694,61 @@ function renderScoreboard() {
   }
 
   $app.innerHTML = `
-    <div class="screen">
-      <h2>Scoreboard</h2>
-      <div>Round ${state.round - 1} Complete</div>
+    <div class="screen" style="background:#18102c; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding-bottom:32px;">
+      <h2 style="color:#ffd600; font-size:2.2em; margin-top:38px; margin-bottom:4px;">Scoreboard</h2>
+      <div style="color:#fff; font-size:1.25em; margin-bottom:18px;">Round ${state.round - 1} Complete</div>
       ${
         (correctGuessers.length > 0)
-        ? `<div style="color: #27ae60; margin: 8px 0; font-size: 22px;">
+        ? `<div style="color: #27ae60; margin: 8px 0 18px 0; font-size: 1.25em;">
             ${correctGuessers.join(', ')} guessed correctly!
            </div>`
         : ''
       }
-      ${sortedScoreboard.map((item, idx) => {
-        const pos = idx + 1;
-        let suffix = "th";
-        if (pos === 1) suffix = "st";
-        else if (pos === 2) suffix = "nd";
-        else if (pos === 3) suffix = "rd";
-        const playerObj = state.players.find(p => p.name === item.name);
-        const tick = playerObj && playerObj.ready ? ' <span style="color:#27ae60;font-weight:bold;">&#10003;</span>' : '';
-        return `<div class="score-item"><span>${pos}${suffix} - ${item.name}${tick}</span><span>${item.score}</span></div>`;
-      }).join('')}
-      <div style="margin:12px 0;">Correct answer: <b>${state.question && state.question.answer ? state.question.answer : ''}</b></div>
+      <div style="width:100%; max-width:440px; margin-bottom:18px;">
+        <table class="scoreboard-table" style="width:100%; border-collapse:separate; border-spacing:0; box-shadow:0 2px 14px #0002; background:#fff; border-radius:14px; overflow:hidden;">
+          <thead>
+            <tr style="background:#ffd600; color:#18102c; font-size:1.15em; font-weight:700;">
+              <th style="padding:18px 0; width:68px;">Place</th>
+              <th style="padding:18px 0;">Name</th>
+              <th style="padding:18px 0; width:68px;">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sortedScoreboard.map((item, idx) => {
+              const pos = idx + 1;
+              // Gold trophy SVG for 1st place, otherwise just the number
+              const placeIcon = pos === 1
+                ? `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="#ffd600" style="vertical-align:middle;"><path d="M12 2a1 1 0 0 0-1 1v2H6V5a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v3c0 3.53 2.61 6.43 6 6.92V17H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2h-2v-2.08c3.39-.49 6-3.39 6-6.92V5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v1h-5V3a1 1 0 0 0-1-1zm-8 3h1v3c0 2.76 2.24 5 5 5h8c2.76 0 5-2.24 5-5V5h1v3c0 4.41-3.59 8-8 8s-8-3.59-8-8V5z"/></svg>`
+                : `<span style="font-size:1.25em; color:#18102c;">${pos}</span>`;
+              const playerObj = state.players.find(p => p.name === item.name);
+              const tick = playerObj && playerObj.ready ? ' <span style="color:#27ae60;font-weight:bold;">&#10003;</span>' : '';
+              return `
+                <tr style="border-bottom:1px solid #ffd600;">
+                  <td style="text-align:center; padding:12px 0;">${placeIcon}</td>
+                  <td style="font-size:1.12em; color:#18102c; font-weight:600; text-align:center;">${item.name}${tick}</td>
+                  <td style="text-align:center; font-size:1.12em; font-weight:700; color:#18102c;">${item.score}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+      <div style="margin:12px 0; color:#fff; font-size:1.1em;">Correct answer: <b style="color:#ffd600;">${state.question && state.question.answer ? state.question.answer : ''}</b></div>
       ${
         state.players.length === 0
         ? '<div style="color:red;">No players found in lobby. Please reload or rejoin.</div>'
-        : `<button id="readyBtn" ${state.players.find(p=>p.id===state.playerId)?.ready ? 'disabled' : ''}>Ready for Next Round</button>`
+        : `<button id="readyBtn" ${state.players.find(p=>p.id===state.playerId)?.ready ? 'disabled' : ''} style="background:#ffd600; color:#18102c; font-weight:bold; font-size:1.1em; padding:12px 24px; border:none; border-radius:9px; margin-top:8px; margin-bottom:8px;">Ready for Next Round</button>`
       }
-      <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
+      <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:9px; cursor:pointer; margin-top:16px;">
         Return to Start
       </button>
-      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
+      <button id="returnLandingBtn" style="margin-top:24px; background:#fff; color:#18102c; border-radius:9px; border:none; font-size:1.1em; font-weight:bold; padding:12px 0; width:90vw; max-width:340px;">Return to Home</button>
+      <style>
+        @media (max-width:600px) {
+          .scoreboard-table th, .scoreboard-table td { font-size:1em !important; padding:7px 0 !important; }
+          .scoreboard-table svg { width:25px !important; height:25px !important; }
+        }
+      </style>
     </div>
   `;
 
