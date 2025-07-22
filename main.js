@@ -216,6 +216,7 @@ function render() {
   else if (state.screen === 'lobby') renderLobby();
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
   else if (state.screen === 'category') renderCategory();
+  else if (state.screen === 'countdown') renderCountdown(); // <-- Add this line
   else if (state.screen === 'game') renderGame();
   else if (state.screen === 'scoreboard') renderScoreboard();
   else if (state.screen === 'end') renderEnd();
@@ -588,8 +589,29 @@ function startSinglePlayerGame(category) {
   state.scores = {};
   state.scoreboard = [];
   state.usedAnswers = [firstQuestion.answer];
-  state.screen = 'game';
+  state.screen = 'countdown'; // <-- show countdown first
   render();
+}
+// -----Countdown screen before game starts-----
+function renderCountdown() {
+  $app.innerHTML = `
+    <div class="countdown-screen" style="text-align:center; min-height:100vh; background:#18102c;">
+      <img src="Landing-bg.png" alt="Background" style="width:100%;max-width:640px;display:block;margin:0 auto 36px auto;" draggable="false" />
+      <div style="font-size:2em;color:#ffd600;margin-bottom:16px;">The game begins in</div>
+      <div id="countdownNumber" style="font-size:7em;color:#fff;font-weight:bold;margin-top:40px;">3</div>
+    </div>
+  `;
+  let countdown = 3;
+  const countdownEl = document.getElementById('countdownNumber');
+  const interval = setInterval(() => {
+    countdown--;
+    if (countdownEl) countdownEl.textContent = countdown;
+    if (countdown === 0) {
+      clearInterval(interval);
+      state.screen = 'game';
+      render();
+    }
+  }, 1000);
 }
 
 function renderGame() {
@@ -864,25 +886,31 @@ function chooseCategory(category) {
         )
       )
     : shuffle([...INITIALS_DB[category]]);
-  const firstQuestion = allQuestions[0]; 
+  const firstQuestion = allQuestions[0];
   state.guess = '';
-  set(ref(db, `lobbies/${state.lobbyCode}`), {
-    code: state.lobbyCode,
-    leader: state.playerId,
-    status: "playing",
-    category,
-    round: 1,
-    question: firstQuestion,
-    clues: shuffle(firstQuestion.clues),
-    clueIdx: 0,
-    points: 60,
-    guesses: {},
-    scoreboard: [],
-    readyPlayers: [],
-    usedQuestions: [firstQuestion.answer],
-    maxRounds: 10,
-    players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])),
-  });
+  state.screen = 'countdown'; // <--- Show countdown screen
+  render();
+
+  // Delay the Firebase game start logic for 3 seconds:
+  setTimeout(() => {
+    set(ref(db, `lobbies/${state.lobbyCode}`), {
+      code: state.lobbyCode,
+      leader: state.playerId,
+      status: "playing",
+      category,
+      round: 1,
+      question: firstQuestion,
+      clues: shuffle(firstQuestion.clues),
+      clueIdx: 0,
+      points: 60,
+      guesses: {},
+      scoreboard: [],
+      readyPlayers: [],
+      usedQuestions: [firstQuestion.answer],
+      maxRounds: 10,
+      players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])),
+    });
+  }, 3000);
 }
 function startTimer() {
   clearInterval(window.timerInterval);
