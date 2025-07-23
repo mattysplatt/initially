@@ -916,11 +916,7 @@ function waitForAuthThen(fn) {
     render();
   }
 }
-
-signInAnonymously(auth).catch((error) => {
-  state.status = "Authentication failed. Please refresh.";
-  render();
-});
+// Only use onAuthStateChanged for authentication handling
 onAuthStateChanged(auth, (user) => {
   if (user) {
     isAuthenticated = true;
