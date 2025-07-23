@@ -455,7 +455,8 @@ function renderLobbyCodeScreen() {
     render();
   };
 }
-// --- CATEGORY GRID FOR BOTH MODES ---function renderCategory() {
+// --- CATEGORY GRID FOR BOTH MODES ---
+function renderCategory() {
   const categories = [
     "worldSports", "AFL", "movieStars", "musicians", "PopStars",
     "Football", "famousFigures", "randomMix", "ModernNBA"
