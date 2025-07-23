@@ -227,10 +227,9 @@ function renderLobby() {
     <div class="lobby-screen">
       <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
       <div class="lobby-form">
-      <input id="playerName" type="text" placeholder="Your Name" style="font-size:1em; margin-bottom:10px; width:80%; padding:5px; border-radius:6px; border:1px solid #ccc;">
-<br>
-<input id="lobbyCode" type="text" placeholder="Lobby Code (to join)" style="font-size:1em; margin-bottom:10px; width:80%; padding:5px; border-radius:6px; border:1px solid #ccc;">
-        <button id="createLobby" class="landing-btn">Create New Lobby</button>
+      <input id="playerName" type="text" class="lobby-input" placeholder="Your Name">
+<input id="lobbyCode" type="text" class="lobby-input" placeholder="Lobby Code (to join)">
+<button id="createLobby" class="landing-btn">Create New Lobby</button>
         <button id="joinLobby" class="landing-btn">Join Lobby</button>
         <div id="lobbyStatus" style="margin:10px 0;color:#ffd600;min-height:24px;">${state.status || ''}</div>
         <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
