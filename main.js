@@ -102,6 +102,12 @@ function renderLanding() {
     <div class="landing-screen">
       <img src="Initiallylogonew.png" alt="Initially Logo" class="landing-logo" draggable="false" />
       <div class="button-container">
+      <div class="login-box">
+  <input type="email" id="loginEmail" placeholder="Email" autocomplete="username" style="margin-bottom:8px; width:90%; padding:8px; border-radius:6px; border:1px solid #ccc;">
+  <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password" style="margin-bottom:8px; width:90%; padding:8px; border-radius:6px; border:1px solid #ccc;">
+  <button id="loginBtn" style="width:92%; padding:10px; border-radius:6px; background:#ffd600; color:#222; font-weight:bold;">Login</button>
+  <div id="loginError" style="color:red; margin-top:8px; min-height:20px;"></div>
+</div>
         <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button>
         <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button>
         <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button>
