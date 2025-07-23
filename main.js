@@ -279,6 +279,9 @@ function renderLobby() {
       .lobby-input:focus {
         border: 2px solid #ffd600;
       }
+      .lobby-input {
+  text-transform: uppercase;
+}
       .landing-btn {
         width: 100%;
         min-width: 175px;
