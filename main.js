@@ -598,7 +598,7 @@ categories.forEach(cat => {
     ((state.mode === 'multi' && !state.isLeader) ? ' disabled' : '');
   let imageHTML = '';
   if (cat === 'AFL') {
-    imageHTML = `<img src="img/AFL-kick.jpg" alt="AFL" class="category-card-img" style="width:80%;max-width:120px;display:block;margin:0 auto 8px auto;border-radius:9px;box-shadow:0 2px 8px #0002;">`;
+    imageHTML = `<img src="AFL-kick.jpg" alt="AFL" class="category-card-img" style="width:80%;max-width:120px;display:block;margin:0 auto 8px auto;border-radius:9px;box-shadow:0 2px 8px #0002;">`;
   }
   // Correct: include imageHTML before the label
   box.innerHTML = `
