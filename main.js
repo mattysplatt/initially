@@ -102,14 +102,16 @@ function renderLanding() {
     <div class="landing-screen">
       <img src="Initiallylogonew.png" alt="Initially Logo" class="landing-logo" draggable="false" />
       <div class="button-container">
-        <input type="email" id="loginEmail" placeholder="Email" class="big-input" autocomplete="username" />
-        <input type="password" id="loginPassword" placeholder="Password" class="big-input" autocomplete="current-password" />
-        <button id="loginBtn" class="landing-btn">Login</button>
-        <div id="loginError" style="color:red; min-height:24px; font-size:1em; margin-bottom:4px;"></div>
-        <button id="playFreeBtn" class="landing-btn" ${!state.loggedIn ? 'disabled style="background:#ccc;color:#888;"' : ''}>PLAY FOR FREE</button>
-        <button id="playPurchasedBtn" class="landing-btn" ${!state.loggedIn ? 'disabled style="background:#ccc;color:#888;"' : ''}>PLAY WITH PURCHASED DECKS</button>
-        <button id="purchaseBtn" class="landing-btn" ${!state.loggedIn ? 'disabled style="background:#ccc;color:#888;"' : ''}>PURCHASE MORE DECKS</button>
-        <button id="monthlyBtn" class="landing-btn" ${!state.loggedIn ? 'disabled style="background:#ccc;color:#888;"' : ''}>MONTHLY CHALLENGE</button>
+     <div class="login-box" style="margin-bottom:24px;">
+  <input type="email" id="loginEmail" placeholder="Email" />
+  <input type="password" id="loginPassword" placeholder="Password" />
+  <button id="loginBtn" class="landing-btn">Login</button>
+  <div id="loginError"></div>
+</div>
+        <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button>
+        <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button>
+        <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button>
+        <button id="monthlyBtn" class="landing-btn">MONTHLY CHALLENGE</button>
       </div>
     </div>
     <style>
@@ -150,13 +152,12 @@ function renderLanding() {
         align-items: center;
         width: 100%;
         max-width: 360px;
-        gap: 8px;
       }
       .landing-btn {
         width: 100%;
         min-width: 175px;
         max-width: 320px;
-        margin: 8px 0;
+        margin: 12px 0;
         padding: 16px 0;
         font-size: 1.1em;
         border: none;
@@ -168,24 +169,9 @@ function renderLanding() {
         box-shadow: 1px 2px 8px #0002;
         transition: background 0.2s, transform 0.12s;
       }
-      .landing-btn:disabled {
-        background: #ccc !important;
-        color: #888 !important;
-        cursor: not-allowed;
-        box-shadow: none;
-      }
-      .landing-btn:hover:enabled {
+      .landing-btn:hover {
         background: #ffb300;
         transform: scale(1.03);
-      }
-      .big-input {
-        font-size: 1.3em;
-        padding: 12px;
-        border-radius: 7px;
-        border: 1px solid #ccc;
-        width: 100%;
-        margin-bottom: 8px;
-        box-sizing: border-box;
       }
       @media (max-width: 600px) {
         .landing-logo {
@@ -196,10 +182,6 @@ function renderLanding() {
         .button-container {
           max-width: 98vw;
           padding: 15px 2vw 12px 2vw;
-        }
-        .big-input {
-          font-size: 1em;
-          padding: 10px;
         }
         .landing-btn {
           font-size: 1em;
@@ -219,32 +201,14 @@ function renderLanding() {
     </style>
   `;
 
-  // Login logic
-  document.getElementById('loginBtn').onclick = function () {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
-        state.loggedIn = true;
-        render();
-      })
-      .catch(error => {
-        document.getElementById('loginError').textContent = error.message;
-      });
+document.getElementById('playFreeBtn').onclick =
+  document.getElementById('playPurchasedBtn').onclick =
+  document.getElementById('purchaseBtn').onclick =
+  document.getElementById('monthlyBtn').onclick = () => {
+    state.mode = 'multi';
+    state.screen = 'lobby';
+    render();
   };
-
-  // Optionally, attach click handlers to the four main buttons (if logged in)
-  if (state.loggedIn) {
-    document.getElementById('playFreeBtn').onclick =
-    document.getElementById('playPurchasedBtn').onclick =
-    document.getElementById('purchaseBtn').onclick =
-    document.getElementById('monthlyBtn').onclick = () => {
-      state.mode = 'multi';
-      state.screen = 'lobby';
-      render();
-    };
-  }
 }
 
 // MAIN RENDER FUNCTION
