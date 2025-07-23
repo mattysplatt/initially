@@ -464,28 +464,60 @@ function renderCategory() {
 
   $app.innerHTML = `
     <div class="cat-page-wrapper">
-      <div class="lobby-box" style="margin: 20px auto 28px auto;">
-       <div class="lobby-title" style="text-align:center; font-size:2em; font-weight:bold; color:#ffd600; margin-top:22px; margin-bottom:10px;">
-  Lobby <span style="font-size:0.8em; color:#fff;">(${state.lobbyCode})</span>
-</div>
-        <div class="lobby-players" id="lobbyPlayers">
-          ${state.players && state.players.length
-            ? state.players.map(p => `<div class="lobby-player">${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')
-            : '<div style="color:#aaa;">Waiting for players...</div>'}
-        </div>
+      <div class="lobby-title" style="text-align:center; font-size:2em; font-weight:bold; color:#ffd600; margin-top:22px; margin-bottom:10px;">
+        Lobby <span style="font-size:0.8em; color:#fff;">(${state.lobbyCode})</span>
+      </div>
+      <div class="lobby-players-box" style="
+        background:#fff;
+        border-radius:16px;
+        box-shadow:0 2px 12px #0002;
+        padding:18px 22px;
+        max-width:340px;
+        margin:0 auto 22px auto;
+        display:flex;
+        flex-direction:column;
+        align-items:center;">
+        ${state.players && state.players.length
+          ? state.players.map(p => `<div class="lobby-player" style="font-size:1.15em; color:#222; font-weight:500; margin:6px 0;">${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')
+          : '<div style="color:#aaa;">Waiting for players...</div>'}
       </div>
       <div class="category-container" id="categoryContainer"></div>
       ${state.mode === 'multi' && !state.isLeader ? `<div class="leader-wait-msg">Waiting for leader to select...</div>` : ''}
       <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
     </div>
     <style>
-     .cat-page-wrapper {
-  background: url('ScreenBackground.png') center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-  width: 100vw;
-}
+      .cat-page-wrapper {
+        background: url('ScreenBackground.png') center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        width: 100vw;
+      }
+      .lobby-title {
+        text-align:center;
+        font-size:2em;
+        font-weight:bold;
+        color:#ffd600;
+        margin-top:22px;
+        margin-bottom:10px;
+      }
+      .lobby-players-box {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 12px #0002;
+        padding: 18px 22px;
+        max-width: 340px;
+        margin: 0 auto 22px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .lobby-player {
+        font-size: 1.15em;
+        color: #222;
+        font-weight: 500;
+        margin: 6px 0;
+      }
       .category-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -514,7 +546,6 @@ function renderCategory() {
         cursor: pointer;
         transition: background 0.2s, transform 0.12s;
       }
-      /* No hover or active effect */
       .category-btn-label {
         font-size: 1.1em;
         font-weight: bold;
@@ -557,6 +588,7 @@ function renderCategory() {
     </style>
   `;
 
+  // Category buttons
   const catDiv = document.getElementById('categoryContainer');
   categories.forEach(cat => {
     let label = cat.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
