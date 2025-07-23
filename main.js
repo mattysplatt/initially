@@ -465,7 +465,9 @@ function renderCategory() {
   $app.innerHTML = `
     <div class="cat-page-wrapper">
       <div class="lobby-box" style="margin: 20px auto 28px auto;">
-        <div class="lobby-title">Lobby</div>
+       <div class="lobby-title" style="text-align:center; font-size:2em; font-weight:bold; color:#ffd600; margin-top:22px; margin-bottom:10px;">
+  Lobby <span style="font-size:0.8em; color:#fff;">(${state.lobbyCode})</span>
+</div>
         <div class="lobby-players" id="lobbyPlayers">
           ${state.players && state.players.length
             ? state.players.map(p => `<div class="lobby-player">${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')
