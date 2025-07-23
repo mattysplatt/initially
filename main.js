@@ -20,7 +20,7 @@ const db = getDatabase(app);
 // --- Firebase Auth ---
 const auth = getAuth(app);
 let isAuthenticated = false;
-
+//Coded by msplatt
 // App State
 let state = {
   screen: 'landing', // <-- Default to landing page!
