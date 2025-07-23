@@ -596,15 +596,21 @@ categories.forEach(cat => {
   const box = document.createElement('div');
   box.className = 'category-btn-box' +
     ((state.mode === 'multi' && !state.isLeader) ? ' disabled' : '');
-  let imageHTML = '';
+
+  // Build the inner HTML for AFL only
   if (cat === 'AFL') {
-    imageHTML = `<img src="AFL-kick.jpg" alt="AFL" class="category-card-img" style="width:80%;max-width:120px;display:block;margin:0 auto 8px auto;border-radius:9px;box-shadow:0 2px 8px #0002;">`;
+    box.innerHTML = `
+      <div class="category-card-img-container">
+        <img src="AFL-kick.jpg" alt="AFL" class="category-card-img">
+        <div class="category-btn-label card-label-over-image">${label}</div>
+      </div>
+    `;
+  } else {
+    box.innerHTML = `
+      <div class="category-btn-label">${label}</div>
+    `;
   }
-  // Correct: include imageHTML before the label
-  box.innerHTML = `
-    ${imageHTML}
-    <div class="category-btn-label">${label}</div>
-  `;
+
   if (!(state.mode === 'multi' && !state.isLeader)) {
     box.onclick = () => {
       if (state.mode === 'multi') {
@@ -616,7 +622,6 @@ categories.forEach(cat => {
   }
   catDiv.appendChild(box);
 });
-
   document.getElementById('returnLandingBtn').onclick = () => {
     state.screen = 'landing';
     render();
