@@ -156,7 +156,6 @@ function renderLanding() {
         width: 100%;
         min-width: 175px;
         max-width: 320px;
-        margin: 8px 0;
         padding: 16px 0;
         font-size: 1.1em;
         border: none;
