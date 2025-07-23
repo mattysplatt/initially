@@ -109,11 +109,6 @@ function renderLanding() {
   <button id="purchaseBtn" class="landing-btn" disabled>PURCHASE MORE DECKS</button>
   <button id="monthlyBtn" class="landing-btn" disabled>MONTHLY CHALLENGE</button>
 </div>
-        <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button>
-        <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button>
-        <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button>
-        <button id="monthlyBtn" class="landing-btn">MONTHLY CHALLENGE</button>
-      </div>
     </div>
     <style>
       html, body, #app, .landing-screen {
