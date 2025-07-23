@@ -7710,3 +7710,4 @@ export const CATEGORY_COUNTS = Object.keys(INITIALS_DB).reduce((counts, cat) => 
   counts[cat] = INITIALS_DB[cat].length;
   return counts;
 }, {});
+console.log(CATEGORY_COUNTS);
