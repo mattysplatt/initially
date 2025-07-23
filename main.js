@@ -605,7 +605,6 @@ categories.forEach(cat => {
       <div class="category-btn-label overlay-label">${label}</div>
     </div>
   `;
-}
   } else {
     box.innerHTML = `
       <div class="category-btn-label">${label}</div>
