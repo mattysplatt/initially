@@ -737,8 +737,8 @@ function renderScoreboard() {
               return `
                 <tr style="border-bottom:1px solid #ffd600;">
                   <td style="text-align:center; padding:12px 0;">${placeIcon}</td>
-                  <td style="font-size:1.12em; color:url('ScreenBackground.png'); font-weight:600; text-align:center;">${item.name}${tick}</td>
-                  <td style="text-align:center; font-size:1.12em; font-weight:700; color:url('ScreenBackground.png');">${item.score}</td>
+                  <td style="font-size:1.12em; color:#000; font-weight:600; text-align:center;">${item.name}${tick}</td>
+                  <td style="text-align:center; font-size:1.12em; font-weight:700; color:#000;">${item.score}</td>
                 </tr>
               `;
             }).join('')}
