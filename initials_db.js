@@ -1,4 +1,4 @@
-// Example: Only a few entries for brevity. Fill each category with ~100 entries for production.
+
 export const INITIALS_DB = {
  PopStars: [
   {
@@ -7706,3 +7706,7 @@ ModernNBA: [
     // ...more
   ]
 };
+export const CATEGORY_COUNTS = Object.keys(INITIALS_DB).reduce((counts, cat) => {
+  counts[cat] = INITIALS_DB[cat].length;
+  return counts;
+}, {});
