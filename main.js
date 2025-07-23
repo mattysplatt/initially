@@ -596,6 +596,10 @@ function renderCategory() {
     const box = document.createElement('div');
     box.className = 'category-btn-box' +
       ((state.mode === 'multi' && !state.isLeader) ? ' disabled' : '');
+    let imageHTML = '';
+  if (cat === 'AFL') {
+    imageHTML = `<img src="img/AFL-kick.jpg" alt="AFL" class="category-card-img" style="width:80%;max-width:120px;display:block;margin:0 auto 8px auto;border-radius:9px;box-shadow:0 2px 8px #0002;">`;
+  }
     box.innerHTML = `<div class="category-btn-label">${label}</div>`;
     if (!(state.mode === 'multi' && !state.isLeader)) {
       box.onclick = () => {
