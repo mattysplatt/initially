@@ -265,6 +265,8 @@ function renderLobby() {
       }
       .lobby-input {
         width: 100%;
+         min-width: 175px;
+        max-width: 320px;
         padding: 14px 10px;
         font-size: 1.08em;
         margin: 8px 0 14px 0;
