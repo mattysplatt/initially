@@ -599,12 +599,13 @@ categories.forEach(cat => {
 
   // Build the inner HTML for AFL only
   if (cat === 'AFL') {
-    box.innerHTML = `
-      <div class="category-card-img-container">
-        <img src="AFL-kick.jpg" alt="AFL" class="category-card-img">
-        <div class="category-btn-label card-label-over-image">${label}</div>
-      </div>
-    `;
+  box.innerHTML = `
+    <div class="category-card-img-container" style="position:relative;">
+      <img src="AFL-kick.jpg" alt="AFL" class="category-card-img" style="width:100%;display:block;">
+      <div class="category-btn-label overlay-label">${label}</div>
+    </div>
+  `;
+}
   } else {
     box.innerHTML = `
       <div class="category-btn-label">${label}</div>
