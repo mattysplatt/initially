@@ -478,7 +478,7 @@ function renderCategory() {
         flex-direction:column;
         align-items:center;">
         ${state.players && state.players.length
-          ? state.players.map(p => `<div class="lobby-player" style="font-size:1.15em; color:#222; font-weight:500; margin:6px 0;">${p.name}${p.isLeader ? ' 👑' : ''}</div>`).join('')
+          ? state.players.map(p => `<div class="lobby-player" style="font-size:1.15em; color:#222; font-weight:500; margin:6px 0;">${p.name.toUpperCase()}${p.isLeader ? ' 👑' : ''}</div>`).join('')
           : '<div style="color:#aaa;">Waiting for players...</div>'}
       </div>
       <div class="category-container" id="categoryContainer"></div>
@@ -731,7 +731,7 @@ function renderScoreboard() {
   if (state.players.length >= 2 && state.guesses) {
     correctGuessers = state.players
       .filter(p => state.guesses[p.id]?.correct)
-      .map(p => p.name);
+      .map(p => p.name.toUpperCase());
   }
 
   $app.innerHTML = `
@@ -770,7 +770,7 @@ function renderScoreboard() {
               const placeIcon = pos === 1
                 ? `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="#ffd600" style="vertical-align:middle;"><path d="M12 2a1 1 0 0 0-1 1v2H6V5a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v3c0 3.53 2.61 6.43 6 6.92V17H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2h-2v-2.08c3.39-.49 6-3.39 6-6.92V5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v1h-5V3a1 1 0 0 0-1-1zm-8 3h1v3c0 2.76 2.24 5 5 5h8c2.76 0 5-2.24 5-5V5h1v3c0 4.41-3.59 8-8 8s-8-3.59-8-8V5z"/></svg>`
                 : `<span style="font-size:1.25em; color:url('ScreenBackground.png');">${pos}</span>`;
-              const playerObj = state.players.find(p => p.name === item.name);
+              const playerObj = state.players.find(p => p.name.toUpperCase() === item.name);
               const tick = playerObj && playerObj.ready ? ' <span style="color:#27ae60;font-weight:bold;">&#10003;</span>' : '';
               return `
                 <tr style="border-bottom:1px solid #ffd600;">
@@ -1059,7 +1059,7 @@ function endRound() {
     let scoreboard = Object.entries(players).map(([id, p]) => {
       let guess = guesses[id];
       let add = (guess && guess.correct) ? lobby.points : 0;
-      return { name: p.name, score: (p.score||0) + add };
+      return { name: p.name.toUpperCase(), score: (p.score||0) + add };
     });
     for (let [id, p] of Object.entries(players)) {
       let guess = guesses[id];
