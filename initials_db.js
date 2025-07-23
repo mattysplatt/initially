@@ -4444,7 +4444,7 @@ ModernNBA: [
 },
 {
   initials: "J.O.",
-  answer: "Jai O'Meara",
+  answer: "Jaegar O'Meara",
   clues: [
     "Fremantle Dockers midfielder",
     "Former Hawthorn and Gold Coast",
