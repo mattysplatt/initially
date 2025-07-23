@@ -1,7 +1,7 @@
 import { INITIALS_DB } from './initials_db.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
 import { getDatabase, ref, set, get, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
 
 // Firebase conf
 const firebaseConfig = {
@@ -32,18 +32,19 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// Show login form if not authenticated
+// Show login/registration form
 function showLoginForm() {
   const loginDiv = document.createElement('div');
   loginDiv.id = "loginForm";
   loginDiv.innerHTML = `
-    <h2>Please Log In</h2>
+    <h2>Please Log In or Register</h2>
     <input type="email" id="loginEmail" placeholder="Email">
     <input type="password" id="loginPassword" placeholder="Password">
     <button id="loginButton">Log In</button>
+    <button id="registerButton">Register</button>
     <div id="loginError" style="color:red"></div>
   `;
-  document.body.innerHTML = ""; // Clear body for login
+  document.body.innerHTML = "";
   document.body.appendChild(loginDiv);
 
   document.getElementById('loginButton').onclick = function() {
@@ -54,12 +55,20 @@ function showLoginForm() {
         document.getElementById('loginError').innerText = error.message;
       });
   };
+
+  document.getElementById('registerButton').onclick = function() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    createUserWithEmailAndPassword(auth, email, password)
+      .catch((error) => {
+        document.getElementById('loginError').innerText = error.message;
+      });
+  };
 }
 
 // Enable the game if authenticated
 function enableGame() {
-  // Restore your game UI and logic here
-  document.body.innerHTML = ""; // Clear login form
+  document.body.innerHTML = ""; // Clear login/registration form
   // Insert your normal game startup code here, e.g.:
   // initializeGame();
 }
