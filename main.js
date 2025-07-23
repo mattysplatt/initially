@@ -455,12 +455,24 @@ function renderLobbyCodeScreen() {
     render();
   };
 }
-// --- CATEGORY GRID FOR BOTH MODES ---
-function renderCategory() {
+// --- CATEGORY GRID FOR BOTH MODES ---function renderCategory() {
   const categories = [
     "worldSports", "AFL", "movieStars", "musicians", "PopStars",
     "Football", "famousFigures", "randomMix", "ModernNBA"
   ];
+
+  // Mapping of category to card background image
+  const backgroundImages = {
+    worldSports: "DeckBackground.png",
+    AFL: "AFLcatcard.png",
+    movieStars: "Moviecatcard.png",
+    musicians: "Musiccatcard.png",
+    PopStars: "Popstarcatcard.png",
+    Football: "Footballcatcard.png",
+    famousFigures: "Famouscatcard.png",
+    randomMix: "Randomcatcard.png",
+    ModernNBA: "NBAcatcard.png"
+  };
 
   $app.innerHTML = `
     <div class="cat-page-wrapper">
@@ -493,31 +505,6 @@ function renderCategory() {
         min-height: 100vh;
         width: 100vw;
       }
-      .lobby-title {
-        text-align:center;
-        font-size:2em;
-        font-weight:bold;
-        color:#ffd600;
-        margin-top:22px;
-        margin-bottom:10px;
-      }
-      .lobby-players-box {
-        background: #fff;
-        border-radius: 16px;
-        box-shadow: 0 2px 12px #0002;
-        padding: 18px 22px;
-        max-width: 340px;
-        margin: 0 auto 22px auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .lobby-player {
-        font-size: 1.15em;
-        color: #222;
-        font-weight: 500;
-        margin: 6px 0;
-      }
       .category-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -536,7 +523,6 @@ function renderCategory() {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
         border: none;
         box-shadow: 0 2px 12px #0002;
         padding: 0;
@@ -545,27 +531,24 @@ function renderCategory() {
         position: relative;
         cursor: pointer;
         transition: background 0.2s, transform 0.12s;
+        border-radius: 12px;
       }
-      .category-btn-label {
-        font-size: 1.1em;
+      .overlay-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 214, 0, 0.85);
+        color: #222;
+        font-size: 1.3em;
         font-weight: bold;
-        color: url('ScreenBackground.png');
-        background: #ffd600;
-        border-radius: 7px;
-        padding: 12px 18px;
-        box-shadow: 1px 2px 8px #0002;
+        padding: 8px 18px;
+        border-radius: 8px;
         text-align: center;
+        box-shadow: 1px 2px 8px #0002;
+        pointer-events: none;
         user-select: none;
-        margin: 0;
-        border: none;
-        outline: none;
-        width: auto;
-        max-width: 90%;
-        line-height: 1.1;
-        box-sizing: border-box;
-        word-break: break-word;
-        white-space: normal;
-        display: block;
+        white-space: nowrap;
       }
       @media (max-width: 700px) {
         .category-container {
@@ -588,40 +571,32 @@ function renderCategory() {
     </style>
   `;
 
-  // Category buttons
-const catDiv = document.getElementById('categoryContainer');
-categories.forEach(cat => {
-  let label = cat.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
-  if (cat === 'Football') label = '⚽ ' + label;
-  const box = document.createElement('div');
-  box.className = 'category-btn-box' +
-    ((state.mode === 'multi' && !state.isLeader) ? ' disabled' : '');
+  // Render category cards
+  const catDiv = document.getElementById('categoryContainer');
+  categories.forEach(cat => {
+    let label = cat.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+    if (cat === 'Football') label = '⚽ ' + label;
+    const box = document.createElement('div');
+    box.className = 'category-btn-box' + ((state.mode === 'multi' && !state.isLeader) ? ' disabled' : '');
+    const bgUrl = backgroundImages[cat] || "images/default-bg.png";
+    box.style.background = `url('${bgUrl}') center center / cover no-repeat`;
 
-  // Build the inner HTML for AFL only
-  if (cat === 'AFL') {
-  box.innerHTML = `
-    <div class="category-card-img-container" style="position:relative;">
-      <img src="AFL-kick.jpg" alt="AFL" class="category-card-img" style="width:100%;display:block;">
-      <div class="category-btn-label overlay-label">${label}</div>
-    </div>
-  `;
-  } else {
     box.innerHTML = `
-      <div class="category-btn-label">${label}</div>
+      <div class="overlay-label">${label}</div>
     `;
-  }
 
-  if (!(state.mode === 'multi' && !state.isLeader)) {
-    box.onclick = () => {
-      if (state.mode === 'multi') {
-        chooseCategory(cat);
-      } else {
-        startSinglePlayerGame(cat);
-      }
-    };
-  }
-  catDiv.appendChild(box);
-});
+    if (!(state.mode === 'multi' && !state.isLeader)) {
+      box.onclick = () => {
+        if (state.mode === 'multi') {
+          chooseCategory(cat);
+        } else {
+          startSinglePlayerGame(cat);
+        }
+      };
+    }
+    catDiv.appendChild(box);
+  });
+
   document.getElementById('returnLandingBtn').onclick = () => {
     state.screen = 'landing';
     render();
