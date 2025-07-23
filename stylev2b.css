@@ -1,3 +1,5 @@
+
+
 html, body {
   height: 100%;
   margin: 0;
@@ -13,113 +15,6 @@ html, body {
   display: flex;
   flex-direction: column;
 }
-
-/* --- CATEGORY CARD STYLES --- */
-
-/* Card container */
-.category-btn-box {
-  min-width: 160px;
-  width: 100%;
-  max-width: 330px;
-  aspect-ratio: 165 / 240;
-  margin: 0 auto;
-  background: url('DeckBackgroundwhite.png') center center / contain no-repeat;
-  border: none;
-  box-shadow: 0 2px 12px #0002;
-  padding: 0;
-  overflow: hidden;
-  box-sizing: border-box;
-  position: relative;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.12s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.category-btn-box.disabled {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* Card image container and image */
-.category-card-img-container {
-  position: relative;
-  width: 100%;
-  height: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.category-card-img {
-  width: 92%;
-  height: 180px;
-  object-fit: cover;
-  display: block;
-  margin: 0 auto;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px #0002;
-}
-
-/* Label overlay */
-.card-label-over-image {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -110%);
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #ffd600;
-  background: rgba(0,0,0,0.6);
-  padding: 12px 22px;
-  border-radius: 8px;
-  box-shadow: 1px 2px 8px #0005;
-  text-align: center;
-  pointer-events: none;
-  width: auto;
-  max-width: 85%;
-  z-index: 2;
-  letter-spacing: 2px;
-}
-
-/* Category label for cards without images */
-.category-btn-label {
-  font-size: 1.3em;
-  font-weight: bold;
-  color: #ffd600;
-  background: #222;
-  border-radius: 7px;
-  padding: 12px 18px;
-  box-shadow: 1px 2px 8px #0002;
-  text-align: center;
-  user-select: none;
-  margin: 0 auto;
-  border: none;
-  outline: none;
-  width: auto;
-  max-width: 90%;
-  line-height: 1.1;
-  box-sizing: border-box;
-  word-break: break-word;
-  white-space: normal;
-  display: block;
-  letter-spacing: 2px;
-}
-
-/* Category grid */
-.category-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 0;
-  width: 100%;
-}
-
-/* --- END CATEGORY CARD STYLES --- */
 
 .guessing-screen {
   display: flex;
@@ -210,6 +105,7 @@ html, body {
   font-weight: bold;
   letter-spacing: 1px;
 }
+}
 
 #submit-btn {
   margin: 0 auto;
@@ -268,84 +164,7 @@ html, body {
   color: #222;
 }
 
-/* Lobby Players Box */
-.lobby-players-box {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px #0002;
-  padding: 18px 22px;
-  max-width: 340px;
-  margin: 0 auto 22px auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.lobby-player {
-  font-size: 1.15em;
-  color: #222;
-  font-weight: 500;
-  margin: 6px 0;
-  letter-spacing: 2px;
-}
-
-/* Lobby Title */
-.lobby-title {
-  text-align: center;
-  font-size: 2em;
-  font-weight: bold;
-  color: #ffd600;
-  margin-top: 22px;
-  margin-bottom: 10px;
-}
-
-/* Leader wait message */
-.leader-wait-msg {
-  text-align: center;
-  color: #ffd600;
-  background: #222c;
-  padding: 12px 24px;
-  border-radius: 10px;
-  font-size: 1.1em;
-  font-weight: 500;
-  margin: 18px auto 0 auto;
-  max-width: 350px;
-}
-
-/* Return Button */
-.cat-return-btn {
-  display: block;
-  margin: 32px auto 0 auto;
-  background-color: #ffd600;
-  color: #222;
-  font-weight: bold;
-  padding: 14px 34px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background 0.2s;
-  font-size: 1.1em;
-  box-shadow: 0 2px 12px #0002;
-}
-
-.cat-return-btn:hover {
-  background-color: #fff34a;
-}
-
-/* Responsive for categories and cards */
 @media (max-width: 700px) {
-  .category-container {
-    grid-template-columns: 1fr 1fr;
-    max-width: 98vw;
-  }
-  .category-btn-box {
-    max-width: 98vw;
-  }
-  .category-card-img-container {
-    height: 180px;
-  }
-  .category-card-img {
-    height: 140px;
-  }
   #initials-box {
     font-size: 2em;
     padding: 18px 16vw;
@@ -360,23 +179,6 @@ html, body {
 }
 
 @media (max-width: 500px) {
-  .category-container {
-    grid-template-columns: 1fr 1fr;
-    max-width: 99vw;
-  }
-  .category-btn-box {
-    max-width: 99vw;
-  }
-  .category-card-img-container {
-    height: 120px;
-  }
-  .category-card-img {
-    height: 80px;
-  }
-  .card-label-over-image {
-    font-size: 1em;
-    padding: 8px 12px;
-  }
   #category-title { font-size: 1.2em; }
   #initials-box { font-size: 1.15em; padding: 10px 8vw; }
   #clues { font-size: 1em; }
