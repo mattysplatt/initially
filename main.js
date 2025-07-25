@@ -561,7 +561,8 @@ function startMonthlyChallenge() {
   state.usedAnswers = [firstQuestion.answer];
   state.challengeQuestions = shuffledQuestions; // store all shuffled questions with category
   state.challengeIdx = 0; // index for current question
-  state.challengeTimer = 120; // 2 minutes in seconds
+  state.challengeTimer = 180;
+   state.totalPoints = 0;
   state.screen = 'countdown';
   render();
 }
