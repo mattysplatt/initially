@@ -1207,6 +1207,20 @@ function revealNextClue() {
     endRound();
   }
 }
+function startMonthlyChallengeTimer() {
+  clearInterval(window.monthlyTimerInterval);
+  window.monthlyTimerInterval = setInterval(() => {
+    if (state.challengeTimer > 0) {
+      state.challengeTimer--;
+      const timerEl = document.getElementById('monthlyTimer');
+      if (timerEl) timerEl.textContent = state.challengeTimer + 's';
+    } else {
+      clearInterval(window.monthlyTimerInterval);
+      state.screen = 'scoreboard';
+      render();
+    }
+  }, 1000);
+}
 function submitMonthlyGuess() {
   if (!state.guess) return;
   const guess = state.guess.trim();
