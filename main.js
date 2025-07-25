@@ -625,6 +625,11 @@ function renderCategory() {
       <div class="category-container" id="categoryContainer"></div>
       ${state.mode === 'multi' && !state.isLeader ? `<div class="leader-wait-msg">Waiting for leader to select...</div>` : ''}
       <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
+      ${state.mode === 'monthly' 
+  ? `<div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
+      <span id="monthlyTimer">${state.challengeTimer}s</span>
+    </div>`
+  : /* normal timer box */}
     </div>
     <style>
       .cat-page-wrapper {
@@ -764,11 +769,18 @@ function renderCountdown() {
   const interval = setInterval(() => {
     countdown--;
     if (countdownEl) countdownEl.textContent = countdown;
-    if (countdown === 0) {
-      clearInterval(interval);
-      state.screen = 'game';
-      render();
-    }
+   if (countdown === 0) {
+  clearInterval(interval);
+  if (state.mode === 'monthly') {
+    state.challengeTimer = 120; // 2 minutes
+    startMonthlyChallengeTimer();
+    state.screen = 'game';
+    render();
+  } else {
+    state.screen = 'game';
+    render();
+  }
+}
   }, 1000);
 }
 
