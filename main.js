@@ -1156,12 +1156,16 @@ function renderLocalScoreboard() {
   `;
 
   // Ready button click handler
-  const readyBtn = document.getElementById('readyBtn');
-  if (readyBtn) {
-    readyBtn.onclick = () => {
+const readyBtn = document.getElementById('readyBtn');
+if (readyBtn) {
+  readyBtn.onclick = () => {
+    if (state.mode === 'single') {
+      goToNextSinglePlayerClue();
+    } else {
       update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true });
-    };
-  }
+    }
+  };
+}
 
   // Return to Home button click handler
   const returnBtn = document.getElementById('returnLandingBtn');
