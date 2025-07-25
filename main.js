@@ -765,6 +765,7 @@ function renderScoreboard() {
       state.screen = 'landing';
       render();
     };
+     startResetCountdown();
   });
 }
 // --- CATEGORY GRID FOR BOTH MODES ---
