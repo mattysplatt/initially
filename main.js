@@ -260,23 +260,22 @@ function renderLanding() {
 function render() {
   $app.innerHTML = '';
   if (!isAuthenticated) {
-    $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refre[...]`;
+    $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh the page.</span></div>`;
     return;
   }
- return;
-}
-if (state.screen === 'landing') renderLanding();
-else if (state.screen === 'lobby') renderLobby();
-else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
-else if (state.screen === 'category') renderCategory();
-else if (state.screen === 'countdown') renderCountdown();
-else if (state.screen === 'game') renderGame();
-else if (state.screen === 'scoreboard') {
-  if (state.mode === 'monthly') renderScoreboard();
-  else renderLocalScoreboard();
-}
-else if (state.screen === 'end') renderEnd();
-else if (state.screen === 'challengeInstructions') renderChallengeInstructions();
+
+  if (state.screen === 'landing') renderLanding();
+  else if (state.screen === 'lobby') renderLobby();
+  else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
+  else if (state.screen === 'category') renderCategory();
+  else if (state.screen === 'countdown') renderCountdown();
+  else if (state.screen === 'game') renderGame();
+  else if (state.screen === 'scoreboard') {
+    if (state.mode === 'monthly') renderScoreboard();
+    else renderLocalScoreboard();
+  }
+  else if (state.screen === 'end') renderEnd();
+  else if (state.screen === 'challengeInstructions') renderChallengeInstructions();
 }
 
 function renderLobby() {
