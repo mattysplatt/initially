@@ -246,10 +246,11 @@ function renderLanding() {
     state.screen = 'challengeInstructions';
     render();
   };
-  document.getElementById('monthlyLeaderboardBtn').onclick = () => {
-    state.screen = 'scoreboard';
-    render();
-  };
+ document.getElementById('monthlyLeaderboardBtn').onclick = () => {
+  state.mode = 'monthly'; // <-- add this line
+  state.screen = 'scoreboard';
+  render();
+};
   document.getElementById('howToPlayBtn').onclick = function() {
   state.screen = 'instructions';
   render();
