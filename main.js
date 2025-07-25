@@ -353,23 +353,92 @@ function renderLobby() {
 }
 function renderChallengeInstructions() {
   $app.innerHTML = `
-    <div class="challenge-instructions-screen" style="background: url('ScreenBackground.png'); min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
-      <img src="Initiallylogonew.png" alt="Initially Logo" class="landing-logo" draggable="false" />
-      <h2 style="color:#ffd600; margin-top:24px;">Monthly Challenge Instructions</h2>
-      <div style="background: #fff; color: #222; padding: 24px; border-radius: 12px; box-shadow: 0 2px 12px #0002; max-width: 500px; margin-top:18px; font-size:1.15em;">
-        <!-- Add your instructions here -->
-        <p>Welcome to the Monthly Challenge! Here’s how it works:</p>
-        <ul>
-          <li>Each month has a unique set of initials questions.</li>
-          <li>Compete with others and track your score!</li>
-          <li>Check back every month for new challenges.</li>
+    <div class="challenge-instructions-screen" style="
+      background: url('ScreenBackground.png');
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 32px;
+    ">
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="landing-logo" draggable="false" style="
+        width: 430px;
+        max-width: 90vw;
+        margin-top: 4vw;
+        margin-bottom: 2vw;
+        height: auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      " />
+      <h2 style="
+        color: #ffd600;
+        font-size: 2.3em;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 18px;
+        text-align: center;
+        letter-spacing: 1.5px;
+      ">Welcome to the Monthly Challenge</h2>
+      <div style="
+        background: #fff;
+        color: #222;
+        padding: 26px 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px #0002;
+        max-width: 500px;
+        width: 90vw;
+        margin-bottom: 28px;
+        font-size: 1.15em;
+        text-align: left;
+      ">
+        <b>Think fast and score big! Here's how it works:</b>
+        <ul style="margin-top:18px; margin-bottom:18px;">
+          <li><b>Time Limit:</b> You have 2 minutes to answer as many clues as you can.</li>
+          <li><b>All Categories:</b> Clues will come from all categories, so be ready for anything!</li>
+          <li><b>Scoring:</b> Each correct answer earns you points. Answer quickly for maximum points. Rack up as many as you can before time runs out.</li>
+          <li><b>Leaderboard:</b> A results ladder will track top scores throughout the month. It resets on the 1st of each month.</li>
+          <li><b>Bragging Rights:</b> For now, the top spot wins bragging rights.<br>
+          (🎉 Stay tuned—deck credits will be awarded in future updates!)</li>
         </ul>
+        <div style="margin-top:10px; font-weight:bold;">Good luck and happy solving! 💡</div>
       </div>
-      <button id="returnLandingBtn" class="landing-btn" style="margin-top: 28px;">Return to Home</button>
+      <button id="startMonthlyChallengeBtn" class="landing-btn" style="
+        margin-bottom: 16px;
+        width: 100%;
+        max-width: 320px;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      ">Take on the Challenge</button>
+      <button id="returnLandingBtn" class="landing-btn" style="
+        margin-top: 12px;
+        width: 100%;
+        max-width: 320px;
+      ">Return to Home</button>
+      <style>
+        @media (max-width:600px) {
+          .challenge-instructions-screen .landing-logo { width: 88vw !important; margin-top: 9vw !important; margin-bottom: 3vw !important; }
+          .challenge-instructions-screen h2 { font-size: 1.4em !important; }
+          .challenge-instructions-screen > div { font-size: 1em !important; padding: 16px 4vw !important; }
+        }
+      </style>
     </div>
   `;
   document.getElementById('returnLandingBtn').onclick = () => {
     state.screen = 'landing';
+    render();
+  };
+  document.getElementById('startMonthlyChallengeBtn').onclick = () => {
+    // Set up your challenge start logic here!
+    // For example:
+    state.screen = 'monthlyChallenge'; // Or whatever screen starts the challenge
     render();
   };
 }
