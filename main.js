@@ -386,12 +386,14 @@ function renderLobby() {
     render();
   };
 }
-function fetchLeaderboard(callback) {
+let leaderboardUnsub = null;
+
+function listenLeaderboard(callback) {
+  if (leaderboardUnsub) leaderboardUnsub(); // Clean up old listener
   const leaderboardRef = ref(db, 'leaderboard');
-  get(leaderboardRef).then(snapshot => {
+  leaderboardUnsub = onValue(leaderboardRef, snapshot => {
     if (snapshot.exists()) {
       const scoresObj = snapshot.val();
-      // Convert to array and sort
       const scoresArray = Object.entries(scoresObj).map(([id, data]) => ({
         id,
         name: data.name,
@@ -697,7 +699,7 @@ function saveScoreToLeaderboard(playerId, name, score) {
   });
 }
 function renderScoreboard() {
-  fetchLeaderboard(function(sortedScores) {
+   listenLeaderboard(function(sortedScores) {
     $app.innerHTML = `
       <div class="scoreboard-screen" style="background:url('ScreenBackground.png');min-height:100vh;padding:40px;">
         <h2 style="color:#ffd600; text-align:center;">Monthly Challenge Scoreboard</h2>
