@@ -777,18 +777,20 @@ function renderCountdown() {
   const interval = setInterval(() => {
     countdown--;
     if (countdownEl) countdownEl.textContent = countdown;
-   if (countdown === 0) {
-  clearInterval(interval);
-  if (state.mode === 'monthly') {
-    state.challengeTimer = 120; // 2 minutes
-    startMonthlyChallengeTimer();
-    state.screen = 'game';
-    render();
-  } else {
-    state.screen = 'game';
-    render();
-  }
-}
+    if (countdown === 0) {
+      clearInterval(interval);
+      if (state.mode === 'monthly') {
+        state.challengeTimer = 120; // 2 minutes
+        startMonthlyChallengeTimer();
+        state.screen = 'game';
+        render();
+        startTimer(); // <-- ADD THIS LINE to start the clue timer!
+      } else {
+        state.screen = 'game';
+        render();
+        startTimer(); // <-- ADD THIS LINE to start the clue timer!
+      }
+    }
   }, 1000);
 }
 function submitGuess() {
