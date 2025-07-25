@@ -381,6 +381,8 @@ function renderLobby() {
   };
 }
 function renderChallengeInstructions() {
+  const savedName = localStorage.getItem("initially_player_name") || "";
+
   $app.innerHTML = `
     <div class="challenge-instructions-screen" style="
       background: url('ScreenBackground.png');
@@ -417,7 +419,7 @@ function renderChallengeInstructions() {
         box-shadow: 0 2px 12px #0002;
         max-width: 500px;
         width: 90vw;
-        margin-bottom: 28px;
+        margin-bottom: 18px;
         font-size: 1.15em;
         text-align: left;
       ">
@@ -432,6 +434,20 @@ function renderChallengeInstructions() {
         </ul>
         <div style="margin-top:10px; font-weight:bold;">Good luck and happy solving! 💡</div>
       </div>
+      <input id="monthlyPlayerName" type="text" class="lobby-input" placeholder="Your Name" value="${savedName}" style="
+        width: 100%;
+        max-width: 320px;
+        font-size: 1.15em;
+        margin-bottom: 14px;
+        display: block;
+        border-radius: 7px;
+        border: none;
+        background: #fff;
+        padding: 14px 10px;
+        box-shadow: 1px 2px 8px #0001;
+        outline: none;
+        text-transform: uppercase;
+      ">
       <button id="startMonthlyChallengeBtn" class="landing-btn" style="
         margin-bottom: 16px;
         width: 100%;
@@ -456,16 +472,40 @@ function renderChallengeInstructions() {
           .challenge-instructions-screen .landing-logo { width: 88vw !important; margin-top: 9vw !important; margin-bottom: 3vw !important; }
           .challenge-instructions-screen h2 { font-size: 1.4em !important; }
           .challenge-instructions-screen > div { font-size: 1em !important; padding: 16px 4vw !important; }
+          #monthlyPlayerName { font-size: 1em !important; padding: 11px 7px !important; max-width: 99vw !important; }
         }
       </style>
     </div>
   `;
+
+  // Listen for name input and save to localStorage as user types
+  const nameInput = document.getElementById('monthlyPlayerName');
+  nameInput.addEventListener('input', e => {
+    state.playerName = e.target.value;
+    localStorage.setItem("initially_player_name", state.playerName);
+    // Enable/disable button based on name presence
+    document.getElementById('startMonthlyChallengeBtn').disabled = !state.playerName.trim();
+  });
+  // Preload into state for autofill
+  state.playerName = savedName;
+
+  // Initially disable start button if name empty
+  document.getElementById('startMonthlyChallengeBtn').disabled = !savedName.trim();
+
   document.getElementById('returnLandingBtn').onclick = () => {
     state.screen = 'landing';
     render();
   };
- document.getElementById('startMonthlyChallengeBtn').onclick = () => {
-  startMonthlyChallenge();
+
+  document.getElementById('startMonthlyChallengeBtn').onclick = () => {
+    // Don't start if name is empty
+    if (!state.playerName || !state.playerName.trim()) {
+      alert("Please enter your name to start the challenge.");
+      return;
+    }
+    // Save info to Firebase and localStorage
+    savePlayerInfoToFirebase(state.playerName, state.playerId);
+    startMonthlyChallenge();
   };
 }
 function startMonthlyChallenge() {
