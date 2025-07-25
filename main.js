@@ -263,15 +263,20 @@ function render() {
     $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refre[...]`;
     return;
   }
-  if (state.screen === 'landing') renderLanding();
-  else if (state.screen === 'lobby') renderLobby();
-  else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
-  else if (state.screen === 'category') renderCategory();
-  else if (state.screen === 'countdown') renderCountdown();
-  else if (state.screen === 'game') renderGame();
-  else if (state.screen === 'scoreboard') renderScoreboard();
-  else if (state.screen === 'end') renderEnd();
-  else if (state.screen === 'challengeInstructions') renderChallengeInstructions(); // <-- Add this line
+ return;
+}
+if (state.screen === 'landing') renderLanding();
+else if (state.screen === 'lobby') renderLobby();
+else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
+else if (state.screen === 'category') renderCategory();
+else if (state.screen === 'countdown') renderCountdown();
+else if (state.screen === 'game') renderGame();
+else if (state.screen === 'scoreboard') {
+  if (state.mode === 'monthly') renderScoreboard();
+  else renderLocalScoreboard();
+}
+else if (state.screen === 'end') renderEnd();
+else if (state.screen === 'challengeInstructions') renderChallengeInstructions();
 }
 
 function renderLobby() {
@@ -993,6 +998,41 @@ function startSinglePlayerGame(category) {
   state.usedAnswers = [firstQuestion.answer];
   state.screen = 'countdown'; // <-- show countdown first
   render();
+}
+function renderLocalScoreboard() {
+  $app.innerHTML = `
+    <div class="scoreboard-screen" style="background:url('ScreenBackground.png');min-height:100vh;padding:40px;">
+      <h2 style="color:#ffd600; text-align:center;">Scoreboard</h2>
+      <div style="background:#fff;max-width:480px;margin:32px auto;padding:24px 12px;border-radius:12px;box-shadow:0 2px 12px #0002;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr style="background:#ffd600;color:#222;">
+              <th style="text-align:left;padding:8px 4px;">Name</th>
+              <th style="text-align:right;padding:8px 4px;">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${
+              state.scoreboard.length
+                ? state.scoreboard.map(item =>
+                    `<tr style="border-bottom:1px solid #eee;">
+                      <td style="padding:8px 4px;color:#000;">${item.name}</td>
+                      <td style="text-align:right;padding:8px 4px;color:#000;">${item.score}</td>
+                    </tr>`
+                  ).join('')
+                : `<tr><td colspan="2" style="text-align:center;color:#000;padding:16px;">No scores yet.</td></tr>`
+            }
+          </tbody>
+        </table>
+      </div>
+      <div style="width:100%; display:flex; justify-content:center; margin-top:24px;">
+        <button id="readyBtn" class="landing-btn" style="max-width:320px; width:100%;">Ready</button>
+      </div>
+    </div>
+  `;
+  // If multiplayer, use your markReady() function for the Ready button
+  const readyBtn = document.getElementById('readyBtn');
+  if (readyBtn) readyBtn.onclick = markReady;
 }
 // -----Countdown screen before game starts-----
 function renderCountdown() {
