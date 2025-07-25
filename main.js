@@ -1161,7 +1161,7 @@ function renderLocalScoreboard() {
                         <td style="padding:8px 4px;color:#000;">${i + 1}</td>
                         <td style="padding:8px 4px;color:#000;">
                           ${(player.name || '').toUpperCase()}${player.isLeader ? ' 👑' : ''} 
-                          ${player.ready ? '<span style="font-size:1.2em;color:#27ae60;vertical-align:middle;">✅</span>' : ''}
+                          ${(state.mode !== 'single' && player.ready) ? '<span style="font-size:1.2em;color:#27ae60;vertical-align:middle;">✅</span>' : ''}
                         </td>
                         <td style="text-align:right;padding:8px 4px;color:#000;">${player.score || 0}</td>
                       </tr>`
@@ -1179,16 +1179,16 @@ function renderLocalScoreboard() {
   `;
 
   // Ready button click handler
-const readyBtn = document.getElementById('readyBtn');
-if (readyBtn) {
-  readyBtn.onclick = () => {
-    if (state.mode === 'single') {
-      goToNextSinglePlayerClue();
-    } else {
-      update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true });
-    }
-  };
-}
+  const readyBtn = document.getElementById('readyBtn');
+  if (readyBtn) {
+    readyBtn.onclick = () => {
+      if (state.mode === 'single') {
+        goToNextSinglePlayerClue();
+      } else {
+        update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true });
+      }
+    };
+  }
 
   // Return to Home button click handler
   const returnBtn = document.getElementById('returnLandingBtn');
