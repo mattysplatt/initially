@@ -1207,7 +1207,7 @@ function revealNextClue() {
     endRound();
   }
 }
-function submitGuess() {
+function submitMonthlyGuess() {
   if (!state.guess) return;
   const guess = state.guess.trim();
   if (!guess) return;
