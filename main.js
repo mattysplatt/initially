@@ -1120,22 +1120,22 @@ function renderLocalScoreboard() {
         <table style="width:100%;border-collapse:collapse;">
           <thead>
             <tr style="background:#ffd600;color:#222;">
+              <th style="text-align:left;padding:8px 4px;">Place</th>
               <th style="text-align:left;padding:8px 4px;">Name</th>
               <th style="text-align:right;padding:8px 4px;">Score</th>
-              <th style="text-align:center;padding:8px 4px;">Ready</th>
             </tr>
           </thead>
           <tbody>
             ${
               state.players && state.players.length
                 ? state.players
-                    .map(player =>
+                    // Sort descending by score
+                    .slice().sort((a,b) => (b.score||0) - (a.score||0))
+                    .map((player, i) =>
                       `<tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:8px 4px;color:#000;">${i+1}</td>
                         <td style="padding:8px 4px;color:#000;">${player.name}${player.isLeader ? ' 👑' : ''}</td>
                         <td style="text-align:right;padding:8px 4px;color:#000;">${player.score || 0}</td>
-                        <td style="text-align:center;padding:8px 4px;">
-                          ${player.ready ? '<span style="font-size:1.5em;color:#27ae60;">✅</span>' : ''}
-                        </td>
                       </tr>`
                     ).join('')
                 : `<tr><td colspan="3" style="text-align:center;color:#000;padding:16px;">No players yet.</td></tr>`
@@ -1144,8 +1144,8 @@ function renderLocalScoreboard() {
         </table>
       </div>
       <div style="width:100%; display:flex; flex-direction:column; align-items:center; margin-top:24px;">
-        <button id="readyBtn" class="landing-btn" style="max-width:320px; width:100%; margin-bottom:14px;">Ready</button>
-        <button id="returnLandingBtn" class="landing-btn" style="max-width:320px; width:100%;">Return to Home</button>
+        <button id="readyBtn" class="landing-btn" style="margin-bottom:14px;">Ready</button>
+        <button id="returnLandingBtn" class="landing-btn">Return to Home</button>
       </div>
     </div>
   `;
