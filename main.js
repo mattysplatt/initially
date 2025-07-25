@@ -49,7 +49,8 @@ let state = {
   unsubGame: null,
   incorrectPrompt: false,
   lastQuestionInitials: '',
-  usedAnswers: []
+  usedAnswers: [],
+  correctPrompt: false
 };
 
 // Utility Functions
