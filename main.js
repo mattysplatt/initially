@@ -386,6 +386,21 @@ function renderLobby() {
     render();
   };
 }
+function getTimeToNextMonth() {
+  const now = new Date();
+  const year = now.getUTCFullYear();
+  const month = now.getUTCMonth();
+  // First day of next month at 00:00 UTC
+  const nextMonth = new Date(Date.UTC(year, month + 1, 1, 0, 0, 0, 0));
+  const diff = nextMonth - now;
+  if (diff <= 0) return {days:0, hours:0, minutes:0, seconds:0};
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+  return {days, hours, minutes, seconds};
+}
+
 let leaderboardUnsub = null;
 
 function listenLeaderboard(callback) {
@@ -702,7 +717,8 @@ function renderScoreboard() {
    listenLeaderboard(function(sortedScores) {
     $app.innerHTML = `
       <div class="scoreboard-screen" style="background:url('ScreenBackground.png');min-height:100vh;padding:40px;">
-        <h2 style="color:#ffd600; text-align:center;">Monthly Challenge Scoreboard</h2>
+       <h2 style="color:#ffd600; text-align:center;">Monthly Challenge Scoreboard</h2>
+<div id="resetCountdown" style="color:#111; text-align:center; font-size:1.1em; margin-bottom:10px;"></div>
         <div style="background:#fff;max-width:480px;margin:32px auto;padding:24px 12px;border-radius:12px;box-shadow:0 2px 12px #0002;">
           <table style="width:100%;border-collapse:collapse;">
             <thead>
