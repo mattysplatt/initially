@@ -195,31 +195,43 @@ function renderLanding() {
     </style>
   `;
 
-document.getElementById('playFreeBtn').onclick =
-  document.getElementById('playPurchasedBtn').onclick =
-  document.getElementById('purchaseBtn').onclick =
-  document.getElementById('monthlyBtn').onclick = () => {
-    state.mode = 'multi';
-    state.screen = 'lobby';
-    render();
-  };
+ddocument.getElementById('playFreeBtn').onclick = () => {
+  state.mode = 'multi';
+  state.screen = 'lobby';
+  render();
+};
+document.getElementById('playPurchasedBtn').onclick = () => {
+  state.mode = 'multi';
+  state.screen = 'lobby';
+  render();
+};
+document.getElementById('purchaseBtn').onclick = () => {
+  state.mode = 'multi';
+  state.screen = 'lobby';
+  render();
+};
+document.getElementById('monthlyBtn').onclick = () => {
+  state.screen = 'challengeInstructions';
+  render();
+};
 }
 
 // MAIN RENDER FUNCTION
 function render() {
   $app.innerHTML = '';
   if (!isAuthenticated) {
-    $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh.</span></div>`;
+    $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refre[...]`;
     return;
   }
   if (state.screen === 'landing') renderLanding();
   else if (state.screen === 'lobby') renderLobby();
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
   else if (state.screen === 'category') renderCategory();
-  else if (state.screen === 'countdown') renderCountdown(); // <-- Add this line
+  else if (state.screen === 'countdown') renderCountdown();
   else if (state.screen === 'game') renderGame();
   else if (state.screen === 'scoreboard') renderScoreboard();
   else if (state.screen === 'end') renderEnd();
+  else if (state.screen === 'challengeInstructions') renderChallengeInstructions(); // <-- Add this line
 }
 
 function renderLobby() {
@@ -334,6 +346,28 @@ function renderLobby() {
   document.getElementById('playerName').addEventListener('input', e => state.playerName = e.target.value);
   document.getElementById('createLobby').onclick = () => waitForAuthThen(createLobby);
   document.getElementById('joinLobby').onclick = () => waitForAuthThen(joinLobby);
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
+}
+function renderChallengeInstructions() {
+  $app.innerHTML = `
+    <div class="challenge-instructions-screen" style="background: url('ScreenBackground.png'); min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="landing-logo" draggable="false" />
+      <h2 style="color:#ffd600; margin-top:24px;">Monthly Challenge Instructions</h2>
+      <div style="background: #fff; color: #222; padding: 24px; border-radius: 12px; box-shadow: 0 2px 12px #0002; max-width: 500px; margin-top:18px; font-size:1.15em;">
+        <!-- Add your instructions here -->
+        <p>Welcome to the Monthly Challenge! Here’s how it works:</p>
+        <ul>
+          <li>Each month has a unique set of initials questions.</li>
+          <li>Compete with others and track your score!</li>
+          <li>Check back every month for new challenges.</li>
+        </ul>
+      </div>
+      <button id="returnLandingBtn" class="landing-btn" style="margin-top: 28px;">Return to Home</button>
+    </div>
+  `;
   document.getElementById('returnLandingBtn').onclick = () => {
     state.screen = 'landing';
     render();
