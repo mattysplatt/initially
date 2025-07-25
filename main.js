@@ -125,6 +125,7 @@ function renderLanding() {
         <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button>
         <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button>
         <button id="monthlyBtn" class="landing-btn">MONTHLY CHALLENGE</button>
+        <button id="monthlyLeaderboardBtn" class="landing-btn">MONTHLY LEADERBOARD</button>
       </div>
     </div>
     <style>
@@ -214,25 +215,29 @@ function renderLanding() {
     </style>
   `;
 
-document.getElementById('playFreeBtn').onclick = () => {
-  state.mode = 'multi';
-  state.screen = 'lobby';
-  render();
-};
-document.getElementById('playPurchasedBtn').onclick = () => {
-  state.mode = 'multi';
-  state.screen = 'lobby';
-  render();
-};
-document.getElementById('purchaseBtn').onclick = () => {
-  state.mode = 'multi';
-  state.screen = 'lobby';
-  render();
-};
-document.getElementById('monthlyBtn').onclick = () => {
-  state.screen = 'challengeInstructions';
-  render();
-};
+  document.getElementById('playFreeBtn').onclick = () => {
+    state.mode = 'multi';
+    state.screen = 'lobby';
+    render();
+  };
+  document.getElementById('playPurchasedBtn').onclick = () => {
+    state.mode = 'multi';
+    state.screen = 'lobby';
+    render();
+  };
+  document.getElementById('purchaseBtn').onclick = () => {
+    state.mode = 'multi';
+    state.screen = 'lobby';
+    render();
+  };
+  document.getElementById('monthlyBtn').onclick = () => {
+    state.screen = 'challengeInstructions';
+    render();
+  };
+  document.getElementById('monthlyLeaderboardBtn').onclick = () => {
+    state.screen = 'scoreboard';
+    render();
+  };
 }
 
 // MAIN RENDER FUNCTION
