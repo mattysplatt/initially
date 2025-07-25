@@ -940,7 +940,6 @@ function renderGame() {
 if (!isCorrect) {
   startTimer();
 }
-}
 
 function attachReturnToStartHandler() {
   const btn = document.getElementById('returnToStartBtn');
