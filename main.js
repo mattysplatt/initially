@@ -693,7 +693,7 @@ function renderScoreboard() {
                 ? sortedScores.map((item, idx) =>
                     `<tr style="border-bottom:1px solid #eee;">
                       <td style="padding:8px 4px;color:#000;">${idx + 1}${idx === 0 ? ' 🥇' : idx === 1 ? ' 🥈' : idx === 2 ? ' 🥉' : ''}</td>
-                      <td style="padding:8px 4px;color:#000;">${item.name}</td>
+                     <td style="padding:8px 4px;color:#000;">${item.name.toUpperCase()}</td>
                       <td style="text-align:right;padding:8px 4px;color:#000;">${item.score}</td>
                     </tr>`
                   ).join('')
