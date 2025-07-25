@@ -663,6 +663,20 @@ function renderLobbyCodeScreen() {
     render();
   };
 }
+function saveScoreToLeaderboard(playerId, name, score) {
+  const leaderboardRef = ref(db, 'leaderboard/' + playerId);
+  // First, get the existing score for this player
+  get(leaderboardRef).then(snapshot => {
+    if (!snapshot.exists() || snapshot.val().score < score) {
+      // Only write if new score is higher or no score yet
+      set(leaderboardRef, {
+        name,
+        score
+      });
+    }
+    // If score is lower, do nothing
+  });
+}
 function renderScoreboard() {
   // Deduplicate scoreboard by playerId, keeping the highest score for each
   const highestScoresById = {};
