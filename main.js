@@ -127,6 +127,7 @@ function renderLanding() {
         <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button>
         <button id="monthlyBtn" class="landing-btn">MONTHLY CHALLENGE</button>
         <button id="monthlyLeaderboardBtn" class="landing-btn">MONTHLY LEADERBOARD</button>
+        <button id="howToPlayBtn" class="landing-btn howtoplay-btn">How to Play</button>
       </div>
     </div>
     <style>
