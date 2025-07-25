@@ -1139,15 +1139,15 @@ function startTimer() {
   window.timerInterval = setInterval(() => {
     state.timer--;
     renderTimer();
-    if (state.timer <= 0) {
-      clearInterval(window.timerInterval);
+   if (state.timer <= 0) {
+  clearInterval(window.timerInterval);
 
-      if (state.mode === 'monthly') {
-        advanceMonthlyClue();
-      } else {
-        revealNextClue();
-      }
-    }
+  if (state.mode === 'monthly') {
+    advanceMonthlyClue();
+  } else {
+    revealNextClue();
+  }
+}
   }, 1000);
 }
 function renderTimer() {
