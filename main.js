@@ -659,9 +659,15 @@ function renderLobbyCodeScreen() {
   };
 }
 function renderScoreboard() {
-  // Sort scoreboard by score descending
-  const sortedScores = (state.scoreboard || [])
-    .slice() // copy array
+  // Deduplicate scoreboard by playerId, keeping the highest score for each
+  const highestScoresById = {};
+  (state.scoreboard || []).forEach(item => {
+    if (!highestScoresById[item.id] || item.score > highestScoresById[item.id].score) {
+      highestScoresById[item.id] = item;
+    }
+  });
+  // Sort by score descending
+  const sortedScores = Object.values(highestScoresById)
     .sort((a, b) => b.score - a.score);
 
   $app.innerHTML = `
@@ -679,14 +685,14 @@ function renderScoreboard() {
           <tbody>
             ${
               sortedScores.length
-               ? sortedScores.map((item, idx) =>
-    `<tr style="border-bottom:1px solid #eee;">
-      <td style="padding:8px 4px;color:#000;">${idx + 1}${idx === 0 ? ' 🥇' : idx === 1 ? ' 🥈' : idx === 2 ? ' 🥉' : ''}</td>
-      <td style="padding:8px 4px;color:#000;">${item.name}</td>
-      <td style="text-align:right;padding:8px 4px;color:#000;">${item.score}</td>
-    </tr>`
-  ).join('')
-                : `<tr><td colspan="3" style="text-align:center;color:#aaa;padding:16px;">No scores yet.</td></tr>`
+                ? sortedScores.map((item, idx) =>
+                    `<tr style="border-bottom:1px solid #eee;">
+                      <td style="padding:8px 4px;color:#000;">${idx + 1}${idx === 0 ? ' 🥇' : idx === 1 ? ' 🥈' : idx === 2 ? ' 🥉' : ''}</td>
+                      <td style="padding:8px 4px;color:#000;">${item.name}</td>
+                      <td style="text-align:right;padding:8px 4px;color:#000;">${item.score}</td>
+                    </tr>`
+                  ).join('')
+                : `<tr><td colspan="3" style="text-align:center;color:#000;padding:16px;">No scores yet.</td></tr>`
             }
           </tbody>
         </table>
