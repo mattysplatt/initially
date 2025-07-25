@@ -1392,7 +1392,7 @@ function submitMonthlyGuess() {
       state.question = nextQuestion;
       state.clues = shuffle(nextQuestion.clues);
       state.clueIdx = 0;
-      state.points += 10; // or your scoring logic
+     state.points = 60;
       state.guess = '';
       render();
       // Do not save to Firebase yet!
