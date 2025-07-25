@@ -1273,37 +1273,64 @@ function submitGuess() {
   if (!state.guess) return;
   const guess = state.guess.trim();
   if (!guess) return;
-  const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
+
+  // Normalize answers for comparison
+  const normalize = s => s.replace(/[\s.]/g, '').toLowerCase();
   const user = normalize(guess);
   const correct = normalize(state.question.answer);
+
+  // How close is the guess? (Levenshtein distance)
   if (levenshtein(user, correct) <= 3) {
+    // === MONTHLY CHALLENGE MODE ===
     if (state.mode === 'monthly') {
-      // Score points, move to next question
-      state.scoreboard = state.scoreboard || [];
-      state.scoreboard.push({ name: state.playerName || "YOU", score: (state.points || 0) });
-      state.challengeIdx++;
-      if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
-        const nextQuestion = state.challengeQuestions[state.challengeIdx];
-        state.question = nextQuestion;
-        state.clues = shuffle(nextQuestion.clues);
-        state.clueIdx = 0;
-        state.points = 60; 
-        state.guess = '';
-        render();
-      } else {
-        clearInterval(window.monthlyTimerInterval);
-        state.screen = 'scoreboard';
-        render();
-      }
-    } else {
-      // Normal game logic as before
+      state.totalPoints = (state.totalPoints || 0) + (state.points || 0);
+      state.correctPrompt = true;
+      render();
+      setTimeout(() => {
+        state.correctPrompt = false;
+        state.challengeIdx++;
+        if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
+          const nextQuestion = state.challengeQuestions[state.challengeIdx];
+          state.question = nextQuestion;
+          state.clues = shuffle(nextQuestion.clues);
+          state.clueIdx = 0;
+          state.points = 60;
+          state.guess = '';
+          render();
+        } else {
+          clearInterval(window.monthlyTimerInterval);
+          saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
+          state.screen = 'scoreboard';
+          render();
+        }
+      }, 1500); // Show "Correct" for 1.5 seconds
+
+    // === SINGLE PLAYER MODE ===
+    } else if (state.mode === 'single') {
+      state.totalPoints = (state.totalPoints || 0) + (state.points || 0);
+      state.correctPrompt = true;
+      render();
+      setTimeout(() => {
+        state.correctPrompt = false;
+        goToNextSinglePlayerClue();
+      }, 1500); // Show "Correct" for 1.5 seconds
+
+    // === MULTIPLAYER MODE ===
+    } else if (state.mode === 'multi') {
       update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
         [state.playerId]: { guess, correct: true, points: state.points }
       });
       state.guess = '';
       endRound();
+
+    } else {
+      // Fallback for any unexpected mode
+      state.guess = '';
+      render();
     }
+
   } else {
+    // INCORRECT GUESS (All Modes)
     state.guess = '';
     state.incorrectPrompt = true;
     render();
