@@ -1313,6 +1313,7 @@ function startTimer() {
         startTimer();
       } else {
         clearInterval(window.monthlyTimerInterval);
+         saveScoreToLeaderboard(state.playerId, state.playerName, state.points);
         state.screen = 'scoreboard';
         render();
       }
