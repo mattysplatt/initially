@@ -679,13 +679,13 @@ function renderScoreboard() {
           <tbody>
             ${
               sortedScores.length
-                ? sortedScores.map((item, idx) =>
-                    `<tr style="border-bottom:1px solid #eee;">
-                      <td style="padding:8px 4px;">${idx + 1}${idx === 0 ? ' 🥇' : idx === 1 ? ' 🥈' : idx === 2 ? ' 🥉' : ''}</td>
-                      <td style="padding:8px 4px;">${item.name}</td>
-                      <td style="text-align:right;padding:8px 4px;">${item.score}</td>
-                    </tr>`
-                  ).join('')
+               ? sortedScores.map((item, idx) =>
+    `<tr style="border-bottom:1px solid #eee;">
+      <td style="padding:8px 4px;color:#000;">${idx + 1}${idx === 0 ? ' 🥇' : idx === 1 ? ' 🥈' : idx === 2 ? ' 🥉' : ''}</td>
+      <td style="padding:8px 4px;color:#000;">${item.name}</td>
+      <td style="text-align:right;padding:8px 4px;color:#000;">${item.score}</td>
+    </tr>`
+  ).join('')
                 : `<tr><td colspan="3" style="text-align:center;color:#aaa;padding:16px;">No scores yet.</td></tr>`
             }
           </tbody>
