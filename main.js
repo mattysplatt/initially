@@ -524,6 +524,29 @@ function renderInstructions() {
   render();
 };
 }
+function goToNextSinglePlayerClue() {
+  if (state.round < state.maxRounds) {
+    state.round++;
+    const usedAnswers = state.usedAnswers || [];
+    const nextQuestion = getRandomUnusedQuestion(state.category, usedAnswers);
+    if (nextQuestion) {
+      state.question = nextQuestion;
+      state.clues = shuffle(nextQuestion.clues);
+      state.clueIdx = 0;
+      state.points = 60;
+      state.guess = '';
+      state.usedAnswers.push(nextQuestion.answer);
+      state.screen = 'game';
+      render();
+    } else {
+      state.screen = 'end';
+      render();
+    }
+  } else {
+    state.screen = 'end';
+    render();
+  }
+}
 function renderChallengeInstructions() {
   const savedName = localStorage.getItem("initially_player_name") || "";
 
