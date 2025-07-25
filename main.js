@@ -999,13 +999,14 @@ function submitGuess() {
 }
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
- const currentCategory = state.mode === 'monthly' && state.question && state.question.category
-  ? state.question.category
-  : state.category;
+  const currentCategory = state.mode === 'monthly' && state.question && state.question.category
+    ? state.question.category
+    : state.category;
 
-const displayCategory = currentCategory
-  ? currentCategory.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
-  : '';
+  const displayCategory = currentCategory
+    ? currentCategory.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
+    : '';
+
   // In monthly challenge mode, correct guesses are not tracked the same way
   const isCorrect = (state.mode === 'monthly') 
     ? false 
@@ -1035,12 +1036,17 @@ const displayCategory = currentCategory
               : `Round <b>${state.round}/${state.maxRounds}</b>`
           }
         </span>
+        ${
+          state.mode === 'monthly'
+            ? `<span style="font-size:1.6em; color:#ffd600; font-weight:700;">Total: <b>${state.totalPoints || 0}</b></span>`
+            : ''
+        }
       </div>
       <div class="clue-box" style="background: #fff; color: #18102c; font-size: 1.15em; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px; box-shadow: 0 2px 8px #0002;">
         ${clue ? clue : ''}
       </div>
+      ${state.correctPrompt ? `<div style="color:#27ae60; margin-bottom:14px; font-weight: bold;"><span>&#10003;</span> CORRECT!</div>` : ""}
       ${state.incorrectPrompt ? `<div style="color:#ff3333; margin-bottom:14px; font-weight: bold;"><span>&#10060;</span> Incorrect, try again!</div>` : ""}
-      ${isCorrect ? `<div style="color:#27ae60; margin-bottom:14px; font-weight: bold;"><span>&#10003;</span> Correct! Waiting for next round...</div>` : ""}
       <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''} style="
         width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 14px; border-radius: 9px; border: 2px solid #ffd600; margin-bottom: 12px; box-shadow: 0 2px 8px #0001;
         outline: none; text-align: center;" />
