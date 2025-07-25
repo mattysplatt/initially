@@ -53,6 +53,27 @@ let state = {
 };
 
 // Utility Functions
+function getDeviceId() {
+  let deviceId = localStorage.getItem("initially_device_id");
+  if (!deviceId) {
+    deviceId = "dev_" + Math.random().toString(36).slice(2) + Date.now();
+    localStorage.setItem("initially_device_id", deviceId);
+  }
+  return deviceId;
+}
+function savePlayerInfoToFirebase(name, playerId) {
+  const deviceId = getDeviceId();
+  // Save to localStorage for autofill
+  localStorage.setItem("initially_player_name", name);
+
+  // Save to Firebase under 'playersMeta'
+  set(ref(db, `playersMeta/${playerId}`), {
+    name,
+    playerId,
+    deviceId,
+    lastPlayed: Date.now()
+  });
+}
 function randomId() {
   return Math.random().toString(36).slice(2, 10);
 }
