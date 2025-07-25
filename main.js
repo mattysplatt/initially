@@ -1122,30 +1122,66 @@ function renderLocalScoreboard() {
             <tr style="background:#ffd600;color:#222;">
               <th style="text-align:left;padding:8px 4px;">Name</th>
               <th style="text-align:right;padding:8px 4px;">Score</th>
+              <th style="text-align:center;padding:8px 4px;">Ready</th>
             </tr>
           </thead>
           <tbody>
             ${
-              state.scoreboard.length
-                ? state.scoreboard.map(item =>
-                    `<tr style="border-bottom:1px solid #eee;">
-                      <td style="padding:8px 4px;color:#000;">${item.name}</td>
-                      <td style="text-align:right;padding:8px 4px;color:#000;">${item.score}</td>
-                    </tr>`
-                  ).join('')
-                : `<tr><td colspan="2" style="text-align:center;color:#000;padding:16px;">No scores yet.</td></tr>`
+              state.players && state.players.length
+                ? state.players
+                    .map(player =>
+                      `<tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:8px 4px;color:#000;">${player.name}${player.isLeader ? ' 👑' : ''}</td>
+                        <td style="text-align:right;padding:8px 4px;color:#000;">${player.score || 0}</td>
+                        <td style="text-align:center;padding:8px 4px;">
+                          ${player.ready ? '<span style="font-size:1.5em;color:#27ae60;">✅</span>' : ''}
+                        </td>
+                      </tr>`
+                    ).join('')
+                : `<tr><td colspan="3" style="text-align:center;color:#000;padding:16px;">No players yet.</td></tr>`
             }
           </tbody>
         </table>
       </div>
-      <div style="width:100%; display:flex; justify-content:center; margin-top:24px;">
-        <button id="readyBtn" class="landing-btn" style="max-width:320px; width:100%;">Ready</button>
+      <div style="width:100%; display:flex; flex-direction:column; align-items:center; margin-top:24px;">
+        <button id="readyBtn" class="landing-btn" style="max-width:320px; width:100%; margin-bottom:14px;">Ready</button>
+        <button id="returnLandingBtn" class="landing-btn" style="max-width:320px; width:100%;">Return to Home</button>
       </div>
     </div>
   `;
-  // If multiplayer, use your markReady() function for the Ready button
+
+  // Ready button click handler
   const readyBtn = document.getElementById('readyBtn');
-  if (readyBtn) readyBtn.onclick = markReady;
+  if (readyBtn) {
+    readyBtn.onclick = () => {
+      update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true });
+    };
+  }
+
+  // Return to Home button click handler
+  const returnBtn = document.getElementById('returnLandingBtn');
+  if (returnBtn) {
+    returnBtn.onclick = () => {
+      if (state.lobbyCode && state.playerId) {
+        remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+      }
+      if (state.unsubLobby) {
+        state.unsubLobby();
+        state.unsubLobby = null;
+      }
+      if (state.unsubGame) {
+        state.unsubGame();
+        state.unsubGame = null;
+      }
+      state.lobbyCode = '';
+      state.isLeader = false;
+      state.players = [];
+      state.status = '';
+      state.scoreboard = [];
+      state.screen = 'landing';
+      render();
+    };
+  }
 }
 // -----Countdown screen before game starts-----
 function renderCountdown() {
