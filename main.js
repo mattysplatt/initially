@@ -440,18 +440,24 @@ function renderChallengeInstructions() {
   };
 }
 function startMonthlyChallenge() {
-  // Gather all questions from all categories
-  const allQuestions = shuffle([].concat(
-    ...Object.values(INITIALS_DB)
-  ));
+  // Gather all questions from all categories and attach the category to each question
+  const allQuestions = [];
+  Object.entries(INITIALS_DB).forEach(([cat, questions]) => {
+    questions.forEach(q => {
+      allQuestions.push({ ...q, category: cat });
+    });
+  });
+
+  // Shuffle all questions
+  const shuffledQuestions = shuffle(allQuestions);
 
   // Pick first question
-  const firstQuestion = allQuestions[0];
+  const firstQuestion = shuffledQuestions[0];
 
   state.mode = 'monthly';
-  state.category = 'randomMix';
+  state.category = firstQuestion.category; // Use real category for display
   state.round = 1;
-  state.maxRounds = 999; // or set to whatever you want for monthly challenge
+  state.maxRounds = 999; // monthly challenge is endless until timer runs out
   state.question = firstQuestion;
   state.clues = shuffle(firstQuestion.clues);
   state.clueIdx = 0;
@@ -461,7 +467,7 @@ function startMonthlyChallenge() {
   state.scores = {};
   state.scoreboard = [];
   state.usedAnswers = [firstQuestion.answer];
-  state.challengeQuestions = allQuestions; // store all shuffled questions
+  state.challengeQuestions = shuffledQuestions; // store all shuffled questions with category
   state.challengeIdx = 0; // index for current question
   state.challengeTimer = 120; // 2 minutes in seconds
   state.screen = 'countdown';
