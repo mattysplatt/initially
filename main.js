@@ -553,10 +553,12 @@ function goToNextSinglePlayerClue() {
       state.clues = shuffle(nextQuestion.clues);
       state.clueIdx = 0;
       state.points = 60;
+      state.timer = 10;            // <--- Add this line!
       state.guess = '';
       state.usedAnswers.push(nextQuestion.answer);
       state.screen = 'game';
       render();
+      startTimer();                // <--- Add this line!
     } else {
       state.screen = 'end';
       render();
