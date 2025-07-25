@@ -1294,11 +1294,26 @@ function submitMonthlyGuess() {
   const user = normalize(guess);
   const correct = normalize(state.question.answer);
   if (levenshtein(user, correct) <= 3) {
-    update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
-      [state.playerId]: { guess, correct: true, points: state.points }
-    });
-    state.guess = '';
-    endRound();
+    // Record the current score
+    state.scoreboard = state.scoreboard || [];
+    state.scoreboard.push({ name: state.playerName || "YOU", score: (state.points || 0) });
+    // Advance to next question
+    state.challengeIdx++;
+    if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
+      const nextQuestion = state.challengeQuestions[state.challengeIdx];
+      state.question = nextQuestion;
+      state.clues = shuffle(nextQuestion.clues);
+      state.clueIdx = 0;
+      state.points = 60;
+      state.guess = '';
+      render();
+      // DO NOT CLEAR MONTHLY TIMER!
+    } else {
+      // Time's up or no more questions
+      clearInterval(window.monthlyTimerInterval);
+      state.screen = 'scoreboard';
+      render();
+    }
   } else {
     state.guess = '';
     state.incorrectPrompt = true;
