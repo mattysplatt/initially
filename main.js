@@ -839,9 +839,13 @@ function submitGuess() {
 }
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
-  const displayCategory = state.category
-    ? state.category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
-    : '';
+ const currentCategory = state.mode === 'monthly' && state.question && state.question.category
+  ? state.question.category
+  : state.category;
+
+const displayCategory = currentCategory
+  ? currentCategory.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
+  : '';
   // In monthly challenge mode, correct guesses are not tracked the same way
   const isCorrect = (state.mode === 'monthly') 
     ? false 
