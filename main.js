@@ -1148,7 +1148,7 @@ function startSinglePlayerGame(category) {
   state.singleQuestions = allQuestions;
   state.singleIdx = 0;
   state.totalPoints = 0;
-  state.timer = 10; // 10 seconds per clue
+  state.timer = 10;
   state.screen = 'countdown';
   render();
 }
