@@ -865,9 +865,10 @@ function renderGame() {
       <div class="round-score-row" style="display:flex; gap:36px; justify-content:center; margin-bottom:28px;">
         <span style="font-size:1.6em; color:#ffd600; font-weight:700;">Points: <b>${state.points}</b></span>
         <span style="font-size:1.6em; color:#fff; font-weight:700;">
-          ${state.mode === 'monthly' ? 
-            `Clue <b>${state.challengeIdx + 1}</b>` : 
-            `Round <b>${state.round}/${state.maxRounds}</b>`
+          ${
+            state.mode === 'monthly'
+              ? `Time Left: <span id="monthlyTimer">${state.challengeTimer}s</span>`
+              : `Round <b>${state.round}/${state.maxRounds}</b>`
           }
         </span>
       </div>
