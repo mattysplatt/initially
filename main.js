@@ -385,6 +385,23 @@ function renderLobby() {
     render();
   };
 }
+function fetchLeaderboard(callback) {
+  const leaderboardRef = ref(db, 'leaderboard');
+  get(leaderboardRef).then(snapshot => {
+    if (snapshot.exists()) {
+      const scoresObj = snapshot.val();
+      // Convert to array and sort
+      const scoresArray = Object.entries(scoresObj).map(([id, data]) => ({
+        id,
+        name: data.name,
+        score: data.score
+      })).sort((a, b) => b.score - a.score);
+      callback(scoresArray);
+    } else {
+      callback([]);
+    }
+  });
+}
 function renderChallengeInstructions() {
   const savedName = localStorage.getItem("initially_player_name") || "";
 
