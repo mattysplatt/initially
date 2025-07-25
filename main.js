@@ -1376,34 +1376,41 @@ function submitMonthlyGuess() {
   if (!state.guess) return;
   const guess = state.guess.trim();
   if (!guess) return;
-  const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
+  const normalize = s => s.replace(/[\s.]/g, '').toLowerCase();
   const user = normalize(guess);
   const correct = normalize(state.question.answer);
+
   if (levenshtein(user, correct) <= 3) {
-    // Advance to next question and update score
-    state.points = state.points || 0; // Ensure points is a number
-    state.scoreboard = state.scoreboard || [];
-    state.scoreboard.push({ name: state.playerName || "YOU", score: state.points });
+    // Correct answer
+    state.totalPoints = (state.totalPoints || 0) + (state.points || 0);
+
+    // Show 'CORRECT' prompt for 3 seconds
+    state.correctPrompt = true;
+    render();
+    setTimeout(() => {
+      state.correctPrompt = false;
+      render();
+    }, 3000);
 
     state.challengeIdx++;
     if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
-      // Next question
+      // Next question setup
       const nextQuestion = state.challengeQuestions[state.challengeIdx];
       state.question = nextQuestion;
       state.clues = shuffle(nextQuestion.clues);
       state.clueIdx = 0;
-     state.points = 60;
+      state.points = 60; // Reset points for new question
       state.guess = '';
       render();
-      // Do not save to Firebase yet!
     } else {
-      // Challenge is over: save final score to Firebase and show scoreboard
+      // End of challenge
       clearInterval(window.monthlyTimerInterval);
-      saveScoreToLeaderboard(state.playerId, state.playerName, state.points);
+      saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
       state.screen = 'scoreboard';
       render();
     }
   } else {
+    // Incorrect answer
     state.guess = '';
     state.incorrectPrompt = true;
     render();
