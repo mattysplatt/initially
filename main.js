@@ -250,6 +250,10 @@ function renderLanding() {
     state.screen = 'scoreboard';
     render();
   };
+  document.getElementById('howToPlayBtn').onclick = function() {
+  state.screen = 'instructions';
+  render();
+};
 }
 
 // MAIN RENDER FUNCTION
@@ -444,6 +448,36 @@ function listenLeaderboard(callback) {
       callback([]);
     }
   });
+}
+function renderInstructions() {
+  $app.innerHTML = `
+    <div class="instructions-screen">
+      <div class="title">How To Play</div>
+      <div class="instructions-box" contenteditable="false" style="padding:20px; background:#fff; color:#222; border-radius:12px; margin:20px 0; min-height:120px;">
+        <!-- Insert your game instructions here! -->
+      </div>
+      <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
+    </div>
+    <style>
+      .instructions-screen .title {
+        font-size: 2.2em;
+        font-weight: bold;
+        color: #ffd600;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .instructions-box {
+        max-width: 500px;
+        margin: 0 auto 20px auto;
+        font-size: 1.15em;
+        line-height: 1.6em;
+      }
+    </style>
+  `;
+  document.getElementById('returnLandingBtn').onclick = function() {
+    state.screen = 'landing';
+    render();
+  };
 }
 function renderChallengeInstructions() {
   const savedName = localStorage.getItem("initially_player_name") || "";
