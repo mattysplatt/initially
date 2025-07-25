@@ -864,12 +864,14 @@ function renderGame() {
       </div>
       <div class="round-score-row" style="display:flex; gap:36px; justify-content:center; margin-bottom:28px;">
         <span style="font-size:1.6em; color:#ffd600; font-weight:700;">Points: <b>${state.points}</b></span>
-        <span style="font-size:1.6em; color:#fff; font-weight:700;">
-          ${state.mode === 'monthly' ? 
-            `Clue <b>${state.challengeIdx + 1}</b>` : 
-            `Round <b>${state.round}/${state.maxRounds}</b>`
-          }
-        </span>
+        ${state.mode === 'monthly' ? 
+          `<div class="timer-box" style="background: #ff4444; color: #fff; font-size: 2em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0003; border: 3px solid #fff;">
+            <span id="monthlyTimer">${state.challengeTimer}s</span>
+          </div>` :
+          `<span style="font-size:1.6em; color:#fff; font-weight:700;">
+            Round <b>${state.round}/${state.maxRounds}</b>
+          </span>`
+        }
       </div>
       <div class="clue-box" style="background: #fff; color: #18102c; font-size: 1.15em; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px; box-shadow: 0 2px 8px #0002;">
         ${clue ? clue : ''}
