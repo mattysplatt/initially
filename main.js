@@ -1140,7 +1140,12 @@ function startTimer() {
     renderTimer();
     if (state.timer <= 0) {
       clearInterval(window.timerInterval);
-      revealNextClue();
+
+      if (state.mode === 'monthly') {
+        advanceMonthlyClue();
+      } else {
+        revealNextClue();
+      }
     }
   }, 1000);
 }
