@@ -928,17 +928,21 @@ function renderGame() {
   };
 }
 
-  if (state.players.length > 0) {
-    document.getElementById('readyBtn').onclick = markReady;
+if (state.players.length > 0) {
+  const readyBtn = document.getElementById('readyBtn');
+  if (readyBtn) {
+    readyBtn.onclick = markReady;
   }
-  attachReturnToStartHandler();
-  document.getElementById('returnLandingBtn').onclick = () => {
+}
+
+attachReturnToStartHandler();
+
+const returnLandingBtn = document.getElementById('returnLandingBtn');
+if (returnLandingBtn) {
+  returnLandingBtn.onclick = () => {
     state.screen = 'landing';
     render();
   };
-  // Only start the clue timer if the game is active and user hasn't guessed correctly
-if (!isCorrect) {
-  startTimer();
 }
 
 function attachReturnToStartHandler() {
