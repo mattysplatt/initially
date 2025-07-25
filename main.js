@@ -1499,14 +1499,20 @@ function attachReturnToStartHandler() {
 }
 
 function renderEnd() {
-  $app.innerHTML = `
+  let content = `
     <div class="screen">
       <h2>Game Over</h2>
-      <div class="scoreboard">
-        ${state.scoreboard.map(item =>
-          `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
-        ).join('')}
-      </div>
+      ${
+        state.mode === 'single'
+          ? `<div style="font-size:1.4em; color:#ffd600; margin-bottom:20px;">
+               You scored <b>${state.totalPoints || 0}</b>
+             </div>`
+          : `<div class="scoreboard">
+               ${state.scoreboard.map(item =>
+                 `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
+               ).join('')}
+             </div>`
+      }
       <button id="restartBtn">Play Again</button>
       <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
         Return to Start
@@ -1514,31 +1520,34 @@ function renderEnd() {
       <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
     </div>
   `;
+
+  $app.innerHTML = content;
+
   document.getElementById('restartBtn').onclick = () => window.location.reload();
   attachReturnToStartHandler();
   document.getElementById('returnLandingBtn').onclick = () => {
-  // Remove player from lobby in Firebase
-  if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-  }
-  // Unsubscribe listeners
-  if (state.unsubLobby) {
-    state.unsubLobby();
-    state.unsubLobby = null;
-  }
-  if (state.unsubGame) {
-    state.unsubGame();
-    state.unsubGame = null;
-  }
-  // Reset relevant state
-  state.lobbyCode = '';
-  state.isLeader = false;
-  state.players = [];
-  state.status = '';
-  state.scoreboard = [];
-  state.screen = 'landing';
-  render();
-};
+    // Remove player from lobby in Firebase
+    if (state.lobbyCode && state.playerId) {
+      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+    }
+    // Unsubscribe listeners
+    if (state.unsubLobby) {
+      state.unsubLobby();
+      state.unsubLobby = null;
+    }
+    if (state.unsubGame) {
+      state.unsubGame();
+      state.unsubGame = null;
+    }
+    // Reset relevant state
+    state.lobbyCode = '';
+    state.isLeader = false;
+    state.players = [];
+    state.status = '';
+    state.scoreboard = [];
+    state.screen = 'landing';
+    render();
+  };
 }
 
 // --- Game Logic + Firebase Sync ---
