@@ -195,7 +195,7 @@ function renderLanding() {
     </style>
   `;
 
-ddocument.getElementById('playFreeBtn').onclick = () => {
+document.getElementById('playFreeBtn').onclick = () => {
   state.mode = 'multi';
   state.screen = 'lobby';
   render();
