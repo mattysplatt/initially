@@ -24,7 +24,7 @@ let isAuthenticated = false;
 // App State
 let state = {
   screen: 'landing', // <-- Default to landing page!
-  mode: '', // 'single' or 'multi'
+  mode: '', // 'single', 'multi', or 'monthly'
   playerName: '',
   playerId: '',
   lobbyCode: '',
@@ -49,7 +49,12 @@ let state = {
   unsubGame: null,
   incorrectPrompt: false,
   lastQuestionInitials: '',
-  usedAnswers: []
+  usedAnswers: [],
+  // Monthly Challenge specific
+  challengeTimer: 120,
+  challengeQuestions: [],
+  challengeIdx: 0,
+  totalScore: 0
 };
 
 // Utility Functions
@@ -451,7 +456,7 @@ function startMonthlyChallenge() {
   state.mode = 'monthly';
   state.category = 'randomMix';
   state.round = 1;
-  state.maxRounds = 999; // or set to whatever you want for monthly challenge
+  state.maxRounds = 999; // unlimited rounds for monthly challenge
   state.question = firstQuestion;
   state.clues = shuffle(firstQuestion.clues);
   state.clueIdx = 0;
@@ -464,7 +469,32 @@ function startMonthlyChallenge() {
   state.challengeQuestions = allQuestions; // store all shuffled questions
   state.challengeIdx = 0; // index for current question
   state.challengeTimer = 120; // 2 minutes in seconds
+  state.totalScore = 0; // track total score across all questions
   state.screen = 'countdown';
+  render();
+}
+
+function startMonthlyChallengeTimer() {
+  clearInterval(window.monthlyTimerInterval);
+  window.monthlyTimerInterval = setInterval(() => {
+    state.challengeTimer--;
+    renderMonthlyChallengeTimer();
+    if (state.challengeTimer <= 0) {
+      clearInterval(window.monthlyTimerInterval);
+      clearInterval(window.timerInterval);
+      endMonthlyChallenge();
+    }
+  }, 1000);
+}
+
+function renderMonthlyChallengeTimer() {
+  const el = document.getElementById('monthlyTimer');
+  if (el) el.textContent = state.challengeTimer + 's';
+}
+
+function endMonthlyChallenge() {
+  state.scoreboard = [{ name: state.playerName || "YOU", score: state.totalScore }];
+  state.screen = 'scoreboard';
   render();
 }
 function renderLobbyCodeScreen() {
@@ -629,7 +659,7 @@ function renderCategory() {
   ? `<div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
       <span id="monthlyTimer">${state.challengeTimer}s</span>
     </div>`
-  : /* normal timer box */}
+  : ''}
     </div>
     <style>
       .cat-page-wrapper {
@@ -769,18 +799,18 @@ function renderCountdown() {
   const interval = setInterval(() => {
     countdown--;
     if (countdownEl) countdownEl.textContent = countdown;
-   if (countdown === 0) {
-  clearInterval(interval);
-  if (state.mode === 'monthly') {
-    state.challengeTimer = 120; // 2 minutes
-    startMonthlyChallengeTimer();
-    state.screen = 'game';
-    render();
-  } else {
-    state.screen = 'game';
-    render();
-  }
-}
+    if (countdown === 0) {
+      clearInterval(interval);
+      if (state.mode === 'monthly') {
+        state.challengeTimer = 120; // 2 minutes
+        startMonthlyChallengeTimer();
+        state.screen = 'game';
+        render();
+      } else {
+        state.screen = 'game';
+        render();
+      }
+    }
   }, 1000);
 }
 function submitGuess() {
@@ -790,27 +820,33 @@ function submitGuess() {
   const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
   const user = normalize(guess);
   const correct = normalize(state.question.answer);
+  
   if (levenshtein(user, correct) <= 3) {
     if (state.mode === 'monthly') {
-      // Score points, move to next question
-      state.scoreboard = state.scoreboard || [];
-      state.scoreboard.push({ name: state.playerName || "YOU", score: (state.points || 0) });
+      // Monthly Challenge: Score points and move to next question
+      state.totalScore += state.points;
       state.challengeIdx++;
+      
       if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
+        // Get next question
         const nextQuestion = state.challengeQuestions[state.challengeIdx];
         state.question = nextQuestion;
         state.clues = shuffle(nextQuestion.clues);
         state.clueIdx = 0;
-        state.points += 10; // or however you want to score
+        state.points = 60; // Reset points for new question
         state.guess = '';
+        state.round++;
         render();
+        // Start timer for new question
+        startTimer();
       } else {
+        // No more questions or time up
         clearInterval(window.monthlyTimerInterval);
-        state.screen = 'scoreboard';
-        render();
+        clearInterval(window.timerInterval);
+        endMonthlyChallenge();
       }
     } else {
-      // Normal game logic as before
+      // Normal multiplayer game logic
       update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
         [state.playerId]: { guess, correct: true, points: state.points }
       });
@@ -838,20 +874,23 @@ function renderGame() {
     <div class="game-screen" style="background: url('ScreenBackground.png'); min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
       <div style="width:100%; text-align:center; margin-top:38px;">
         <div class="category" style="font-size:2em; font-weight:700; color:#ffd600; margin-bottom:18px; letter-spacing:1.5px;">
-          ${displayCategory}
+          ${state.mode === 'monthly' ? 'Monthly Challenge' : displayCategory}
         </div>
       </div>
       <div style="display:flex; align-items:center; justify-content:center; gap:32px; margin-bottom: 22px;">
         <div class="initials-box" style="background: #fff; color: #18102c; font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
           ${state.question ? state.question.initials : ''}
         </div>
-       <div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
-      <span id="timer">${state.timer}s</span>
-      </div>
+        <div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
+          <span id="timer">${state.timer}s</span>
+        </div>
       </div>
       <div class="round-score-row" style="display:flex; gap:36px; justify-content:center; margin-bottom:28px;">
         <span style="font-size:1.6em; color:#ffd600; font-weight:700;">Points: <b>${state.points}</b></span>
-        <span style="font-size:1.6em; color:#fff; font-weight:700;">Round <b>${state.round}/${state.maxRounds}</b></span>
+        ${state.mode === 'monthly' 
+          ? `<span style="font-size:1.6em; color:#fff; font-weight:700;">Total Score: <b>${state.totalScore}</b></span>`
+          : `<span style="font-size:1.6em; color:#fff; font-weight:700;">Round <b>${state.round}/${state.maxRounds}</b></span>`
+        }
       </div>
       <div class="clue-box" style="background: #fff; color: #18102c; font-size: 1.15em; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px; box-shadow: 0 2px 8px #0002;">
         ${clue ? clue : ''}
@@ -861,6 +900,11 @@ function renderGame() {
       <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''} style="
         width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 14px; border-radius: 9px; border: 2px solid #ffd600; margin-bottom: 12px; box-shadow: 0 2px 8px #0001;
         outline: none; text-align: center;" />
+      ${state.mode === 'monthly' ? `
+        <div class="challenge-timer" style="background: #ff4444; color: white; font-size: 1.8em; font-weight: bold; border-radius: 10px; padding: 12px 24px; margin-bottom: 12px; box-shadow: 0 2px 8px #0002;">
+          Challenge Timer: <span id="monthlyTimer">${state.challengeTimer}s</span>
+        </div>
+      ` : ''}
       <button id="submitGuess" ${isCorrect ? 'disabled' : ''} style="
         width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 0; border-radius: 9px; border: none; background: #ffd600; color: url('ScreenBackground.png'); font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px #0002; margin-bottom: 12px;">Submit Guess</button>
       <button id="returnLandingBtn" style="margin-top: 18px; background: #fff; color: url('ScreenBackground.png'); border-radius: 9px; border: none; font-size: 1em; font-weight: bold; padding: 12px 0; width: 90vw; max-width: 340px;">Return to Home</button>
@@ -873,6 +917,7 @@ function renderGame() {
         .round-score-row span { font-size:1em !important; }
         .clue-box { font-size: 1em !important; padding: 10px 8vw !important; }
         #guessInput, #submitGuess, #returnLandingBtn { font-size: 1em !important; padding: 11px 0 !important; }
+        .challenge-timer { font-size: 1.2em !important; padding: 8px 16px !important; }
       }
     </style>
   `;
@@ -889,9 +934,18 @@ function renderGame() {
     submitBtn.onclick = submitGuess;
   }
   document.getElementById('returnLandingBtn').onclick = () => {
+    if (state.mode === 'monthly') {
+      clearInterval(window.monthlyTimerInterval);
+      clearInterval(window.timerInterval);
+    }
     state.screen = 'landing';
     render();
   };
+
+  // Start clue timer if it's not running and we're in game mode
+  if (state.mode === 'monthly' && !window.timerInterval) {
+    startTimer();
+  }
 }
 
 function renderScoreboard() {
@@ -900,7 +954,7 @@ function renderScoreboard() {
     .sort((a, b) => b.score - a.score);
 
   let correctGuessers = [];
-  if (state.players.length >= 2 && state.guesses) {
+  if (state.mode !== 'monthly' && state.players.length >= 2 && state.guesses) {
     correctGuessers = state.players
       .filter(p => state.guesses[p.id]?.correct)
       .map(p => p.name.toUpperCase());
@@ -917,10 +971,17 @@ function renderScoreboard() {
   align-items: center;
   padding-bottom: 32px;
 ">
-      <h2 style="color:#ffd600; font-size:2.2em; margin-top:38px; margin-bottom:4px;">Scoreboard</h2>
-      <div style="color:#fff; font-size:1.25em; margin-bottom:18px;">Round ${state.round - 1} Complete</div>
+      <h2 style="color:#ffd600; font-size:2.2em; margin-top:38px; margin-bottom:4px;">
+        ${state.mode === 'monthly' ? 'Monthly Challenge Complete!' : 'Scoreboard'}
+      </h2>
+      <div style="color:#fff; font-size:1.25em; margin-bottom:18px;">
+        ${state.mode === 'monthly' 
+          ? `Final Score: ${state.totalScore} points`
+          : `Round ${state.round - 1} Complete`
+        }
+      </div>
       ${
-        (correctGuessers.length > 0)
+        (correctGuessers.length > 0 && state.mode !== 'monthly')
         ? `<div style="color: #27ae60; margin: 8px 0 18px 0; font-size: 1.25em;">
             ${correctGuessers.join(', ')} guessed correctly!
            </div>`
@@ -942,7 +1003,7 @@ function renderScoreboard() {
               const placeIcon = pos === 1
                 ? `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="#ffd600" style="vertical-align:middle;"><path d="M12 2a1 1 0 0 0-1 1v2H6V5a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v3c0 3.53 2.61 6.43 6 6.92V17H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2h-2v-2.08c3.39-.49 6-3.39 6-6.92V5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v1h-5V3a1 1 0 0 0-1-1zm-8 3h1v3c0 2.76 2.24 5 5 5h8c2.76 0 5-2.24 5-5V5h1v3c0 4.41-3.59 8-8 8s-8-3.59-8-8V5z"/></svg>`
                 : `<span style="font-size:1.25em; color:url('ScreenBackground.png');">${pos}</span>`;
-              const playerObj = state.players.find(p => p.name.toUpperCase() === item.name);
+              const playerObj = state.mode !== 'monthly' ? state.players.find(p => p.name.toUpperCase() === item.name) : null;
               const tick = playerObj && playerObj.ready ? ' <span style="color:#27ae60;font-weight:bold;">&#10003;</span>' : '';
               return `
                 <tr style="border-bottom:1px solid #ffd600;">
@@ -955,15 +1016,17 @@ function renderScoreboard() {
           </tbody>
         </table>
       </div>
-      <div style="margin:12px 0; color:#fff; font-size:1.1em;">Correct answer: <b style="color:#ffd600;">${state.question && state.question.answer ? state.question.answer : ''}</b></div>
-      ${
-        state.players.length === 0
-        ? '<div style="color:red;">No players found in lobby. Please reload or rejoin.</div>'
-        : `<button id="readyBtn" ${state.players.find(p=>p.id===state.playerId)?.ready ? 'disabled' : ''} style="background:#ffd600; color:url('ScreenBackground.png'); font-weight:bold; font-size:1.1em; padding:12px 24px; border:none; border-radius:9px; margin-top:8px; margin-bottom:8px;">Ready for Next Round</button>`
-      }
-      <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:9px; cursor:pointer; margin-top:16px;">
-        Return to Start
-      </button>
+      ${state.mode === 'monthly' ? '' : `
+        <div style="margin:12px 0; color:#fff; font-size:1.1em;">Correct answer: <b style="color:#ffd600;">${state.question && state.question.answer ? state.question.answer : ''}</b></div>
+        ${
+          state.players.length === 0
+          ? '<div style="color:red;">No players found in lobby. Please reload or rejoin.</div>'
+          : `<button id="readyBtn" ${state.players.find(p=>p.id===state.playerId)?.ready ? 'disabled' : ''} style="background:#ffd600; color:url('ScreenBackground.png'); font-weight:bold; font-size:1.1em; padding:12px 24px; border:none; border-radius:9px; margin-top:8px; margin-bottom:8px;">Ready for Next Round</button>`
+        }
+        <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:9px; cursor:pointer; margin-top:16px;">
+          Return to Start
+        </button>
+      `}
       <button id="returnLandingBtn" style="margin-top:24px; background:#fff; color:url('ScreenBackground.png'); border-radius:9px; border:none; font-size:1.1em; font-weight:bold; padding:12px 0; width:90vw; max-width:340px;">Return to Home</button>
       <style>
         @media (max-width:600px) {
@@ -974,11 +1037,16 @@ function renderScoreboard() {
     </div>
   `;
 
-  if (state.players.length > 0) {
+  if (state.mode !== 'monthly' && state.players.length > 0) {
     document.getElementById('readyBtn').onclick = markReady;
+    attachReturnToStartHandler();
   }
-  attachReturnToStartHandler();
+  
   document.getElementById('returnLandingBtn').onclick = () => {
+    if (state.mode === 'monthly') {
+      clearInterval(window.monthlyTimerInterval);
+      clearInterval(window.timerInterval);
+    }
     state.screen = 'landing';
     render();
   };
@@ -1173,15 +1241,48 @@ function chooseCategory(category) {
 }
 function startTimer() {
   clearInterval(window.timerInterval);
-  state.timer = 10; renderTimer();
+  state.timer = 10; 
+  renderTimer();
   window.timerInterval = setInterval(() => {
     state.timer--;
     renderTimer();
     if (state.timer <= 0) {
       clearInterval(window.timerInterval);
-      revealNextClue();
+      if (state.mode === 'monthly') {
+        // In monthly challenge, just reveal next clue or move to next question
+        revealNextClueMonthly();
+      } else {
+        revealNextClue();
+      }
     }
   }, 1000);
+}
+
+function revealNextClueMonthly() {
+  if (state.clueIdx < 4) {
+    state.clueIdx++;
+    state.points -= 10;
+    render();
+    startTimer();
+  } else {
+    // No more clues, move to next question automatically
+    state.challengeIdx++;
+    if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
+      const nextQuestion = state.challengeQuestions[state.challengeIdx];
+      state.question = nextQuestion;
+      state.clues = shuffle(nextQuestion.clues);
+      state.clueIdx = 0;
+      state.points = 60;
+      state.guess = '';
+      state.round++;
+      render();
+      startTimer();
+    } else {
+      clearInterval(window.monthlyTimerInterval);
+      clearInterval(window.timerInterval);
+      endMonthlyChallenge();
+    }
+  }
 }
 function renderTimer() {
   const el = document.getElementById('timer');
@@ -1197,29 +1298,6 @@ function revealNextClue() {
     startTimer();
   } else {
     endRound();
-  }
-}
-function submitGuess() {
-  if (!state.guess) return;
-  const guess = state.guess.trim();
-  if (!guess) return;
-  const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
-  const user = normalize(guess);
-  const correct = normalize(state.question.answer);
-  if (levenshtein(user, correct) <= 3) {
-    update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
-      [state.playerId]: { guess, correct: true, points: state.points }
-    });
-    state.guess = '';
-    endRound();
-  } else {
-    state.guess = '';
-    state.incorrectPrompt = true;
-    render();
-    setTimeout(() => {
-      state.incorrectPrompt = false;
-      render();
-    }, 2000);
   }
 }
 function endRound() {
