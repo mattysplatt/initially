@@ -256,13 +256,15 @@ function render() {
 }
 
 function renderLobby() {
+  // Autofill player name from previous sessions
+  const savedName = localStorage.getItem("initially_player_name") || "";
   $app.innerHTML = `
     <div class="lobby-screen">
       <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
       <div class="lobby-form">
-      <input id="playerName" type="text" class="lobby-input" placeholder="Your Name">
-<input id="lobbyCode" type="text" class="lobby-input" placeholder="Lobby Code (to join)">
-<button id="createLobby" class="landing-btn">Create New Lobby</button>
+        <input id="playerName" type="text" class="lobby-input" placeholder="Your Name" value="${savedName}">
+        <input id="lobbyCode" type="text" class="lobby-input" placeholder="Lobby Code (to join)">
+        <button id="createLobby" class="landing-btn">Create New Lobby</button>
         <button id="joinLobby" class="landing-btn">Join Lobby</button>
         <div id="lobbyStatus" style="margin:10px 0;color:#ffd600;min-height:24px;">${state.status || ''}</div>
         <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
@@ -298,7 +300,7 @@ function renderLobby() {
       }
       .lobby-input {
         width: 100%;
-         min-width: 175px;
+        min-width: 175px;
         max-width: 320px;
         padding: 14px 10px;
         font-size: 1.08em;
@@ -308,13 +310,11 @@ function renderLobby() {
         background: #fff;
         box-shadow: 1px 2px 8px #0001;
         outline: none;
+        text-transform: uppercase;
       }
       .lobby-input:focus {
         border: 2px solid #ffd600;
       }
-      .lobby-input {
-  text-transform: uppercase;
-}
       .landing-btn {
         width: 100%;
         min-width: 175px;
@@ -364,7 +364,17 @@ function renderLobby() {
       }
     </style>
   `;
-  document.getElementById('playerName').addEventListener('input', e => state.playerName = e.target.value);
+
+  // Event listeners
+  const playerNameInput = document.getElementById('playerName');
+  playerNameInput.addEventListener('input', e => {
+    state.playerName = e.target.value;
+    // Save to localStorage each time it changes
+    localStorage.setItem("initially_player_name", state.playerName);
+  });
+  // Also preload into state for autofill
+  state.playerName = savedName;
+
   document.getElementById('createLobby').onclick = () => waitForAuthThen(createLobby);
   document.getElementById('joinLobby').onclick = () => waitForAuthThen(joinLobby);
   document.getElementById('returnLandingBtn').onclick = () => {
