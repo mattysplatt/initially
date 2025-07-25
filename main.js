@@ -291,7 +291,7 @@ function renderLobby() {
         <input id="playerName" type="text" class="lobby-input" placeholder="Your Name" value="${savedName}">
        <div style="color:#ffd600; font-size:0.95em; margin-bottom:8px;">Choose carefully as this will be your username from now on!</div>
         <input id="lobbyCode" type="text" class="lobby-input" placeholder="Lobby Code (to join)">
-        <button id="single-player-btn">Single Player</button>
+       <button id="singlePlayerBtn" class="landing-btn">Single Player</button>
         <button id="createLobby" class="landing-btn">Create New Lobby</button>
         <button id="joinLobby" class="landing-btn">Join Lobby</button>
         <div id="lobbyStatus" style="margin:10px 0;color:#ffd600;min-height:24px;">${state.status || ''}</div>
