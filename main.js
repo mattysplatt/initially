@@ -282,16 +282,17 @@ function render() {
 }
 
 function renderLobby() {
-  // Autofill player name from previous sessions
   const savedName = localStorage.getItem("initially_player_name") || "";
   $app.innerHTML = `
     <div class="lobby-screen">
       <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
       <div class="lobby-form">
         <input id="playerName" type="text" class="lobby-input" placeholder="Your Name" value="${savedName}">
-       <div style="color:#ffd600; font-size:0.95em; margin-bottom:8px;">Choose carefully as this will be your username from now on!</div>
+        <div style="color:#ffd600; font-size:0.95em; margin-bottom:8px;">
+          Choose carefully as this will be your username from now on!
+        </div>
         <input id="lobbyCode" type="text" class="lobby-input" placeholder="Lobby Code (to join)">
-       <button id="singlePlayerBtn" class="landing-btn">Single Player</button>
+        <button id="singlePlayerBtn" class="landing-btn">Single Player</button>
         <button id="createLobby" class="landing-btn">Create New Lobby</button>
         <button id="joinLobby" class="landing-btn">Join Lobby</button>
         <div id="lobbyStatus" style="margin:10px 0;color:#ffd600;min-height:24px;">${state.status || ''}</div>
@@ -393,23 +394,38 @@ function renderLobby() {
     </style>
   `;
 
-  // Event listeners
+  // Name input event
   const playerNameInput = document.getElementById('playerName');
   playerNameInput.addEventListener('input', e => {
     state.playerName = e.target.value;
-    // Save to localStorage each time it changes
     localStorage.setItem("initially_player_name", state.playerName);
   });
-  // Also preload into state for autofill
   state.playerName = savedName;
 
-  // Existing event listeners
-  document.getElementById('createLobby').onclick = onCreateLobby;
-  document.getElementById('joinLobby').onclick = onJoinLobby;
+  // Single Player button
+  document.getElementById('singlePlayerBtn').onclick = () => {
+    const name = document.getElementById('playerName').value.trim();
+    if (!name) {
+      alert("Please enter your name to play!");
+      return;
+    }
+    state.playerName = name;
+    state.mode = 'single';
+    state.screen = 'category';
+    render();
+  };
+
+  // Multiplayer event handlers
+  document.getElementById('createLobby').onclick = typeof onCreateLobby === "function" ? onCreateLobby : () => alert("Multiplayer is not available right now.");
+  document.getElementById('joinLobby').onclick = typeof onJoinLobby === "function" ? onJoinLobby : () => alert("Multiplayer is not available right now.");
+
+  // Return to Home
   document.getElementById('returnLandingBtn').onclick = () => {
     // Remove player from lobby if present
     if (state.lobbyCode && state.playerId) {
-      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+      if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
+        remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+      }
     }
     // Unsubscribe listeners
     if (state.unsubLobby) {
@@ -420,19 +436,13 @@ function renderLobby() {
       state.unsubGame();
       state.unsubGame = null;
     }
-    // Reset relevant state
+    // Reset state
     state.lobbyCode = '';
     state.isLeader = false;
     state.players = [];
     state.status = '';
     state.scoreboard = [];
     state.screen = 'landing';
-    render();
-  };
-
-  // New Single Player button logic:
-  document.getElementById('singlePlayerBtn').onclick = () => {
-    state.screen = 'category';
     render();
   };
 }
