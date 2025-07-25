@@ -61,12 +61,10 @@ function getDeviceId() {
   }
   return deviceId;
 }
+
 function savePlayerInfoToFirebase(name, playerId) {
   const deviceId = getDeviceId();
-  // Save to localStorage for autofill
   localStorage.setItem("initially_player_name", name);
-
-  // Save to Firebase under 'playersMeta'
   set(ref(db, `playersMeta/${playerId}`), {
     name,
     playerId,
