@@ -403,32 +403,40 @@ function renderLobby() {
   // Also preload into state for autofill
   state.playerName = savedName;
 
-  document.getElementById('createLobby').onclick = () => waitForAuthThen(createLobby);
-  document.getElementById('joinLobby').onclick = () => waitForAuthThen(joinLobby);
- document.getElementById('returnLandingBtn').onclick = () => {
-  // Remove player from lobby in Firebase
-  if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-  }
-  // Unsubscribe listeners
-  if (state.unsubLobby) {
-    state.unsubLobby();
-    state.unsubLobby = null;
-  }
-  if (state.unsubGame) {
-    state.unsubGame();
-    state.unsubGame = null;
-  }
-  // Reset relevant state
-  state.lobbyCode = '';
-  state.isLeader = false;
-  state.players = [];
-  state.status = '';
-  state.scoreboard = [];
-  state.screen = 'landing';
-  render();
-};
+  // Existing event listeners
+  document.getElementById('createLobby').onclick = onCreateLobby;
+  document.getElementById('joinLobby').onclick = onJoinLobby;
+  document.getElementById('returnLandingBtn').onclick = () => {
+    // Remove player from lobby if present
+    if (state.lobbyCode && state.playerId) {
+      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+    }
+    // Unsubscribe listeners
+    if (state.unsubLobby) {
+      state.unsubLobby();
+      state.unsubLobby = null;
+    }
+    if (state.unsubGame) {
+      state.unsubGame();
+      state.unsubGame = null;
+    }
+    // Reset relevant state
+    state.lobbyCode = '';
+    state.isLeader = false;
+    state.players = [];
+    state.status = '';
+    state.scoreboard = [];
+    state.screen = 'landing';
+    render();
+  };
+
+  // New Single Player button logic:
+  document.getElementById('singlePlayerBtn').onclick = () => {
+    state.screen = 'category';
+    render();
+  };
 }
+
 function getTimeToNextMonth() {
   const now = new Date();
   const year = now.getUTCFullYear();
