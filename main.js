@@ -1366,6 +1366,7 @@ function startMonthlyChallengeTimer() {
       if (timerEl) timerEl.textContent = state.challengeTimer + 's';
     } else {
       clearInterval(window.monthlyTimerInterval);
+      saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
       state.screen = 'scoreboard';
       render();
     }
