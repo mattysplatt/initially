@@ -1330,7 +1330,7 @@ function startTimer() {
         startTimer();
       } else {
         clearInterval(window.monthlyTimerInterval);
-         saveScoreToLeaderboard(state.playerId, state.playerName, state.points);
+         saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
         state.screen = 'scoreboard';
         render();
       }
