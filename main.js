@@ -970,7 +970,7 @@ function submitGuess() {
         state.question = nextQuestion;
         state.clues = shuffle(nextQuestion.clues);
         state.clueIdx = 0;
-        state.points += 10; // or however you want to score
+        state.points = 60; 
         state.guess = '';
         render();
       } else {
