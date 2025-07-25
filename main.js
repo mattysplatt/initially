@@ -603,107 +603,115 @@ function renderCategory() {
     ModernNBA: "NBAcatcard.png"
   };
 
-  $app.innerHTML = `
-    <div class="cat-page-wrapper">
-      <div class="lobby-title" style="text-align:center; font-size:2em; font-weight:bold; color:#ffd600; margin-top:22px; margin-bottom:10px;">
-        Lobby <span style="font-size:0.8em; color:#fff;">(${state.lobbyCode})</span>
-      </div>
-      <div class="lobby-players-box" style="
-        background:#fff;
-        border-radius:16px;
-        box-shadow:0 2px 12px #0002;
-        padding:18px 22px;
-        max-width:340px;
-        margin:0 auto 22px auto;
-        display:flex;
-        flex-direction:column;
-        align-items:center;">
-        ${state.players && state.players.length
-          ? state.players.map(p => `<div class="lobby-player" style="font-size:1.15em; color:#222; font-weight:500; margin:6px 0;">${p.name.toUpperCase()}${p.isLeader ? ' 👑' : ''}</div>`).join('')
-          : '<div style="color:#aaa;">Waiting for players...</div>'}
-      </div>
-      <div class="category-container" id="categoryContainer"></div>
-      ${state.mode === 'multi' && !state.isLeader ? `<div class="leader-wait-msg">Waiting for leader to select...</div>` : ''}
-      <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
-      ${state.mode === 'monthly' 
-  ? `<div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
-      <span id="monthlyTimer">${state.challengeTimer}s</span>
-    </div>`
-  : /* normal timer box */}
+ $app.innerHTML = `
+  <div class="cat-page-wrapper">
+    <div class="lobby-title" style="text-align:center; font-size:2em; font-weight:bold; color:#ffd600; margin-top:22px; margin-bottom:10px;">
+      Lobby <span style="font-size:0.8em; color:#fff;">(${state.lobbyCode})</span>
     </div>
-    <style>
-      .cat-page-wrapper {
-        background: url('ScreenBackground.png') center center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        min-height: 100vh;
-        width: 100vw;
+    <div class="lobby-players-box" style="
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 2px 12px #0002;
+      padding:18px 22px;
+      max-width:340px;
+      margin:0 auto 22px auto;
+      display:flex;
+      flex-direction:column;
+      align-items:center;">
+      ${
+        state.players && state.players.length
+          ? state.players.map(p => `<div class="lobby-player" style="font-size:1.15em; color:#222; font-weight:500; margin:6px 0;">${p.name.toUpperCase()}${p.isLeader ? ' 👑' : ''}</div>`).join('')
+          : '<div style="color:#aaa;">Waiting for players...</div>'
       }
+    </div>
+    <div class="category-container" id="categoryContainer"></div>
+    ${
+      state.mode === 'multi' && !state.isLeader
+        ? `<div class="leader-wait-msg">Waiting for leader to select...</div>`
+        : ''
+    }
+    <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
+    ${
+      state.mode === 'monthly'
+        ? `<div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
+            <span id="monthlyTimer">${state.challengeTimer}s</span>
+          </div>`
+        : ''
+    }
+  </div>
+  <style>
+    .cat-page-wrapper {
+      background: url('ScreenBackground.png') center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      width: 100vw;
+    }
+    .category-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0;
+      width: 100%;
+    }
+    .category-btn-box {
+      min-width: 140px;
+      width: 100%;
+      max-width: 330px;
+      aspect-ratio: 165 / 240;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      box-shadow: 0 2px 12px #0002;
+      padding: 0;
+      overflow: hidden;
+      box-sizing: border-box;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.12s;
+      border-radius: 12px;
+    }
+    .overlay-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 214, 0, 0.85);
+      color: #222;
+      font-size: 1.3em;
+      font-weight: bold;
+      padding: 8px 18px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 1px 2px 8px #0002;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+    @media (max-width: 700px) {
       .category-container {
-        display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        max-width: 700px;
-        margin: 0 auto;
-        padding: 0;
-        width: 100%;
+        max-width: 98vw;
       }
       .category-btn-box {
-        min-width: 140px;
-        width: 100%;
-        max-width: 330px;
-        aspect-ratio: 165 / 240;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        box-shadow: 0 2px 12px #0002;
-        padding: 0;
-        overflow: hidden;
-        box-sizing: border-box;
-        position: relative;
-        cursor: pointer;
-        transition: background 0.2s, transform 0.12s;
-        border-radius: 12px;
+        max-width: 98vw;
       }
-      .overlay-label {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(255, 214, 0, 0.85);
-        color: #222;
-        font-size: 1.3em;
-        font-weight: bold;
-        padding: 8px 18px;
-        border-radius: 8px;
-        text-align: center;
-        box-shadow: 1px 2px 8px #0002;
-        pointer-events: none;
-        user-select: none;
-        white-space: nowrap;
+    }
+    @media (max-width: 430px) {
+      .category-container {
+        grid-template-columns: 1fr 1fr;
+        max-width: 99vw;
       }
-      @media (max-width: 700px) {
-        .category-container {
-          grid-template-columns: 1fr 1fr;
-          max-width: 98vw;
-        }
-        .category-btn-box {
-          max-width: 98vw;
-        }
+      .category-btn-box {
+        max-width: 99vw;
       }
-      @media (max-width: 430px) {
-        .category-container {
-          grid-template-columns: 1fr 1fr;
-          max-width: 99vw;
-        }
-        .category-btn-box {
-          max-width: 99vw;
-        }
-      }
-    </style>
-  `;
+    }
+  </style>
+`;
 
   // Render category cards
   const catDiv = document.getElementById('categoryContainer');
