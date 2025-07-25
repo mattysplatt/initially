@@ -842,7 +842,10 @@ function renderGame() {
   const displayCategory = state.category
     ? state.category.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
     : '';
-  const isCorrect = state.guesses[state.playerId]?.correct;
+  // In monthly challenge mode, correct guesses are not tracked the same way
+  const isCorrect = (state.mode === 'monthly') 
+    ? false 
+    : state.guesses[state.playerId]?.correct;
 
   $app.innerHTML = `
     <div class="game-screen" style="background: url('ScreenBackground.png'); min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
@@ -855,13 +858,18 @@ function renderGame() {
         <div class="initials-box" style="background: #fff; color: #18102c; font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
           ${state.question ? state.question.initials : ''}
         </div>
-       <div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
-      <span id="timer">${state.timer}s</span>
-      </div>
+        <div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
+          <span id="timer">${state.timer}s</span>
+        </div>
       </div>
       <div class="round-score-row" style="display:flex; gap:36px; justify-content:center; margin-bottom:28px;">
         <span style="font-size:1.6em; color:#ffd600; font-weight:700;">Points: <b>${state.points}</b></span>
-        <span style="font-size:1.6em; color:#fff; font-weight:700;">Round <b>${state.round}/${state.maxRounds}</b></span>
+        <span style="font-size:1.6em; color:#fff; font-weight:700;">
+          ${state.mode === 'monthly' ? 
+            `Clue <b>${state.challengeIdx + 1}</b>` : 
+            `Round <b>${state.round}/${state.maxRounds}</b>`
+          }
+        </span>
       </div>
       <div class="clue-box" style="background: #fff; color: #18102c; font-size: 1.15em; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px; box-shadow: 0 2px 8px #0002;">
         ${clue ? clue : ''}
@@ -887,102 +895,38 @@ function renderGame() {
     </style>
   `;
 
+  // Input/guess event handling
   const guessInput = document.getElementById('guessInput');
   if (guessInput && !isCorrect) {
     guessInput.value = state.guess || '';
     guessInput.focus();
     guessInput.addEventListener('input', e => state.guess = e.target.value);
-    guessInput.addEventListener('keypress', e => { if (e.key === 'Enter') submitGuess(); });
+    guessInput.addEventListener('keypress', e => { 
+      if (e.key === 'Enter') {
+        if (state.mode === 'monthly') {
+          submitMonthlyGuess();
+        } else {
+          submitGuess();
+        }
+      }
+    });
   }
   const submitBtn = document.getElementById('submitGuess');
   if (submitBtn && !isCorrect) {
-    submitBtn.onclick = submitGuess;
+    submitBtn.onclick = () => {
+      if (state.mode === 'monthly') {
+        submitMonthlyGuess();
+      } else {
+        submitGuess();
+      }
+    };
   }
+
   document.getElementById('returnLandingBtn').onclick = () => {
     state.screen = 'landing';
     render();
   };
 }
-
-function renderScoreboard() {
-  const sortedScoreboard = (state.scoreboard || [])
-    .slice()
-    .sort((a, b) => b.score - a.score);
-
-  let correctGuessers = [];
-  if (state.players.length >= 2 && state.guesses) {
-    correctGuessers = state.players
-      .filter(p => state.guesses[p.id]?.correct)
-      .map(p => p.name.toUpperCase());
-  }
-
-  $app.innerHTML = `
-  <div class="screen" style="
-  background: url('ScreenBackground.png') center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 32px;
-">
-      <h2 style="color:#ffd600; font-size:2.2em; margin-top:38px; margin-bottom:4px;">Scoreboard</h2>
-      <div style="color:#fff; font-size:1.25em; margin-bottom:18px;">Round ${state.round - 1} Complete</div>
-      ${
-        (correctGuessers.length > 0)
-        ? `<div style="color: #27ae60; margin: 8px 0 18px 0; font-size: 1.25em;">
-            ${correctGuessers.join(', ')} guessed correctly!
-           </div>`
-        : ''
-      }
-      <div style="width:100%; max-width:440px; margin-bottom:18px;">
-        <table class="scoreboard-table" style="width:100%; border-collapse:separate; border-spacing:0; box-shadow:0 2px 14px #0002; background:#fff; border-radius:14px; overflow:hidden;">
-          <thead>
-            <tr style="background:#4169e1; color:url('ScreenBackground.png'); font-size:1.15em; font-weight:700;">
-              <th style="padding:18px 0; width:68px;">Place</th>
-              <th style="padding:18px 0;">Name</th>
-              <th style="padding:18px 0; width:68px;">Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${sortedScoreboard.map((item, idx) => {
-              const pos = idx + 1;
-              // Gold trophy SVG for 1st place, otherwise just the number
-              const placeIcon = pos === 1
-                ? `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="#ffd600" style="vertical-align:middle;"><path d="M12 2a1 1 0 0 0-1 1v2H6V5a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v3c0 3.53 2.61 6.43 6 6.92V17H8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2h-2v-2.08c3.39-.49 6-3.39 6-6.92V5a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v1h-5V3a1 1 0 0 0-1-1zm-8 3h1v3c0 2.76 2.24 5 5 5h8c2.76 0 5-2.24 5-5V5h1v3c0 4.41-3.59 8-8 8s-8-3.59-8-8V5z"/></svg>`
-                : `<span style="font-size:1.25em; color:url('ScreenBackground.png');">${pos}</span>`;
-              const playerObj = state.players.find(p => p.name.toUpperCase() === item.name);
-              const tick = playerObj && playerObj.ready ? ' <span style="color:#27ae60;font-weight:bold;">&#10003;</span>' : '';
-              return `
-                <tr style="border-bottom:1px solid #ffd600;">
-                  <td style="text-align:center; padding:12px 0;">${placeIcon}</td>
-                  <td style="font-size:1.12em; color:#000; font-weight:600; text-align:center;">${item.name}${tick}</td>
-                  <td style="text-align:center; font-size:1.12em; font-weight:700; color:#000;">${item.score}</td>
-                </tr>
-              `;
-            }).join('')}
-          </tbody>
-        </table>
-      </div>
-      <div style="margin:12px 0; color:#fff; font-size:1.1em;">Correct answer: <b style="color:#ffd600;">${state.question && state.question.answer ? state.question.answer : ''}</b></div>
-      ${
-        state.players.length === 0
-        ? '<div style="color:red;">No players found in lobby. Please reload or rejoin.</div>'
-        : `<button id="readyBtn" ${state.players.find(p=>p.id===state.playerId)?.ready ? 'disabled' : ''} style="background:#ffd600; color:url('ScreenBackground.png'); font-weight:bold; font-size:1.1em; padding:12px 24px; border:none; border-radius:9px; margin-top:8px; margin-bottom:8px;">Ready for Next Round</button>`
-      }
-      <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:9px; cursor:pointer; margin-top:16px;">
-        Return to Start
-      </button>
-      <button id="returnLandingBtn" style="margin-top:24px; background:#fff; color:url('ScreenBackground.png'); border-radius:9px; border:none; font-size:1.1em; font-weight:bold; padding:12px 0; width:90vw; max-width:340px;">Return to Home</button>
-      <style>
-        @media (max-width:600px) {
-          .scoreboard-table th, .scoreboard-table td { font-size:1em !important; padding:7px 0 !important; }
-          .scoreboard-table svg { width:25px !important; height:25px !important; }
-        }
-      </style>
-    </div>
-  `;
 
   if (state.players.length > 0) {
     document.getElementById('readyBtn').onclick = markReady;
@@ -992,6 +936,10 @@ function renderScoreboard() {
     state.screen = 'landing';
     render();
   };
+  // Only start the clue timer if the game is active and user hasn't guessed correctly
+if (!isCorrect) {
+  startTimer();
+}
 }
 
 function attachReturnToStartHandler() {
