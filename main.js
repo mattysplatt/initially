@@ -442,6 +442,34 @@ function renderChallengeInstructions() {
     render();
   };
 }
+function startMonthlyChallenge() {
+  // Gather all questions from all categories
+  const allQuestions = shuffle([].concat(
+    ...Object.values(INITIALS_DB)
+  ));
+
+  // Pick first question
+  const firstQuestion = allQuestions[0];
+
+  state.mode = 'monthly';
+  state.category = 'randomMix';
+  state.round = 1;
+  state.maxRounds = 999; // or set to whatever you want for monthly challenge
+  state.question = firstQuestion;
+  state.clues = shuffle(firstQuestion.clues);
+  state.clueIdx = 0;
+  state.points = 60;
+  state.guess = '';
+  state.guesses = {};
+  state.scores = {};
+  state.scoreboard = [];
+  state.usedAnswers = [firstQuestion.answer];
+  state.challengeQuestions = allQuestions; // store all shuffled questions
+  state.challengeIdx = 0; // index for current question
+  state.challengeTimer = 120; // 2 minutes in seconds
+  state.screen = 'countdown';
+  render();
+}
 function renderLobbyCodeScreen() {
   $app.innerHTML = `
     <div class="lobby-screen">
