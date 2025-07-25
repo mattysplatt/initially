@@ -400,6 +400,19 @@ function getTimeToNextMonth() {
   const seconds = Math.floor((diff / 1000) % 60);
   return {days, hours, minutes, seconds};
 }
+function startResetCountdown() {
+  function updateTimer() {
+    const t = getTimeToNextMonth();
+    const el = document.getElementById('resetCountdown');
+    if (el) {
+      el.textContent =
+        `Leaderboard resets in ${t.days}d ${String(t.hours).padStart(2,'0')}:${String(t.minutes).padStart(2,'0')}:${String(t.seconds).padStart(2,'0')}`;
+    }
+  }
+  updateTimer();
+  clearInterval(window.resetCountdownInterval);
+  window.resetCountdownInterval = setInterval(updateTimer, 1000);
+}
 
 let leaderboardUnsub = null;
 
