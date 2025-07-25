@@ -401,10 +401,29 @@ function renderLobby() {
 
   document.getElementById('createLobby').onclick = () => waitForAuthThen(createLobby);
   document.getElementById('joinLobby').onclick = () => waitForAuthThen(joinLobby);
-  document.getElementById('returnLandingBtn').onclick = () => {
-    state.screen = 'landing';
-    render();
-  };
+ document.getElementById('returnLandingBtn').onclick = () => {
+  // Remove player from lobby in Firebase
+  if (state.lobbyCode && state.playerId) {
+    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+  }
+  // Unsubscribe listeners
+  if (state.unsubLobby) {
+    state.unsubLobby();
+    state.unsubLobby = null;
+  }
+  if (state.unsubGame) {
+    state.unsubGame();
+    state.unsubGame = null;
+  }
+  // Reset relevant state
+  state.lobbyCode = '';
+  state.isLeader = false;
+  state.players = [];
+  state.status = '';
+  state.scoreboard = [];
+  state.screen = 'landing';
+  render();
+};
 }
 function getTimeToNextMonth() {
   const now = new Date();
@@ -478,10 +497,29 @@ function renderInstructions() {
       }
     </style>
   `;
-  document.getElementById('returnLandingBtn').onclick = function() {
-    state.screen = 'landing';
-    render();
-  };
+ document.getElementById('returnLandingBtn').onclick = () => {
+  // Remove player from lobby in Firebase
+  if (state.lobbyCode && state.playerId) {
+    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+  }
+  // Unsubscribe listeners
+  if (state.unsubLobby) {
+    state.unsubLobby();
+    state.unsubLobby = null;
+  }
+  if (state.unsubGame) {
+    state.unsubGame();
+    state.unsubGame = null;
+  }
+  // Reset relevant state
+  state.lobbyCode = '';
+  state.isLeader = false;
+  state.players = [];
+  state.status = '';
+  state.scoreboard = [];
+  state.screen = 'landing';
+  render();
+};
 }
 function renderChallengeInstructions() {
   const savedName = localStorage.getItem("initially_player_name") || "";
@@ -596,9 +634,28 @@ function renderChallengeInstructions() {
   document.getElementById('startMonthlyChallengeBtn').disabled = !savedName.trim();
 
   document.getElementById('returnLandingBtn').onclick = () => {
-    state.screen = 'landing';
-    render();
-  };
+  // Remove player from lobby in Firebase
+  if (state.lobbyCode && state.playerId) {
+    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+  }
+  // Unsubscribe listeners
+  if (state.unsubLobby) {
+    state.unsubLobby();
+    state.unsubLobby = null;
+  }
+  if (state.unsubGame) {
+    state.unsubGame();
+    state.unsubGame = null;
+  }
+  // Reset relevant state
+  state.lobbyCode = '';
+  state.isLeader = false;
+  state.players = [];
+  state.status = '';
+  state.scoreboard = [];
+  state.screen = 'landing';
+  render();
+};
 
   document.getElementById('startMonthlyChallengeBtn').onclick = () => {
     // Don't start if name is empty
@@ -757,10 +814,29 @@ function renderLobbyCodeScreen() {
   document.getElementById('startLobbyBtn').onclick = function() {
     joinLobbyByCode(state.lobbyCode, state.playerName, true);
   };
-  document.getElementById('returnLandingBtn').onclick = () => {
-    state.screen = 'landing';
-    render();
-  };
+ document.getElementById('returnLandingBtn').onclick = () => {
+  // Remove player from lobby in Firebase
+  if (state.lobbyCode && state.playerId) {
+    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+  }
+  // Unsubscribe listeners
+  if (state.unsubLobby) {
+    state.unsubLobby();
+    state.unsubLobby = null;
+  }
+  if (state.unsubGame) {
+    state.unsubGame();
+    state.unsubGame = null;
+  }
+  // Reset relevant state
+  state.lobbyCode = '';
+  state.isLeader = false;
+  state.players = [];
+  state.status = '';
+  state.scoreboard = [];
+  state.screen = 'landing';
+  render();
+};
 }
 function saveScoreToLeaderboard(playerId, name, score) {
   const leaderboardRef = ref(db, 'leaderboard/' + playerId);
@@ -811,10 +887,29 @@ function renderScoreboard() {
         </div>
       </div>
     `;
-    document.getElementById('returnLandingBtn').onclick = () => {
-      state.screen = 'landing';
-      render();
-    };
+   document.getElementById('returnLandingBtn').onclick = () => {
+  // Remove player from lobby in Firebase
+  if (state.lobbyCode && state.playerId) {
+    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+  }
+  // Unsubscribe listeners
+  if (state.unsubLobby) {
+    state.unsubLobby();
+    state.unsubLobby = null;
+  }
+  if (state.unsubGame) {
+    state.unsubGame();
+    state.unsubGame = null;
+  }
+  // Reset relevant state
+  state.lobbyCode = '';
+  state.isLeader = false;
+  state.players = [];
+  state.status = '';
+  state.scoreboard = [];
+  state.screen = 'landing';
+  render();
+};
      startResetCountdown();
   });
 }
@@ -974,10 +1069,29 @@ function renderCategory() {
     catDiv.appendChild(box);
   });
 
-  document.getElementById('returnLandingBtn').onclick = () => {
-    state.screen = 'landing';
-    render();
-  };
+ document.getElementById('returnLandingBtn').onclick = () => {
+  // Remove player from lobby in Firebase
+  if (state.lobbyCode && state.playerId) {
+    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+  }
+  // Unsubscribe listeners
+  if (state.unsubLobby) {
+    state.unsubLobby();
+    state.unsubLobby = null;
+  }
+  if (state.unsubGame) {
+    state.unsubGame();
+    state.unsubGame = null;
+  }
+  // Reset relevant state
+  state.lobbyCode = '';
+  state.isLeader = false;
+  state.players = [];
+  state.status = '';
+  state.scoreboard = [];
+  state.screen = 'landing';
+  render();
+};
 }
 // --- SINGLEPLAYER GAME STARTER ---
 function startSinglePlayerGame(category) {
@@ -1203,10 +1317,29 @@ function renderGame() {
     };
   }
 
-  document.getElementById('returnLandingBtn').onclick = () => {
-    state.screen = 'landing';
-    render();
-  };
+ document.getElementById('returnLandingBtn').onclick = () => {
+  // Remove player from lobby in Firebase
+  if (state.lobbyCode && state.playerId) {
+    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+  }
+  // Unsubscribe listeners
+  if (state.unsubLobby) {
+    state.unsubLobby();
+    state.unsubLobby = null;
+  }
+  if (state.unsubGame) {
+    state.unsubGame();
+    state.unsubGame = null;
+  }
+  // Reset relevant state
+  state.lobbyCode = '';
+  state.isLeader = false;
+  state.players = [];
+  state.status = '';
+  state.scoreboard = [];
+  state.screen = 'landing';
+  render();
+};
 }
 
 if (state.players.length > 0) {
@@ -1261,9 +1394,28 @@ function renderEnd() {
   document.getElementById('restartBtn').onclick = () => window.location.reload();
   attachReturnToStartHandler();
   document.getElementById('returnLandingBtn').onclick = () => {
-    state.screen = 'landing';
-    render();
-  };
+  // Remove player from lobby in Firebase
+  if (state.lobbyCode && state.playerId) {
+    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+  }
+  // Unsubscribe listeners
+  if (state.unsubLobby) {
+    state.unsubLobby();
+    state.unsubLobby = null;
+  }
+  if (state.unsubGame) {
+    state.unsubGame();
+    state.unsubGame = null;
+  }
+  // Reset relevant state
+  state.lobbyCode = '';
+  state.isLeader = false;
+  state.players = [];
+  state.status = '';
+  state.scoreboard = [];
+  state.screen = 'landing';
+  render();
+};
 }
 
 // --- Game Logic + Firebase Sync ---
