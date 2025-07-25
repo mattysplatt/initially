@@ -783,7 +783,50 @@ function renderCountdown() {
 }
   }, 1000);
 }
-
+function submitGuess() {
+  if (!state.guess) return;
+  const guess = state.guess.trim();
+  if (!guess) return;
+  const normalize = s => s.replace(/[\s.]/g,'').toLowerCase();
+  const user = normalize(guess);
+  const correct = normalize(state.question.answer);
+  if (levenshtein(user, correct) <= 3) {
+    if (state.mode === 'monthly') {
+      // Score points, move to next question
+      state.scoreboard = state.scoreboard || [];
+      state.scoreboard.push({ name: state.playerName || "YOU", score: (state.points || 0) });
+      state.challengeIdx++;
+      if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
+        const nextQuestion = state.challengeQuestions[state.challengeIdx];
+        state.question = nextQuestion;
+        state.clues = shuffle(nextQuestion.clues);
+        state.clueIdx = 0;
+        state.points += 10; // or however you want to score
+        state.guess = '';
+        render();
+      } else {
+        clearInterval(window.monthlyTimerInterval);
+        state.screen = 'scoreboard';
+        render();
+      }
+    } else {
+      // Normal game logic as before
+      update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
+        [state.playerId]: { guess, correct: true, points: state.points }
+      });
+      state.guess = '';
+      endRound();
+    }
+  } else {
+    state.guess = '';
+    state.incorrectPrompt = true;
+    render();
+    setTimeout(() => {
+      state.incorrectPrompt = false;
+      render();
+    }, 2000);
+  }
+}
 function renderGame() {
   const clue = state.clues[state.clueIdx] || '';
   const displayCategory = state.category
