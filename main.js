@@ -435,11 +435,8 @@ function renderChallengeInstructions() {
     state.screen = 'landing';
     render();
   };
-  document.getElementById('startMonthlyChallengeBtn').onclick = () => {
-    // Set up your challenge start logic here!
-    // For example:
-    state.screen = 'monthlyChallenge'; // Or whatever screen starts the challenge
-    render();
+ document.getElementById('startMonthlyChallengeBtn').onclick = () => {
+  startMonthlyChallenge();
   };
 }
 function startMonthlyChallenge() {
