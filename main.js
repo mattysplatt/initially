@@ -702,8 +702,9 @@ function renderScoreboard() {
           </tbody>
         </table>
       </div>
-      <button id="returnLandingBtn" class="landing-btn" style="margin-top:24px;">Return to Home</button>
-    </div>
+     <div style="width:100%; display:flex; justify-content:center; margin-top:24px;">
+  <button id="returnLandingBtn" class="landing-btn" style="max-width:320px; width:100%;">Return to Home</button>
+</div>
   `;
   document.getElementById('returnLandingBtn').onclick = () => {
     state.screen = 'landing';
