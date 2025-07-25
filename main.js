@@ -1132,7 +1132,7 @@ function renderCategory() {
 function startSinglePlayerGame(category) {
   const allQuestions = shuffle([...INITIALS_DB[category]]);
   const firstQuestion = allQuestions[0];
-  state.mode = 'single'; // ensure mode is set
+  state.mode = 'single';
   state.category = category;
   state.round = 1;
   state.maxRounds = 10;
@@ -1145,8 +1145,11 @@ function startSinglePlayerGame(category) {
   state.scores = {};
   state.scoreboard = [];
   state.usedAnswers = [firstQuestion.answer];
-  state.totalPoints = 0; // <-- add this line for running total
-  state.screen = 'countdown'; // <-- show countdown first
+  state.singleQuestions = allQuestions;
+  state.singleIdx = 0;
+  state.totalPoints = 0;
+  state.timer = 10; // 10 seconds per clue
+  state.screen = 'countdown';
   render();
 }
 function renderLocalScoreboard() {
