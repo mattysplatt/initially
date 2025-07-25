@@ -1139,11 +1139,38 @@ function startTimer() {
   window.timerInterval = setInterval(() => {
     state.timer--;
     renderTimer();
-   if (state.timer <= 0) {
+  if (state.timer <= 0) {
   clearInterval(window.timerInterval);
 
   if (state.mode === 'monthly') {
-    advanceMonthlyClue();
+    // Move to next clue with points deduction
+    let clueIdx = state.clueIdx;
+    let points = state.points;
+    if (clueIdx < 4) {
+      clueIdx++;
+      points -= 10;
+      state.clueIdx = clueIdx;
+      state.points = points;
+      startTimer();
+      render();
+    } else {
+      // If all clues shown, move to next question
+      state.challengeIdx++;
+      if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
+        const nextQuestion = state.challengeQuestions[state.challengeIdx];
+        state.question = nextQuestion;
+        state.clues = shuffle(nextQuestion.clues);
+        state.clueIdx = 0;
+        state.points = 60;
+        state.guess = '';
+        render();
+        startTimer();
+      } else {
+        clearInterval(window.monthlyTimerInterval);
+        state.screen = 'scoreboard';
+        render();
+      }
+    }
   } else {
     revealNextClue();
   }
