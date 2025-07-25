@@ -697,52 +697,44 @@ function saveScoreToLeaderboard(playerId, name, score) {
   });
 }
 function renderScoreboard() {
-  // Deduplicate scoreboard by playerId, keeping the highest score for each
-  const highestScoresById = {};
-  (state.scoreboard || []).forEach(item => {
-    if (!highestScoresById[item.id] || item.score > highestScoresById[item.id].score) {
-      highestScoresById[item.id] = item;
-    }
-  });
-  // Sort by score descending
-  const sortedScores = Object.values(highestScoresById)
-    .sort((a, b) => b.score - a.score);
-
-  $app.innerHTML = `
-    <div class="scoreboard-screen" style="background:url('ScreenBackground.png');min-height:100vh;padding:40px;">
-      <h2 style="color:#ffd600; text-align:center;">Monthly Challenge Scoreboard</h2>
-      <div style="background:#fff;max-width:480px;margin:32px auto;padding:24px 12px;border-radius:12px;box-shadow:0 2px 12px #0002;">
-        <table style="width:100%;border-collapse:collapse;">
-          <thead>
-            <tr style="background:#ffd600;color:#222;">
-              <th style="text-align:left;padding:8px 4px;">Place</th>
-              <th style="text-align:left;padding:8px 4px;">Name</th>
-              <th style="text-align:right;padding:8px 4px;">Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${
-              sortedScores.length
-                ? sortedScores.map((item, idx) =>
-                    `<tr style="border-bottom:1px solid #eee;">
-                      <td style="padding:8px 4px;color:#000;">${idx + 1}${idx === 0 ? ' 🥇' : idx === 1 ? ' 🥈' : idx === 2 ? ' 🥉' : ''}</td>
-                     <td style="padding:8px 4px;color:#000;">${item.name.toUpperCase()}</td>
-                      <td style="text-align:right;padding:8px 4px;color:#000;">${item.score}</td>
-                    </tr>`
-                  ).join('')
-                : `<tr><td colspan="3" style="text-align:center;color:#000;padding:16px;">No scores yet.</td></tr>`
-            }
-          </tbody>
-        </table>
+  fetchLeaderboard(function(sortedScores) {
+    $app.innerHTML = `
+      <div class="scoreboard-screen" style="background:url('ScreenBackground.png');min-height:100vh;padding:40px;">
+        <h2 style="color:#ffd600; text-align:center;">Monthly Challenge Scoreboard</h2>
+        <div style="background:#fff;max-width:480px;margin:32px auto;padding:24px 12px;border-radius:12px;box-shadow:0 2px 12px #0002;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr style="background:#ffd600;color:#222;">
+                <th style="text-align:left;padding:8px 4px;">Place</th>
+                <th style="text-align:left;padding:8px 4px;">Name</th>
+                <th style="text-align:right;padding:8px 4px;">Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${
+                sortedScores.length
+                  ? sortedScores.map((item, idx) =>
+                      `<tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:8px 4px;color:#000;">${idx + 1}${idx === 0 ? ' 🥇' : idx === 1 ? ' 🥈' : idx === 2 ? ' 🥉' : ''}</td>
+                        <td style="padding:8px 4px;color:#000;">${item.name.toUpperCase()}</td>
+                        <td style="text-align:right;padding:8px 4px;color:#000;">${item.score}</td>
+                      </tr>`
+                    ).join('')
+                  : `<tr><td colspan="3" style="text-align:center;color:#000;padding:16px;">No scores yet.</td></tr>`
+              }
+            </tbody>
+          </table>
+        </div>
+        <div style="width:100%; display:flex; justify-content:center; margin-top:24px;">
+          <button id="returnLandingBtn" class="landing-btn" style="max-width:320px; width:100%;">Return to Home</button>
+        </div>
       </div>
-     <div style="width:100%; display:flex; justify-content:center; margin-top:24px;">
-  <button id="returnLandingBtn" class="landing-btn" style="max-width:320px; width:100%;">Return to Home</button>
-</div>
-  `;
-  document.getElementById('returnLandingBtn').onclick = () => {
-    state.screen = 'landing';
-    render();
-  };
+    `;
+    document.getElementById('returnLandingBtn').onclick = () => {
+      state.screen = 'landing';
+      render();
+    };
+  });
 }
 // --- CATEGORY GRID FOR BOTH MODES ---
 function renderCategory() {
