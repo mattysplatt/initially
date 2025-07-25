@@ -658,6 +658,47 @@ function renderLobbyCodeScreen() {
     render();
   };
 }
+function renderScoreboard() {
+  // Sort scoreboard by score descending
+  const sortedScores = (state.scoreboard || [])
+    .slice() // copy array
+    .sort((a, b) => b.score - a.score);
+
+  $app.innerHTML = `
+    <div class="scoreboard-screen" style="background:url('ScreenBackground.png');min-height:100vh;padding:40px;">
+      <h2 style="color:#ffd600; text-align:center;">Monthly Challenge Scoreboard</h2>
+      <div style="background:#fff;max-width:480px;margin:32px auto;padding:24px 12px;border-radius:12px;box-shadow:0 2px 12px #0002;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr style="background:#ffd600;color:#222;">
+              <th style="text-align:left;padding:8px 4px;">Place</th>
+              <th style="text-align:left;padding:8px 4px;">Name</th>
+              <th style="text-align:right;padding:8px 4px;">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${
+              sortedScores.length
+                ? sortedScores.map((item, idx) =>
+                    `<tr style="border-bottom:1px solid #eee;">
+                      <td style="padding:8px 4px;">${idx + 1}${idx === 0 ? ' 🥇' : idx === 1 ? ' 🥈' : idx === 2 ? ' 🥉' : ''}</td>
+                      <td style="padding:8px 4px;">${item.name}</td>
+                      <td style="text-align:right;padding:8px 4px;">${item.score}</td>
+                    </tr>`
+                  ).join('')
+                : `<tr><td colspan="3" style="text-align:center;color:#aaa;padding:16px;">No scores yet.</td></tr>`
+            }
+          </tbody>
+        </table>
+      </div>
+      <button id="returnLandingBtn" class="landing-btn" style="margin-top:24px;">Return to Home</button>
+    </div>
+  `;
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
+}
 // --- CATEGORY GRID FOR BOTH MODES ---
 function renderCategory() {
   const categories = [
