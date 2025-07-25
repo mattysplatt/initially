@@ -1699,13 +1699,58 @@ function renderTimer() {
 function revealNextClue() {
   let clueIdx = state.clueIdx;
   let points = state.points;
-  if (clueIdx < 4) {
-    clueIdx++;
-    points -= 10;
-    update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points });
-    startTimer();
+
+  if (state.mode === 'single') {
+    if (clueIdx < 4) {
+      // Next clue, less points
+      state.clueIdx++;
+      state.points = Math.max(0, points - 10);
+      state.timer = 10;
+      render();
+      startTimer();
+    } else {
+      // All clues shown, move to next question or end
+      goToNextSinglePlayerClue();
+    }
+  } else if (state.mode === 'monthly') {
+    // (If monthly is handled elsewhere, you may not need this block)
+    // Otherwise, similar logic to single player but with totalPoints and challengeIdx
+    if (clueIdx < 4) {
+      state.clueIdx++;
+      state.points = Math.max(0, points - 10);
+      state.timer = 10;
+      render();
+      startTimer();
+    } else {
+      // All clues shown, next question or scoreboard in monthly
+      state.challengeIdx++;
+      if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
+        const nextQuestion = state.challengeQuestions[state.challengeIdx];
+        state.question = nextQuestion;
+        state.clues = shuffle(nextQuestion.clues);
+        state.clueIdx = 0;
+        state.points = 60;
+        state.guess = '';
+        state.timer = 10;
+        render();
+        startTimer();
+      } else {
+        clearInterval(window.monthlyTimerInterval);
+        saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
+        state.screen = 'scoreboard';
+        render();
+      }
+    }
   } else {
-    endRound();
+    // Multiplayer: update Firebase as before
+    if (clueIdx < 4) {
+      clueIdx++;
+      points -= 10;
+      update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points });
+      startTimer();
+    } else {
+      endRound();
+    }
   }
 }
 function startMonthlyChallengeTimer() {
