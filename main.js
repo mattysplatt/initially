@@ -169,6 +169,16 @@ function renderLanding() {
         width: 100%;
         max-width: 360px;
       }
+      .howtoplay-btn {
+  background: #fff !important;
+  color: #222 !important;
+  border: 2px solid #222;
+  font-weight: bold;
+}
+.howtoplay-btn:hover {
+  background: #ffd600 !important;
+  color: #222 !important;
+}
       .landing-btn {
         width: 100%;
         min-width: 175px;
