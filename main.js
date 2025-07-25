@@ -247,7 +247,7 @@ function renderLanding() {
     render();
   };
  document.getElementById('monthlyLeaderboardBtn').onclick = () => {
-  state.mode = 'monthly'; // <-- add this line
+  state.mode = 'monthly'; 
   state.screen = 'scoreboard';
   render();
 };
