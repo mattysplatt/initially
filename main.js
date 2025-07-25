@@ -1129,12 +1129,15 @@ function renderLocalScoreboard() {
             ${
               state.players && state.players.length
                 ? state.players
-                    // Sort descending by score
-                    .slice().sort((a,b) => (b.score||0) - (a.score||0))
+                    // Sort players by score descending
+                    .slice().sort((a, b) => (b.score || 0) - (a.score || 0))
                     .map((player, i) =>
                       `<tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 4px;color:#000;">${i+1}</td>
-                        <td style="padding:8px 4px;color:#000;">${player.name}${player.isLeader ? ' 👑' : ''}</td>
+                        <td style="padding:8px 4px;color:#000;">${i + 1}</td>
+                        <td style="padding:8px 4px;color:#000;">
+                          ${player.name}${player.isLeader ? ' 👑' : ''} 
+                          ${player.ready ? '<span style="font-size:1.2em;color:#27ae60;vertical-align:middle;">✅</span>' : ''}
+                        </td>
                         <td style="text-align:right;padding:8px 4px;color:#000;">${player.score || 0}</td>
                       </tr>`
                     ).join('')
