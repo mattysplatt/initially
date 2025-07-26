@@ -446,7 +446,9 @@ function renderLobby() {
     render();
   };
 }
-
+function onStartLobby() {
+  update(ref(db, `lobbies/${state.lobbyCode}`), { status: "waiting" });
+}
 function getTimeToNextMonth() {
   const now = new Date();
   const year = now.getUTCFullYear();
