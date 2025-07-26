@@ -1077,7 +1077,8 @@ function renderLandingScreen() {
   };
   
   document.getElementById('monthlyBtn').onclick = () => {
-    renderChallengeInstructions();
+    gameState.screen = 'challengeInstructions';
+    render();
   };
   
   document.getElementById('monthlyLeaderboardBtn').onclick = async () => {
