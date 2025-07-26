@@ -828,7 +828,27 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
     state.round = data.round;
     state.category = data.category;
     state.lobbyCode = lobbyCode;
-    renderLobbyCodeScreen();
+   switch (data.status) {
+  case "lobbyCode":
+    state.screen = 'lobbyCode';
+    break;
+  case "category":
+    state.screen = 'category';
+    break;
+  case "playing":
+    state.screen = 'game';
+    break;
+  case "scoreboard":
+    state.screen = 'scoreboard';
+    break;
+  case "end":
+    state.screen = 'end';
+    break;
+  default:
+    state.screen = 'lobby';
+    break;
+}
+render();
   }
 });
 
