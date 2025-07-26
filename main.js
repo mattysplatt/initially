@@ -1669,6 +1669,7 @@ function joinLobby() {
 function joinLobbyByCode(code, name, leader) {
   state.lobbyCode = code;
   state.isLeader = leader;
+  state.mode = 'multi'; 
   const lobbyPath = `lobbies/${code}`;
   set(ref(db, `${lobbyPath}/players/${state.playerId}`), {
     name, score: 0, isLeader: leader, ready: false
