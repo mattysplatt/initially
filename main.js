@@ -1553,9 +1553,11 @@ function renderGame() {
 if (state.players.length > 0) {
   const readyBtn = document.getElementById('readyBtn');
   if (readyBtn) {
-    readyBtn.onclick = markReady;
-  }
+  readyBtn.onclick = () => {
+    update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true });
+  };
 }
+
 attachReturnToStartHandler();
 
 const returnLandingBtn = document.getElementById('returnLandingBtn');
@@ -1838,6 +1840,7 @@ if (state.lobbyCode) {
   state.maxRounds = 10;
   render();
   }
+}
 function startTimer() {
   clearInterval(window.timerInterval);
   state.timer = 10; renderTimer();
