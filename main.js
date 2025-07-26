@@ -1739,7 +1739,7 @@ function listenLobby() {
       return; 
     }
     const lobby = snap.val();
-    state.players = Object.entries(lobby.players||{}).map(([id, p])=>({...p, id}));
+    state.players = Object.entries(lobby.players || {}).map(([id, p]) => ({ ...p, id }));
     state.isLeader = (state.playerId === lobby.leader);
     state.round = lobby.round;
     state.category = lobby.category;
@@ -1748,20 +1748,23 @@ function listenLobby() {
     state.clues = lobby.clues;
     state.clueIdx = lobby.clueIdx;
     state.points = lobby.points;
-    state.guesses = lobby.guesses||{};
+    state.guesses = lobby.guesses || {};
     if (
-      state.question && 
+      state.question &&
       state.question.initials !== (state.lastQuestionInitials || '')
     ) {
       state.guess = '';
       state.lastQuestionInitials = state.question.initials;
     }
-   if (lobby.status === "lobbyCode") {
-  state.screen = 'lobbyCode'; render();
-} else if (lobby.status === "waiting") 
-  state.screen = 'category'; render();
+    // ---------- FIXED if/else chain ----------
+    if (lobby.status === "lobbyCode") {
+      state.screen = 'lobbyCode';
+      render();
+    } else if (lobby.status === "waiting") {
+      state.screen = 'category';
+      render();
     } else if (lobby.status === "countdown") {
-      state.screen = 'countdown'; 
+      state.screen = 'countdown';
       render();
       // If this client is the leader, set status to playing after 3 seconds
       if (state.isLeader) {
@@ -1770,19 +1773,20 @@ function listenLobby() {
         }, 3000);
       }
     } else if (lobby.status === "playing") {
-      state.screen = 'game'; 
+      state.screen = 'game';
       render();
       startTimer();
     } else if (lobby.status === "scoreboard") {
-      state.scoreboard = lobby.scoreboard||[];
-      state.readyPlayers = lobby.readyPlayers||[];
-      state.screen = 'scoreboard'; 
+      state.scoreboard = lobby.scoreboard || [];
+      state.readyPlayers = lobby.readyPlayers || [];
+      state.screen = 'scoreboard';
       render();
     } else if (lobby.status === "end") {
-      state.scoreboard = lobby.scoreboard||[];
-      state.screen = 'end'; 
+      state.scoreboard = lobby.scoreboard || [];
+      state.screen = 'end';
       render();
     }
+    // -----------------------------------------
   });
 }
 function chooseCategory(category) {
