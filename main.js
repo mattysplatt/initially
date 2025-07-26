@@ -1666,7 +1666,7 @@ function createLobby() {
   }).then(() => {
     state.screen = 'lobbyCode';
     render();
-    listenLobby();
+    ();
   });
 }
 function joinLobby() {
@@ -1710,6 +1710,8 @@ function listenLobby() {
     state.clueIdx = lobby.clueIdx;
     state.points = lobby.points;
     state.guesses = lobby.guesses || {};
+
+    // Reset guess if new question
     if (
       state.question &&
       state.question.initials !== (state.lastQuestionInitials || '')
@@ -1718,14 +1720,12 @@ function listenLobby() {
       state.lastQuestionInitials = state.question.initials;
     }
 
-    // Core status-based screen routing
+    // --- FIXED ROUTING LOGIC BELOW ---
+    // Everyone should follow status, including leader!
+
     switch (lobby.status) {
       case "lobbyCode":
-        if (state.isLeader) {
-          state.screen = 'lobbyCode'; // Leader sees lobby code
-        } else {
-          state.screen = 'category';  // Players go straight to category selection
-        }
+        state.screen = 'lobbyCode';
         render();
         break;
       case "category":
