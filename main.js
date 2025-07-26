@@ -992,9 +992,10 @@ function renderLobbyCodeScreen() {
   const startLobbyBtn = document.getElementById('startLobbyBtn');
   if (startLobbyBtn) {
     startLobbyBtn.onclick = function() {
-      // Update lobby status in Firebase
-      update(ref(db, `lobbies/${lobbyCode}`), { status: 'category' });
-    };
+  update(ref(db, `lobbies/${lobbyCode}`), { status: 'category' })
+    .then(() => console.log("Start Lobby pressed, status updated to 'category'"))
+    .catch(err => console.error("Error updating lobby status:", err));
+};
     }
   }
 
