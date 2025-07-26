@@ -766,10 +766,11 @@ async function onCreate() {
       [state.playerId]: {
         name: state.playerName,
         score: 0,
-        ready: false
+        ready: false,
+        isLeader: true // <-- Add this for clarity
       }
     },
-    status: 'lobbyCode', // <-- This is the fix!
+    status: 'lobbyCode',
     round: 1,
     category: state.category || '',
     createdAt: Date.now()
@@ -783,28 +784,17 @@ async function onCreate() {
   state.lobbyCode = lobbyCode;
   state.isLeader = true;
   state.lobbyRef = lobbyRef;
-  state.players = [{ name: state.playerName, score: 0, ready: false }];
+  state.players = [{ name: state.playerName, score: 0, ready: false, isLeader: true }];
   state.status = 'lobbyCode';
 
-  // 5. Set up a listener for lobby changes
-  if (state.unsubLobby) state.unsubLobby();
-  state.unsubLobby = onValue(lobbyRef, snapshot => {
-    const data = snapshot.val();
-    if (data) {
-      // Update local state based on lobby changes
-      state.players = Object.entries(data.players || {}).map(([id, p]) => ({ ...p, id }));
-      state.status = data.status;
-      state.round = data.round;
-      state.category = data.category;
-      state.leader = data.leader;
-      // Add more as needed (question, clues, scores, etc.)
-      render();
-    }
-  });
+  // 5. Set up a listener for lobby changes using your standard function
+  listenLobby();
 
   // 6. Show lobby code screen
-  state.screen = 'lobbyCode'; // <-- Let your main render() handle the correct screen
+  state.screen = 'lobbyCode';
   render();
+
+  console.log("Lobby created. Leader:", state.playerId, "LobbyCode:", lobbyCode);
 }
 async function onLobby(lobbyCode) {
   const lobbyRef = ref(db, `lobbies/${lobbyCode}`);
@@ -828,20 +818,19 @@ async function onLobby(lobbyCode) {
   }
   
   // 3. Set up listener for lobby updates
-  if (state.unsubLobby) state.unsubLobby();
-  state.unsubLobby = onValue(lobbyRef, snapshot => {
-    const data = snapshot.val();
-    if (data) {
-      state.players = Object.values(data.players);
-      state.leader = data.leader;
-      state.status = data.status;
-      state.round = data.round;
-      state.category = data.category;
-      state.lobbyCode = lobbyCode;
-      // Update other state variables as needed
-      renderLobbyCodeScreen();
-    }
-  });
+state.unsubLobby = onValue(lobbyRef, snapshot => {
+  const data = snapshot.val();
+  if (data) {
+    state.players = Object.entries(data.players || {}).map(([id, p]) => ({ ...p, id }));
+    state.leader = data.leader;
+    state.isLeader = (state.playerId === data.leader); // <-- Fix here
+    state.status = data.status;
+    state.round = data.round;
+    state.category = data.category;
+    state.lobbyCode = lobbyCode;
+    renderLobbyCodeScreen();
+  }
+});
 
   // 4. Update local state
   state.lobbyCode = lobbyCode;
