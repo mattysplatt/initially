@@ -858,7 +858,7 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
 
         // Check if all players are ready
         const allReady = state.players.length > 0 && state.players.every(p => p.ready);
-        if (allReady && state.isLeader) {
+      if (allReady) {
           // Advance to next round: update lobby status and other fields as needed
           update(ref(db, `lobbies/${state.lobbyCode}`), {
             status: "countdown",
