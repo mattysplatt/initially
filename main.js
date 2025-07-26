@@ -1702,6 +1702,7 @@ function createLobby() {
   }).then(() => {
     state.screen = 'lobbyCode';
     render();
+    listenLobby();
   });
 }
 function joinLobby() {
