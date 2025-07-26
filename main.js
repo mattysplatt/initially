@@ -844,6 +844,17 @@ async function onLobby(lobbyCode) {
   // 5. Render lobby UI
   renderLobbyCodeScreen();
 }
+const onCreateLobby = onCreate;
+const onJoinLobby = () => {
+  const code = document.getElementById('lobbyCode').value.trim().toUpperCase();
+  state.playerName = document.getElementById('playerName').value.trim();
+  if (!code || !state.playerName) {
+    state.status = "Enter lobby code and your name";
+    render();
+    return;
+  }
+  onLobby(code);
+};
 function renderLobbyCodeScreen() {
   $app.innerHTML = `
     <div class="lobby-screen">
