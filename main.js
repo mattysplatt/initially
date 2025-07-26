@@ -860,6 +860,13 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
         const allReady = state.players.length > 0 && state.players.every(p => p.ready);
       if (allReady) {
   const nextRound = data.round + 1;
+const maxRounds = data.maxRounds || 10;
+
+if (nextRound > maxRounds) {
+  // Game over, show scoreboard and winner
+  update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
+  return;
+}
   // Get the next question/clues (replace with your logic)
 const usedAnswers = data.usedQuestions || [];
 const category = data.category;
@@ -1281,9 +1288,20 @@ function startSinglePlayerGame(category) {
   render();
 }
 function renderLocalScoreboard() {
+  let winnerName = "";
+  if (state.scoreboard && state.scoreboard.length) {
+    winnerName = state.scoreboard[0].name.toUpperCase(); // Top scorer
+  }
+
   $app.innerHTML = `
     <div class="scoreboard-screen" style="background:url('ScreenBackground.png');min-height:100vh;padding:40px;">
+      ${winnerName ? `<h2 style="color:#27ae60; text-align:center; font-size:2.2em; margin-bottom:16px;">CONGRATS ${winnerName} YOU WON!</h2>` : ""}
       <h2 style="color:#ffd600; text-align:center;">Scoreboard</h2>
+      <!-- rest of scoreboard table here -->
+    </div>
+  `;
+  // ... rest of your function ...
+}
       <div style="background:#fff;max-width:480px;margin:32px auto;padding:24px 12px;border-radius:12px;box-shadow:0 2px 12px #0002;">
         <table style="width:100%;border-collapse:collapse;">
           <thead>
