@@ -1553,8 +1553,9 @@ function renderGame() {
 if (state.players.length > 0) {
   const readyBtn = document.getElementById('readyBtn');
   if (readyBtn) {
-    readyBtn.onclick = markReady;
-  }
+  readyBtn.onclick = () => {
+    update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true });
+  };
 }
 
 attachReturnToStartHandler();
