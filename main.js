@@ -1806,25 +1806,41 @@ function chooseCategory(category) {
     : shuffle([...INITIALS_DB[category]]);
   const firstQuestion = allQuestions[0];
   state.guess = '';
-  // Set lobby status to "countdown" so all players see the countdown
-  set(ref(db, `lobbies/${state.lobbyCode}`), {
-    code: state.lobbyCode,
-    leader: state.playerId,
-    status: "countdown",
-    category,
-    round: 1,
-    question: firstQuestion,
-    clues: shuffle(firstQuestion.clues),
-    clueIdx: 0,
-    points: 60,
-    guesses: {},
-    scoreboard: [],
-    readyPlayers: [],
-    usedQuestions: [firstQuestion.answer],
-    maxRounds: 10,
-    players: Object.fromEntries(state.players.map(p => [p.id, { ...p, ready: false }])),
-  });
-  // The leader will handle switching from countdown to playing after 3 seconds in the listener
+
+  if (state.lobbyCode) {
+    // Multiplayer: update only relevant lobby fields
+    update(ref(db, `lobbies/${state.lobbyCode}`), {
+      status: "countdown",
+      category,
+      round: 1,
+      question: firstQuestion,
+      clues: shuffle(firstQuestion.clues),
+      clueIdx: 0,
+      points: 60,
+      guesses: {},
+      scoreboard: [],
+      readyPlayers: [],
+      usedQuestions: [firstQuestion.answer],
+      maxRounds: 10,
+    });
+    // The leader will handle switching from countdown to playing after 3 seconds in the listener
+  } else {
+    // Single Player: set up local state only
+    state.status = "countdown";
+    state.category = category;
+    state.round = 1;
+    state.question = firstQuestion;
+    state.clues = shuffle(firstQuestion.clues);
+    state.clueIdx = 0;
+    state.points = 60;
+    state.guesses = {};
+    state.scoreboard = [];
+    state.readyPlayers = [];
+    state.usedQuestions = [firstQuestion.answer];
+    state.maxRounds = 10;
+    // Render the countdown/category UI for single player
+    render();
+  }
 }
 function startTimer() {
   clearInterval(window.timerInterval);
