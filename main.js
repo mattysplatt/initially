@@ -281,6 +281,128 @@ function render() {
   else if (state.screen === 'challengeInstructions') renderChallengeInstructions();
 }
 
+function renderLobby() {
+  const savedName = localStorage.getItem("initially_player_name") || "";
+  
+  $app.innerHTML = `
+    <div class="lobby-screen">
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
+      <div class="lobby-form">
+        <h2 style="margin-bottom:24px; color:#ffd600;">Multiplayer Lobby</h2>
+        <input type="text" id="playerName" class="lobby-input" placeholder="Enter your name..." value="${savedName}" />
+        <input type="text" id="lobbyCode" class="lobby-input" placeholder="Enter lobby code..." />
+        <button id="createLobbyBtn" class="landing-btn">Create a Lobby</button>
+        <button id="joinLobbyBtn" class="landing-btn">Join Lobby</button>
+        <button id="returnHomeBtn" class="landing-btn lobby-return-btn">Return to Home</button>
+        <div id="statusMessage" style="color:#fff; margin-top:16px; text-align:center;">${state.status || ''}</div>
+      </div>
+    </div>
+    <style>
+      .lobby-screen {
+        background: url('ScreenBackground.png');
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 32px;
+      }
+      .lobby-logo {
+        width: 350px;
+        max-width: 90vw;
+        margin: 40px auto 24px auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .lobby-form {
+        background: rgba(0,0,0,0.16);
+        padding: 32px 16px 24px 16px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 350px;
+      }
+      .lobby-input {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        padding: 14px 10px;
+        font-size: 1.08em;
+        margin: 8px 0 14px 0;
+        border-radius: 7px;
+        border: none;
+        background: #fff;
+        box-shadow: 1px 2px 8px #0001;
+        outline: none;
+        text-transform: uppercase;
+      }
+      .lobby-input:focus {
+        border: 2px solid #ffd600;
+      }
+      .landing-btn {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        margin: 9px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .lobby-return-btn {
+        background: #fff;
+        color: #222;
+        margin-top: 18px;
+      }
+      .lobby-return-btn:hover {
+        background: #ffd600;
+        color: #222;
+      }
+    </style>
+  `;
+
+  // Save name as user types
+  const nameInput = document.getElementById('playerName');
+  if (nameInput) {
+    nameInput.addEventListener('input', e => {
+      state.playerName = e.target.value;
+      localStorage.setItem("initially_player_name", state.playerName);
+    });
+  }
+
+  // Attach event handlers
+  document.getElementById('createLobbyBtn').onclick = () => {
+    state.playerName = document.getElementById('playerName').value.trim();
+    if (!state.playerName) {
+      state.status = "Please enter your name";
+      render();
+      return;
+    }
+    onCreateLobby();
+  };
+
+  document.getElementById('joinLobbyBtn').onclick = onJoinLobby;
+
+  document.getElementById('returnHomeBtn').onclick = () => {
+    state.screen = 'landing';
+    state.status = '';
+    render();
+  };
+}
+
 function renderLobbyCodeScreen() {
   const lobbyCode = state.lobbyCode || "";
   const isLeader = state.isLeader;
@@ -778,24 +900,11 @@ async function onCreate() {
   state.players = [{ name: state.playerName, score: 0, ready: false }];
   state.status = 'lobbyCode';
 
-  // 5. Set up a listener for lobby changes
-  if (state.unsubLobby) state.unsubLobby();
-  state.unsubLobby = onValue(lobbyRef, snapshot => {
-    const data = snapshot.val();
-    if (data) {
-      // Update local state based on lobby changes
-      state.players = Object.entries(data.players || {}).map(([id, p]) => ({ ...p, id }));
-      state.status = data.status;
-      state.round = data.round;
-      state.category = data.category;
-      state.leader = data.leader;
-      // Add more as needed (question, clues, scores, etc.)
-      render();
-    }
-  });
+  // 5. Set up proper lobby listener
+  listenLobby();
 
   // 6. Show lobby code screen
-  state.screen = 'lobbyCode'; // <-- Let your main render() handle the correct screen
+  state.screen = 'lobbyCode';
   render();
 }
 async function onLobby(lobbyCode) {
@@ -854,167 +963,6 @@ const onJoinLobby = () => {
   }
   onLobby(code);
 };
-function renderLobbyCodeScreen() {
-  // Get lobby info from state
-  const lobbyCode = state.lobbyCode || "";
-  const isLeader = state.isLeader;
-  const players = state.players || [];
-  const leaderId = state.leader; // Should be set by your lobby listener
-
-  $app.innerHTML = `
-    <div class="lobby-screen">
-      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
-      <div class="lobby-form">
-        <h2 style="margin-bottom:12px; color:#ffd600;">Lobby Code: <span style="font-weight:bold;">${lobbyCode}</span></h2>
-        <div style="margin-bottom:18px;">
-          <div style="font-size:1.1em; color:#fff; margin-bottom:6px;">Players in Lobby:</div>
-          <ul style="list-style:none; padding:0;">
-            ${players.map(player => `
-              <li style="color:#ffd600; font-size:1.03em; margin-bottom:4px;">
-                ${player.name}${player.id === leaderId ? ' <span style="color:#fff">(Leader)</span>' : ''}
-              </li>
-            `).join("")}
-          </ul>
-        </div>
-        ${isLeader ? `<button id="startLobbyBtn" class="landing-btn" style="margin-bottom:12px;">Start Lobby</button>` : `
-          <div style="color:#fff; margin-bottom:16px;">
-            Waiting for leader to start the game...
-          </div>
-        `}
-        <button id="returnLobbyBtn" class="landing-btn lobby-return-btn">Return to Home</button>
-      </div>
-    </div>
-    <style>
-      .lobby-screen {
-        background: url('ScreenBackground.png');
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-bottom: 32px;
-      }
-      .lobby-logo {
-        width: 350px;
-        max-width: 90vw;
-        margin: 40px auto 24px auto;
-        display: block;
-        pointer-events: none;
-        user-select: none;
-      }
-      .lobby-form {
-        background: rgba(0,0,0,0.16);
-        padding: 32px 16px 24px 16px;
-        border-radius: 18px;
-        box-shadow: 0 4px 32px #3338;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 350px;
-      }
-      .lobby-input {
-        width: 100%;
-        min-width: 175px;
-        max-width: 320px;
-        padding: 14px 10px;
-        font-size: 1.08em;
-        margin: 8px 0 14px 0;
-        border-radius: 7px;
-        border: none;
-        background: #fff;
-        box-shadow: 1px 2px 8px #0001;
-        outline: none;
-        text-transform: uppercase;
-      }
-      .lobby-input:focus {
-        border: 2px solid #ffd600;
-      }
-      .landing-btn {
-        width: 100%;
-        min-width: 175px;
-        max-width: 320px;
-        margin: 9px 0;
-        padding: 16px 0;
-        font-size: 1.1em;
-        border: none;
-        border-radius: 7px;
-        background: #ffd600;
-        color: #222;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 1px 2px 8px #0002;
-        transition: background 0.2s, transform 0.12s;
-      }
-      .landing-btn:hover {
-        background: #ffb300;
-        transform: scale(1.03);
-      }
-      .lobby-return-btn {
-        background: #fff;
-        color: url('ScreenBackground.png');
-        margin-top: 18px;
-      }
-      .lobby-return-btn:hover {
-        background: #ffd600;
-        color: #222;
-      }
-      @media (max-width: 600px) {
-        .lobby-logo {
-          width: 80vw;
-          margin-top: 7vw;
-        }
-        .lobby-form {
-          max-width: 98vw;
-          padding: 15px 2vw 12px 2vw;
-        }
-        .lobby-input {
-          font-size: 1em;
-          padding: 12px 7px;
-        }
-        .landing-btn {
-          font-size: 1em;
-          padding: 13px 0;
-        }
-      }
-    </style>
-  `;
-
-  // Attach Start Lobby button handler (only for the leader)
-  if (isLeader) {
-  const startLobbyBtn = document.getElementById('startLobbyBtn');
-  if (startLobbyBtn) {
-    startLobbyBtn.onclick = function() {
-      // Update lobby status in Firebase
-      update(ref(db, `lobbies/${lobbyCode}`), { status: 'category' });
-    };
-    }
-  }
-
-  // Attach Return to Home handler (all users)
-  document.getElementById('returnLobbyBtn').onclick = function() {
-    // Remove player from lobby if present
-    if (state.lobbyCode && state.playerId) {
-      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-    }
-    // Unsubscribe listeners
-    if (state.unsubLobby) {
-      state.unsubLobby();
-      state.unsubLobby = null;
-    }
-    if (state.unsubGame) {
-      state.unsubGame();
-      state.unsubGame = null;
-    }
-    // Reset state and return to landing
-    state.lobbyCode = '';
-    state.isLeader = false;
-    state.players = [];
-    state.status = '';
-    state.scoreboard = [];
-    state.screen = 'landing';
-    render();
-  };
-}
 // --- CATEGORY GRID FOR BOTH MODES ---
 function renderCategory() {
   const categories = [
