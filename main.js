@@ -836,11 +836,11 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
     state.screen = 'category';
     break;
  case "playing":
-  state.question = lobby.question;
-  state.clues = lobby.clues;
-  state.clueIdx = lobby.clueIdx; // if you use this
-  console.log("Lobby question:", lobby.question);
-  console.log("Lobby clues:", lobby.clues);
+  state.question = data.question;
+  state.clues = data.clues;
+  state.clueIdx = data.clueIdx; // if you use this
+  console.log("Lobby question:", data.question);
+  console.log("Lobby clues:", data.clues);
   state.screen = 'game';
   render();
   startTimer();
