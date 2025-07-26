@@ -63,14 +63,91 @@ function getDeviceId() {
   return deviceId;
 }
 
+// Question Management Helpers
+function setupQuestion(question, resetTimer = true) {
+  state.question = question;
+  state.clues = shuffle(question.clues);
+  state.clueIdx = 0;
+  state.points = 60;
+  state.guess = '';
+  if (resetTimer) {
+    state.timer = 10;
+  }
+}
+
+function getNextChallengeQuestion() {
+  if (state.challengeIdx < state.challengeQuestions.length) {
+    return state.challengeQuestions[state.challengeIdx];
+  }
+  return null;
+}
+
+// Guess Processing Helpers
+function validateGuess() {
+  if (!state.guess) return null;
+  const guess = state.guess.trim();
+  if (!guess) return null;
+  return guess;
+}
+
+function normalizeText(text) {
+  return text.replace(/[\s.]/g, '').toLowerCase();
+}
+
+function isCorrectGuess(userGuess, correctAnswer) {
+  const user = normalizeText(userGuess);
+  const correct = normalizeText(correctAnswer);
+  return levenshtein(user, correct) <= 3;
+}
+
+function showCorrectPrompt(duration = 1500) {
+  state.correctPrompt = true;
+  render();
+  setTimeout(() => {
+    state.correctPrompt = false;
+    render();
+  }, duration);
+}
+
+function showIncorrectPrompt() {
+  state.guess = '';
+  state.incorrectPrompt = true;
+  render();
+  setTimeout(() => {
+    state.incorrectPrompt = false;
+    render();
+  }, 2000);
+}
+
+// Firebase Operation Helpers
+function updateLobby(updates) {
+  if (state.lobbyCode) {
+    return update(ref(db, `lobbies/${state.lobbyCode}`), updates);
+  }
+}
+
+function removeLobbyPlayer(playerId = state.playerId) {
+  if (state.lobbyCode && playerId) {
+    return remove(ref(db, `lobbies/${state.lobbyCode}/players/${playerId}`));
+  }
+}
+
+// Timer Management Helpers
+function stopAllTimers() {
+  clearInterval(window.timerInterval);
+  clearInterval(window.monthlyTimerInterval);
+  clearInterval(window.resetCountdownInterval);
+}
+
+function updateTimerDisplay(elementId, time) {
+  const el = document.getElementById(elementId);
+  if (el) el.textContent = time + 's';
+}
+
 // State Management Helpers
 function cleanupLobby() {
   // Remove player from lobby in Firebase
-  if (state.lobbyCode && state.playerId) {
-    if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
-      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-    }
-  }
+  removeLobbyPlayer();
   // Unsubscribe listeners
   if (state.unsubLobby) {
     state.unsubLobby();
@@ -453,7 +530,7 @@ function renderLobby() {
   document.getElementById('returnLandingBtn').onclick = resetToLanding;
 }
 function onStartLobby() {
-  update(ref(db, `lobbies/${state.lobbyCode}`), { status: "waiting" });
+  updateLobby({ status: "waiting" });
 }
 function getTimeToNextMonth() {
   const now = new Date();
@@ -535,12 +612,7 @@ function goToNextSinglePlayerClue() {
     const usedAnswers = state.usedAnswers || [];
     const nextQuestion = getRandomUnusedQuestion(state.category, usedAnswers);
     if (nextQuestion) {
-      state.question = nextQuestion;
-      state.clues = shuffle(nextQuestion.clues);
-      state.clueIdx = 0;
-      state.points = 60;
-      state.timer = 10;            // <--- Add this line!
-      state.guess = '';
+      setupQuestion(nextQuestion);
       state.usedAnswers.push(nextQuestion.answer);
       state.screen = 'game';
       render();
@@ -698,11 +770,7 @@ function startMonthlyChallenge() {
   state.category = firstQuestion.category; // Use real category for display
   state.round = 1;
   state.maxRounds = 999; // monthly challenge is endless until timer runs out
-  state.question = firstQuestion;
-  state.clues = shuffle(firstQuestion.clues);
-  state.clueIdx = 0;
-  state.points = 60;
-  state.guess = '';
+  setupQuestion(firstQuestion, false);
   state.guesses = {};
   state.scores = {};
   state.scoreboard = [];
@@ -932,7 +1000,7 @@ function renderLobbyCodeScreen() {
   };
   document.getElementById('startLobbyBtn').onclick = function() {
     // Advance lobby status to category selection
-    update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
+    updateLobby({ status: 'category' });
     // Listeners will detect the change and render the correct screen for all players
   };
   document.getElementById('returnLandingBtn').onclick = resetToLanding;
@@ -1157,11 +1225,7 @@ function startSinglePlayerGame(category) {
   state.category = category;
   state.round = 1;
   state.maxRounds = 10;
-  state.question = firstQuestion;
-  state.clues = shuffle(firstQuestion.clues);
-  state.clueIdx = 0;
-  state.points = 60;
-  state.guess = '';
+  setupQuestion(firstQuestion);
   state.guesses = {};
   state.scores = {};
   state.scoreboard = [];
@@ -1169,7 +1233,6 @@ function startSinglePlayerGame(category) {
   state.singleQuestions = allQuestions;
   state.singleIdx = 0;
   state.totalPoints = 0; // Total points for single player
-  state.timer = 10;
   state.screen = 'countdown';
 
   render();
@@ -1263,32 +1326,19 @@ function renderCountdown() {
   }, 1000);
 }
 function submitGuess() {
-  if (!state.guess) return;
-  const guess = state.guess.trim();
+  const guess = validateGuess();
   if (!guess) return;
 
-  // Normalize answers for comparison
-  const normalize = s => s.replace(/[\s.]/g, '').toLowerCase();
-  const user = normalize(guess);
-  const correct = normalize(state.question.answer);
-
-  // How close is the guess? (Levenshtein distance)
-  if (levenshtein(user, correct) <= 3) {
+  if (isCorrectGuess(guess, state.question.answer)) {
     // === MONTHLY CHALLENGE MODE ===
     if (state.mode === 'monthly') {
       state.totalPoints = (state.totalPoints || 0) + (state.points || 0);
-      state.correctPrompt = true;
-      render();
+      showCorrectPrompt();
       setTimeout(() => {
-        state.correctPrompt = false;
         state.challengeIdx++;
         if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
           const nextQuestion = state.challengeQuestions[state.challengeIdx];
-          state.question = nextQuestion;
-          state.clues = shuffle(nextQuestion.clues);
-          state.clueIdx = 0;
-          state.points = 60;
-          state.guess = '';
+          setupQuestion(nextQuestion, false);
           render();
         } else {
           clearInterval(window.monthlyTimerInterval);
@@ -1301,10 +1351,8 @@ function submitGuess() {
     // === SINGLE PLAYER MODE ===
     } else if (state.mode === 'single') {
       state.totalPoints = (state.totalPoints || 0) + (state.points || 0);
-      state.correctPrompt = true;
-      render();
+      showCorrectPrompt();
       setTimeout(() => {
-        state.correctPrompt = false;
         goToNextSinglePlayerClue();
       }, 1500); // Show "Correct" for 1.5 seconds
 
@@ -1324,13 +1372,7 @@ function submitGuess() {
 
   } else {
     // INCORRECT GUESS (All Modes)
-    state.guess = '';
-    state.incorrectPrompt = true;
-    render();
-    setTimeout(() => {
-      state.incorrectPrompt = false;
-      render();
-    }, 2000);
+    showIncorrectPrompt();
   }
 }
 function renderGame() {
@@ -1683,10 +1725,11 @@ function chooseCategory(category) {
 }
 function startTimer() {
   clearInterval(window.timerInterval);
-  state.timer = 10; renderTimer();
+  state.timer = 10; 
+  updateTimerDisplay('timer', state.timer);
   window.timerInterval = setInterval(() => {
     state.timer--;
-    renderTimer();
+    updateTimerDisplay('timer', state.timer);
   if (state.timer <= 0) {
   clearInterval(window.timerInterval);
 
@@ -1706,11 +1749,7 @@ function startTimer() {
       state.challengeIdx++;
       if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
         const nextQuestion = state.challengeQuestions[state.challengeIdx];
-        state.question = nextQuestion;
-        state.clues = shuffle(nextQuestion.clues);
-        state.clueIdx = 0;
-        state.points = 60;
-        state.guess = '';
+        setupQuestion(nextQuestion);
         render();
         startTimer();
       } else {
@@ -1726,9 +1765,9 @@ function startTimer() {
 }
   }, 1000);
 }
+
 function renderTimer() {
-  const el = document.getElementById('timer');
-  if (el) el.textContent = state.timer+'s';
+  updateTimerDisplay('timer', state.timer);
 }
 function revealNextClue() {
   let clueIdx = state.clueIdx;
@@ -1760,12 +1799,7 @@ function revealNextClue() {
       state.challengeIdx++;
       if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
         const nextQuestion = state.challengeQuestions[state.challengeIdx];
-        state.question = nextQuestion;
-        state.clues = shuffle(nextQuestion.clues);
-        state.clueIdx = 0;
-        state.points = 60;
-        state.guess = '';
-        state.timer = 10;
+        setupQuestion(nextQuestion);
         render();
         startTimer();
       } else {
@@ -1792,8 +1826,7 @@ function startMonthlyChallengeTimer() {
   window.monthlyTimerInterval = setInterval(() => {
     if (state.challengeTimer > 0) {
       state.challengeTimer--;
-      const timerEl = document.getElementById('monthlyTimer');
-      if (timerEl) timerEl.textContent = state.challengeTimer + 's';
+      updateTimerDisplay('monthlyTimer', state.challengeTimer);
     } else {
       clearInterval(window.monthlyTimerInterval);
       saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
@@ -1803,34 +1836,21 @@ function startMonthlyChallengeTimer() {
   }, 1000);
 }
 function submitMonthlyGuess() {
-  if (!state.guess) return;
-  const guess = state.guess.trim();
+  const guess = validateGuess();
   if (!guess) return;
-  const normalize = s => s.replace(/[\s.]/g, '').toLowerCase();
-  const user = normalize(guess);
-  const correct = normalize(state.question.answer);
 
-  if (levenshtein(user, correct) <= 3) {
+  if (isCorrectGuess(guess, state.question.answer)) {
     // Correct answer
     state.totalPoints = (state.totalPoints || 0) + (state.points || 0);
 
     // Show 'CORRECT' prompt for 3 seconds
-    state.correctPrompt = true;
-    render();
-    setTimeout(() => {
-      state.correctPrompt = false;
-      render();
-    }, 3000);
+    showCorrectPrompt(3000);
 
     state.challengeIdx++;
     if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
       // Next question setup
       const nextQuestion = state.challengeQuestions[state.challengeIdx];
-      state.question = nextQuestion;
-      state.clues = shuffle(nextQuestion.clues);
-      state.clueIdx = 0;
-      state.points = 60; // Reset points for new question
-      state.guess = '';
+      setupQuestion(nextQuestion, false);
       render();
     } else {
       // End of challenge
@@ -1841,13 +1861,7 @@ function submitMonthlyGuess() {
     }
   } else {
     // Incorrect answer
-    state.guess = '';
-    state.incorrectPrompt = true;
-    render();
-    setTimeout(() => {
-      state.incorrectPrompt = false;
-      render();
-    }, 2000);
+    showIncorrectPrompt();
   }
 }
 function endRound() {
