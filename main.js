@@ -1732,13 +1732,16 @@ function listenLobby() {
   const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
   state.lobbyRef = lobbyRef;
   state.unsubLobby = onValue(lobbyRef, snap => {
+    console.log("onValue fired");
     if (!snap.exists()) { 
+      console.log("Lobby not found");
       state.status = "Lobby not found"; 
       state.screen = 'lobby'; 
       render(); 
       return; 
     }
     const lobby = snap.val();
+    console.log("Lobby data:", lobby);
     state.players = Object.entries(lobby.players || {}).map(([id, p]) => ({ ...p, id }));
     state.isLeader = (state.playerId === lobby.leader);
     state.round = lobby.round;
@@ -1756,7 +1759,10 @@ function listenLobby() {
       state.guess = '';
       state.lastQuestionInitials = state.question.initials;
     }
-    // ---------- FIXED if/else chain ----------
+
+    // Log the lobby status before each screen switch
+    console.log("Lobby status:", lobby.status);
+
     if (lobby.status === "lobbyCode") {
       state.screen = 'lobbyCode';
       render();
@@ -1786,7 +1792,6 @@ function listenLobby() {
       state.screen = 'end';
       render();
     }
-    // -----------------------------------------
   });
 }
 function chooseCategory(category) {
