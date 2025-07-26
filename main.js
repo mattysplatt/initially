@@ -799,6 +799,9 @@ async function onCreate() {
 async function onLobby(lobbyCode) {
   const lobbyRef = ref(db, `lobbies/${lobbyCode}`);
 
+  // Unsubscribe previous listener if any
+  if (state.unsubLobby) state.unsubLobby();
+
   // 1. Get current lobby data
   const snapshot = await get(lobbyRef);
   const lobbyData = snapshot.val();
@@ -809,57 +812,58 @@ async function onLobby(lobbyCode) {
   }
 
   // 2. Add player to lobby if not present
-  if (!lobbyData.players[state.playerId]) {
+  const players = lobbyData.players || {};
+  if (!players[state.playerId]) {
     await set(ref(db, `lobbies/${lobbyCode}/players/${state.playerId}`), {
       name: state.playerName,
       score: 0,
       ready: false
     });
   }
-  
-  // 3. Set up listener for lobby updates
-state.unsubLobby = onValue(lobbyRef, snapshot => {
-  const data = snapshot.val();
-  if (data) {
-    state.players = Object.entries(data.players || {}).map(([id, p]) => ({ ...p, id }));
-    state.leader = data.leader;
-    state.isLeader = (state.playerId === data.leader);
-    state.status = data.status;
-    state.round = data.round;
-    state.points = data.points;
-    state.category = data.category;
-    state.lobbyCode = lobbyCode;
 
-    switch (data.status) {
-      case "lobbyCode":
-        state.screen = 'lobbyCode';
-        break;
-      case "category":
-        state.screen = 'category';
-        break;
-         case "countdown":
-        state.screen = 'countdown';
-        break;
-      case "playing":
-        state.question = data.question;
-        state.clues = data.clues;
-        state.clueIdx = data.clueIdx;
-        state.screen = 'game';
-        startTimer();
-        break;
-      case "scoreboard":
-        state.screen = 'scoreboard';
-        break;
-      case "end":
-        state.screen = 'end';
-        break;
-      default:
-        state.screen = 'lobby';
-        break;
+  // 3. Set up listener for lobby updates
+  state.unsubLobby = onValue(lobbyRef, snapshot => {
+    const data = snapshot.val();
+    if (data) {
+      state.players = Object.entries(data.players || {}).map(([id, p]) => ({ ...p, id }));
+      state.leader = data.leader;
+      state.isLeader = (state.playerId === data.leader);
+      state.status = data.status;
+      state.round = data.round;
+      state.points = data.points;
+      state.category = data.category;
+      state.lobbyCode = lobbyCode;
+
+      switch (data.status) {
+        case "lobbyCode":
+          state.screen = 'lobbyCode';
+          break;
+        case "category":
+          state.screen = 'category';
+          break;
+        case "countdown":
+          state.screen = 'countdown';
+          break;
+        case "playing":
+          state.question = data.question;
+          state.clues = data.clues;
+          state.clueIdx = data.clueIdx;
+          state.screen = 'game';
+          startTimer();
+          break;
+        case "scoreboard":
+          state.screen = 'scoreboard';
+          break;
+        case "end":
+          state.screen = 'end';
+          break;
+        default:
+          state.screen = 'lobby';
+          break;
+      }
+      render(); // Only call once, after the switch!
     }
-    render(); // <--- Only call once, after the switch!
-  }
-});
+  });
 
   // 4. Update local state
   state.lobbyCode = lobbyCode;
@@ -869,6 +873,7 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
   // 5. Render lobby UI
   render();
 }
+
 const onCreateLobby = onCreate;
 const onJoinLobby = () => {
   const code = document.getElementById('lobbyCode').value.trim().toUpperCase();
