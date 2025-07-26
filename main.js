@@ -1838,7 +1838,6 @@ if (state.lobbyCode) {
   state.maxRounds = 10;
   render();
   }
-}
 function startTimer() {
   clearInterval(window.timerInterval);
   state.timer = 10; renderTimer();
