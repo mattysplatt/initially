@@ -861,19 +861,23 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
       if (allReady) {
   const nextRound = data.round + 1;
   // Get the next question/clues (replace with your logic)
-  const nextQ = getNextQuestion(nextRound); // You must define this function
+const usedAnswers = data.usedQuestions || [];
+const category = data.category;
+const nextQ = getRandomUnusedQuestion(category, usedAnswers);
+const newUsedAnswers = [...usedAnswers, nextQ.answer];
 
-  update(ref(db, `lobbies/${state.lobbyCode}`), {
-    status: "playing",         // Go straight to game, no countdown!
-    round: nextRound,
-    question: nextQ.question,  // Set new question (or initials)
-    clues: nextQ.clues,        // Set new clues
-    clueIdx: 0,                // Start at first clue
-    points: 60,                // Reset points if needed
-    players: Object.fromEntries(
-      Object.entries(data.players).map(([id, p]) => [id, { ...p, ready: false }])
-    )
-  });
+update(ref(db, `lobbies/${state.lobbyCode}`), {
+  status: "playing",
+  round: nextRound,
+  question: nextQ,
+  clues: shuffle(nextQ.clues),
+  clueIdx: 0,
+  points: 60,
+  usedQuestions: newUsedAnswers,
+  players: Object.fromEntries(
+    Object.entries(data.players).map(([id, p]) => [id, { ...p, ready: false }])
+  )
+});
   return; // Prevent double render
 }
         break;
