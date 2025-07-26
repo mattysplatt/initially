@@ -989,13 +989,12 @@ function renderLobbyCodeScreen() {
 
   // Attach Start Lobby button handler (only for the leader)
   if (isLeader) {
-    const startLobbyBtn = document.getElementById('startLobbyBtn');
-    if (startLobbyBtn) {
-      startLobbyBtn.onclick = function() {
-        // Instantly switch to categories screen for the leader
-        state.screen = 'category';
-        render();
-      };
+  const startLobbyBtn = document.getElementById('startLobbyBtn');
+  if (startLobbyBtn) {
+    startLobbyBtn.onclick = function() {
+      // Update lobby status in Firebase
+      update(ref(db, `lobbies/${lobbyCode}`), { status: 'category' });
+    };
     }
   }
 
