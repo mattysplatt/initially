@@ -2037,6 +2037,7 @@ function markReady() {
         const readyPlayers = Object.values(lobby.players || {}).filter(p => p.ready).length;
         const numPlayers = Object.keys(lobby.players || {}).length;
 
+        // Anyone can trigger next round when all are ready
         if (readyPlayers === numPlayers) {
           let round = lobby.round + 1;
           if (round > (lobby.maxRounds || 10)) {
