@@ -1336,11 +1336,6 @@ function renderLocalScoreboard() {
     <div class="scoreboard-screen" style="background:url('ScreenBackground.png');min-height:100vh;padding:40px;">
       ${winnerName ? `<h2 style="color:#27ae60; text-align:center; font-size:2.2em; margin-bottom:16px;">CONGRATS ${winnerName} YOU WON!</h2>` : ""}
       <h2 style="color:#ffd600; text-align:center;">Scoreboard</h2>
-      <!-- rest of scoreboard table here -->
-    </div>
-  `;
-  // ... rest of your function ...
-}
       <div style="background:#fff;max-width:480px;margin:32px auto;padding:24px 12px;border-radius:12px;box-shadow:0 2px 12px #0002;">
         <table style="width:100%;border-collapse:collapse;">
           <thead>
