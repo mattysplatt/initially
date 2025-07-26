@@ -2030,16 +2030,20 @@ function endRound() {
 }
 
 function markReady() {
-  update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true })
+  const playerRef = ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`);
+  update(playerRef, { ready: true })
     .then(() => {
       get(ref(db, `lobbies/${state.lobbyCode}`)).then(async snap => {
         const lobby = snap.val();
         const readyPlayers = Object.values(lobby.players || {}).filter(p => p.ready).length;
         const numPlayers = Object.keys(lobby.players || {}).length;
 
-        // Anyone can trigger next round when all are ready
-        if (readyPlayers === numPlayers) {
-          let round = lobby.round + 1;
+        // Only trigger if everyone is ready AND lobby is not already playing
+        if (
+          readyPlayers === numPlayers &&
+          lobby.status !== "playing"
+        ) {
+          let round = (lobby.round || 1) + 1;
           if (round > (lobby.maxRounds || 10)) {
             await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
             return;
@@ -2056,8 +2060,8 @@ function markReady() {
             Object.entries(lobby.players).map(([id, p]) => [id, { ...p, ready: false }])
           );
 
-          await set(ref(db, `lobbies/${state.lobbyCode}`), {
-            ...lobby,
+          // Only update the relevant fields!
+          await update(ref(db, `lobbies/${state.lobbyCode}`), {
             status: "playing",
             round,
             question: nextQuestion,
