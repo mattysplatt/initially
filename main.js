@@ -1826,7 +1826,6 @@ if (state.lobbyCode) {
   state.usedQuestions = [firstQuestion.answer];
   state.maxRounds = 10;
   render();
-}
   }
 }
 function startTimer() {
