@@ -1760,7 +1760,6 @@ function listenLobby() {
   state.screen = 'lobbyCode'; render();
 } else if (lobby.status === "waiting") {
   state.screen = 'category'; render();
-}
     } else if (lobby.status === "countdown") {
       state.screen = 'countdown'; 
       render();
