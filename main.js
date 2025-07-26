@@ -816,17 +816,41 @@ async function onLobby(lobbyCode) {
       ready: false
     });
   }
+  
+  // 3. Set up listener for lobby updates
+state.unsubLobby = onValue(lobbyRef, snapshot => {
+  const data = snapshot.val();
+  if (data) {
+    state.players = Object.entries(data.players || {}).map(([id, p]) => ({ ...p, id }));
+    state.leader = data.leader;
+    state.isLeader = (state.playerId === data.leader); // <-- Fix here
+    state.status = data.status;
+    state.round = data.round;
+    state.category = data.category;
+    state.lobbyCode = lobbyCode;
+    renderLobbyCodeScreen();
+  }
+});
 
-  // 3. Update local state
+  // 4. Update local state
   state.lobbyCode = lobbyCode;
   state.lobbyRef = lobbyRef;
+  state.screen = 'lobby';
 
-  // 4. Start listening for lobby changes with your main listener
-  listenLobby();
-
-  // 5. (Optional) Debug log
-  console.log("Joined lobby. Player:", state.playerId, "LobbyCode:", lobbyCode);
+  // 5. Render lobby UI
+  render();
 }
+const onCreateLobby = onCreate;
+const onJoinLobby = () => {
+  const code = document.getElementById('lobbyCode').value.trim().toUpperCase();
+  state.playerName = document.getElementById('playerName').value.trim();
+  if (!code || !state.playerName) {
+    state.status = "Enter lobby code and your name";
+    render();
+    return;
+  }
+  onLobby(code);
+};
 function renderLobbyCodeScreen() {
   // Get lobby info from state
   const lobbyCode = state.lobbyCode || "";
