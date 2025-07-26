@@ -426,7 +426,10 @@ function renderLobby() {
       if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
         remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
       }
-    }
+    }document.getElementById('startLobbyBtn').onclick = function() {
+  console.log("Start Lobby clicked!", state.lobbyCode);
+  update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
+};
     // Unsubscribe listeners
     if (state.unsubLobby) {
       state.unsubLobby();
@@ -860,127 +863,54 @@ const onJoinLobby = () => {
   onLobby(code);
 };
 function renderLobbyCodeScreen() {
+  // Get the current lobby code and list of players from state
+  const lobbyCode = state.lobbyCode || "";
+  const isLeader = state.isLeader;
+  const players = state.players || [];
+
   $app.innerHTML = `
     <div class="lobby-screen">
       <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
       <div class="lobby-form">
-        <div style="font-size:1.18em; color:#fff; margin-bottom:10px;">
-          Share this code with your friends to join the lobby:
+        <h2 style="margin-bottom:12px; color:#ffd600;">Lobby Code: <span style="font-weight:bold;">${lobbyCode}</span></h2>
+        <div style="margin-bottom:18px;">
+          <div style="font-size:1.1em; color:#fff; margin-bottom:6px;">Players in Lobby:</div>
+          <ul style="list-style:none; padding:0;">
+            ${players.map(player => `
+              <li style="color:#ffd600; font-size:1.03em; margin-bottom:4px;">
+                ${player.name}${player.id === lobby.leader ? ' <span style="color:#fff">(Leader)</span>' : ''}
+              </li>
+            `).join("")}
+          </ul>
         </div>
-        <div class="lobby-code-box">${state.lobbyCode}</div>
-        <button id="copyLobbyCodeBtn" class="landing-btn">Copy Code</button>
-        <button id="startLobbyBtn" class="landing-btn">Start Lobby</button>
-        <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
+        ${isLeader ? `<button id="startLobbyBtn" class="landing-btn" style="margin-bottom:12px;">Start Lobby</button>` : `
+          <div style="color:#fff; margin-bottom:16px;">
+            Waiting for leader to start the game...
+          </div>
+        `}
+        <button id="returnLobbyBtn" class="landing-btn lobby-return-btn">Return to Home</button>
       </div>
     </div>
-    <style>
-      .lobby-screen {
-        background: url('ScreenBackground.png');
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-bottom: 32px;
-      }
-      .lobby-logo {
-        width: 350px;
-        max-width: 90vw;
-        margin: 40px auto 24px auto;
-        display: block;
-        pointer-events: none;
-        user-select: none;
-      }
-      .lobby-form {
-        background: rgba(0,0,0,0.16);
-        padding: 32px 16px 24px 16px;
-        border-radius: 18px;
-        box-shadow: 0 4px 32px #3338;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 350px;
-      }
-      .lobby-code-box {
-        font-size: 2.6em;
-        font-weight: bold;
-        letter-spacing: 0.18em;
-        color: #222;
-        background: #fff;
-        border-radius: 13px;
-        padding: 21px 18px 13px 18px;
-        margin: 18px 0 20px 0;
-        text-align: center;
-        box-shadow: 1px 4px 16px #0001;
-        user-select: all;
-      }
-      .landing-btn {
-        width: 100%;
-        min-width: 175px;
-        max-width: 320px;
-        margin: 9px 0;
-        padding: 16px 0;
-        font-size: 1.1em;
-        border: none;
-        border-radius: 7px;
-        background: #ffd600;
-        color: #222;
-        font-weight: bold;
-        cursor: pointer;
-        box-shadow: 1px 2px 8px #0002;
-        transition: background 0.2s, transform 0.12s;
-      }
-      .landing-btn:hover {
-        background: #ffb300;
-        transform: scale(1.03);
-      }
-      .lobby-return-btn {
-        background: #fff;
-        color: url('ScreenBackground.png');
-        margin-top: 18px;
-      }
-      .lobby-return-btn:hover {
-        background: #ffd600;
-        color: #222;
-      }
-      @media (max-width: 600px) {
-        .lobby-logo {
-          width: 80vw;
-          margin-top: 7vw;
-        }
-        .lobby-form {
-          max-width: 98vw;
-          padding: 15px 2vw 12px 2vw;
-        }
-        .lobby-code-box {
-          font-size: 2em;
-          padding: 14px 8px 11px 8px;
-        }
-        .landing-btn {
-          font-size: 1em;
-          padding: 13px 0;
-        }
-      }
-    </style>
   `;
 
-  // Copy code button
-  document.getElementById('copyLobbyCodeBtn').onclick = function() {
-    navigator.clipboard.writeText(state.lobbyCode);
-    alert('Lobby code copied!');
-  };
+  // Attach Start Lobby button handler (only for the leader)
+  if (isLeader) {
+    const startLobbyBtn = document.getElementById('startLobbyBtn');
+    if (startLobbyBtn) {
+      startLobbyBtn.onclick = function() {
+        console.log("Start Lobby clicked!", lobbyCode);
+        update(ref(db, `lobbies/${lobbyCode}`), { status: "category" });
+      };
+    }
+  }
 
-  // Start lobby button (only leader sees this screen)
-  document.getElementById('startLobbyBtn').onclick = function() {
-    update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
-    // Listeners will detect the change and render the correct screen for all players
-  };
-
-  // Return to Home button
-  document.getElementById('returnLandingBtn').onclick = () => {
+  // Attach Return to Home handler (all users)
+  document.getElementById('returnLobbyBtn').onclick = function() {
+    // Remove player from lobby if present
     if (state.lobbyCode && state.playerId) {
       remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
     }
+    // Unsubscribe listeners
     if (state.unsubLobby) {
       state.unsubLobby();
       state.unsubLobby = null;
@@ -989,6 +919,7 @@ function renderLobbyCodeScreen() {
       state.unsubGame();
       state.unsubGame = null;
     }
+    // Reset state and return to landing
     state.lobbyCode = '';
     state.isLeader = false;
     state.players = [];
