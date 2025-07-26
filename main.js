@@ -851,10 +851,34 @@ async function onLobby(lobbyCode) {
           state.screen = 'game';
           startTimer();
           break;
-        case "scoreboard":
-          state.screen = 'scoreboard';
-          break;
-        case "end":
+ case "scoreboard":
+  state.scoreboard = data.scoreboard || [];
+  state.readyPlayers = data.readyPlayers || [];
+  state.screen = 'scoreboard';
+
+  // Check if all players are ready
+  const allReady = state.players.length > 0 && state.players.every(p => p.ready);
+  if (allReady && state.isLeader) {
+    // Advance to next round: update lobby status and other fields as needed
+    update(ref(db, `lobbies/${state.lobbyCode}`), {
+      status: "countdown",
+      round: data.round + 1,
+      // Reset ready status for next round
+      players: Object.fromEntries(
+        Object.entries(data.players).map(([id, p]) => [id, { ...p, ready: false }])
+      )
+      // Optionally add next question, clues etc. here!
+    });
+    return; // Prevent double render
+  }
+
+  render();
+  break;
+    return; // Prevent double render
+  }
+
+  render();
+  break;
           state.screen = 'end';
           break;
         default:
