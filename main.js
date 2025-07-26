@@ -281,6 +281,174 @@ function render() {
   else if (state.screen === 'challengeInstructions') renderChallengeInstructions();
 }
 
+function renderLobby() {
+  const savedName = localStorage.getItem("initially_player_name") || "";
+  $app.innerHTML = `
+    <div class="lobby-screen">
+      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
+      <div class="lobby-form">
+        <input id="playerName" type="text" class="lobby-input" placeholder="Your Name" value="${savedName}">
+        <div style="color:#ffd600; font-size:0.95em; margin-bottom:8px;">
+          Choose carefully as this will be your username from now on!
+        </div>
+        <input id="lobbyCode" type="text" class="lobby-input" placeholder="Lobby Code (to join)">
+        <button id="singlePlayerBtn" class="landing-btn">Single Player</button>
+        <button id="createLobby" class="landing-btn">Create New Lobby</button>
+        <button id="joinLobby" class="landing-btn">Join Lobby</button>
+        <div id="lobbyStatus" style="margin:10px 0;color:#ffd600;min-height:24px;">${state.status || ''}</div>
+        <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
+      </div>
+    </div>
+    <style>
+      .lobby-screen {
+        background: url('ScreenBackground.png');
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 32px;
+      }
+      .lobby-logo {
+        width: 350px;
+        max-width: 90vw;
+        margin: 40px auto 24px auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .lobby-form {
+        background: rgba(0,0,0,0.16);
+        padding: 32px 16px 24px 16px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 350px;
+      }
+      .lobby-input {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        padding: 14px 10px;
+        font-size: 1.08em;
+        margin: 8px 0 14px 0;
+        border-radius: 7px;
+        border: none;
+        background: #fff;
+        box-shadow: 1px 2px 8px #0001;
+        outline: none;
+        text-transform: uppercase;
+      }
+      .lobby-input:focus {
+        border: 2px solid #ffd600;
+      }
+      .landing-btn {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        margin: 9px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .lobby-return-btn {
+        background: #fff;
+        color: url('ScreenBackground.png');
+        margin-top: 18px;
+      }
+      .lobby-return-btn:hover {
+        background: #ffd600;
+        color: #222;
+      }
+      @media (max-width: 600px) {
+        .lobby-logo {
+          width: 80vw;
+          margin-top: 7vw;
+        }
+        .lobby-form {
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
+        }
+        .lobby-input {
+          font-size: 1em;
+          padding: 12px 7px;
+        }
+        .landing-btn {
+          font-size: 1em;
+          padding: 13px 0;
+        }
+      }
+    </style>
+  `;
+
+  // Name input event
+  const playerNameInput = document.getElementById('playerName');
+  playerNameInput.addEventListener('input', e => {
+    state.playerName = e.target.value;
+    localStorage.setItem("initially_player_name", state.playerName);
+  });
+  state.playerName = savedName;
+
+  // Single Player button
+  document.getElementById('singlePlayerBtn').onclick = () => {
+    const name = document.getElementById('playerName').value.trim();
+    if (!name) {
+      alert("Please enter your name to play!");
+      return;
+    }
+    state.playerName = name;
+    state.mode = 'single';
+    state.screen = 'category';
+    render();
+  };
+
+  // Multiplayer event handlers
+  document.getElementById('createLobby').onclick = typeof onCreateLobby === "function" ? onCreateLobby : () => alert("Multiplayer is not available right now.");
+  document.getElementById('joinLobby').onclick = typeof onJoinLobby === "function" ? onJoinLobby : () => alert("Multiplayer is not available right now.");
+
+  // Return to Home
+  document.getElementById('returnLandingBtn').onclick = () => {
+    // Remove player from lobby if present
+    if (state.lobbyCode && state.playerId) {
+      if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
+        remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+      }
+    }document.getElementById('startLobbyBtn').onclick = function() {
+  console.log("Start Lobby clicked!", state.lobbyCode);
+  update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
+};
+    // Unsubscribe listeners
+    if (state.unsubLobby) {
+      state.unsubLobby();
+      state.unsubLobby = null;
+    }
+    if (state.unsubGame) {
+      state.unsubGame();
+      state.unsubGame = null;
+    }
+    // Reset state
+    state.lobbyCode = '';
+    state.isLeader = false;
+    state.players = [];
+    state.status = '';
+    state.scoreboard = [];
+    state.screen = 'landing';
+    render();
+  };
+}
 function onStartLobby() {
   update(ref(db, `lobbies/${state.lobbyCode}`), { status: "category" });
 }
