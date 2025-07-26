@@ -786,24 +786,11 @@ async function onCreate() {
   state.players = [{ name: state.playerName, score: 0, ready: false }];
   state.status = 'lobbyCode';
 
-  // 5. Set up a listener for lobby changes
-  if (state.unsubLobby) state.unsubLobby();
-  state.unsubLobby = onValue(lobbyRef, snapshot => {
-    const data = snapshot.val();
-    if (data) {
-      // Update local state based on lobby changes
-      state.players = Object.entries(data.players || {}).map(([id, p]) => ({ ...p, id }));
-      state.status = data.status;
-      state.round = data.round;
-      state.category = data.category;
-      state.leader = data.leader;
-      // Add more as needed (question, clues, scores, etc.)
-      render();
-    }
-  });
-
+  // 5. Set up the shared listener for lobby changes
+listenLobby();
+  
   // 6. Show lobby code screen
-  state.screen = 'lobbyCode'; // <-- Let your main render() handle the correct screen
+  state.screen = 'lobbyCode'; 
   render();
 }
 async function onLobby(lobbyCode) {
