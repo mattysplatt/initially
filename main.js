@@ -823,39 +823,37 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
   if (data) {
     state.players = Object.entries(data.players || {}).map(([id, p]) => ({ ...p, id }));
     state.leader = data.leader;
-    state.isLeader = (state.playerId === data.leader); // <-- Fix here
+    state.isLeader = (state.playerId === data.leader);
     state.status = data.status;
     state.round = data.round;
     state.category = data.category;
     state.lobbyCode = lobbyCode;
-   switch (data.status) {
-  case "lobbyCode":
-    state.screen = 'lobbyCode';
-    break;
-  case "category":
-    state.screen = 'category';
-    break;
- case "playing":
-  state.question = data.question;
-  state.clues = data.clues;
-  state.clueIdx = data.clueIdx; // if you use this
-  console.log("Lobby question:", data.question);
-  console.log("Lobby clues:", data.clues);
-  state.screen = 'game';
-  render();
-  startTimer();
-  break;
-  case "scoreboard":
-    state.screen = 'scoreboard';
-    break;
-  case "end":
-    state.screen = 'end';
-    break;
-  default:
-    state.screen = 'lobby';
-    break;
-}
-render();
+
+    switch (data.status) {
+      case "lobbyCode":
+        state.screen = 'lobbyCode';
+        break;
+      case "category":
+        state.screen = 'category';
+        break;
+      case "playing":
+        state.question = data.question;
+        state.clues = data.clues;
+        state.clueIdx = data.clueIdx;
+        state.screen = 'game';
+        startTimer();
+        break;
+      case "scoreboard":
+        state.screen = 'scoreboard';
+        break;
+      case "end":
+        state.screen = 'end';
+        break;
+      default:
+        state.screen = 'lobby';
+        break;
+    }
+    render(); // <--- Only call once, after the switch!
   }
 });
 
