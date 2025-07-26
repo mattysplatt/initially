@@ -964,21 +964,23 @@ function renderLobbyCodeScreen() {
     </style>
   `;
 
+  // Copy code button
   document.getElementById('copyLobbyCodeBtn').onclick = function() {
     navigator.clipboard.writeText(state.lobbyCode);
     alert('Lobby code copied!');
   };
+
+  // Start lobby button (only leader sees this screen)
   document.getElementById('startLobbyBtn').onclick = function() {
-    // Advance lobby status to category selection
     update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
     // Listeners will detect the change and render the correct screen for all players
   };
+
+  // Return to Home button
   document.getElementById('returnLandingBtn').onclick = () => {
-    // Remove player from lobby in Firebase
     if (state.lobbyCode && state.playerId) {
       remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
     }
-    // Unsubscribe listeners
     if (state.unsubLobby) {
       state.unsubLobby();
       state.unsubLobby = null;
@@ -987,7 +989,6 @@ function renderLobbyCodeScreen() {
       state.unsubGame();
       state.unsubGame = null;
     }
-    // Reset relevant state
     state.lobbyCode = '';
     state.isLeader = false;
     state.players = [];
@@ -996,20 +997,6 @@ function renderLobbyCodeScreen() {
     state.screen = 'landing';
     render();
   };
-}
-function saveScoreToLeaderboard(playerId, name, score) {
-  const leaderboardRef = ref(db, 'leaderboard/' + playerId);
-  // First, get the existing score for this player
-  get(leaderboardRef).then(snapshot => {
-    if (!snapshot.exists() || snapshot.val().score < score) {
-      // Only write if new score is higher or no score yet
-      set(leaderboardRef, {
-        name,
-        score
-      });
-    }
-    // If score is lower, do nothing
-  });
 }
 function renderScoreboard() {
    listenLeaderboard(function(sortedScores) {
