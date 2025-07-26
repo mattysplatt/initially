@@ -1654,9 +1654,11 @@ function createLobby() {
     usedQuestions: [],
     maxRounds: 10
   }).then(() => {
-    state.screen = 'lobbyCode';
-    render();
-  });
+  state.mode = 'multi';
+  listenLobby();
+  state.screen = 'lobbyCode';
+  render();
+});
 }
 function joinLobby() {
   const name = state.playerName;
