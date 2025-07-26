@@ -835,9 +835,13 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
   case "category":
     state.screen = 'category';
     break;
-  case "playing":
-    state.screen = 'game';
-    break;
+ case "playing":
+  console.log("Lobby question:", lobby.question);
+  console.log("Lobby clues:", lobby.clues);
+  state.screen = 'game';
+  render();
+  startTimer();
+  break;
   case "scoreboard":
     state.screen = 'scoreboard';
     break;
