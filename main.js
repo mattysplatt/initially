@@ -863,10 +863,11 @@ const onJoinLobby = () => {
   onLobby(code);
 };
 function renderLobbyCodeScreen() {
-  // Get the current lobby code and list of players from state
+  // Get lobby info from state
   const lobbyCode = state.lobbyCode || "";
   const isLeader = state.isLeader;
   const players = state.players || [];
+  const leaderId = state.leader; // Should be set by your lobby listener
 
   $app.innerHTML = `
     <div class="lobby-screen">
@@ -878,7 +879,7 @@ function renderLobbyCodeScreen() {
           <ul style="list-style:none; padding:0;">
             ${players.map(player => `
               <li style="color:#ffd600; font-size:1.03em; margin-bottom:4px;">
-                ${player.name}${player.id === lobby.leader ? ' <span style="color:#fff">(Leader)</span>' : ''}
+                ${player.name}${player.id === leaderId ? ' <span style="color:#fff">(Leader)</span>' : ''}
               </li>
             `).join("")}
           </ul>
@@ -891,6 +892,99 @@ function renderLobbyCodeScreen() {
         <button id="returnLobbyBtn" class="landing-btn lobby-return-btn">Return to Home</button>
       </div>
     </div>
+    <style>
+      .lobby-screen {
+        background: url('ScreenBackground.png');
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 32px;
+      }
+      .lobby-logo {
+        width: 350px;
+        max-width: 90vw;
+        margin: 40px auto 24px auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .lobby-form {
+        background: rgba(0,0,0,0.16);
+        padding: 32px 16px 24px 16px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 350px;
+      }
+      .lobby-input {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        padding: 14px 10px;
+        font-size: 1.08em;
+        margin: 8px 0 14px 0;
+        border-radius: 7px;
+        border: none;
+        background: #fff;
+        box-shadow: 1px 2px 8px #0001;
+        outline: none;
+        text-transform: uppercase;
+      }
+      .lobby-input:focus {
+        border: 2px solid #ffd600;
+      }
+      .landing-btn {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        margin: 9px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .lobby-return-btn {
+        background: #fff;
+        color: url('ScreenBackground.png');
+        margin-top: 18px;
+      }
+      .lobby-return-btn:hover {
+        background: #ffd600;
+        color: #222;
+      }
+      @media (max-width: 600px) {
+        .lobby-logo {
+          width: 80vw;
+          margin-top: 7vw;
+        }
+        .lobby-form {
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
+        }
+        .lobby-input {
+          font-size: 1em;
+          padding: 12px 7px;
+        }
+        .landing-btn {
+          font-size: 1em;
+          padding: 13px 0;
+        }
+      }
+    </style>
   `;
 
   // Attach Start Lobby button handler (only for the leader)
@@ -928,67 +1022,6 @@ function renderLobbyCodeScreen() {
     state.screen = 'landing';
     render();
   };
-}
-function renderScoreboard() {
-   listenLeaderboard(function(sortedScores) {
-    $app.innerHTML = `
-      <div class="scoreboard-screen" style="background:url('ScreenBackground.png');min-height:100vh;padding:40px;">
-       <h2 style="color:#ffd600; text-align:center;">Monthly Challenge Scoreboard</h2>
-<div id="resetCountdown" style="color:#111; text-align:center; font-size:1.1em; margin-bottom:10px;"></div>
-        <div style="background:#fff;max-width:480px;margin:32px auto;padding:24px 12px;border-radius:12px;box-shadow:0 2px 12px #0002;">
-          <table style="width:100%;border-collapse:collapse;">
-            <thead>
-              <tr style="background:#ffd600;color:#222;">
-                <th style="text-align:left;padding:8px 4px;">Place</th>
-                <th style="text-align:left;padding:8px 4px;">Name</th>
-                <th style="text-align:right;padding:8px 4px;">Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${
-                sortedScores.length
-                  ? sortedScores.map((item, idx) =>
-                      `<tr style="border-bottom:1px solid #eee;">
-                        <td style="padding:8px 4px;color:#000;">${idx + 1}${idx === 0 ? ' 🥇' : idx === 1 ? ' 🥈' : idx === 2 ? ' 🥉' : ''}</td>
-                        <td style="padding:8px 4px;color:#000;">${item.name.toUpperCase()}</td>
-                        <td style="text-align:right;padding:8px 4px;color:#000;">${item.score}</td>
-                      </tr>`
-                    ).join('')
-                  : `<tr><td colspan="3" style="text-align:center;color:#000;padding:16px;">No scores yet.</td></tr>`
-              }
-            </tbody>
-          </table>
-        </div>
-        <div style="width:100%; display:flex; justify-content:center; margin-top:24px;">
-          <button id="returnLandingBtn" class="landing-btn" style="max-width:320px; width:100%;">Return to Home</button>
-        </div>
-      </div>
-    `;
-   document.getElementById('returnLandingBtn').onclick = () => {
-  // Remove player from lobby in Firebase
-  if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-  }
-  // Unsubscribe listeners
-  if (state.unsubLobby) {
-    state.unsubLobby();
-    state.unsubLobby = null;
-  }
-  if (state.unsubGame) {
-    state.unsubGame();
-    state.unsubGame = null;
-  }
-  // Reset relevant state
-  state.lobbyCode = '';
-  state.isLeader = false;
-  state.players = [];
-  state.status = '';
-  state.scoreboard = [];
-  state.screen = 'landing';
-  render();
-};
-     startResetCountdown();
-  });
 }
 // --- CATEGORY GRID FOR BOTH MODES ---
 function renderCategory() {
