@@ -869,10 +869,8 @@ function renderLobbyCodeScreen() {
         </div>
         <div class="lobby-code-box">${state.lobbyCode}</div>
         <button id="copyLobbyCodeBtn" class="landing-btn">Copy Code</button>
-        document.getElementById('startLobbyBtn').onclick = function() {
-      update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
-      };
-         <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
+        <button id="startLobbyBtn" class="landing-btn">Start Lobby</button>
+        <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
       </div>
     </div>
     <style>
@@ -965,6 +963,7 @@ function renderLobbyCodeScreen() {
       }
     </style>
   `;
+
   document.getElementById('copyLobbyCodeBtn').onclick = function() {
     navigator.clipboard.writeText(state.lobbyCode);
     alert('Lobby code copied!');
