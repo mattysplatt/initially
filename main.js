@@ -859,18 +859,23 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
         // Check if all players are ready
         const allReady = state.players.length > 0 && state.players.every(p => p.ready);
       if (allReady) {
-          // Advance to next round: update lobby status and other fields as needed
-          update(ref(db, `lobbies/${state.lobbyCode}`), {
-            status: "countdown",
-            round: data.round + 1,
-            // Reset ready status for next round
-            players: Object.fromEntries(
-              Object.entries(data.players).map(([id, p]) => [id, { ...p, ready: false }])
-            )
-            // Optionally add next question, clues etc. here!
-          });
-          return; // Prevent double render
-        }
+  const nextRound = data.round + 1;
+  // Get the next question/clues (replace with your logic)
+  const nextQ = getNextQuestion(nextRound); // You must define this function
+
+  update(ref(db, `lobbies/${state.lobbyCode}`), {
+    status: "playing",         // Go straight to game, no countdown!
+    round: nextRound,
+    question: nextQ.question,  // Set new question (or initials)
+    clues: nextQ.clues,        // Set new clues
+    clueIdx: 0,                // Start at first clue
+    points: 60,                // Reset points if needed
+    players: Object.fromEntries(
+      Object.entries(data.players).map(([id, p]) => [id, { ...p, ready: false }])
+    )
+  });
+  return; // Prevent double render
+}
         break;
       case "end":
         state.screen = 'end';
