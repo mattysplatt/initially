@@ -1757,7 +1757,11 @@ function listenLobby() {
     // Core status-based screen routing
     switch (lobby.status) {
       case "lobbyCode":
-        state.screen = 'lobbyCode';
+        if (state.isLeader) {
+          state.screen = 'lobbyCode'; // Leader sees lobby code
+        } else {
+          state.screen = 'category';  // Players go straight to category selection
+        }
         render();
         break;
       case "category":
