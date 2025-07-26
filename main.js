@@ -1428,27 +1428,11 @@ function submitGuess() {
 
     // === MULTIPLAYER MODE ===
     } else if (state.mode === 'multi') {
-      // Submit correct guess to Firebase
-      update(ref(db, `lobbies/${state.lobbyCode}/guesses/${state.playerId}`), {
-        guess,
-        correct: true,
-        points: state.points,
-        timestamp: Date.now()
+      update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
+        [state.playerId]: { guess, correct: true, points: state.points }
       });
-      
       state.guess = '';
-      state.correctPrompt = true;
-      render();
-      
-      // Wait a moment to show "correct" then check if round should end
-      setTimeout(() => {
-        state.correctPrompt = false;
-        render();
-        // The endRound will be triggered by the leader checking guesses
-        if (state.isLeader) {
-          endRound();
-        }
-      }, 1500);
+      endRound();
 
     } else {
       // Fallback for any unexpected mode
@@ -1458,16 +1442,6 @@ function submitGuess() {
 
   } else {
     // INCORRECT GUESS (All Modes)
-    if (state.mode === 'multi') {
-      // Record incorrect guess in multiplayer
-      update(ref(db, `lobbies/${state.lobbyCode}/guesses/${state.playerId}`), {
-        guess,
-        correct: false,
-        points: 0,
-        timestamp: Date.now()
-      });
-    }
-    
     state.guess = '';
     state.incorrectPrompt = true;
     render();
@@ -1709,11 +1683,6 @@ function listenLobby() {
     state.round = lobby.round;
     state.category = lobby.category;
     state.status = '';
-    
-    // Update game state
-    const wasNewQuestion = state.question && 
-      state.question.initials !== (lobby.question?.initials || '');
-    
     state.question = lobby.question;
     state.clues = lobby.clues;
     state.clueIdx = lobby.clueIdx;
@@ -1721,12 +1690,12 @@ function listenLobby() {
     state.guesses = lobby.guesses || {};
 
     // Reset guess if new question
-    if (wasNewQuestion || (
+    if (
       state.question &&
       state.question.initials !== (state.lastQuestionInitials || '')
-    )) {
+    ) {
       state.guess = '';
-      state.lastQuestionInitials = state.question?.initials || '';
+      state.lastQuestionInitials = state.question.initials;
     }
 
     // Handle screen transitions based on lobby status
@@ -1759,9 +1728,6 @@ function listenLobby() {
         if (state.screen !== 'game') {
           state.screen = 'game';
           render();
-        }
-        // Only start timer if not already running and we have a question
-        if (state.question && !window.timerInterval) {
           startTimer();
         }
         break;
@@ -1769,7 +1735,6 @@ function listenLobby() {
         state.scoreboard = lobby.scoreboard || [];
         state.readyPlayers = lobby.readyPlayers || [];
         if (state.screen !== 'scoreboard') {
-          clearInterval(window.timerInterval); // Stop game timer
           state.screen = 'scoreboard';
           render();
         }
@@ -1777,7 +1742,6 @@ function listenLobby() {
       case "end":
         state.scoreboard = lobby.scoreboard || [];
         if (state.screen !== 'end') {
-          clearInterval(window.timerInterval); // Stop game timer
           state.screen = 'end';
           render();
         }
@@ -1804,7 +1768,7 @@ function chooseCategory(category) {
   state.guess = '';
 
   if (state.lobbyCode) {
-    // Multiplayer: update lobby with new game data
+    // Multiplayer: update only relevant lobby fields
     update(ref(db, `lobbies/${state.lobbyCode}`), {
       status: "countdown",
       category,
@@ -1815,12 +1779,14 @@ function chooseCategory(category) {
       points: 60,
       guesses: {},
       scoreboard: [],
+      readyPlayers: [],
       usedQuestions: [firstQuestion.answer],
       maxRounds: 10,
     });
-    // The countdown->playing transition will be handled by the lobby listener
+    // The leader will handle switching from countdown to playing after 3 seconds in the listener
   } else {
     // Single Player: set up local state only
+    state.status = "countdown";
     state.category = category;
     state.round = 1;
     state.question = firstQuestion;
@@ -1829,63 +1795,56 @@ function chooseCategory(category) {
     state.points = 60;
     state.guesses = {};
     state.scoreboard = [];
-    state.usedAnswers = [firstQuestion.answer];
+    state.readyPlayers = [];
+    state.usedQuestions = [firstQuestion.answer];
     state.maxRounds = 10;
-    state.screen = 'countdown';
+    // Render the countdown/category UI for single player
     render();
   }
 }
 function startTimer() {
   clearInterval(window.timerInterval);
-  state.timer = 10; 
-  renderTimer();
-  
+  state.timer = 10; renderTimer();
   window.timerInterval = setInterval(() => {
     state.timer--;
     renderTimer();
-    
-    if (state.timer <= 0) {
-      clearInterval(window.timerInterval);
+  if (state.timer <= 0) {
+  clearInterval(window.timerInterval);
 
-      if (state.mode === 'monthly') {
-        // Move to next clue with points deduction
-        let clueIdx = state.clueIdx;
-        let points = state.points;
-        if (clueIdx < 4) {
-          clueIdx++;
-          points -= 10;
-          state.clueIdx = clueIdx;
-          state.points = points;
-          startTimer();
-          render();
-        } else {
-          // If all clues shown, move to next question
-          state.challengeIdx++;
-          if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
-            const nextQuestion = state.challengeQuestions[state.challengeIdx];
-            state.question = nextQuestion;
-            state.clues = shuffle(nextQuestion.clues);
-            state.clueIdx = 0;
-            state.points = 60;
-            state.guess = '';
-            render();
-            startTimer();
-          } else {
-            clearInterval(window.monthlyTimerInterval);
-            saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
-            state.screen = 'scoreboard';
-            render();
-          }
-        }
-      } else if (state.mode === 'single') {
-        revealNextClue();
-      } else if (state.mode === 'multi') {
-        // In multiplayer, only the leader controls timer advancement
-        if (state.isLeader) {
-          revealNextClue();
-        }
+  if (state.mode === 'monthly') {
+    // Move to next clue with points deduction
+    let clueIdx = state.clueIdx;
+    let points = state.points;
+    if (clueIdx < 4) {
+      clueIdx++;
+      points -= 10;
+      state.clueIdx = clueIdx;
+      state.points = points;
+      startTimer();
+      render();
+    } else {
+      // If all clues shown, move to next question
+      state.challengeIdx++;
+      if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
+        const nextQuestion = state.challengeQuestions[state.challengeIdx];
+        state.question = nextQuestion;
+        state.clues = shuffle(nextQuestion.clues);
+        state.clueIdx = 0;
+        state.points = 60;
+        state.guess = '';
+        render();
+        startTimer();
+      } else {
+        clearInterval(window.monthlyTimerInterval);
+         saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
+        state.screen = 'scoreboard';
+        render();
       }
     }
+  } else {
+    revealNextClue();
+  }
+}
   }, 1000);
 }
 function renderTimer() {
@@ -1937,19 +1896,14 @@ function revealNextClue() {
         render();
       }
     }
-  } else if (state.mode === 'multi') {
-    // Multiplayer: update Firebase (only leader should call this)
+  } else {
+    // Multiplayer: update Firebase as before
     if (clueIdx < 4) {
       clueIdx++;
-      points = Math.max(0, points - 10);
-      update(ref(db, `lobbies/${state.lobbyCode}`), { 
-        clueIdx, 
-        points,
-        timer: 10
-      });
-      // Don't call startTimer here - the listener will handle it
+      points -= 10;
+      update(ref(db, `lobbies/${state.lobbyCode}`), { clueIdx, points });
+      startTimer();
     } else {
-      // All clues shown, end round
       endRound();
     }
   }
@@ -2019,39 +1973,26 @@ function submitMonthlyGuess() {
 }
 function endRound() {
   clearInterval(window.timerInterval);
-  
   get(ref(db, `lobbies/${state.lobbyCode}`)).then(snap => {
     const lobby = snap.val();
     const guesses = lobby.guesses || {};
     const players = lobby.players || {};
-    
-    // Calculate scores for this round
     let scoreboard = Object.entries(players).map(([id, p]) => {
       let guess = guesses[id];
-      let roundPoints = (guess && guess.correct) ? (guess.points || 0) : 0;
-      let newScore = (p.score || 0) + roundPoints;
-      return { 
-        name: p.name.toUpperCase(), 
-        score: newScore,
-        id: id
-      };
+      let add = (guess && guess.correct) ? lobby.points : 0;
+      return { name: p.name.toUpperCase(), score: (p.score||0) + add };
     });
-
-    // Update player scores in Firebase
-    const updates = {};
     for (let [id, p] of Object.entries(players)) {
       let guess = guesses[id];
-      let roundPoints = (guess && guess.correct) ? (guess.points || 0) : 0;
-      updates[`players/${id}/score`] = (p.score || 0) + roundPoints;
-      updates[`players/${id}/ready`] = false; // Reset ready state
+      let add = (guess && guess.correct) ? lobby.points : 0;
+      update(ref(db, `lobbies/${state.lobbyCode}/players/${id}`), {
+        score: (p.score||0) + add
+      });
     }
-
-    // Update lobby with new scores and scoreboard screen
-    updates.status = "scoreboard";
-    updates.scoreboard = scoreboard;
-    updates.guesses = {}; // Clear guesses for next round
-    
-    update(ref(db, `lobbies/${state.lobbyCode}`), updates);
+    update(ref(db, `lobbies/${state.lobbyCode}`), {
+      status: "scoreboard",
+      scoreboard: scoreboard
+    });
   });
 }
 
@@ -2060,36 +2001,29 @@ function markReady() {
     .then(() => {
       get(ref(db, `lobbies/${state.lobbyCode}`)).then(async snap => {
         const lobby = snap.val();
-        const players = lobby.players || {};
-        const readyPlayers = Object.values(players).filter(p => p.ready).length;
-        const numPlayers = Object.keys(players).length;
+        const readyPlayers = Object.values(lobby.players || {}).filter(p => p.ready).length;
+        const numPlayers = Object.keys(lobby.players || {}).length;
 
-        if (readyPlayers === numPlayers && state.isLeader) {
+        if (readyPlayers === numPlayers) {
           let round = lobby.round + 1;
           if (round > (lobby.maxRounds || 10)) {
             await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
             return;
           }
-          
           const usedAnswers = lobby.usedQuestions || [];
           const category = lobby.category;
           const nextQuestion = getRandomUnusedQuestion(category, usedAnswers);
-          
           if (!nextQuestion) {
             await update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
             return;
           }
-          
           const newUsedAnswers = [...usedAnswers, nextQuestion.answer];
-          
-          // Reset all players ready state and start new round
-          const playerUpdates = {};
-          Object.keys(players).forEach(id => {
-            playerUpdates[`players/${id}/ready`] = false;
-          });
+          const players = Object.fromEntries(
+            Object.entries(lobby.players).map(([id, p]) => [id, { ...p, ready: false }])
+          );
 
-          await update(ref(db, `lobbies/${state.lobbyCode}`), {
-            ...playerUpdates,
+          await set(ref(db, `lobbies/${state.lobbyCode}`), {
+            ...lobby,
             status: "playing",
             round,
             question: nextQuestion,
@@ -2097,7 +2031,10 @@ function markReady() {
             clueIdx: 0,
             points: 60,
             guesses: {},
+            scoreboard: lobby.scoreboard || [],
+            readyPlayers: [],
             usedQuestions: newUsedAnswers,
+            players,
           });
         }
       });
