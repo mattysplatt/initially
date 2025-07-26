@@ -300,7 +300,97 @@ function renderLobby() {
       </div>
     </div>
     <style>
-      /* (CSS remains unchanged) */
+      .lobby-screen {
+        background: url('ScreenBackground.png');
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 32px;
+      }
+      .lobby-logo {
+        width: 350px;
+        max-width: 90vw;
+        margin: 40px auto 24px auto;
+        display: block;
+        pointer-events: none;
+        user-select: none;
+      }
+      .lobby-form {
+        background: rgba(0,0,0,0.16);
+        padding: 32px 16px 24px 16px;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px #3338;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 350px;
+      }
+      .lobby-input {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        padding: 14px 10px;
+        font-size: 1.08em;
+        margin: 8px 0 14px 0;
+        border-radius: 7px;
+        border: none;
+        background: #fff;
+        box-shadow: 1px 2px 8px #0001;
+        outline: none;
+        text-transform: uppercase;
+      }
+      .lobby-input:focus {
+        border: 2px solid #ffd600;
+      }
+      .landing-btn {
+        width: 100%;
+        min-width: 175px;
+        max-width: 320px;
+        margin: 9px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .lobby-return-btn {
+        background: #fff;
+        color: url('ScreenBackground.png');
+        margin-top: 18px;
+      }
+      .lobby-return-btn:hover {
+        background: #ffd600;
+        color: #222;
+      }
+      @media (max-width: 600px) {
+        .lobby-logo {
+          width: 80vw;
+          margin-top: 7vw;
+        }
+        .lobby-form {
+          max-width: 98vw;
+          padding: 15px 2vw 12px 2vw;
+        }
+        .lobby-input {
+          font-size: 1em;
+          padding: 12px 7px;
+        }
+        .landing-btn {
+          font-size: 1em;
+          padding: 13px 0;
+        }
+      }
     </style>
   `;
 
@@ -326,32 +416,15 @@ function renderLobby() {
   };
 
   // Multiplayer event handlers
-  document.getElementById('createLobby').onclick = () => {
-    if (typeof onCreateLobby === "function") {
-      onCreateLobby();
-    } else {
-      alert("Multiplayer is not available right now.");
-    }
-  };
-
-  document.getElementById('joinLobby').onclick = () => {
-    if (typeof onJoinLobby === "function") {
-      onJoinLobby();
-    } else {
-      alert("Multiplayer is not available right now.");
-    }
-  };
+  document.getElementById('createLobby').onclick = typeof onCreateLobby === "function" ? onCreateLobby : () => alert("Multiplayer is not available right now.");
+  document.getElementById('joinLobby').onclick = typeof onJoinLobby === "function" ? onJoinLobby : () => alert("Multiplayer is not available right now.");
 
   // Return to Home
   document.getElementById('returnLandingBtn').onclick = () => {
     // Remove player from lobby if present
     if (state.lobbyCode && state.playerId) {
       if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
-        try {
-          remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-        } catch (error) {
-          console.error("Failed to remove player from lobby:", error);
-        }
+        remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
       }
     }
     // Unsubscribe listeners
@@ -363,13 +436,12 @@ function renderLobby() {
       state.unsubGame();
       state.unsubGame = null;
     }
-    // Reset multiplayer-specific state
+    // Reset state
     state.lobbyCode = '';
     state.isLeader = false;
     state.players = [];
     state.status = '';
     state.scoreboard = [];
-    // Return to landing screen
     state.screen = 'landing';
     render();
   };
