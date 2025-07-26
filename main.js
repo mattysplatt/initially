@@ -2197,7 +2197,7 @@ function renderInstructionsScreen() {
  * ============================================================================ */
 
 // Initialize the application
-function initializeApp() {
+function initializeGameApp() {
   // Initialize Firebase authentication
   initializeAuth();
   
@@ -2215,8 +2215,8 @@ function initializeApp() {
 
 // Start the application when DOM is ready
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeApp);
+  document.addEventListener('DOMContentLoaded', initializeGameApp);
 } else {
-  initializeApp();
+  initializeGameApp();
 }
 
