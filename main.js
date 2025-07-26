@@ -281,22 +281,33 @@ function render() {
   else if (state.screen === 'challengeInstructions') renderChallengeInstructions();
 }
 
-function renderLobby() {
-  const savedName = localStorage.getItem("initially_player_name") || "";
+function renderLobbyCodeScreen() {
+  const lobbyCode = state.lobbyCode || "";
+  const isLeader = state.isLeader;
+  const players = state.players || [];
+  const leaderId = state.leader; // Should be set by your lobby listener
+
   $app.innerHTML = `
     <div class="lobby-screen">
       <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
       <div class="lobby-form">
-        <input id="playerName" type="text" class="lobby-input" placeholder="Your Name" value="${savedName}">
-        <div style="color:#ffd600; font-size:0.95em; margin-bottom:8px;">
-          Choose carefully as this will be your username from now on!
+        <h2 style="margin-bottom:12px; color:#ffd600;">Lobby Code: <span style="font-weight:bold;">${lobbyCode}</span></h2>
+        <div style="margin-bottom:18px;">
+          <div style="font-size:1.1em; color:#fff; margin-bottom:6px;">Players in Lobby:</div>
+          <ul style="list-style:none; padding:0;">
+            ${players.map(player => `
+              <li style="color:#ffd600; font-size:1.03em; margin-bottom:4px;">
+                ${player.name}${player.id === leaderId ? ' <span style="color:#fff">(Leader)</span>' : ''}
+              </li>
+            `).join("")}
+          </ul>
         </div>
-        <input id="lobbyCode" type="text" class="lobby-input" placeholder="Lobby Code (to join)">
-        <button id="singlePlayerBtn" class="landing-btn">Single Player</button>
-        <button id="createLobby" class="landing-btn">Create New Lobby</button>
-        <button id="joinLobby" class="landing-btn">Join Lobby</button>
-        <div id="lobbyStatus" style="margin:10px 0;color:#ffd600;min-height:24px;">${state.status || ''}</div>
-        <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
+        ${isLeader ? `<button id="startLobbyBtn" class="landing-btn" style="margin-bottom:12px;">Start Lobby</button>` : `
+          <div style="color:#fff; margin-bottom:16px;">
+            Waiting for leader to start the game...
+          </div>
+        `}
+        <button id="returnLobbyBtn" class="landing-btn lobby-return-btn">Return to Home</button>
       </div>
     </div>
     <style>
@@ -366,7 +377,7 @@ function renderLobby() {
       }
       .lobby-return-btn {
         background: #fff;
-        color: url('ScreenBackground.png');
+        color: #222;
         margin-top: 18px;
       }
       .lobby-return-btn:hover {
@@ -394,42 +405,23 @@ function renderLobby() {
     </style>
   `;
 
-  // Name input event
-  const playerNameInput = document.getElementById('playerName');
-  playerNameInput.addEventListener('input', e => {
-    state.playerName = e.target.value;
-    localStorage.setItem("initially_player_name", state.playerName);
-  });
-  state.playerName = savedName;
-
-  // Single Player button
-  document.getElementById('singlePlayerBtn').onclick = () => {
-    const name = document.getElementById('playerName').value.trim();
-    if (!name) {
-      alert("Please enter your name to play!");
-      return;
+  // Attach Start Lobby button handler (only for the leader)
+  if (isLeader) {
+    const startLobbyBtn = document.getElementById('startLobbyBtn');
+    if (startLobbyBtn) {
+      startLobbyBtn.onclick = function() {
+        console.log("Start Lobby clicked!", lobbyCode);
+        update(ref(db, `lobbies/${lobbyCode}`), { status: 'category' });
+      };
     }
-    state.playerName = name;
-    state.mode = 'single';
-    state.screen = 'category';
-    render();
-  };
+  }
 
-  // Multiplayer event handlers
-  document.getElementById('createLobby').onclick = typeof onCreateLobby === "function" ? onCreateLobby : () => alert("Multiplayer is not available right now.");
-  document.getElementById('joinLobby').onclick = typeof onJoinLobby === "function" ? onJoinLobby : () => alert("Multiplayer is not available right now.");
-
-  // Return to Home
-  document.getElementById('returnLandingBtn').onclick = () => {
+  // Attach Return to Home handler (all users)
+  document.getElementById('returnLobbyBtn').onclick = function() {
     // Remove player from lobby if present
     if (state.lobbyCode && state.playerId) {
-      if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
-        remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-      }
-    }document.getElementById('startLobbyBtn').onclick = function() {
-  console.log("Start Lobby clicked!", state.lobbyCode);
-  update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
-};
+      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+    }
     // Unsubscribe listeners
     if (state.unsubLobby) {
       state.unsubLobby();
@@ -439,7 +431,7 @@ function renderLobby() {
       state.unsubGame();
       state.unsubGame = null;
     }
-    // Reset state
+    // Reset state and return to landing
     state.lobbyCode = '';
     state.isLeader = false;
     state.players = [];
