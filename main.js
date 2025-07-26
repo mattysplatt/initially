@@ -818,7 +818,6 @@ async function onLobby(lobbyCode) {
   }
   
   // 3. Set up listener for lobby updates
-let lastScreen = null;
 state.unsubLobby = onValue(lobbyRef, snapshot => {
   const data = snapshot.val();
   if (data) {
@@ -831,7 +830,6 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
     state.category = data.category;
     state.lobbyCode = lobbyCode;
 
-    // Set state.screen based on lobby status
     switch (data.status) {
       case "lobbyCode":
         state.screen = 'lobbyCode';
@@ -839,11 +837,15 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
       case "category":
         state.screen = 'category';
         break;
-      case "countdown":
+         case "countdown":
         state.screen = 'countdown';
         break;
       case "playing":
+        state.question = data.question;
+        state.clues = data.clues;
+        state.clueIdx = data.clueIdx;
         state.screen = 'game';
+        startTimer();
         break;
       case "scoreboard":
         state.screen = 'scoreboard';
@@ -855,12 +857,7 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
         state.screen = 'lobby';
         break;
     }
-
-    // Only render if the screen has changed
-    if (state.screen !== lastScreen) {
-      render();
-      lastScreen = state.screen;
-    }
+    render(); // <--- Only call once, after the switch!
   }
 });
 
@@ -1553,9 +1550,8 @@ function renderGame() {
 if (state.players.length > 0) {
   const readyBtn = document.getElementById('readyBtn');
   if (readyBtn) {
-  readyBtn.onclick = () => {
-    update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true });
-  };
+    readyBtn.onclick = markReady;
+  }
 }
 
 attachReturnToStartHandler();
