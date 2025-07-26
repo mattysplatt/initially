@@ -963,9 +963,11 @@ function renderLobbyCodeScreen() {
     navigator.clipboard.writeText(state.lobbyCode);
     alert('Lobby code copied!');
   };
-  document.getElementById('startLobbyBtn').onclick = function() {
-    joinLobbyByCode(state.lobbyCode, state.playerName, true);
-  };
+ document.getElementById('startLobbyBtn').onclick = function() {
+  // Advance lobby status to category selection or countdown
+  update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
+  // Listeners will detect the change and render the correct screen for all players
+};
  document.getElementById('returnLandingBtn').onclick = () => {
   // Remove player from lobby in Firebase
   if (state.lobbyCode && state.playerId) {
