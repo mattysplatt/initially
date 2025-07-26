@@ -750,6 +750,100 @@ function startMonthlyChallenge() {
   state.screen = 'countdown';
   render();
 }
+async function onCreate() {
+  // 1. Generate a unique 6-letter lobby code
+  const lobbyCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+  // 2. Prepare lobby data
+  const lobbyData = {
+    leader: state.playerId,
+    players: {
+      [state.playerId]: {
+        name: state.playerName,
+        score: 0,
+        ready: false
+      }
+    },
+    status: 'waiting',
+    round: 1,
+    category: state.category || '',
+    createdAt: Date.now()
+  };
+
+  // 3. Write to Firebase
+  const lobbyRef = ref(db, `lobbies/${lobbyCode}`);
+  await set(lobbyRef, lobbyData);
+
+  // 4. Update local state
+  state.lobbyCode = lobbyCode;
+  state.isLeader = true;
+  state.lobbyRef = lobbyRef;
+  state.players = [{ name: state.playerName, score: 0, ready: false }];
+  state.status = 'waiting';
+
+  // 5. Set up a listener for lobby changes
+  if (state.unsubLobby) state.unsubLobby();
+  state.unsubLobby = onValue(lobbyRef, snapshot => {
+    const data = snapshot.val();
+    if (data) {
+      // Update local state based on lobby changes
+      state.players = Object.values(data.players);
+      state.status = data.status;
+      state.round = data.round;
+      // Add more as needed
+      render();
+    }
+  });
+
+  // 6. Show lobby code screen
+  state.screen = 'lobby';
+  renderLobbyCodeScreen();
+}
+async function onLobby(lobbyCode) {
+  const lobbyRef = ref(db, `lobbies/${lobbyCode}`);
+
+  // 1. Get current lobby data
+  const snapshot = await get(lobbyRef);
+  const lobbyData = snapshot.val();
+
+  if (!lobbyData) {
+    alert('Lobby not found!');
+    return;
+  }
+
+  // 2. Add player to lobby if not present
+  if (!lobbyData.players[state.playerId]) {
+    await set(ref(db, `lobbies/${lobbyCode}/players/${state.playerId}`), {
+      name: state.playerName,
+      score: 0,
+      ready: false
+    });
+  }
+  
+  // 3. Set up listener for lobby updates
+  if (state.unsubLobby) state.unsubLobby();
+  state.unsubLobby = onValue(lobbyRef, snapshot => {
+    const data = snapshot.val();
+    if (data) {
+      state.players = Object.values(data.players);
+      state.leader = data.leader;
+      state.status = data.status;
+      state.round = data.round;
+      state.category = data.category;
+      state.lobbyCode = lobbyCode;
+      // Update other state variables as needed
+      renderLobbyCodeScreen();
+    }
+  });
+
+  // 4. Update local state
+  state.lobbyCode = lobbyCode;
+  state.lobbyRef = lobbyRef;
+  state.screen = 'lobby';
+
+  // 5. Render lobby UI
+  renderLobbyCodeScreen();
+}
 function renderLobbyCodeScreen() {
   $app.innerHTML = `
     <div class="lobby-screen">
