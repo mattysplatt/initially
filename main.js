@@ -821,73 +821,67 @@ async function onLobby(lobbyCode) {
     });
   }
 
-  // 3. Set up listener for lobby updates
-  state.unsubLobby = onValue(lobbyRef, snapshot => {
-    const data = snapshot.val();
-    if (data) {
-      state.players = Object.entries(data.players || {}).map(([id, p]) => ({ ...p, id }));
-      state.leader = data.leader;
-      state.isLeader = (state.playerId === data.leader);
-      state.status = data.status;
-      state.round = data.round;
-      state.points = data.points;
-      state.category = data.category;
-      state.lobbyCode = lobbyCode;
+ // 3. Set up listener for lobby updates
+state.unsubLobby = onValue(lobbyRef, snapshot => {
+  const data = snapshot.val();
+  if (data) {
+    state.players = Object.entries(data.players || {}).map(([id, p]) => ({ ...p, id }));
+    state.leader = data.leader;
+    state.isLeader = (state.playerId === data.leader);
+    state.status = data.status;
+    state.round = data.round;
+    state.points = data.points;
+    state.category = data.category;
+    state.lobbyCode = lobbyCode;
 
-      switch (data.status) {
-        case "lobbyCode":
-          state.screen = 'lobbyCode';
-          break;
-        case "category":
-          state.screen = 'category';
-          break;
-        case "countdown":
-          state.screen = 'countdown';
-          break;
-        case "playing":
-          state.question = data.question;
-          state.clues = data.clues;
-          state.clueIdx = data.clueIdx;
-          state.screen = 'game';
-          startTimer();
-          break;
- case "scoreboard":
-  state.scoreboard = data.scoreboard || [];
-  state.readyPlayers = data.readyPlayers || [];
-  state.screen = 'scoreboard';
+    switch (data.status) {
+      case "lobbyCode":
+        state.screen = 'lobbyCode';
+        break;
+      case "category":
+        state.screen = 'category';
+        break;
+      case "countdown":
+        state.screen = 'countdown';
+        break;
+      case "playing":
+        state.question = data.question;
+        state.clues = data.clues;
+        state.clueIdx = data.clueIdx;
+        state.screen = 'game';
+        startTimer();
+        break;
+      case "scoreboard":
+        state.scoreboard = data.scoreboard || [];
+        state.readyPlayers = data.readyPlayers || [];
+        state.screen = 'scoreboard';
 
-  // Check if all players are ready
-  const allReady = state.players.length > 0 && state.players.every(p => p.ready);
-  if (allReady && state.isLeader) {
-    // Advance to next round: update lobby status and other fields as needed
-    update(ref(db, `lobbies/${state.lobbyCode}`), {
-      status: "countdown",
-      round: data.round + 1,
-      // Reset ready status for next round
-      players: Object.fromEntries(
-        Object.entries(data.players).map(([id, p]) => [id, { ...p, ready: false }])
-      )
-      // Optionally add next question, clues etc. here!
-    });
-    return; // Prevent double render
-  }
-
-  render();
-  break;
-    return; // Prevent double render
-  }
-
-  render();
-  break;
-          state.screen = 'end';
-          break;
-        default:
-          state.screen = 'lobby';
-          break;
-      }
-      render(); // Only call once, after the switch!
+        // Check if all players are ready
+        const allReady = state.players.length > 0 && state.players.every(p => p.ready);
+        if (allReady && state.isLeader) {
+          // Advance to next round: update lobby status and other fields as needed
+          update(ref(db, `lobbies/${state.lobbyCode}`), {
+            status: "countdown",
+            round: data.round + 1,
+            // Reset ready status for next round
+            players: Object.fromEntries(
+              Object.entries(data.players).map(([id, p]) => [id, { ...p, ready: false }])
+            )
+            // Optionally add next question, clues etc. here!
+          });
+          return; // Prevent double render
+        }
+        break;
+      case "end":
+        state.screen = 'end';
+        break;
+      default:
+        state.screen = 'lobby';
+        break;
     }
-  });
+    render(); // Only call once, after the switch!
+  }
+});
 
   // 4. Update local state
   state.lobbyCode = lobbyCode;
