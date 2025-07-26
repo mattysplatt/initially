@@ -1666,7 +1666,6 @@ function createLobby() {
   }).then(() => {
     state.screen = 'lobbyCode';
     render();
-    ();
   });
 }
 function joinLobby() {
