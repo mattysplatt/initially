@@ -1474,23 +1474,6 @@ function renderGame() {
   document.getElementById('returnLandingBtn').onclick = resetToLanding;
 }
 
-if (state.players.length > 0) {
-  const readyBtn = document.getElementById('readyBtn');
-  if (readyBtn) {
-    readyBtn.onclick = markReady;
-  }
-}
-
-attachReturnToStartHandler();
-
-const returnLandingBtn = document.getElementById('returnLandingBtn');
-if (returnLandingBtn) {
-  returnLandingBtn.onclick = () => {
-    state.screen = 'landing';
-    render();
-  };
-}
-
 function attachReturnToStartHandler() {
   const btn = document.getElementById('returnToStartBtn');
   if (btn) {
@@ -1658,7 +1641,7 @@ function listenLobby() {
       // If this client is the leader, set status to playing after 3 seconds
       if (state.isLeader) {
         setTimeout(() => {
-          update(ref(db, `lobbies/${state.lobbyCode}`), { status: "playing" });
+          updateLobby({ status: "playing" });
         }, 3000);
       }
     } else if (lobby.status === "playing") {
@@ -1710,10 +1693,7 @@ function chooseCategory(category) {
     state.status = "countdown";
     state.category = category;
     state.round = 1;
-    state.question = firstQuestion;
-    state.clues = shuffle(firstQuestion.clues);
-    state.clueIdx = 0;
-    state.points = 60;
+    setupQuestion(firstQuestion);
     state.guesses = {};
     state.scoreboard = [];
     state.readyPlayers = [];
@@ -1882,7 +1862,7 @@ function endRound() {
         score: (p.score||0) + add
       });
     }
-    update(ref(db, `lobbies/${state.lobbyCode}`), {
+    updateLobby({
       status: "scoreboard",
       scoreboard: scoreboard
     });
