@@ -867,6 +867,7 @@ function renderLobbyCodeScreen() {
   const lobbyCode = state.lobbyCode || "";
   const isLeader = state.isLeader;
   const players = state.players || [];
+  const leaderId = state.leader; // Correctly set in your lobby listener
 
   $app.innerHTML = `
     <div class="lobby-screen">
@@ -878,7 +879,7 @@ function renderLobbyCodeScreen() {
           <ul style="list-style:none; padding:0;">
             ${players.map(player => `
               <li style="color:#ffd600; font-size:1.03em; margin-bottom:4px;">
-                ${player.name}${player.id === lobby.leader ? ' <span style="color:#fff">(Leader)</span>' : ''}
+                ${player.name}${player.id === leaderId ? ' <span style="color:#fff">(Leader)</span>' : ''}
               </li>
             `).join("")}
           </ul>
