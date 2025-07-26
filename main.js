@@ -967,34 +967,34 @@ function renderLobbyCodeScreen() {
     navigator.clipboard.writeText(state.lobbyCode);
     alert('Lobby code copied!');
   };
- document.getElementById('startLobbyBtn').onclick = function() {
-  // Advance lobby status to category selection or countdown
-  update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
-  // Listeners will detect the change and render the correct screen for all players
-};
- document.getElementById('returnLandingBtn').onclick = () => {
-  // Remove player from lobby in Firebase
-  if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-  }
-  // Unsubscribe listeners
-  if (state.unsubLobby) {
-    state.unsubLobby();
-    state.unsubLobby = null;
-  }
-  if (state.unsubGame) {
-    state.unsubGame();
-    state.unsubGame = null;
-  }
-  // Reset relevant state
-  state.lobbyCode = '';
-  state.isLeader = false;
-  state.players = [];
-  state.status = '';
-  state.scoreboard = [];
-  state.screen = 'landing';
-  render();
-};
+  document.getElementById('startLobbyBtn').onclick = function() {
+    // Advance lobby status to category selection
+    update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
+    // Listeners will detect the change and render the correct screen for all players
+  };
+  document.getElementById('returnLandingBtn').onclick = () => {
+    // Remove player from lobby in Firebase
+    if (state.lobbyCode && state.playerId) {
+      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+    }
+    // Unsubscribe listeners
+    if (state.unsubLobby) {
+      state.unsubLobby();
+      state.unsubLobby = null;
+    }
+    if (state.unsubGame) {
+      state.unsubGame();
+      state.unsubGame = null;
+    }
+    // Reset relevant state
+    state.lobbyCode = '';
+    state.isLeader = false;
+    state.players = [];
+    state.status = '';
+    state.scoreboard = [];
+    state.screen = 'landing';
+    render();
+  };
 }
 function saveScoreToLeaderboard(playerId, name, score) {
   const leaderboardRef = ref(db, 'leaderboard/' + playerId);
