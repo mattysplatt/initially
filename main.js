@@ -1756,12 +1756,11 @@ function listenLobby() {
       state.guess = '';
       state.lastQuestionInitials = state.question.initials;
     }
-    if (lobby.status === "lobbyCode") {
-      state.screen = 'lobbyCode'; 
-      render();
-    } else if (lobby.status === "waiting") {
-      state.screen = 'category'; 
-      render();
+   if (lobby.status === "lobbyCode") {
+  state.screen = 'lobbyCode'; render();
+} else if (lobby.status === "waiting") {
+  state.screen = 'category'; render();
+}
     } else if (lobby.status === "countdown") {
       state.screen = 'countdown'; 
       render();
