@@ -1700,6 +1700,7 @@ function listenLobby() {
     }
 
     const lobby = snap.val();
+    console.log("Lobby status is now:", lobby.status);
     state.players = Object.entries(lobby.players || {}).map(([id, p]) => ({ ...p, id }));
     state.isLeader = (state.playerId === lobby.leader);
     state.round = lobby.round;
