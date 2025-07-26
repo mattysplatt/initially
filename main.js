@@ -1694,7 +1694,7 @@ function createLobby() {
   set(ref(db, lobbyPath), {
     code: state.lobbyCode,
     leader: state.playerId,
-    status: "waiting",
+    status: "lobbyCode", // <-- FIXED HERE!
     category: "",
     round: 0,
     question: {},
