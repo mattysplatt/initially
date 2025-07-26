@@ -447,7 +447,7 @@ function renderLobby() {
   };
 }
 function onStartLobby() {
-  update(ref(db, `lobbies/${state.lobbyCode}`), { status: "waiting" });
+  update(ref(db, `lobbies/${state.lobbyCode}`), { status: "category" });
 }
 function getTimeToNextMonth() {
   const now = new Date();
