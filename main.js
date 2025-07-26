@@ -63,6 +63,37 @@ function getDeviceId() {
   return deviceId;
 }
 
+// State Management Helpers
+function cleanupLobby() {
+  // Remove player from lobby in Firebase
+  if (state.lobbyCode && state.playerId) {
+    if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
+      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+    }
+  }
+  // Unsubscribe listeners
+  if (state.unsubLobby) {
+    state.unsubLobby();
+    state.unsubLobby = null;
+  }
+  if (state.unsubGame) {
+    state.unsubGame();
+    state.unsubGame = null;
+  }
+}
+
+function resetToLanding() {
+  cleanupLobby();
+  // Reset relevant state
+  state.lobbyCode = '';
+  state.isLeader = false;
+  state.players = [];
+  state.status = '';
+  state.scoreboard = [];
+  state.screen = 'landing';
+  render();
+}
+
 function savePlayerInfoToFirebase(name, playerId) {
   const deviceId = getDeviceId();
   localStorage.setItem("initially_player_name", name);
@@ -261,7 +292,6 @@ function renderLanding() {
 function render() {
   console.log('RENDER:', state.mode, state.screen);
   $app.innerHTML = '';
-  $app.innerHTML = '';
   if (!isAuthenticated) {
     $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh the page.</span></div>`;
     return;
@@ -420,31 +450,7 @@ function renderLobby() {
   document.getElementById('joinLobby').onclick = typeof onJoinLobby === "function" ? onJoinLobby : () => alert("Multiplayer is not available right now.");
 
   // Return to Home
-  document.getElementById('returnLandingBtn').onclick = () => {
-    // Remove player from lobby if present
-    if (state.lobbyCode && state.playerId) {
-      if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
-        remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-      }
-    }
-    // Unsubscribe listeners
-    if (state.unsubLobby) {
-      state.unsubLobby();
-      state.unsubLobby = null;
-    }
-    if (state.unsubGame) {
-      state.unsubGame();
-      state.unsubGame = null;
-    }
-    // Reset state
-    state.lobbyCode = '';
-    state.isLeader = false;
-    state.players = [];
-    state.status = '';
-    state.scoreboard = [];
-    state.screen = 'landing';
-    render();
-  };
+  document.getElementById('returnLandingBtn').onclick = resetToLanding;
 }
 function onStartLobby() {
   update(ref(db, `lobbies/${state.lobbyCode}`), { status: "waiting" });
@@ -521,29 +527,7 @@ function renderInstructions() {
       }
     </style>
   `;
- document.getElementById('returnLandingBtn').onclick = () => {
-  // Remove player from lobby in Firebase
-  if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-  }
-  // Unsubscribe listeners
-  if (state.unsubLobby) {
-    state.unsubLobby();
-    state.unsubLobby = null;
-  }
-  if (state.unsubGame) {
-    state.unsubGame();
-    state.unsubGame = null;
-  }
-  // Reset relevant state
-  state.lobbyCode = '';
-  state.isLeader = false;
-  state.players = [];
-  state.status = '';
-  state.scoreboard = [];
-  state.screen = 'landing';
-  render();
-};
+ document.getElementById('returnLandingBtn').onclick = resetToLanding;
 }
 function goToNextSinglePlayerClue() {
   if (state.round < state.maxRounds) {
@@ -682,29 +666,7 @@ function renderChallengeInstructions() {
   // Initially disable start button if name empty
   document.getElementById('startMonthlyChallengeBtn').disabled = !savedName.trim();
 
-  document.getElementById('returnLandingBtn').onclick = () => {
-  // Remove player from lobby in Firebase
-  if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-  }
-  // Unsubscribe listeners
-  if (state.unsubLobby) {
-    state.unsubLobby();
-    state.unsubLobby = null;
-  }
-  if (state.unsubGame) {
-    state.unsubGame();
-    state.unsubGame = null;
-  }
-  // Reset relevant state
-  state.lobbyCode = '';
-  state.isLeader = false;
-  state.players = [];
-  state.status = '';
-  state.scoreboard = [];
-  state.screen = 'landing';
-  render();
-};
+  document.getElementById('returnLandingBtn').onclick = resetToLanding;
 
   document.getElementById('startMonthlyChallengeBtn').onclick = () => {
     // Don't start if name is empty
@@ -973,29 +935,7 @@ function renderLobbyCodeScreen() {
     update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
     // Listeners will detect the change and render the correct screen for all players
   };
-  document.getElementById('returnLandingBtn').onclick = () => {
-    // Remove player from lobby in Firebase
-    if (state.lobbyCode && state.playerId) {
-      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-    }
-    // Unsubscribe listeners
-    if (state.unsubLobby) {
-      state.unsubLobby();
-      state.unsubLobby = null;
-    }
-    if (state.unsubGame) {
-      state.unsubGame();
-      state.unsubGame = null;
-    }
-    // Reset relevant state
-    state.lobbyCode = '';
-    state.isLeader = false;
-    state.players = [];
-    state.status = '';
-    state.scoreboard = [];
-    state.screen = 'landing';
-    render();
-  };
+  document.getElementById('returnLandingBtn').onclick = resetToLanding;
 }
 function saveScoreToLeaderboard(playerId, name, score) {
   const leaderboardRef = ref(db, 'leaderboard/' + playerId);
@@ -1046,29 +986,7 @@ function renderScoreboard() {
         </div>
       </div>
     `;
-   document.getElementById('returnLandingBtn').onclick = () => {
-  // Remove player from lobby in Firebase
-  if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-  }
-  // Unsubscribe listeners
-  if (state.unsubLobby) {
-    state.unsubLobby();
-    state.unsubLobby = null;
-  }
-  if (state.unsubGame) {
-    state.unsubGame();
-    state.unsubGame = null;
-  }
-  // Reset relevant state
-  state.lobbyCode = '';
-  state.isLeader = false;
-  state.players = [];
-  state.status = '';
-  state.scoreboard = [];
-  state.screen = 'landing';
-  render();
-};
+   document.getElementById('returnLandingBtn').onclick = resetToLanding;
      startResetCountdown();
   });
 }
@@ -1228,29 +1146,7 @@ function renderCategory() {
     catDiv.appendChild(box);
   });
 
- document.getElementById('returnLandingBtn').onclick = () => {
-  // Remove player from lobby in Firebase
-  if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-  }
-  // Unsubscribe listeners
-  if (state.unsubLobby) {
-    state.unsubLobby();
-    state.unsubLobby = null;
-  }
-  if (state.unsubGame) {
-    state.unsubGame();
-    state.unsubGame = null;
-  }
-  // Reset relevant state
-  state.lobbyCode = '';
-  state.isLeader = false;
-  state.players = [];
-  state.status = '';
-  state.scoreboard = [];
-  state.screen = 'landing';
-  render();
-};
+ document.getElementById('returnLandingBtn').onclick = resetToLanding;
 }
 // --- SINGLEPLAYER GAME STARTER ---
 function startSinglePlayerGame(category) {
@@ -1333,26 +1229,7 @@ function renderLocalScoreboard() {
   // Return to Home button click handler
   const returnBtn = document.getElementById('returnLandingBtn');
   if (returnBtn) {
-    returnBtn.onclick = () => {
-      if (state.lobbyCode && state.playerId) {
-        remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-      }
-      if (state.unsubLobby) {
-        state.unsubLobby();
-        state.unsubLobby = null;
-      }
-      if (state.unsubGame) {
-        state.unsubGame();
-        state.unsubGame = null;
-      }
-      state.lobbyCode = '';
-      state.isLeader = false;
-      state.players = [];
-      state.status = '';
-      state.scoreboard = [];
-      state.screen = 'landing';
-      render();
-    };
+    returnBtn.onclick = resetToLanding;
   }
 }
 // -----Countdown screen before game starts-----
@@ -1552,29 +1429,7 @@ function renderGame() {
     };
   }
 
-  document.getElementById('returnLandingBtn').onclick = () => {
-    // Remove player from lobby in Firebase
-    if (state.lobbyCode && state.playerId) {
-      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-    }
-    // Unsubscribe listeners
-    if (state.unsubLobby) {
-      state.unsubLobby();
-      state.unsubLobby = null;
-    }
-    if (state.unsubGame) {
-      state.unsubGame();
-      state.unsubGame = null;
-    }
-    // Reset relevant state
-    state.lobbyCode = '';
-    state.isLeader = false;
-    state.players = [];
-    state.status = '';
-    state.scoreboard = [];
-    state.screen = 'landing';
-    render();
-  };
+  document.getElementById('returnLandingBtn').onclick = resetToLanding;
 }
 
 if (state.players.length > 0) {
@@ -1637,29 +1492,7 @@ function renderEnd() {
 
   document.getElementById('restartBtn').onclick = () => window.location.reload();
   attachReturnToStartHandler();
-  document.getElementById('returnLandingBtn').onclick = () => {
-    // Remove player from lobby in Firebase
-    if (state.lobbyCode && state.playerId) {
-      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-    }
-    // Unsubscribe listeners
-    if (state.unsubLobby) {
-      state.unsubLobby();
-      state.unsubLobby = null;
-    }
-    if (state.unsubGame) {
-      state.unsubGame();
-      state.unsubGame = null;
-    }
-    // Reset relevant state
-    state.lobbyCode = '';
-    state.isLeader = false;
-    state.players = [];
-    state.status = '';
-    state.scoreboard = [];
-    state.screen = 'landing';
-    render();
-  };
+  document.getElementById('returnLandingBtn').onclick = resetToLanding;
 }
 
 // --- Game Logic + Firebase Sync ---
