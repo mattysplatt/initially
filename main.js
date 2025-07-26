@@ -826,6 +826,7 @@ state.unsubLobby = onValue(lobbyRef, snapshot => {
     state.isLeader = (state.playerId === data.leader);
     state.status = data.status;
     state.round = data.round;
+    state.points = data.points;
     state.category = data.category;
     state.lobbyCode = lobbyCode;
 
