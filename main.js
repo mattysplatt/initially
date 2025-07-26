@@ -992,8 +992,9 @@ function renderLobbyCodeScreen() {
     const startLobbyBtn = document.getElementById('startLobbyBtn');
     if (startLobbyBtn) {
       startLobbyBtn.onclick = function() {
-        console.log("Start Lobby clicked!", lobbyCode);
-        update(ref(db, `lobbies/${lobbyCode}`), { status: "category" });
+        // Instantly switch to categories screen for the leader
+        state.screen = 'category';
+        render();
       };
     }
   }
