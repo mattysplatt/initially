@@ -228,7 +228,7 @@ function renderLanding() {
   `;
 
   document.getElementById('playFreeBtn').onclick = () => {
-    state.mode = 'multi';
+    state.mode = 'single';
     state.screen = 'lobby';
     render();
   };
@@ -268,6 +268,7 @@ function render() {
   }
 
   if (state.screen === 'landing') renderLanding();
+  else if (state.screen === 'instructions') renderInstructions();
   else if (state.screen === 'lobby') renderLobby();
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
   else if (state.screen === 'category') renderCategory();
@@ -426,10 +427,6 @@ function renderLobby() {
       if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
         remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
       }
-    }document.getElementById('startLobbyBtn').onclick = function() {
-  console.log("Start Lobby clicked!", state.lobbyCode);
-  update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
-};
     // Unsubscribe listeners
     if (state.unsubLobby) {
       state.unsubLobby();
@@ -449,9 +446,7 @@ function renderLobby() {
     render();
   };
 }
-function onStartLobby() {
-  update(ref(db, `lobbies/${state.lobbyCode}`), { status: "category" });
-}
+
 function getTimeToNextMonth() {
   const now = new Date();
   const year = now.getUTCFullYear();
@@ -501,10 +496,27 @@ function listenLeaderboard(callback) {
 }
 function renderInstructions() {
   $app.innerHTML = `
-    <div class="instructions-screen">
+    <div class="instructions-screen" style="background: url('ScreenBackground.png'); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px;">
       <div class="title">How To Play</div>
       <div class="instructions-box" contenteditable="false" style="padding:20px; background:#fff; color:#222; border-radius:12px; margin:20px 0; min-height:120px;">
-        <!-- Insert your game instructions here! -->
+        <h3>🎯 Objective</h3>
+        <p>Guess the famous name behind the initials before other players!</p>
+        
+        <h3>🎮 How to Play</h3>
+        <ul>
+          <li><strong>Initials:</strong> Each round shows initials of a famous person</li>
+          <li><strong>Clues:</strong> Get up to 5 clues if you need help</li>
+          <li><strong>Scoring:</strong> Start with 60 points, lose 10 points per clue revealed</li>
+          <li><strong>Timer:</strong> 10 seconds per clue to keep the game moving</li>
+          <li><strong>Categories:</strong> Sports, Movies, Music, and more!</li>
+        </ul>
+        
+        <h3>🏆 Game Modes</h3>
+        <ul>
+          <li><strong>Single Player:</strong> Practice and improve your skills</li>
+          <li><strong>Multiplayer:</strong> Compete with friends in real-time</li>
+          <li><strong>Monthly Challenge:</strong> Race against time for leaderboard glory</li>
+        </ul>
       </div>
       <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
     </div>
@@ -522,31 +534,49 @@ function renderInstructions() {
         font-size: 1.15em;
         line-height: 1.6em;
       }
+      .instructions-box h3 {
+        color: #222;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+      .instructions-box ul {
+        margin-left: 20px;
+      }
+      .landing-btn {
+        width: 100%;
+        max-width: 320px;
+        margin: 9px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+      .lobby-return-btn {
+        background: #fff;
+        color: #222;
+        margin-top: 18px;
+      }
+      .lobby-return-btn:hover {
+        background: #ffd600;
+        color: #222;
+      }
     </style>
   `;
- document.getElementById('returnLandingBtn').onclick = () => {
-  // Remove player from lobby in Firebase
-  if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-  }
-  // Unsubscribe listeners
-  if (state.unsubLobby) {
-    state.unsubLobby();
-    state.unsubLobby = null;
-  }
-  if (state.unsubGame) {
-    state.unsubGame();
-    state.unsubGame = null;
-  }
-  // Reset relevant state
-  state.lobbyCode = '';
-  state.isLeader = false;
-  state.players = [];
-  state.status = '';
-  state.scoreboard = [];
-  state.screen = 'landing';
-  render();
-};
+  
+  document.getElementById('returnLandingBtn').onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 function goToNextSinglePlayerClue() {
   if (state.round < state.maxRounds) {
@@ -756,8 +786,8 @@ function startMonthlyChallenge() {
   render();
 }
 async function onCreate() {
-  // 1. Generate a unique 6-letter lobby code
-  const lobbyCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+  // 1. Generate a unique lobby code
+  const lobbyCode = generateLobbyCode();
 
   // 2. Prepare lobby data
   const lobbyData = {
@@ -766,12 +796,13 @@ async function onCreate() {
       [state.playerId]: {
         name: state.playerName,
         score: 0,
-        ready: false
+        ready: false,
+        id: state.playerId
       }
     },
-    status: 'lobbyCode', // <-- This is the fix!
+    status: 'lobbyCode',
     round: 1,
-    category: state.category || '',
+    category: '',
     createdAt: Date.now()
   };
 
@@ -783,11 +814,11 @@ async function onCreate() {
   state.lobbyCode = lobbyCode;
   state.isLeader = true;
   state.lobbyRef = lobbyRef;
-  state.players = [{ name: state.playerName, score: 0, ready: false }];
-  state.status = 'lobbyCode';
+  state.players = [{ name: state.playerName, score: 0, ready: false, id: state.playerId }];
+  state.status = '';
 
   // 5. Set up the shared listener for lobby changes
-listenLobby();
+  listenLobby();
   
   // 6. Show lobby code screen
   state.screen = 'lobbyCode'; 
@@ -801,7 +832,8 @@ async function onLobby(lobbyCode) {
   const lobbyData = snapshot.val();
 
   if (!lobbyData) {
-    alert('Lobby not found!');
+    state.status = 'Lobby not found!';
+    render();
     return;
   }
 
@@ -810,35 +842,36 @@ async function onLobby(lobbyCode) {
     await set(ref(db, `lobbies/${lobbyCode}/players/${state.playerId}`), {
       name: state.playerName,
       score: 0,
-      ready: false
+      ready: false,
+      id: state.playerId
     });
   }
-  
-  // 3. Set up listener for lobby updates
-  if (state.unsubLobby) state.unsubLobby();
-  state.unsubLobby = onValue(lobbyRef, snapshot => {
-    const data = snapshot.val();
-    if (data) {
-      state.players = Object.values(data.players);
-      state.leader = data.leader;
-      state.status = data.status;
-      state.round = data.round;
-      state.category = data.category;
-      state.lobbyCode = lobbyCode;
-      // Update other state variables as needed
-      renderLobbyCodeScreen();
-    }
-  });
 
-  // 4. Update local state
+  // 3. Update local state
   state.lobbyCode = lobbyCode;
   state.lobbyRef = lobbyRef;
-  state.screen = 'lobby';
+  state.isLeader = (state.playerId === lobbyData.leader);
+  state.status = '';
+  
+  // 4. Set up listener for lobby updates
+  listenLobby();
 
-  // 5. Render lobby UI
+  // 5. Navigate to appropriate screen based on lobby status
+  state.screen = lobbyData.status || 'lobbyCode';
   render();
 }
-const onCreateLobby = onCreate;
+const onCreateLobby = async () => {
+  const name = document.getElementById('playerName').value.trim();
+  if (!name) {
+    state.status = "Enter your name to create a lobby";
+    render();
+    return;
+  }
+  state.playerName = name;
+  savePlayerInfoToFirebase(name, state.playerId);
+  await onCreate();
+};
+
 const onJoinLobby = () => {
   const code = document.getElementById('lobbyCode').value.trim().toUpperCase();
   state.playerName = document.getElementById('playerName').value.trim();
@@ -847,6 +880,7 @@ const onJoinLobby = () => {
     render();
     return;
   }
+  savePlayerInfoToFirebase(state.playerName, state.playerId);
   onLobby(code);
 };
 function renderLobbyCodeScreen() {
@@ -854,7 +888,6 @@ function renderLobbyCodeScreen() {
   const lobbyCode = state.lobbyCode || "";
   const isLeader = state.isLeader;
   const players = state.players || [];
-  const leaderId = state.leader; // Should be set by your lobby listener
 
   $app.innerHTML = `
     <div class="lobby-screen">
@@ -866,7 +899,7 @@ function renderLobbyCodeScreen() {
           <ul style="list-style:none; padding:0;">
             ${players.map(player => `
               <li style="color:#ffd600; font-size:1.03em; margin-bottom:4px;">
-                ${player.name}${player.id === leaderId ? ' <span style="color:#fff">(Leader)</span>' : ''}
+                ${player.name}${player.isLeader ? ' <span style="color:#fff">(Leader)</span>' : ''}
               </li>
             `).join("")}
           </ul>
@@ -946,7 +979,7 @@ function renderLobbyCodeScreen() {
       }
       .lobby-return-btn {
         background: #fff;
-        color: url('ScreenBackground.png');
+        color: #222;
         margin-top: 18px;
       }
       .lobby-return-btn:hover {
@@ -976,13 +1009,13 @@ function renderLobbyCodeScreen() {
 
   // Attach Start Lobby button handler (only for the leader)
   if (isLeader) {
-  const startLobbyBtn = document.getElementById('startLobbyBtn');
-  if (startLobbyBtn) {
-    startLobbyBtn.onclick = function() {
-  update(ref(db, `lobbies/${lobbyCode}`), { status: 'category' })
-    .then(() => console.log("Start Lobby pressed, status updated to 'category'"))
-    .catch(err => console.error("Error updating lobby status:", err));
-};
+    const startLobbyBtn = document.getElementById('startLobbyBtn');
+    if (startLobbyBtn) {
+      startLobbyBtn.onclick = function() {
+        update(ref(db, `lobbies/${lobbyCode}`), { status: 'category' })
+          .then(() => console.log("Start Lobby pressed, status updated to 'category'"))
+          .catch(err => console.error("Error updating lobby status:", err));
+      };
     }
   }
 
@@ -1033,29 +1066,33 @@ function renderCategory() {
 
  $app.innerHTML = `
   <div class="cat-page-wrapper">
-    <div class="lobby-title" style="text-align:center; font-size:2em; font-weight:bold; color:#ffd600; margin-top:22px; margin-bottom:10px;">
-      Lobby <span style="font-size:0.8em; color:#fff;">(${state.lobbyCode})</span>
-    </div>
-    <div class="lobby-players-box" style="
-      background:#fff;
-      border-radius:16px;
-      box-shadow:0 2px 12px #0002;
-      padding:18px 22px;
-      max-width:340px;
-      margin:0 auto 22px auto;
-      display:flex;
-      flex-direction:column;
-      align-items:center;">
-      ${
-        state.players && state.players.length
-          ? state.players.map(p => `<div class="lobby-player" style="font-size:1.15em; color:#222; font-weight:500; margin:6px 0;">${p.name.toUpperCase()}${p.isLeader ? ' 👑' : ''}</div>`).join('')
-          : '<div style="color:#aaa;">Waiting for players...</div>'
-      }
-    </div>
+    ${
+      state.mode === 'multi' 
+        ? `<div class="lobby-title" style="text-align:center; font-size:2em; font-weight:bold; color:#ffd600; margin-top:22px; margin-bottom:10px;">
+             Lobby <span style="font-size:0.8em; color:#fff;">(${state.lobbyCode})</span>
+           </div>
+           <div class="lobby-players-box" style="
+             background:#fff;
+             border-radius:16px;
+             box-shadow:0 2px 12px #0002;
+             padding:18px 22px;
+             max-width:340px;
+             margin:0 auto 22px auto;
+             display:flex;
+             flex-direction:column;
+             align-items:center;">
+             ${
+               state.players && state.players.length
+                 ? state.players.map(p => `<div class="lobby-player" style="font-size:1.15em; color:#222; font-weight:500; margin:6px 0;">${p.name.toUpperCase()}${p.isLeader ? ' 👑' : ''}</div>`).join('')
+                 : '<div style="color:#aaa;">Waiting for players...</div>'
+             }
+           </div>`
+        : ''
+    }
     <div class="category-container" id="categoryContainer"></div>
     ${
       state.mode === 'multi' && !state.isLeader
-        ? `<div class="leader-wait-msg">Waiting for leader to select...</div>`
+        ? `<div class="leader-wait-msg" style="text-align:center; color:#fff; font-size:1.2em; margin:20px 0;">Waiting for leader to select...</div>`
         : ''
     }
     <button id="returnLandingBtn" class="cat-return-btn">Return to Home</button>
@@ -1074,6 +1111,21 @@ function renderCategory() {
       background-repeat: no-repeat;
       min-height: 100vh;
       width: 100vw;
+    }
+    .cat-return-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 24px;
+      background: #fff;
+      color: #222;
+      border: none;
+      border-radius: 7px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #0002;
+    }
+    .cat-return-btn:hover {
+      background: #ffd600;
     }
     .category-container {
       display: grid;
@@ -1102,6 +1154,10 @@ function renderCategory() {
       cursor: pointer;
       transition: background 0.2s, transform 0.12s;
       border-radius: 12px;
+    }
+    .category-btn-box.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
     .overlay-label {
       position: absolute;
@@ -1516,38 +1572,7 @@ function renderGame() {
   };
 }
 
-if (state.players.length > 0) {
-  const readyBtn = document.getElementById('readyBtn');
-  if (readyBtn) {
-    readyBtn.onclick = markReady;
-  }
-}
 
-attachReturnToStartHandler();
-
-const returnLandingBtn = document.getElementById('returnLandingBtn');
-if (returnLandingBtn) {
-  returnLandingBtn.onclick = () => {
-    state.screen = 'landing';
-    render();
-  };
-}
-
-function attachReturnToStartHandler() {
-  const btn = document.getElementById('returnToStartBtn');
-  if (btn) {
-    btn.onclick = async () => {
-      if (state.lobbyCode && state.playerId) {
-        await remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-      }
-      state.screen = 'lobby';
-      state.lobbyCode = '';
-      state.isLeader = false;
-      state.players = [];
-      render();
-    };
-  }
-}
 
 function renderEnd() {
   let content = `
@@ -1627,50 +1652,7 @@ onAuthStateChanged(auth, (user) => {
     render();
   }
 });
-function createLobby() {
-  if (!state.playerName) { state.status = "Enter your name"; render(); return; }
-  state.lobbyCode = generateLobbyCode();
-  state.isLeader = true;
-  const lobbyPath = `lobbies/${state.lobbyCode}`;
-  const playerObj = {
-    name: state.playerName, score: 0, isLeader: true, ready: false
-  };
-  set(ref(db, lobbyPath), {
-    code: state.lobbyCode,
-    leader: state.playerId,
-    status: "lobbyCode", // <-- FIXED HERE!
-    category: "",
-    round: 0,
-    question: {},
-    clues: [],
-    clueIdx: 0,
-    points: 60,
-    players: { [state.playerId]: playerObj },
-    guesses: {},
-    scoreboard: [],
-    readyPlayers: [],
-    usedQuestions: [],
-    maxRounds: 10
-  }).then(() => {
-    state.screen = 'lobbyCode';
-    render();
-  });
-}
-function joinLobby() {
-  const name = state.playerName;
-  const code = document.getElementById('lobbyCode').value.trim().toUpperCase();
-  if (!name || !code) { state.status = "Enter your name and lobby code"; render(); return; }
-  joinLobbyByCode(code, name, false);
-}
-function joinLobbyByCode(code, name, leader) {
-  state.lobbyCode = code;
-  state.isLeader = leader;
-  const lobbyPath = `lobbies/${code}`;
-  set(ref(db, `${lobbyPath}/players/${state.playerId}`), {
-    name, score: 0, isLeader: leader, ready: false
-  });
-  listenLobby();
-}
+
 function listenLobby() {
   // Unsubscribe any previous listener
   if (state.unsubLobby) state.unsubLobby();
@@ -1688,7 +1670,15 @@ function listenLobby() {
 
     const lobby = snap.val();
     console.log("Lobby status is now:", lobby.status);
-    state.players = Object.entries(lobby.players || {}).map(([id, p]) => ({ ...p, id }));
+    
+    // Update player list
+    state.players = Object.entries(lobby.players || {}).map(([id, p]) => ({ 
+      ...p, 
+      id,
+      isLeader: id === lobby.leader 
+    }));
+    
+    // Update lobby state
     state.isLeader = (state.playerId === lobby.leader);
     state.round = lobby.round;
     state.category = lobby.category;
@@ -1708,21 +1698,25 @@ function listenLobby() {
       state.lastQuestionInitials = state.question.initials;
     }
 
-    // --- FIXED ROUTING LOGIC BELOW ---
-    // Everyone should follow status, including leader!
-
+    // Handle screen transitions based on lobby status
     switch (lobby.status) {
       case "lobbyCode":
-        state.screen = 'lobbyCode';
-        render();
+        if (state.screen !== 'lobbyCode') {
+          state.screen = 'lobbyCode';
+          render();
+        }
         break;
       case "category":
-        state.screen = 'category';
-        render();
+        if (state.screen !== 'category') {
+          state.screen = 'category';
+          render();
+        }
         break;
       case "countdown":
-        state.screen = 'countdown';
-        render();
+        if (state.screen !== 'countdown') {
+          state.screen = 'countdown';
+          render();
+        }
         // If leader, auto-advance to playing after 3 seconds
         if (state.isLeader) {
           setTimeout(() => {
@@ -1731,25 +1725,33 @@ function listenLobby() {
         }
         break;
       case "playing":
-        state.screen = 'game';
-        render();
-        startTimer();
+        if (state.screen !== 'game') {
+          state.screen = 'game';
+          render();
+          startTimer();
+        }
         break;
       case "scoreboard":
         state.scoreboard = lobby.scoreboard || [];
         state.readyPlayers = lobby.readyPlayers || [];
-        state.screen = 'scoreboard';
-        render();
+        if (state.screen !== 'scoreboard') {
+          state.screen = 'scoreboard';
+          render();
+        }
         break;
       case "end":
         state.scoreboard = lobby.scoreboard || [];
-        state.screen = 'end';
-        render();
+        if (state.screen !== 'end') {
+          state.screen = 'end';
+          render();
+        }
         break;
       default:
         // Unknown status, fallback to lobby screen
-        state.screen = 'lobby';
-        render();
+        if (state.screen !== 'lobby') {
+          state.screen = 'lobby';
+          render();
+        }
         break;
     }
   });
@@ -2037,6 +2039,102 @@ function markReady() {
         }
       });
     });
+}
+
+function renderScoreboard() {
+  $app.innerHTML = `
+    <div class="scoreboard-screen" style="background:url('ScreenBackground.png');min-height:100vh;padding:40px;">
+      <div style="text-align:center;">
+        <h2 style="color:#ffd600; font-size:2.5em; margin-bottom:10px;">Monthly Leaderboard</h2>
+        <div id="resetCountdown" style="color:#fff; font-size:1.1em; margin-bottom:30px;"></div>
+      </div>
+      <div style="background:#fff;max-width:600px;margin:32px auto;padding:24px 12px;border-radius:12px;box-shadow:0 2px 12px #0002;">
+        <div id="leaderboardContent">Loading leaderboard...</div>
+      </div>
+      <div style="text-align:center;">
+        <button id="returnLandingBtn" class="landing-btn" style="margin-top:20px;">Return to Home</button>
+      </div>
+    </div>
+    <style>
+      .landing-btn {
+        width: 100%;
+        max-width: 320px;
+        margin: 9px 0;
+        padding: 16px 0;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 7px;
+        background: #ffd600;
+        color: #222;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 1px 2px 8px #0002;
+        transition: background 0.2s, transform 0.12s;
+      }
+      .landing-btn:hover {
+        background: #ffb300;
+        transform: scale(1.03);
+      }
+    </style>
+  `;
+
+  // Start countdown timer
+  startResetCountdown();
+
+  // Load leaderboard
+  listenLeaderboard((scores) => {
+    const content = document.getElementById('leaderboardContent');
+    if (content) {
+      if (scores.length === 0) {
+        content.innerHTML = '<div style="text-align:center;color:#666;padding:20px;">No scores yet. Be the first to complete the monthly challenge!</div>';
+      } else {
+        content.innerHTML = `
+          <table style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr style="background:#ffd600;color:#222;">
+                <th style="text-align:left;padding:12px 8px;">Rank</th>
+                <th style="text-align:left;padding:12px 8px;">Player</th>
+                <th style="text-align:right;padding:12px 8px;">Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${scores.map((score, i) => `
+                <tr style="border-bottom:1px solid #eee;">
+                  <td style="padding:12px 8px;color:#000;font-weight:bold;">${i + 1}</td>
+                  <td style="padding:12px 8px;color:#000;">${score.name.toUpperCase()}</td>
+                  <td style="text-align:right;padding:12px 8px;color:#000;font-weight:bold;">${score.score}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+    }
+  });
+
+  // Return button
+  document.getElementById('returnLandingBtn').onclick = () => {
+    if (leaderboardUnsub) {
+      leaderboardUnsub();
+      leaderboardUnsub = null;
+    }
+    clearInterval(window.resetCountdownInterval);
+    state.screen = 'landing';
+    render();
+  };
+}
+
+async function saveScoreToLeaderboard(playerId, playerName, score) {
+  try {
+    await set(ref(db, `leaderboard/${playerId}`), {
+      name: playerName,
+      score: score,
+      timestamp: Date.now()
+    });
+    console.log('Score saved to leaderboard:', playerName, score);
+  } catch (error) {
+    console.error('Error saving score:', error);
+  }
 }
 
 // --- App Start ---
