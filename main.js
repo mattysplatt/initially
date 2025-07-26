@@ -1721,20 +1721,21 @@ function joinLobbyByCode(code, name, leader) {
   listenLobby();
 }
 function listenLobby() {
+  // Unsubscribe any previous listener
   if (state.unsubLobby) state.unsubLobby();
+
   const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
   state.lobbyRef = lobbyRef;
+
   state.unsubLobby = onValue(lobbyRef, snap => {
-    console.log("onValue fired");
     if (!snap.exists()) { 
-      console.log("Lobby not found");
       state.status = "Lobby not found"; 
       state.screen = 'lobby'; 
       render(); 
       return; 
     }
+
     const lobby = snap.val();
-    console.log("Lobby data:", lobby);
     state.players = Object.entries(lobby.players || {}).map(([id, p]) => ({ ...p, id }));
     state.isLeader = (state.playerId === lobby.leader);
     state.round = lobby.round;
@@ -1753,40 +1754,47 @@ function listenLobby() {
       state.lastQuestionInitials = state.question.initials;
     }
 
-    // Log the lobby status before each screen switch
-    console.log("Lobby status:", lobby.status);
-
-    if (lobby.status === "lobbyCode") {
-      state.screen = 'lobbyCode';
-      render();
-    } else if (lobby.status === "waiting") {
-      state.screen = 'category';
-      render();
-    } else if (lobby.status === "category") {
-      state.screen = 'category';
-      render();
-    } else if (lobby.status === "countdown") {
-      state.screen = 'countdown';
-      render();
-      // If this client is the leader, set status to playing after 3 seconds
-      if (state.isLeader) {
-        setTimeout(() => {
-          update(ref(db, `lobbies/${state.lobbyCode}`), { status: "playing" });
-        }, 3000);
-      }
-    } else if (lobby.status === "playing") {
-      state.screen = 'game';
-      render();
-      startTimer();
-    } else if (lobby.status === "scoreboard") {
-      state.scoreboard = lobby.scoreboard || [];
-      state.readyPlayers = lobby.readyPlayers || [];
-      state.screen = 'scoreboard';
-      render();
-    } else if (lobby.status === "end") {
-      state.scoreboard = lobby.scoreboard || [];
-      state.screen = 'end';
-      render();
+    // Core status-based screen routing
+    switch (lobby.status) {
+      case "lobbyCode":
+        state.screen = 'lobbyCode';
+        render();
+        break;
+      case "category":
+        state.screen = 'category';
+        render();
+        break;
+      case "countdown":
+        state.screen = 'countdown';
+        render();
+        // If leader, auto-advance to playing after 3 seconds
+        if (state.isLeader) {
+          setTimeout(() => {
+            update(ref(db, `lobbies/${state.lobbyCode}`), { status: "playing" });
+          }, 3000);
+        }
+        break;
+      case "playing":
+        state.screen = 'game';
+        render();
+        startTimer();
+        break;
+      case "scoreboard":
+        state.scoreboard = lobby.scoreboard || [];
+        state.readyPlayers = lobby.readyPlayers || [];
+        state.screen = 'scoreboard';
+        render();
+        break;
+      case "end":
+        state.scoreboard = lobby.scoreboard || [];
+        state.screen = 'end';
+        render();
+        break;
+      default:
+        // Unknown status, fallback to lobby screen
+        state.screen = 'lobby';
+        render();
+        break;
     }
   });
 }
