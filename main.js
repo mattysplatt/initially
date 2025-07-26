@@ -1732,7 +1732,12 @@ function listenLobby() {
   const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
   state.lobbyRef = lobbyRef;
   state.unsubLobby = onValue(lobbyRef, snap => {
-    if (!snap.exists()) { state.status = "Lobby not found"; state.screen = 'lobby'; render(); return; }
+    if (!snap.exists()) { 
+      state.status = "Lobby not found"; 
+      state.screen = 'lobby'; 
+      render(); 
+      return; 
+    }
     const lobby = snap.val();
     state.players = Object.entries(lobby.players||{}).map(([id, p])=>({...p, id}));
     state.isLeader = (state.playerId === lobby.leader);
@@ -1751,10 +1756,15 @@ function listenLobby() {
       state.guess = '';
       state.lastQuestionInitials = state.question.initials;
     }
-    if (lobby.status === "waiting") {
-      state.screen = 'category'; render();
+    if (lobby.status === "lobbyCode") {
+      state.screen = 'lobbyCode'; 
+      render();
+    } else if (lobby.status === "waiting") {
+      state.screen = 'category'; 
+      render();
     } else if (lobby.status === "countdown") {
-      state.screen = 'countdown'; render();
+      state.screen = 'countdown'; 
+      render();
       // If this client is the leader, set status to playing after 3 seconds
       if (state.isLeader) {
         setTimeout(() => {
@@ -1762,15 +1772,18 @@ function listenLobby() {
         }, 3000);
       }
     } else if (lobby.status === "playing") {
-      state.screen = 'game'; render();
+      state.screen = 'game'; 
+      render();
       startTimer();
     } else if (lobby.status === "scoreboard") {
       state.scoreboard = lobby.scoreboard||[];
       state.readyPlayers = lobby.readyPlayers||[];
-      state.screen = 'scoreboard'; render();
+      state.screen = 'scoreboard'; 
+      render();
     } else if (lobby.status === "end") {
       state.scoreboard = lobby.scoreboard||[];
-      state.screen = 'end'; render();
+      state.screen = 'end'; 
+      render();
     }
   });
 }
