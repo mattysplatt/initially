@@ -906,7 +906,12 @@ if (nextRound > maxRounds) {
   update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
   return;
 }
-  // Get the next question/clues (replace with your logic)
+if (nextRound > maxRounds) {
+  // Game over, show scoreboard and winner
+  update(ref(db, `lobbies/${state.lobbyCode}`), { status: "end" });
+  return;
+}
+// Get the next question/clues (replace with your logic)
 const usedAnswers = data.usedQuestions || [];
 const category = data.category;
 const nextQ = getRandomUnusedQuestion(category, usedAnswers);
@@ -920,21 +925,22 @@ update(ref(db, `lobbies/${state.lobbyCode}`), {
   clueIdx: 0,
   points: 60,
   usedQuestions: newUsedAnswers,
+  guesses: {}, // <-- This line resets all guesses for the new round
   players: Object.fromEntries(
     Object.entries(data.players).map(([id, p]) => [id, { ...p, ready: false }])
   )
 });
-  return; // Prevent double render
+return; // Prevent double render
 }
-        break;
-      case "end":
-        state.screen = 'end';
-        break;
-      default:
-        state.screen = 'lobby';
-        break;
-    }
-    render(); // Only call once, after the switch!
+break;
+case "end":
+  state.screen = 'end';
+  break;
+default:
+  state.screen = 'lobby';
+  break;
+}
+render(); // Only call once, after the switch!
   }
 });
 
