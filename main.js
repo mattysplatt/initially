@@ -1537,9 +1537,7 @@ function renderGame() {
     : '';
 
   // In monthly challenge mode, correct guesses are not tracked the same way
-  const isCorrect = (state.mode === 'monthly') 
-    ? false 
-    : state.guesses[state.playerId]?.correct;
+  const isCorrect = state.mode === 'monthly' ? !!state.guesses[state.playerId]?.correct : false;
 
   $app.innerHTML = `
     <div class="game-screen" style="background: url('ScreenBackground.png'); min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
