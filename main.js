@@ -543,7 +543,11 @@ function renderInstructions() {
     <div class="instructions-screen">
       <div class="title">How To Play</div>
       <div class="instructions-box" contenteditable="false" style="padding:20px; background:#fff; color:#222; border-radius:12px; margin:20px 0; min-height:120px;">
-        <!-- Insert your game instructions here! -->
+        Welcome to Initial Contact!<br>
+        Try to guess the answer from the initials and clues.<br>
+        Points decrease as clues are revealed.<br>
+        In multiplayer, race against others for the top score.<br>
+        Have fun!
       </div>
       <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
     </div>
