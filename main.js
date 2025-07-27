@@ -590,10 +590,9 @@ function renderInstructions() {
         ">
           <strong>Game Modes:</strong>
           <ul style="padding-left: 16px; margin-top: 10px; margin-bottom: 0;">
-            <li><b>Classic:</b> Play a standard round with a set of clues and try to guess the answer before time runs out.</li>
-            <li><b>Speed:</b> Race against the clock—points drop rapidly so answer fast!</li>
+            <li><b>Single Player:</b> Play a standard game of ten rounds with a set of clues and try to guess the answer before time runs out.</li>
             <li><b>Multiplayer:</b> Join friends in a lobby and compete for the highest score. Everyone sees the same clues, so it's a true test of speed and knowledge.</li>
-            <li><b>Daily Challenge:</b> Face a new puzzle every day. Everyone plays the same challenge; compete for the best time and score.</li>
+            <li><b>Monthly Challenge:</b> All categories are in play; compete for the best score in two minutes and climb the leaderboard.</li>
           </ul>
         </div>
         <button 
