@@ -279,6 +279,7 @@ function render() {
   }
   else if (state.screen === 'end') renderEnd();
   else if (state.screen === 'challengeInstructions') renderChallengeInstructions();
+  else if (state.screen === 'instructions') renderInstructions();
 }
 function renderScoreboard() {
   listenLeaderboard(scores => {
