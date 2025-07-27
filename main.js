@@ -796,7 +796,7 @@ function startMonthlyChallenge() {
 }
 async function onCreate() {
   // 1. Generate a unique 6-letter lobby code
-  const lobbyCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+ const lobbyCode = generateLobbyCode();
 
   // 2. Prepare lobby data
   const lobbyData = {
