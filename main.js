@@ -1439,6 +1439,22 @@ function renderCountdown() {
     }
   }, 1000);
 }
+// Assumes you have Firebase initialized as 'db' elsewhere
+function saveScoreToLeaderboard(playerId, playerName, score) {
+  // Save or update the player's score in the monthly leaderboard
+  const leaderboardRef = ref(db, `monthlyLeaderboard/${playerId}`);
+  set(leaderboardRef, {
+    name: playerName,
+    score: score,
+    timestamp: Date.now() // Optional: add timestamp for sorting
+  })
+  .then(() => {
+    console.log('Score saved to leaderboard:', playerName, score);
+  })
+  .catch((error) => {
+    console.error('Error saving score:', error);
+  });
+}
 function submitGuess() {
   if (!state.guess) return;
   const guess = state.guess.trim();
