@@ -127,7 +127,7 @@ function renderLanding() {
         <button id="purchaseBtn" class="landing-btn">PURCHASE MORE DECKS</button>
         <button id="monthlyBtn" class="landing-btn">MONTHLY CHALLENGE</button>
         <button id="monthlyLeaderboardBtn" class="landing-btn">MONTHLY LEADERBOARD</button>
-        <button id="howToPlayBtn" class="landing-btn howtoplay-btn">How to Play</button>
+        <button id="howToPlayBtn" class="landing-btn howtoplay-btn"></button>
       </div>
     </div>
     <style>
@@ -543,7 +543,7 @@ function renderInstructions() {
     <div class="instructions-screen">
       <div class="title">How To Play</div>
       <div class="instructions-box" contenteditable="false" style="padding:20px; background:#fff; color:#222; border-radius:12px; margin:20px 0; min-height:120px;">
-        <!-- Insert your game instructions here! -->
+        These are the instructions
       </div>
       <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
     </div>
