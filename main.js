@@ -1482,7 +1482,9 @@ function submitGuess() {
   const correct = normalize(state.question.answer);
 
   // How close is the guess? (Levenshtein distance)
-  if (levenshtein(user, correct) <= 3) {
+  const isCorrect = levenshtein(user, correct) <= 3;
+
+  if (isCorrect) {
     // === MONTHLY CHALLENGE MODE ===
     if (state.mode === 'monthly') {
       state.totalPoints = (state.totalPoints || 0) + (state.points || 0);
@@ -1491,7 +1493,10 @@ function submitGuess() {
       setTimeout(() => {
         state.correctPrompt = false;
         state.challengeIdx++;
-        if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
+        if (
+          state.challengeIdx < state.challengeQuestions.length &&
+          state.challengeTimer > 0
+        ) {
           const nextQuestion = state.challengeQuestions[state.challengeIdx];
           state.question = nextQuestion;
           state.clues = shuffle(nextQuestion.clues);
@@ -1533,6 +1538,12 @@ function submitGuess() {
 
   } else {
     // INCORRECT GUESS (All Modes)
+    if (state.mode === 'multi') {
+      // Save incorrect guess (ensures correct logic for scoreboard and round-ending)
+      update(ref(db, `lobbies/${state.lobbyCode}/guesses`), {
+        [state.playerId]: { guess, correct: false, points: 0 }
+      });
+    }
     state.guess = '';
     state.incorrectPrompt = true;
     render();
