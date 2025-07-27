@@ -2043,6 +2043,14 @@ function startMonthlyChallengeTimer() {
   }, 1000);
 }
 function submitMonthlyGuess() {
+  // Prevent guess submission if timer is zero or less
+  if (state.challengeTimer <= 0) {
+    // Optionally show a message:
+    state.screen = 'scoreboard';
+    render();
+    return;
+  }
+
   if (!state.guess) return;
   const guess = state.guess.trim();
   if (!guess) return;
