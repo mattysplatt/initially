@@ -541,56 +541,107 @@ function listenLeaderboard(callback) {
 }
 function renderInstructions() {
   $app.innerHTML = `
-    <div class="instructions-screen">
-      <div class="title">How To Play</div>
-      <div class="instructions-box" contenteditable="false" style="padding:20px; background:#fff; color:#222; border-radius:12px; margin:20px 0; min-height:120px;">
-        Welcome to Initial Contact!<br>
-        Try to guess the answer from the initials and clues.<br>
-        Points decrease as clues are revealed.<br>
-        In multiplayer, race against others for the top score.<br>
-        Have fun!
+    <div class="instructions-screen" style="
+      min-height: 100vh; 
+      background: #6c3cff; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      padding: 32px 12px;
+    ">
+      <div class="instructions-content" style="
+        background: #fff; 
+        border-radius: 16px; 
+        box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        max-width: 480px; 
+        width: 100%; 
+        padding: 32px 20px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center;
+      ">
+        <h2 style="
+          color: #6c3cff; 
+          font-size: 2em; 
+          font-weight: 700; 
+          margin-bottom: 20px;
+          text-align: center;
+        ">
+          How To Play
+        </h2>
+        <div style="
+          color: #222; 
+          font-size: 1.1em; 
+          margin-bottom: 28px;
+          line-height: 1.65;
+          text-align: left;
+        ">
+          <strong>General Gameplay:</strong><br>
+          Initial Contact is an initials guessing game. Each round, you’ll be shown a set of initials and clues about a person, place, or thing. Your goal is to guess the answer as quickly as possible. The fewer clues you need, the more points you score. Compete solo or with friends—every guess counts!
+        </div>
+        <div style="
+          color: #222; 
+          font-size: 1.03em; 
+          margin-bottom: 22px;
+          line-height: 1.5;
+          text-align: left;
+          width: 100%;
+        ">
+          <strong>Game Modes:</strong>
+          <ul style="padding-left: 16px; margin-top: 10px; margin-bottom: 0;">
+            <li><b>Classic:</b> Play a standard round with a set of clues and try to guess the answer before time runs out.</li>
+            <li><b>Speed:</b> Race against the clock—points drop rapidly so answer fast!</li>
+            <li><b>Multiplayer:</b> Join friends in a lobby and compete for the highest score. Everyone sees the same clues, so it's a true test of speed and knowledge.</li>
+            <li><b>Daily Challenge:</b> Face a new puzzle every day. Everyone plays the same challenge; compete for the best time and score.</li>
+          </ul>
+        </div>
+        <button 
+          id="returnLandingBtn" 
+          class="landing-btn lobby-return-btn" 
+          style="
+            margin-top: 12px; 
+            background: #ffd600; 
+            color: #222; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1em; 
+            font-weight: bold; 
+            padding: 12px 28px; 
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(108,60,255,0.12);
+            transition: background 0.2s;
+          "
+        >
+          Return to Home
+        </button>
       </div>
-      <button id="returnLandingBtn" class="landing-btn lobby-return-btn">Return to Home</button>
     </div>
-    <style>
-      .instructions-screen .title {
-        font-size: 2.2em;
-        font-weight: bold;
-        color: #ffd600;
-        margin-bottom: 20px;
-        text-align: center;
-      }
-      .instructions-box {
-        max-width: 500px;
-        margin: 0 auto 20px auto;
-        font-size: 1.15em;
-        line-height: 1.6em;
-      }
-    </style>
   `;
- document.getElementById('returnLandingBtn').onclick = () => {
-  // Remove player from lobby in Firebase
-  if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-  }
-  // Unsubscribe listeners
-  if (state.unsubLobby) {
-    state.unsubLobby();
-    state.unsubLobby = null;
-  }
-  if (state.unsubGame) {
-    state.unsubGame();
-    state.unsubGame = null;
-  }
-  // Reset relevant state
-  state.lobbyCode = '';
-  state.isLeader = false;
-  state.players = [];
-  state.status = '';
-  state.scoreboard = [];
-  state.screen = 'landing';
-  render();
-};
+
+  document.getElementById('returnLandingBtn').onclick = () => {
+    // Remove player from lobby in Firebase
+    if (state.lobbyCode && state.playerId) {
+      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+    }
+    // Unsubscribe listeners
+    if (state.unsubLobby) {
+      state.unsubLobby();
+      state.unsubLobby = null;
+    }
+    if (state.unsubGame) {
+      state.unsubGame();
+      state.unsubGame = null;
+    }
+    // Reset relevant state
+    state.lobbyCode = '';
+    state.isLeader = false;
+    state.players = [];
+    state.status = '';
+    state.scoreboard = [];
+    state.screen = 'landing';
+    render();
+  };
 }
 function goToNextSinglePlayerClue() {
   if (state.round < state.maxRounds) {
