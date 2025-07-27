@@ -1382,7 +1382,7 @@ function renderLocalScoreboard() {
         </table>
       </div>
       <div style="width:100%; display:flex; flex-direction:column; align-items:center; margin-top:24px;">
-        <button id="readyBtn" class="landing-btn" style="margin-bottom:14px;">Ready</button>
+        <button id="readyBtn" class="landing-btn">Ready</button>
         <button id="returnLandingBtn" class="landing-btn">Return to Home</button>
       </div>
     </div>
