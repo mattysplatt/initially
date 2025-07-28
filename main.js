@@ -2069,9 +2069,7 @@ function startTimer() {
   }, 1000);
 }
 function endMonthlyChallenge() {
-  clearInterval(window.monthlyTimerInterval);
-  saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
-  state.screen = 'scoreboard';
+ endMonthlyChallenge();
   render();
 }
 function renderTimer() {
