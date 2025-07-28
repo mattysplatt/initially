@@ -1517,18 +1517,26 @@ function renderCountdown() {
 }
 // Assumes you have Firebase initialized as 'db' elsewhere
 function saveScoreToLeaderboard(playerId, playerName, score) {
-  // Save or update the player's score in the monthly leaderboard
   const leaderboardRef = ref(db, `monthlyLeaderboard/${playerId}`);
-  set(leaderboardRef, {
-    name: playerName,
-    score: score,
-    timestamp: Date.now() // Optional: add timestamp for sorting
-  })
-  .then(() => {
-    console.log('Score saved to leaderboard:', playerName, score);
-  })
-  .catch((error) => {
-    console.error('Error saving score:', error);
+  get(leaderboardRef).then((snapshot) => {
+    const existing = snapshot.val();
+    if (!existing || score > (existing.score || 0)) {
+      set(leaderboardRef, {
+        name: playerName,
+        score: score,
+        timestamp: Date.now()
+      })
+      .then(() => {
+        console.log('Score saved to leaderboard:', playerName, score);
+      })
+      .catch((error) => {
+        console.error('Error saving score:', error);
+      });
+    } else {
+      console.log('Score not high enough to update leaderboard:', playerName, score);
+    }
+  }).catch((error) => {
+    console.error('Error retrieving leaderboard score:', error);
   });
 }
 function submitGuess() {
