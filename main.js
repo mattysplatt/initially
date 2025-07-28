@@ -2115,9 +2115,7 @@ function revealNextClue() {
         render();
         startTimer();
       } else {
-        clearInterval(window.monthlyTimerInterval);
-        saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
-        state.screen = 'scoreboard';
+       endMonthlyChallenge();
         render();
       }
     }
@@ -2141,9 +2139,7 @@ function startMonthlyChallengeTimer() {
       const timerEl = document.getElementById('monthlyTimer');
       if (timerEl) timerEl.textContent = state.challengeTimer + 's';
     } else {
-      clearInterval(window.monthlyTimerInterval);
-      saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
-      state.screen = 'scoreboard';
+    endMonthlyChallenge();
       render();
     }
   }, 1000);
@@ -2188,9 +2184,7 @@ function submitMonthlyGuess() {
       render();
     } else {
       // End of challenge
-      clearInterval(window.monthlyTimerInterval);
-      saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
-      state.screen = 'scoreboard';
+     endMonthlyChallenge();
       render();
     }
   } else {
