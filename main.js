@@ -539,6 +539,28 @@ function listenLeaderboard(callback) {
     }
   });
 }
+function isUsernameAvailable(username) {
+  const leaderboardRef = ref(db, 'leaderboard');
+  return get(leaderboardRef).then(snapshot => {
+    if (!snapshot.exists()) return true;
+    const scoresObj = snapshot.val();
+    // Case-insensitive check
+    return !Object.values(scoresObj).some(entry => entry.name.toLowerCase() === username.toLowerCase());
+  });
+}
+
+// Usage:
+function handleUsernameEntry(username, playerId, score) {
+  isUsernameAvailable(username).then(available => {
+    if (available) {
+      saveScoreToLeaderboard(playerId, username, score);
+      // Proceed to game
+    } else {
+      alert('This username is already taken, please choose another.');
+      // Show input again or prevent progress
+    }
+  });
+}
 function renderInstructions() {
   $app.innerHTML = `
     <div class="instructions-screen" style="
