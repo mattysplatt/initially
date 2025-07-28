@@ -1573,9 +1573,7 @@ function submitGuess() {
           state.guess = '';
           render();
         } else {
-          clearInterval(window.monthlyTimerInterval);
-          saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
-          state.screen = 'scoreboard';
+          endMonthlyChallenge();
           render();
         }
       }, 1500); // Show "Correct" for 1.5 seconds
@@ -2060,9 +2058,7 @@ function startTimer() {
         render();
         startTimer();
       } else {
-        clearInterval(window.monthlyTimerInterval);
-         saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
-        state.screen = 'scoreboard';
+       endMonthlyChallenge();
         render();
       }
     }
