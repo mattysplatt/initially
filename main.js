@@ -470,7 +470,7 @@ function renderLobby() {
   console.log("Start Lobby clicked!", state.lobbyCode);
   update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
 };
-    // Unsubscribe listeners
+    // Unsubscribe ers
     if (state.unsubLobby) {
       state.unsubLobby();
       state.unsubLobby = null;
@@ -523,7 +523,7 @@ function startResetCountdown() {
 let leaderboardUnsub = null;
 
 function listenLeaderboard(callback) {
-  if (leaderboardUnsub) leaderboardUnsub(); // Clean up old listener
+  if (leaderboardUnsub) leaderboardUnsub();
   const leaderboardRef = ref(db, 'leaderboard');
   leaderboardUnsub = onValue(leaderboardRef, snapshot => {
     if (snapshot.exists()) {
@@ -1934,10 +1934,7 @@ function listenLobby() {
       state.guess = '';
       state.lastQuestionInitials = state.question.initials;
     }
-
-    // --- FIXED ROUTING LOGIC BELOW ---
-    // Everyone should follow status, including leader!
-
+    
     switch (lobby.status) {
       case "lobbyCode":
         state.screen = 'lobbyCode';
@@ -2074,6 +2071,12 @@ function startTimer() {
   }
 }
   }, 1000);
+}
+function endMonthlyChallenge() {
+  clearInterval(window.monthlyTimerInterval);
+  saveScoreToLeaderboard(state.playerId, state.playerName, state.totalPoints || 0);
+  state.screen = 'scoreboard';
+  render();
 }
 function renderTimer() {
   const el = document.getElementById('timer');
