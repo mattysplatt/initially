@@ -1517,7 +1517,7 @@ function renderCountdown() {
 }
 // Assumes you have Firebase initialized as 'db' elsewhere
 function saveScoreToLeaderboard(playerId, playerName, score) {
-  const leaderboardRef = ref(db, `monthlyLeaderboard/${playerId}`);
+  const leaderboardRef = ref(db, `leaderboard/${playerId}`);
   get(leaderboardRef).then((snapshot) => {
     const existing = snapshot.val();
     if (!existing || score > (existing.score || 0)) {
