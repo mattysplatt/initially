@@ -1588,8 +1588,8 @@ ModernNBA: [
   ]
 },
 {
-  initials: "M.B.",
-  answer: "Michael B. Jordan",
+  initials: "M.J.",
+  answer: "Michael Jordan",
   clues: [
     "Starred in Creed",
     "Played Killmonger in Black Panther",
@@ -1918,7 +1918,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "M.B.",
+  initials: "M.R.",
   answer: "Mark Ruffalo",
   clues: [
     "Plays Hulk in MCU",
