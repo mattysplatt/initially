@@ -50,8 +50,7 @@ let state = {
   incorrectPrompt: false,
   lastQuestionInitials: '',
   usedAnswers: [],
-  correctPrompt: false,
-  lobbyTransitionHandled: false,
+  correctPrompt: false
 };
 
 // Utility Functions
@@ -278,7 +277,7 @@ function render() {
     if (state.mode === 'monthly') renderScoreboard();
     else renderLocalScoreboard();
   }
-  else if (state.screen === 'end') renderEndScreen();
+  else if (state.screen === 'end') renderEnd();
   else if (state.screen === 'challengeInstructions') renderChallengeInstructions();
   else if (state.screen === 'instructions') renderInstructions();
 }
@@ -1012,11 +1011,7 @@ return; // Prevent double render
 }
 break;
 case "end":
-  if (state.endScreenHandled) return; // ADD THIS GUARD
-  state.endScreenHandled = true;      // SET FLAG
-  state.scoreboard = lobby.scoreboard || [];
   state.screen = 'end';
-  render();
   break;
 default:
   state.screen = 'lobby';
@@ -1057,16 +1052,13 @@ function renderLobbyCodeScreen() {
     <div class="lobby-screen">
       <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
       <div class="lobby-form">
-        <div class="lobby-code-box">
-          LOBBY CODE
-          <div class="lobby-code">${lobbyCode}</div>
-        </div>
+        <h2 style="margin-bottom:12px; color:#ffd600;">Lobby Code: <span style="font-weight:bold;">${lobbyCode}</span></h2>
         <div style="margin-bottom:18px;">
           <div style="font-size:1.1em; color:#fff; margin-bottom:6px;">Players in Lobby:</div>
           <ul style="list-style:none; padding:0;">
             ${players.map(player => `
               <li style="color:#ffd600; font-size:1.03em; margin-bottom:4px;">
-               ${player.name.toUpperCase()}${player.id === leaderId ? ' <span style="color:#fff">(Leader)</span>' : ''}
+                ${player.name}${player.id === leaderId ? ' <span style="color:#fff">(Leader)</span>' : ''}
               </li>
             `).join("")}
           </ul>
@@ -1106,28 +1098,6 @@ function renderLobbyCodeScreen() {
         align-items: center;
         width: 100%;
         max-width: 350px;
-      }
-      .lobby-code-box {
-        width: 100%;
-        max-width: 240px;
-        background: #fff;
-        color: #111;
-        border-radius: 10px;
-        padding: 12px 0 8px 0;
-        font-size: 1.07em;
-        font-weight: bold;
-        text-align: center;
-        box-shadow: 0 2px 12px #0002;
-        margin: 0 auto 20px auto;
-        letter-spacing: 1.5px;
-      }
-      .lobby-code {
-        color: #222;
-        font-size: 2em;
-        font-family: 'Courier New', Courier, monospace;
-        letter-spacing: 4px;
-        font-weight: bold;
-        margin-top: 4px;
       }
       .lobby-input {
         width: 100%;
@@ -1192,22 +1162,19 @@ function renderLobbyCodeScreen() {
           font-size: 1em;
           padding: 13px 0;
         }
-        .lobby-code-box {
-          max-width: 92vw;
-        }
       }
     </style>
   `;
 
   // Attach Start Lobby button handler (only for the leader)
   if (isLeader) {
-    const startLobbyBtn = document.getElementById('startLobbyBtn');
-    if (startLobbyBtn) {
-      startLobbyBtn.onclick = function() {
-        update(ref(db, `lobbies/${lobbyCode}`), { status: 'category' })
-          .then(() => console.log("Start Lobby pressed, status updated to 'category'"))
-          .catch(err => console.error("Error updating lobby status:", err));
-      };
+  const startLobbyBtn = document.getElementById('startLobbyBtn');
+  if (startLobbyBtn) {
+    startLobbyBtn.onclick = function() {
+  update(ref(db, `lobbies/${lobbyCode}`), { status: 'category' })
+    .then(() => console.log("Start Lobby pressed, status updated to 'category'"))
+    .catch(err => console.error("Error updating lobby status:", err));
+};
     }
   }
 
@@ -1245,9 +1212,9 @@ function renderCategory() {
 
   // Mapping of category to card background image
   const backgroundImages = {
-    worldSports: "worldsports.png",
+    worldSports: "DeckBackground.png",
     AFL: "AFLcatcard.png",
-    movieStars: "Moviecatcard.png",
+    movieStars: "worldsports.png",
     musicians: "Musiccatcard.png",
     PopStars: "Popstarcatcard.png",
     Football: "Footballcatcard.png",
@@ -1826,263 +1793,56 @@ function attachReturnToStartHandler() {
   }
 }
 
-function renderEndScreen() {
-  if (state.screen === "landing") return;
-  if (state.alreadyRenderedEndScreen) return; // Prevent multiple renders
-  state.alreadyRenderedEndScreen = true;
+function renderEnd() {
+  let content = `
+    <div class="screen">
+      <h2>Game Over</h2>
+      ${
+        state.mode === 'single'
+          ? `<div style="font-size:1.4em; color:#ffd600; margin-bottom:20px;">
+               You scored <b>${state.totalPoints || 0}</b>
+             </div>`
+          : `<div class="scoreboard">
+               ${state.scoreboard.map(item =>
+                 `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
+               ).join('')}
+             </div>`
+      }
+      <button id="restartBtn">Play Again</button>
+      <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
+        Return to Start
+      </button>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
+    </div>
+  `;
 
-  if (state.mode === "multi") {
-    // Multiplayer END SCREEN
-    const players = (state.players || []).slice().sort((a, b) => b.score - a.score);
-    const winner = players[0];
-    const winnerName = winner ? winner.name.toUpperCase() : "UNKNOWN";
-    $app.innerHTML = `
-      <div class="final-multiplayer-screen">
-        <div class="winner-announcement">
-          AND THE WINNER IS
-          <div class="winner-name">${winnerName}</div>
-        </div>
-        <button id="playAgainBtn" class="final-btn">Play Again</button>
-        <button id="returnHomeBtn" class="final-btn">Return to Home</button>
-        <div class="local-scoreboard-section">
-          <div class="scoreboard-title">Final Game Scoreboard</div>
-          <div class="final-scoreboard">
-            ${renderScoreboard(players)}
-          </div>
-        </div>
-      </div>
-      <style>
-        .final-multiplayer-screen {
-          background: linear-gradient(135deg, #fffbe6 0%, #ffe082 100%);
-          border-radius: 18px;
-          box-shadow: 0 4px 32px #3334;
-          padding: 38px 20px 32px 20px;
-          max-width: 400px;
-          margin: 36px auto;
-          text-align: center;
-          font-family: inherit;
-        }
-        .winner-announcement {
-          font-size: 2em;
-          color: #222;
-          font-weight: bold;
-          margin-bottom: 12px;
-          letter-spacing: 1.5px;
-        }
-        .winner-name {
-          font-size: 2.6em;
-          color: #ffd600;
-          font-weight: 900;
-          margin-top: 8px;
-          margin-bottom: 20px;
-          text-shadow: 1px 2px 6px #0002;
-          letter-spacing: 2px;
-        }
-        .final-btn {
-          background: #ffd600;
-          color: #222;
-          border: none;
-          border-radius: 8px;
-          font-size: 1.25em;
-          font-weight: bold;
-          margin: 10px 8px 22px 8px;
-          padding: 16px 34px;
-          cursor: pointer;
-          box-shadow: 0 2px 12px #0001;
-          transition: background 0.2s, transform 0.12s;
-        }
-        .final-btn:hover {
-          background: #ffb300;
-          transform: scale(1.05);
-        }
-        .local-scoreboard-section {
-          margin-top: 32px;
-        }
-        .scoreboard-title {
-          font-size: 1.3em;
-          font-weight: 700;
-          color: #444;
-          margin-bottom: 8px;
-        }
-        .final-scoreboard {
-          margin-top: 6px;
-        }
-      </style>
-    `;
+  $app.innerHTML = content;
 
-    document.getElementById('playAgainBtn').onclick = function() {
-      state.alreadyRenderedEndScreen = false; // Reset guard for next game
-      if (typeof onPlayAgain === "function") onPlayAgain();
-    };
-    document.getElementById('returnHomeBtn').onclick = function() {
-      state.screen = 'landing';
-      state.alreadyRenderedEndScreen = false; // Reset guard for next session
-      render();
-    };
-
-  } else if (state.mode === "single") {
-    // Single Player END SCREEN
-    const playerName = (state.playerName || "YOU").toUpperCase();
-    const score = state.score || 0;
-    $app.innerHTML = `
-      <div class="final-single-screen">
-        <div class="single-end-title">GAME OVER</div>
-        <div class="single-end-name">${playerName}</div>
-        <div class="single-end-score">Your Score: <span>${score}</span></div>
-        <button id="playAgainBtn" class="final-btn">Play Again</button>
-        <button id="returnHomeBtn" class="final-btn">Return to Home</button>
-      </div>
-      <style>
-        .final-single-screen {
-          background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-          border-radius: 18px;
-          box-shadow: 0 4px 32px #3334;
-          padding: 38px 20px 32px 20px;
-          max-width: 400px;
-          margin: 36px auto;
-          text-align: center;
-          font-family: inherit;
-        }
-        .single-end-title {
-          font-size: 2em;
-          color: #1976d2;
-          font-weight: bold;
-          margin-bottom: 10px;
-          letter-spacing: 1.5px;
-        }
-        .single-end-name {
-          font-size: 1.4em;
-          color: #222;
-          font-weight: bold;
-          margin-bottom: 12px;
-        }
-        .single-end-score {
-          font-size: 1.5em;
-          color: #ffd600;
-          font-weight: bold;
-          margin-bottom: 24px;
-        }
-        .single-end-score span {
-          color: #222;
-        }
-        .final-btn {
-          background: #ffd600;
-          color: #222;
-          border: none;
-          border-radius: 8px;
-          font-size: 1.25em;
-          font-weight: bold;
-          margin: 10px 8px 22px 8px;
-          padding: 16px 34px;
-          cursor: pointer;
-          box-shadow: 0 2px 12px #0001;
-          transition: background 0.2s, transform 0.12s;
-        }
-        .final-btn:hover {
-          background: #ffb300;
-          transform: scale(1.05);
-        }
-      </style>
-    `;
-  document.getElementById('playAgainBtn').onclick = function() {
-  state.alreadyRenderedEndScreen = false;
-  state.endScreenHandled = false; // ← Add this line
-  if (typeof onPlayAgain === "function") onPlayAgain();
-};
-
-document.getElementById('returnHomeBtn').onclick = function() {
-  state.screen = 'landing';
-  state.alreadyRenderedEndScreen = false;
-  state.endScreenHandled = false; // ← Add this line
-  render();
-};
-  } else if (state.mode === "monthly") {
-    // Monthly Challenge END SCREEN
-    const playerName = (state.playerName || "YOU").toUpperCase();
-    const score = state.score || 0;
-    $app.innerHTML = `
-      <div class="final-monthly-screen">
-        <div class="monthly-end-title">MONTHLY CHALLENGE COMPLETE</div>
-        <div class="monthly-end-name">${playerName}</div>
-        <div class="monthly-end-score">Your Challenge Score: <span>${score}</span></div>
-        <button id="playAgainBtn" class="final-btn">Try Again</button>
-        <button id="returnHomeBtn" class="final-btn">Return to Home</button>
-      </div>
-      <style>
-        .final-monthly-screen {
-          background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-          border-radius: 18px;
-          box-shadow: 0 4px 32px #3334;
-          padding: 38px 20px 32px 20px;
-          max-width: 400px;
-          margin: 36px auto;
-          text-align: center;
-          font-family: inherit;
-        }
-        .monthly-end-title {
-          font-size: 2em;
-          color: #ffb300;
-          font-weight: bold;
-          margin-bottom: 10px;
-          letter-spacing: 1.5px;
-        }
-        .monthly-end-name {
-          font-size: 1.4em;
-          color: #222;
-          font-weight: bold;
-          margin-bottom: 12px;
-        }
-        .monthly-end-score {
-          font-size: 1.5em;
-          color: #ffd600;
-          font-weight: bold;
-          margin-bottom: 24px;
-        }
-        .monthly-end-score span {
-          color: #222;
-        }
-        .final-btn {
-          background: #ffd600;
-          color: #222;
-          border: none;
-          border-radius: 8px;
-          font-size: 1.25em;
-          font-weight: bold;
-          margin: 10px 8px 22px 8px;
-          padding: 16px 34px;
-          cursor: pointer;
-          box-shadow: 0 2px 12px #0001;
-          transition: background 0.2s, transform 0.12s;
-        }
-        .final-btn:hover {
-          background: #ffb300;
-          transform: scale(1.05);
-        }
-      </style>
-    `;
-    document.getElementById('playAgainBtn').onclick = function() {
-      state.alreadyRenderedEndScreen = false;
-      if (typeof onPlayAgain === "function") onPlayAgain();
-    };
-    document.getElementById('returnHomeBtn').onclick = function() {
-      state.screen = 'landing';
-      state.alreadyRenderedEndScreen = false;
-      render();
-    };
-  } else {
-    // Fallback or future game modes
-    $app.innerHTML = `
-      <div style="text-align:center; margin:80px auto; font-size:2em; color:#666;">
-        Game over!<br><br>
-        <button id="returnHomeBtn" class="final-btn" style="margin-top:24px;">Return to Home</button>
-      </div>
-    `;
-    document.getElementById('returnHomeBtn').onclick = function() {
-      state.screen = 'landing';
-      state.alreadyRenderedEndScreen = false;
-      render();
-    };
-  }
+  document.getElementById('restartBtn').onclick = () => window.location.reload();
+  attachReturnToStartHandler();
+  document.getElementById('returnLandingBtn').onclick = () => {
+    // Remove player from lobby in Firebase
+    if (state.lobbyCode && state.playerId) {
+      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+    }
+    // Unsubscribe listeners
+    if (state.unsubLobby) {
+      state.unsubLobby();
+      state.unsubLobby = null;
+    }
+    if (state.unsubGame) {
+      state.unsubGame();
+      state.unsubGame = null;
+    }
+    // Reset relevant state
+    state.lobbyCode = '';
+    state.isLeader = false;
+    state.players = [];
+    state.status = '';
+    state.scoreboard = [];
+    state.screen = 'landing';
+    render();
+  };
 }
 
 // --- Game Logic + Firebase Sync ---
