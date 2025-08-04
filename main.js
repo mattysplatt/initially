@@ -1821,56 +1821,236 @@ function attachReturnToStartHandler() {
   }
 }
 
-function renderEnd() {
-  let content = `
-    <div class="screen">
-      <h2>Game Over</h2>
-      ${
-        state.mode === 'single'
-          ? `<div style="font-size:1.4em; color:#ffd600; margin-bottom:20px;">
-               You scored <b>${state.totalPoints || 0}</b>
-             </div>`
-          : `<div class="scoreboard">
-               ${state.scoreboard.map(item =>
-                 `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
-               ).join('')}
-             </div>`
-      }
-      <button id="restartBtn">Play Again</button>
-      <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
-        Return to Start
-      </button>
-      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
-    </div>
-  `;
+function renderEndScreen() {
+  if (state.mode === "multi") {
+    // Multiplayer END SCREEN
+    const players = (state.players || []).slice().sort((a, b) => b.score - a.score);
+    const winner = players[0];
+    const winnerName = winner ? winner.name.toUpperCase() : "UNKNOWN";
+    $app.innerHTML = `
+      <div class="final-multiplayer-screen">
+        <div class="winner-announcement">
+          AND THE WINNER IS
+          <div class="winner-name">${winnerName}</div>
+        </div>
+        <button id="playAgainBtn" class="final-btn">Play Again</button>
+        <button id="returnHomeBtn" class="final-btn">Return to Home</button>
+        <div class="final-scoreboard">
+          ${renderScoreboard(players)}
+        </div>
+      </div>
+      <style>
+        .final-multiplayer-screen {
+          background: linear-gradient(135deg, #fffbe6 0%, #ffe082 100%);
+          border-radius: 18px;
+          box-shadow: 0 4px 32px #3334;
+          padding: 38px 20px 32px 20px;
+          max-width: 400px;
+          margin: 36px auto;
+          text-align: center;
+          font-family: inherit;
+        }
+        .winner-announcement {
+          font-size: 2em;
+          color: #222;
+          font-weight: bold;
+          margin-bottom: 12px;
+          letter-spacing: 1.5px;
+        }
+        .winner-name {
+          font-size: 2.6em;
+          color: #ffd600;
+          font-weight: 900;
+          margin-top: 8px;
+          margin-bottom: 20px;
+          text-shadow: 1px 2px 6px #0002;
+          letter-spacing: 2px;
+        }
+        .final-btn {
+          background: #ffd600;
+          color: #222;
+          border: none;
+          border-radius: 8px;
+          font-size: 1.25em;
+          font-weight: bold;
+          margin: 10px 8px 22px 8px;
+          padding: 16px 34px;
+          cursor: pointer;
+          box-shadow: 0 2px 12px #0001;
+          transition: background 0.2s, transform 0.12s;
+        }
+        .final-btn:hover {
+          background: #ffb300;
+          transform: scale(1.05);
+        }
+        .final-scoreboard {
+          margin-top: 30px;
+        }
+      </style>
+    `;
 
-  $app.innerHTML = content;
-
-  document.getElementById('restartBtn').onclick = () => window.location.reload();
-  attachReturnToStartHandler();
-  document.getElementById('returnLandingBtn').onclick = () => {
-    // Remove player from lobby in Firebase
-    if (state.lobbyCode && state.playerId) {
-      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-    }
-    // Unsubscribe listeners
-    if (state.unsubLobby) {
-      state.unsubLobby();
-      state.unsubLobby = null;
-    }
-    if (state.unsubGame) {
-      state.unsubGame();
-      state.unsubGame = null;
-    }
-    // Reset relevant state
-    state.lobbyCode = '';
-    state.isLeader = false;
-    state.players = [];
-    state.status = '';
-    state.scoreboard = [];
-    state.screen = 'landing';
-    render();
-  };
+    document.getElementById('playAgainBtn').onclick = function() {
+      if (typeof onPlayAgain === "function") onPlayAgain();
+    };
+    document.getElementById('returnHomeBtn').onclick = function() {
+      state.screen = 'landing';
+      render();
+    };
+  } else if (state.mode === "single") {
+    // Single Player END SCREEN
+    const playerName = (state.playerName || "YOU").toUpperCase();
+    const score = state.score || 0;
+    $app.innerHTML = `
+      <div class="final-single-screen">
+        <div class="single-end-title">GAME OVER</div>
+        <div class="single-end-name">${playerName}</div>
+        <div class="single-end-score">Your Score: <span>${score}</span></div>
+        <button id="playAgainBtn" class="final-btn">Play Again</button>
+        <button id="returnHomeBtn" class="final-btn">Return to Home</button>
+      </div>
+      <style>
+        .final-single-screen {
+          background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+          border-radius: 18px;
+          box-shadow: 0 4px 32px #3334;
+          padding: 38px 20px 32px 20px;
+          max-width: 400px;
+          margin: 36px auto;
+          text-align: center;
+          font-family: inherit;
+        }
+        .single-end-title {
+          font-size: 2em;
+          color: #1976d2;
+          font-weight: bold;
+          margin-bottom: 10px;
+          letter-spacing: 1.5px;
+        }
+        .single-end-name {
+          font-size: 1.4em;
+          color: #222;
+          font-weight: bold;
+          margin-bottom: 12px;
+        }
+        .single-end-score {
+          font-size: 1.5em;
+          color: #ffd600;
+          font-weight: bold;
+          margin-bottom: 24px;
+        }
+        .single-end-score span {
+          color: #222;
+        }
+        .final-btn {
+          background: #ffd600;
+          color: #222;
+          border: none;
+          border-radius: 8px;
+          font-size: 1.25em;
+          font-weight: bold;
+          margin: 10px 8px 22px 8px;
+          padding: 16px 34px;
+          cursor: pointer;
+          box-shadow: 0 2px 12px #0001;
+          transition: background 0.2s, transform 0.12s;
+        }
+        .final-btn:hover {
+          background: #ffb300;
+          transform: scale(1.05);
+        }
+      </style>
+    `;
+    document.getElementById('playAgainBtn').onclick = function() {
+      if (typeof onPlayAgain === "function") onPlayAgain();
+    };
+    document.getElementById('returnHomeBtn').onclick = function() {
+      state.screen = 'landing';
+      render();
+    };
+  } else if (state.mode === "monthly") {
+    // Monthly Challenge END SCREEN
+    const playerName = (state.playerName || "YOU").toUpperCase();
+    const score = state.score || 0;
+    $app.innerHTML = `
+      <div class="final-monthly-screen">
+        <div class="monthly-end-title">MONTHLY CHALLENGE COMPLETE</div>
+        <div class="monthly-end-name">${playerName}</div>
+        <div class="monthly-end-score">Your Challenge Score: <span>${score}</span></div>
+        <button id="playAgainBtn" class="final-btn">Try Again</button>
+        <button id="returnHomeBtn" class="final-btn">Return to Home</button>
+      </div>
+      <style>
+        .final-monthly-screen {
+          background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+          border-radius: 18px;
+          box-shadow: 0 4px 32px #3334;
+          padding: 38px 20px 32px 20px;
+          max-width: 400px;
+          margin: 36px auto;
+          text-align: center;
+          font-family: inherit;
+        }
+        .monthly-end-title {
+          font-size: 2em;
+          color: #ffb300;
+          font-weight: bold;
+          margin-bottom: 10px;
+          letter-spacing: 1.5px;
+        }
+        .monthly-end-name {
+          font-size: 1.4em;
+          color: #222;
+          font-weight: bold;
+          margin-bottom: 12px;
+        }
+        .monthly-end-score {
+          font-size: 1.5em;
+          color: #ffd600;
+          font-weight: bold;
+          margin-bottom: 24px;
+        }
+        .monthly-end-score span {
+          color: #222;
+        }
+        .final-btn {
+          background: #ffd600;
+          color: #222;
+          border: none;
+          border-radius: 8px;
+          font-size: 1.25em;
+          font-weight: bold;
+          margin: 10px 8px 22px 8px;
+          padding: 16px 34px;
+          cursor: pointer;
+          box-shadow: 0 2px 12px #0001;
+          transition: background 0.2s, transform 0.12s;
+        }
+        .final-btn:hover {
+          background: #ffb300;
+          transform: scale(1.05);
+        }
+      </style>
+    `;
+    document.getElementById('playAgainBtn').onclick = function() {
+      if (typeof onPlayAgain === "function") onPlayAgain();
+    };
+    document.getElementById('returnHomeBtn').onclick = function() {
+      state.screen = 'landing';
+      render();
+    };
+  } else {
+    // Fallback or future game modes
+    $app.innerHTML = `
+      <div style="text-align:center; margin:80px auto; font-size:2em; color:#666;">
+        Game over!<br><br>
+        <button id="returnHomeBtn" class="final-btn" style="margin-top:24px;">Return to Home</button>
+      </div>
+    `;
+    document.getElementById('returnHomeBtn').onclick = function() {
+      state.screen = 'landing';
+      render();
+    };
+  }
 }
 
 // --- Game Logic + Firebase Sync ---
