@@ -327,9 +327,6 @@ function renderLobby() {
     <div class="lobby-screen">
       <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
       <div class="lobby-form">
-        <div class="lobby-code-box">
-          ${state.lobbyCode ? `Lobby Code: <span class="lobby-code">${state.lobbyCode}</span>` : ""}
-        </div>
         <input id="playerName" type="text" class="lobby-input" placeholder="Your Name" value="${savedName}">
         <div style="color:#ffd600; font-size:0.95em; margin-bottom:8px;">
           Choose carefully as this will be your username from now on!
@@ -369,25 +366,6 @@ function renderLobby() {
         align-items: center;
         width: 100%;
         max-width: 350px;
-      }
-      .lobby-code-box {
-        width: 100%;
-        max-width: 320px;
-        background: #fff;
-        color: #111;
-        border-radius: 8px;
-        padding: 18px 0;
-        font-size: 1.35em;
-        font-weight: bold;
-        text-align: center;
-        box-shadow: 0 2px 12px #0002;
-        margin: 0 auto 18px auto;
-        letter-spacing: 2px;
-      }
-      .lobby-code {
-        letter-spacing: 3px;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 1.1em;
       }
       .lobby-input {
         width: 100%;
@@ -488,8 +466,11 @@ function renderLobby() {
       if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
         remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
       }
-    }
-    // Unsubscribe
+    }document.getElementById('startLobbyBtn').onclick = function() {
+  console.log("Start Lobby clicked!", state.lobbyCode);
+  update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
+};
+    // Unsubscribe ers
     if (state.unsubLobby) {
       state.unsubLobby();
       state.unsubLobby = null;
