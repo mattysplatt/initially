@@ -1794,27 +1794,41 @@ function attachReturnToStartHandler() {
 }
 
 function renderEnd() {
-  let content = `
-    <div class="screen">
-      <h2>Game Over</h2>
-      ${
-        state.mode === 'single'
-          ? `<div style="font-size:1.4em; color:#ffd600; margin-bottom:20px;">
-               You scored <b>${state.totalPoints || 0}</b>
-             </div>`
-          : `<div class="scoreboard">
-               ${state.scoreboard.map(item =>
-                 `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
-               ).join('')}
-             </div>`
-      }
-      <button id="restartBtn">Play Again</button>
-      <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
-        Return to Start
-      </button>
-      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
-    </div>
-  `;
+let content = `
+  <div class="screen">
+    ${
+      state.mode === 'single'
+        ? `
+          <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+            <div style="background: #fff; border-radius: 16px; box-shadow: 0 4px 24px #0002; padding: 36px 28px 28px 28px; max-width: 350px; width: 90vw; text-align: center;">
+              <h2 style="color: #ffd600; margin-bottom: 14px;">Game Over</h2>
+              <div style="font-size: 1.5em; color: #222; margin-bottom: 28px;">
+                You scored <b style="color: #ffd600;">${state.totalPoints || 0}</b>
+              </div>
+              <button id="restartBtn" class="landing-btn" style="margin-bottom: 12px;">Play Again</button>
+              <button id="returnToStartBtn" class="landing-btn" style="background-color:#ff3333;color:white;font-weight:bold;padding:12px 24px;border:none;border-radius:6px;cursor:pointer;margin-bottom:12px;">
+                Return to Start
+              </button>
+              <button id="returnLandingBtn" class="landing-btn" style="margin-top: 8px;">Return to Home</button>
+            </div>
+          </div>
+        `
+        : `
+          <h2>Game Over</h2>
+          <div class="scoreboard">
+            ${state.scoreboard.map(item =>
+              `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
+            ).join('')}
+          </div>
+          <button id="restartBtn">Play Again</button>
+          <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
+            Return to Start
+          </button>
+          <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
+        `
+    }
+  </div>
+`;
 
   $app.innerHTML = content;
 
