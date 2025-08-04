@@ -1794,61 +1794,27 @@ function attachReturnToStartHandler() {
 }
 
 function renderEnd() {
-  let content = '';
-
-  // Multiplayer mode: show winner and formatted leaderboard
-  if (state.mode === 'multi') {
-    let winner = state.scoreboard && state.scoreboard.length ? state.scoreboard[0].name.toUpperCase() : '';
-    content = `
-      <div class="screen">
-        <h2 style="color:#ffd600; text-align:center;">AND THE WINNER IS "${winner}"</h2>
-        <div class="scoreboard" style="margin-bottom:24px;">
-          ${state.scoreboard.map(item =>
-            `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
-          ).join('')}
-        </div>
-        <button id="restartBtn">Play Again</button>
-        <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
-          Return to Start
-        </button>
-        <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
-      </div>
-    `;
-  }
-  // Single mode (unchanged)
-  else if (state.mode === 'single') {
-    content = `
-      <div class="screen">
-        <h2>Game Over</h2>
-        <div style="font-size:1.4em; color:#ffd600; margin-bottom:20px;">
-          You scored <b>${state.totalPoints || 0}</b>
-        </div>
-        <button id="restartBtn">Play Again</button>
-        <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
-          Return to Start
-        </button>
-        <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
-      </div>
-    `;
-  }
-  // Monthly mode (unchanged)
-  else {
-    content = `
-      <div class="screen">
-        <h2>Game Over</h2>
-        <div class="scoreboard">
-          ${state.scoreboard.map(item =>
-            `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
-          ).join('')}
-        </div>
-        <button id="restartBtn">Play Again</button>
-        <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
-          Return to Start
-        </button>
-        <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
-      </div>
-    `;
-  }
+  let content = `
+    <div class="screen">
+      <h2>Game Over</h2>
+      ${
+        state.mode === 'single'
+          ? `<div style="font-size:1.4em; color:#ffd600; margin-bottom:20px;">
+               You scored <b>${state.totalPoints || 0}</b>
+             </div>`
+          : `<div class="scoreboard">
+               ${state.scoreboard.map(item =>
+                 `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
+               ).join('')}
+             </div>`
+      }
+      <button id="restartBtn">Play Again</button>
+      <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
+        Return to Start
+      </button>
+      <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
+    </div>
+  `;
 
   $app.innerHTML = content;
 
@@ -1878,6 +1844,33 @@ function renderEnd() {
     render();
   };
 }
+
+// --- Game Logic + Firebase Sync ---
+function waitForAuthThen(fn) {
+  if (isAuthenticated) {
+    fn();
+  } else {
+    state.status = "Authenticating, please wait...";
+    render();
+  }
+}
+
+signInAnonymously(auth).catch((error) => {
+  state.status = "Authentication failed. Please refresh.";
+  render();
+});
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    isAuthenticated = true;
+    state.playerId = user.uid;
+    render();
+  } else {
+    isAuthenticated = false;
+    state.playerId = '';
+    state.status = "Authentication required.";
+    render();
+  }
+});
 function createLobby() {
   if (!state.playerName) { state.status = "Enter your name"; render(); return; }
   state.lobbyCode = generateLobbyCode();
