@@ -256,6 +256,43 @@ function renderLanding() {
   render();
 };
 }
+function handleReturnToHome() {
+  // Remove player from lobby in Firebase
+  if (state.lobbyCode && state.playerId) {
+    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+  }
+
+  // Unsubscribe listeners
+  if (state.unsubLobby) {
+    state.unsubLobby();
+    state.unsubLobby = null;
+  }
+  if (state.unsubGame) {
+    state.unsubGame();
+    state.unsubGame = null;
+  }
+
+  // Clear any intervals/timeouts if you use them
+  if (state.gameInterval) {
+    clearInterval(state.gameInterval);
+    state.gameInterval = null;
+  }
+  if (state.someTimeout) {
+    clearTimeout(state.someTimeout);
+    state.someTimeout = null;
+  }
+
+  // Reset all relevant state
+  state.lobbyCode = '';
+  state.isLeader = false;
+  state.players = [];
+  state.status = '';
+  state.scoreboard = [];
+  state.screen = 'landing';
+
+  // Render landing screen LAST
+  render();
+}
 
 // MAIN RENDER FUNCTION
 function render() {
