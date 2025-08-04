@@ -1071,7 +1071,10 @@ function renderLobbyCodeScreen() {
     <div class="lobby-screen">
       <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
       <div class="lobby-form">
-        <h2 style="margin-bottom:12px; color:#ffd600;">Lobby Code: <span style="font-weight:bold;">${lobbyCode}</span></h2>
+        <div class="lobby-code-box">
+          LOBBY CODE
+          <div class="lobby-code">${lobbyCode}</div>
+        </div>
         <div style="margin-bottom:18px;">
           <div style="font-size:1.1em; color:#fff; margin-bottom:6px;">Players in Lobby:</div>
           <ul style="list-style:none; padding:0;">
@@ -1117,6 +1120,28 @@ function renderLobbyCodeScreen() {
         align-items: center;
         width: 100%;
         max-width: 350px;
+      }
+      .lobby-code-box {
+        width: 100%;
+        max-width: 240px;
+        background: #fff;
+        color: #111;
+        border-radius: 10px;
+        padding: 12px 0 8px 0;
+        font-size: 1.07em;
+        font-weight: bold;
+        text-align: center;
+        box-shadow: 0 2px 12px #0002;
+        margin: 0 auto 20px auto;
+        letter-spacing: 1.5px;
+      }
+      .lobby-code {
+        color: #222;
+        font-size: 2em;
+        font-family: 'Courier New', Courier, monospace;
+        letter-spacing: 4px;
+        font-weight: bold;
+        margin-top: 4px;
       }
       .lobby-input {
         width: 100%;
@@ -1181,19 +1206,22 @@ function renderLobbyCodeScreen() {
           font-size: 1em;
           padding: 13px 0;
         }
+        .lobby-code-box {
+          max-width: 92vw;
+        }
       }
     </style>
   `;
 
   // Attach Start Lobby button handler (only for the leader)
   if (isLeader) {
-  const startLobbyBtn = document.getElementById('startLobbyBtn');
-  if (startLobbyBtn) {
-    startLobbyBtn.onclick = function() {
-  update(ref(db, `lobbies/${lobbyCode}`), { status: 'category' })
-    .then(() => console.log("Start Lobby pressed, status updated to 'category'"))
-    .catch(err => console.error("Error updating lobby status:", err));
-};
+    const startLobbyBtn = document.getElementById('startLobbyBtn');
+    if (startLobbyBtn) {
+      startLobbyBtn.onclick = function() {
+        update(ref(db, `lobbies/${lobbyCode}`), { status: 'category' })
+          .then(() => console.log("Start Lobby pressed, status updated to 'category'"))
+          .catch(err => console.error("Error updating lobby status:", err));
+      };
     }
   }
 
