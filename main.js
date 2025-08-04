@@ -697,7 +697,7 @@ function renderInstructions() {
     state.screen = 'landing';
     render();
   };
-}
+
 function goToNextSinglePlayerClue() {
   if (state.round < state.maxRounds) {
     state.round++;
