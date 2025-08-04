@@ -1088,7 +1088,7 @@ ModernNBA: [
   initials: "J.T.",
   answer: "Jaxon Prior",
   clues: ["Brisbane Lions defender", "Debuted in 2021", "From West Perth", "Skilled left-footer", "Developing role"]
-}
+},
    {
   initials: "D.M.",
   answer: "Dustin Martin",
