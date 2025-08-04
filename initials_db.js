@@ -954,7 +954,7 @@ ModernNBA: [
   clues: ["GWS Giants key forward", "Debuted in 2020", "Known for strong marking", "From Werribee", "Reliable goalkicker"]
 },
 {
-  initials: "T.X.",
+  initials: "T.W.",
   answer: "Tex Wanganeen",
   clues: ["Essendon Bombers forward", "Son of Gavin Wanganeen", "Debuted in 2022", "Indigenous talent", "Energetic forward"]
 },
