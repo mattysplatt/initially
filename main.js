@@ -1822,6 +1822,9 @@ function attachReturnToStartHandler() {
 }
 
 function renderEndScreen() {
+  if (state.alreadyRenderedEndScreen) return; // Prevent multiple renders
+  state.alreadyRenderedEndScreen = true;
+
   if (state.mode === "multi") {
     // Multiplayer END SCREEN
     const players = (state.players || []).slice().sort((a, b) => b.score - a.score);
@@ -1902,10 +1905,12 @@ function renderEndScreen() {
     `;
 
     document.getElementById('playAgainBtn').onclick = function() {
+      state.alreadyRenderedEndScreen = false; // Reset guard for next game
       if (typeof onPlayAgain === "function") onPlayAgain();
     };
     document.getElementById('returnHomeBtn').onclick = function() {
       state.screen = 'landing';
+      state.alreadyRenderedEndScreen = false; // Reset guard for next session
       render();
     };
 
@@ -1974,10 +1979,12 @@ function renderEndScreen() {
       </style>
     `;
     document.getElementById('playAgainBtn').onclick = function() {
+      state.alreadyRenderedEndScreen = false;
       if (typeof onPlayAgain === "function") onPlayAgain();
     };
     document.getElementById('returnHomeBtn').onclick = function() {
       state.screen = 'landing';
+      state.alreadyRenderedEndScreen = false;
       render();
     };
   } else if (state.mode === "monthly") {
@@ -2045,10 +2052,12 @@ function renderEndScreen() {
       </style>
     `;
     document.getElementById('playAgainBtn').onclick = function() {
+      state.alreadyRenderedEndScreen = false;
       if (typeof onPlayAgain === "function") onPlayAgain();
     };
     document.getElementById('returnHomeBtn').onclick = function() {
       state.screen = 'landing';
+      state.alreadyRenderedEndScreen = false;
       render();
     };
   } else {
@@ -2061,6 +2070,7 @@ function renderEndScreen() {
     `;
     document.getElementById('returnHomeBtn').onclick = function() {
       state.screen = 'landing';
+      state.alreadyRenderedEndScreen = false;
       render();
     };
   }
