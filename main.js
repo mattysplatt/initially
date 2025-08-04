@@ -522,7 +522,7 @@ document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
     state.screen = 'landing';
     render();
   };
-}
+
 function onStartLobby() {
   update(ref(db, `lobbies/${state.lobbyCode}`), { status: "category" });
 }
