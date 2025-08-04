@@ -1061,7 +1061,7 @@ function renderLobbyCodeScreen() {
           <ul style="list-style:none; padding:0;">
             ${players.map(player => `
               <li style="color:#ffd600; font-size:1.03em; margin-bottom:4px;">
-                ${player.name}${player.id === leaderId ? ' <span style="color:#fff">(Leader)</span>' : ''}
+               ${player.name.toUpperCase()}${player.id === leaderId ? ' <span style="color:#fff">(Leader)</span>' : ''}
               </li>
             `).join("")}
           </ul>
