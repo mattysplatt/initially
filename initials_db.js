@@ -4642,7 +4642,7 @@ ModernNBA: [
       initials: "E.M.",
       answer: "Elon Musk",
       clues: ["CEO of Tesla and SpaceX","Born in South Africa","Founded PayPal","Owns X (formerly Twitter)","Launched Starlink satellites"]
-    }
+    },
 { initials: "A.E.", answer: "Albert Einstein", clues: ["German-born physicist", "Theory of relativity", "Nobel Prize in Physics 1921", "Iconic wild hair", "E=mc^2"] },
 { initials: "M.L.K.", answer: "Martin Luther King Jr.", clues: ["American civil rights leader", "Delivered 'I Have a Dream' speech", "Led Montgomery Bus Boycott", "Assassinated in 1968", "Nobel Peace Prize winner"] },
 { initials: "M.G.", answer: "Mahatma Gandhi", clues: ["Indian independence leader", "Advocate of nonviolent protest", "Led Salt March", "Assassinated in 1948", "Known as 'Bapu'"] },
