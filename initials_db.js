@@ -124,10 +124,7 @@ export const INITIALS_DB = {
 { initials: "A.M.", answer: "AJ Mitchell", clues: ["American singer-songwriter", "Hits include 'Used to Be' and 'Slow Dance'", "Pop and R and B fusion", "Breakout in 2021", "Known for heartfelt lyrics"] },
 { initials: "J.S.", answer: "Jorja Smith", clues: ["British singer-songwriter", "Hits include 'Be Honest' and 'Blue Lights'", "Known for R and B and soul fusion", "Mercury Prize nominee", "Collaborated with Burna Boy"] },
 { initials: "K.G.", answer: "Kenya Grace", clues: ["British singer-songwriter", "Viral hit 'Strangers'", "Breakout in 2023", "Drum and bass influences", "Known for unique vocals"] },
-{ initials: "O.A.", answer: "Omar Apollo", clues: ["American singer-songwriter", "Hits include 'Evergreen'", "Grammy nominee", "Blends pop R and B and funk", "Breakthrough in 2023"] },
 { initials: "M.A.", answer: "Maeta Allen", clues: ["American R and B singer", "Hits include 'Through the Night'", "Known for smooth vocals", "Debut album 2023", "Breakout in 2022"] },
-{ initials: "A.W.", answer: "Armani White", clues: ["American rapper", "Viral hit 'Billie Eilish'", "Breakout in 2022", "Known for energetic delivery", "TikTok popularity"] },
-{ initials: "D.C.", answer: "Dylan Conrique", clues: ["American singer and actress", "Hit 'Birthday Cake'", "Known for heartfelt storytelling", "Breakout in 2023", "Disney Channel alum"] },
 { initials: "J.F.", answer: "Jazzy Finnegan", clues: ["Irish singer-songwriter", "Hits include 'Giving Me'", "Breakout in 2023", "Known for dance pop", "Distinctive vocal style"] },
 { initials: "D.B.", answer: "Dylan Brady", clues: ["British pop singer", "Hits include 'Liar Liar'", "Breakout in 2023", "Touring with Ed Sheeran", "Known for energetic performances"] },
 { initials: "S.R.", answer: "Sofia Reyes", clues: ["Mexican pop singer", "Hit 'One Two Three'", "Collaborated with Jason Derulo", "Breakout in 2023", "Known for bilingual releases"] },
@@ -161,14 +158,9 @@ export const INITIALS_DB = {
 { initials: "J.A.", answer: "Jhené Aiko", clues: ["American singer-songwriter", "Hits include 'Triggered' and 'B S'", "Known for ethereal R&B", "Grammy nominee", "Collaborated with Big Sean"] },
 { initials: "A.M.", answer: "Anne Marie", clues: ["British singer-songwriter", "Hits include '2002' and 'Friends'", "Judge on The Voice UK", "Known for honest lyrics", "BRIT Award nominee"] },
 { initials: "C.P.", answer: "Charlie Puth", clues: ["American singer, songwriter, and producer", "Known for 'Attention' and 'See You Again'", "Perfect pitch and viral TikToks", "Collaborated with BTS and Jungkook", "Distinctive falsetto"] },
-{ initials: "J.S.", answer: "Jorja Smith", clues: ["British singer-songwriter", "Hits include 'Be Honest' and 'Blue Lights'", "Known for R&B and soul fusion", "Mercury Prize nominee", "Collaborated with Burna Boy"] },
 { initials: "A.B.", answer: "Alec Benjamin", clues: ["American singer-songwriter", "Known for 'Let Me Down Slowly'", "Storytelling in lyrics", "Soft, melodic vocal style", "Popular on social media"] },
 { initials: "K.H.", answer: "Khalid Harris", clues: ["American singer-songwriter", "Hits include 'Better' and 'Talk'", "Known for smooth R&B pop", "Debut with 'Location'", "Collaborated with Billie Eilish"] },
 { initials: "M.A.", answer: "Maeta Allen", clues: ["American R&B singer", "Hits include 'Through the Night'", "Known for smooth vocals", "Debut album 2023", "Breakout in 2022"] },
-{ initials: "O.A.", answer: "Omar Apollo", clues: ["American singer-songwriter", "Hits include 'Evergreen'", "Grammy-nominated", "Blends pop, R&B, and funk", "Breakthrough in 2023"] },
-{ initials: "A.W.", answer: "Armani White", clues: ["American rapper", "Viral hit 'Billie Eilish'", "Breakout in 2022", "Known for energetic delivery", "TikTok popularity"] },
-{ initials: "G.B.", answer: "Gabby Barrett", clues: ["American singer-songwriter", "Hits include 'I Hope' and 'The Good Ones'", "Country pop fusion", "American Idol alum", "Breakout in 2020"] },
-{ initials: "D.C.", answer: "Dylan Conrique", clues: ["American singer and actress", "Hit 'Birthday Cake'", "Known for heartfelt storytelling", "Breakout in 2023", "Disney Channel alum"] },
 { initials: "N.B.", answer: "Nessa Barrett", clues: ["American singer-songwriter", "Hits include 'Die First'", "TikTok breakout", "Known for emotional songwriting", "Debut album 2022"] },
 { initials: "K.G.", answer: "Kenya Grace", clues: ["British singer-songwriter", "Viral hit 'Strangers'", "Breakout in 2023", "Drum and bass influences", "Known for unique vocals"] },
 { initials: "S.W.", answer: "Summer Walker", clues: ["American R&B singer-songwriter", "Hits include 'Playing Games' and 'Girls Need Love'", "Known for honest, raw lyrics", "Album 'Over It' debuted at No. 2 on Billboard 200", "Collaborated with Drake and SZA"] },
@@ -177,7 +169,6 @@ export const INITIALS_DB = {
 { initials: "S.C.", answer: "Sabrina Carpenter", clues: ["American singer and actress", "Hits include 'Feather' and 'Nonsense'", "Starred in 'Girl Meets World'", "Opened for Taylor Swift's Eras Tour", "Pop and R&B influences"] },
 { initials: "C.C.", answer: "Chelsea Cutler", clues: ["American singer and producer", "Known for 'Your Shirt' and 'you were good to me' (with Jeremy Zucker)", "Blends pop, electronic, and indie", "Open about mental health", "Tours with Quinn XCII"] },
 { initials: "Q.X.", answer: "Quinn XCII", clues: ["American singer-songwriter", "Blends pop, reggae, and hip-hop", "Hits include 'Stay Next To Me' and 'Straightjacket'", "Collaborates with Chelsea Cutler", "Known for upbeat, summer vibes"] },
-{ initials: "R.W.", answer: "Remi Wolf", clues: ["American pop singer-songwriter", "Known for funky, colorful style", "Hits include 'Photo ID' and 'Disco Man'", "Former 'American Idol' contestant", "Praised for energetic live shows"] },
 { initials: "C.P.", answer: "Caroline Polachek", clues: ["American singer-songwriter", "Hits include 'So Hot You're Hurting My Feelings'", "Formerly of Chairlift", "Experimental pop artist", "Praised for her vocal range"] },
 { initials: "K.P.", answer: "Kim Petras", clues: ["German pop singer-songwriter", "Hits include 'Unholy' (with Sam Smith)", "Transgender pop icon", "Debut album 'Feed the Beast'", "Known for dance-pop anthems"] },
 { initials: "S.S.", answer: "Stephen Sanchez", clues: ["American singer-songwriter", "Hit single 'Until I Found You'", "Retro-inspired pop sound", "Gained popularity on TikTok", "Known for heartfelt love songs"] },
@@ -803,7 +794,302 @@ ModernNBA: [
     // ...more
   ],
   AFL: [
- {
+{
+  initials: "J.A.",
+  answer: "Jamaine Jones",
+  clues: ["West Coast Eagles small forward", "Known for pace and pressure", "Debuted in 2018", "Former Geelong Cat", "From Heywood, Victoria"]
+},
+{
+  initials: "B.C.",
+  answer: "Brandon Cox",
+  clues: ["Fremantle Dockers defender", "Known for intercept marking", "Debuted in 2019", "Reliable left-footer", "From Northam, WA"]
+},
+{
+  initials: "E.S.",
+  answer: "Elijah Sheldrick",
+  clues: ["Sydney Swans midfielder", "First-round pick 2021", "Known for strength and ball-winning", "Debuted in 2022", "Tasmanian product"]
+},
+{
+  initials: "J.R.",
+  answer: "Jed Rule",
+  clues: ["GWS Giants defender", "Emerging tall", "Debuted in 2022", "From Sandringham Dragons", "Developing prospect"]
+},
+{
+  initials: "A.S.",
+  answer: "Angus Sheldrick",
+  clues: ["Sydney Swans midfielder", "Drafted 2021", "Known for aggression and attack", "Debuted in 2022", "From Claremont WAFL"]
+},
+{
+  initials: "H.M.",
+  answer: "Hugo Ralphsmith",
+  clues: ["Richmond Tigers wingman", "Known for speed and run", "Debuted in 2021", "From Sandringham Dragons", "Reliable utility"]
+},
+{
+  initials: "F.M.",
+  answer: "Fergus Marks",
+  clues: ["Brisbane Lions defender", "Debuted in 2023", "Strong overhead mark", "From Queensland", "Developing tall"]
+},
+{
+  initials: "J.A.",
+  answer: "Josh Amiss",
+  clues: ["Fremantle Dockers key forward", "Known for accurate goalkicking", "Debuted in 2022", "From East Perth", "Emerging star"]
+},
+{
+  initials: "E.H.",
+  answer: "Elijah Hollands",
+  clues: ["Carlton Blues midfielder", "Brother of Oliver Hollands", "Debuted in 2022", "Former Gold Coast Sun", "Known for power and run"]
+},
+{
+  initials: "J.M.",
+  answer: "Jye Menzie",
+  clues: ["Essendon Bombers small forward", "Debuted in 2022", "From Tasmania", "Known for crumbing goals", "Opportunistic forward"]
+},
+{
+  initials: "S.S.",
+  answer: "Sam Sturt",
+  clues: ["Fremantle Dockers forward", "Known for aerial ability", "Debuted in 2020", "From Dandenong Stingrays", "Skilled finisher"]
+},
+{
+  initials: "M.J.",
+  answer: "Marlion Pickett",
+  clues: ["Richmond Tigers wingman", "Debuted in 2019 Grand Final", "Known for composure", "Premiership player", "From South Fremantle WAFL"]
+},
+{
+  initials: "J.R.",
+  answer: "Jake Riccardi",
+  clues: ["GWS Giants key forward", "Debuted in 2020", "Known for strong marking", "From Werribee", "Reliable goalkicker"]
+},
+{
+  initials: "T.X.",
+  answer: "Tex Wanganeen",
+  clues: ["Essendon Bombers forward", "Son of Gavin Wanganeen", "Debuted in 2022", "Indigenous talent", "Energetic forward"]
+},
+{
+  initials: "M.C.",
+  answer: "Mitch Georgiades",
+  clues: ["Port Adelaide Power forward", "Known for leaping ability", "Debuted in 2020", "From Subiaco WAFL", "Strong contested mark"]
+},
+{
+  initials: "N.M.",
+  answer: "Nick Murray",
+  clues: ["Adelaide Crows defender", "Key tall", "Debuted in 2021", "From NSW", "Reliable stopper"]
+},
+{
+  initials: "S.S.",
+  answer: "Sam Simpson",
+  clues: ["Geelong Cats midfielder/forward", "Debuted in 2017", "Known for agility and skill", "Injury setbacks", "Clever ball user"]
+},
+{
+  initials: "T.C.",
+  answer: "Tyler Brockman",
+  clues: ["West Coast Eagles forward", "Former Hawthorn player", "Debuted in 2021", "Known for flair", "Indigenous background"]
+},
+{
+  initials: "H.F.",
+  answer: "Harry Himmelberg",
+  clues: ["GWS Giants utility", "Can play forward or back", "Known for strong marking", "Debuted in 2016", "Versatile tall"]
+},
+{
+  initials: "L.M.",
+  answer: "Lachlan McNeil",
+  clues: ["Western Bulldogs midfielder/forward", "Debuted in 2021", "Rookie draft pick", "Hard-working role player", "From Glenelg"]
+},
+{
+  initials: "O.F.",
+  answer: "Oscar Faulkhead",
+  clues: ["St Kilda Saints midfielder", "Debuted in 2024", "From Bendigo Pioneers", "Developing inside mid", "Known for endurance"]
+},
+{
+  initials: "C.C.",
+  answer: "Cooper Craig-Peters",
+  clues: ["Western Bulldogs midfielder", "Debuted in 2024", "From Footscray VFL", "Composed ball user", "Developing talent"]
+},
+{
+  initials: "J.S.",
+  answer: "Josh Sinn",
+  clues: ["Port Adelaide Power defender", "Top-20 draft pick", "Debuted in 2022", "Known for speed", "From Sandringham Dragons"]
+},
+{
+  initials: "L.C.",
+  answer: "Lachie Cowan",
+  clues: ["Carlton Blues defender", "Debuted in 2023", "From Tasmania", "Strong kicking skills", "Tough and competitive"]
+},
+{
+  initials: "K.P.",
+  answer: "Kaden Payne",
+  clues: ["Brisbane Lions defender", "Debuted in 2024", "Reliable backman", "From Queensland", "Developing tall"]
+},
+{
+  initials: "Z.S.",
+  answer: "Zane Simmonds",
+  clues: ["Port Adelaide Power forward", "Debuted in 2024", "From Woodville-West Torrens", "Developing goal kicker", "Strong tackler"]
+},
+{
+  initials: "F.M.",
+  answer: "Finn Maginness",
+  clues: ["Hawthorn Hawks midfielder/tagger", "Known for shutdown roles", "Debuted in 2020", "Son of Scott Maginness", "From Sandringham Dragons"]
+},
+{
+  initials: "R.B.",
+  answer: "Reuben Ginbey",
+  clues: ["West Coast Eagles midfielder", "Top draft pick 2022", "Known for toughness", "From East Perth", "Immediate impact"]
+},
+{
+  initials: "B.R.",
+  answer: "Brady Rowles",
+  clues: ["Essendon Bombers defender", "Debuted in 2024", "From Bendigo Pioneers", "Quick and athletic", "Rookie list elevation"]
+},
+{
+  initials: "T.L.",
+  answer: "Toby McMullin",
+  clues: ["GWS Giants forward", "Debuted in 2023", "From Sandringham Dragons", "Known for pressure acts", "Developing forward"]
+},
+{
+  initials: "E.F.",
+  answer: "Ethan Fleet",
+  clues: ["Fremantle Dockers defender", "Debuted in 2024", "From Peel Thunder", "Quick and composed", "Young backman"]
+},
+{
+  initials: "N.S.",
+  answer: "Noah Smith",
+  clues: ["Geelong Cats midfielder", "Debuted in 2022", "From Dandenong Stingrays", "Speedy left-footer", "Developing role"]
+},
+{
+  initials: "D.T.",
+  answer: "Darcy Tucker",
+  clues: ["North Melbourne Kangaroos midfielder", "Former Fremantle Docker", "Debuted in 2016", "Reliable role player", "From Horsham, Victoria"]
+},
+{
+  initials: "T.P.",
+  answer: "Taj Woewodin",
+  clues: ["Melbourne Demons midfielder", "Debuted in 2023", "Son of Brownlow medalist Shane Woewodin", "Known for speed", "From East Fremantle"]
+},
+{
+  initials: "J.C.",
+  answer: "Jed Caddy",
+  clues: ["Essendon Bombers forward", "Debuted in 2024", "From Calder Cannons", "Developing small forward", "Known for pressure"]
+},
+{
+  initials: "R.J.",
+  answer: "Riley Jones",
+  clues: ["North Melbourne Kangaroos ruckman", "Debuted in 2024", "From Oakleigh Chargers", "Developing tall", "Strong tap work"]
+},
+{
+  initials: "A.D.",
+  answer: "Alex Davies",
+  clues: ["Gold Coast Suns midfielder", "Debuted in 2021", "Strong bodied inside mid", "From Cairns", "Known for clearance work"]
+},
+{
+  initials: "O.L.",
+  answer: "Ollie Lord",
+  clues: ["Port Adelaide Power key forward", "Debuted in 2023", "Strong contested mark", "From Sandringham Dragons", "Developing tall"]
+},
+{
+  initials: "B.M.",
+  answer: "Bailey Macdonald",
+  clues: ["Hawthorn Hawks defender", "Debuted in 2023", "From Oakleigh Chargers", "Known for dash off half-back", "Developing role"]
+},
+{
+  initials: "M.C.",
+  answer: "Max Clohesy",
+  clues: ["Essendon Bombers defender", "Debuted in 2024", "From Murray Bushrangers", "Reliable back pocket", "Good decision maker"]
+},
+{
+  initials: "R.S.",
+  answer: "Riley Sanders",
+  clues: ["Western Bulldogs midfielder", "First-round draft pick 2023", "Debuted in 2024", "From Sandringham Dragons", "Ball-winning inside mid"]
+},
+{
+  initials: "J.C.",
+  answer: "Jack Carroll",
+  clues: ["Carlton Blues midfielder", "Debuted in 2022", "From East Fremantle", "Skilled left-footer", "Developing talent"]
+},
+{
+  initials: "L.J.",
+  answer: "Liam Jones",
+  clues: ["Western Bulldogs defender", "Former Carlton Blue", "Known for intercept marking", "Debuted in 2010", "Returned to Bulldogs in 2023"]
+},
+{
+  initials: "D.B.",
+  answer: "Darcy Wilmot",
+  clues: ["Brisbane Lions defender", "Debuted in 2022", "Known for run and carry", "Excitable personality", "From Northern Knights"]
+},
+{
+  initials: "O.B.",
+  answer: "Oscar Baker",
+  clues: ["Western Bulldogs wingman", "Former Melbourne Demon", "Debuted in 2019", "Known for pace", "Reliable outside player"]
+},
+{
+  initials: "C.H.",
+  answer: "Cameron Hyde",
+  clues: ["North Melbourne Kangaroos midfielder", "Debuted in 2024", "From Murray Bushrangers", "Developing inside mid", "Known for toughness"]
+},
+{
+  initials: "T.R.",
+  answer: "Tyler Sonsie",
+  clues: ["Richmond Tigers midfielder", "Debuted in 2022", "From Eastern Ranges", "Known for clean skills", "Developing role"]
+},
+{
+  initials: "B.A.",
+  answer: "Blake Acres",
+  clues: ["Carlton Blues wingman", "Former Docker and Saint", "Known for endurance", "Debuted in 2014", "Consistent performer"]
+},
+{
+  initials: "J.B.",
+  answer: "Josh Bruce",
+  clues: ["Western Bulldogs forward", "Former Saint and Giant", "Debuted in 2012", "Strong contested mark", "Key tall"]
+},
+{
+  initials: "L.M.",
+  answer: "Lachie McAndrew",
+  clues: ["Sydney Swans ruckman", "Debuted in 2023", "From Sydney Uni", "Developing tall", "Known for tap work"]
+},
+{
+  initials: "E.W.",
+  answer: "Elijah Ware",
+  clues: ["Port Adelaide Power forward", "Debuted in 2024", "From Norwood", "Known for speed and tackling", "Developing small forward"]
+},
+{
+  initials: "D.B.",
+  answer: "Dougal Brander",
+  clues: ["West Coast Eagles defender", "Debuted in 2018", "From Bendigo Pioneers", "Versatile tall", "Known for aerial work"]
+},
+{
+  initials: "C.P.",
+  answer: "Charlie Parker",
+  clues: ["St Kilda Saints forward", "Debuted in 2024", "From Sandringham Dragons", "Known for goalkicking", "Developing role"]
+},
+{
+  initials: "T.S.",
+  answer: "Toby Sexton",
+  clues: ["Gold Coast Suns midfielder", "Debuted in 2021", "From Bendigo Pioneers", "Known for ball use", "Developing inside mid"]
+},
+{
+  initials: "S.B.",
+  answer: "Sam Banks",
+  clues: ["Richmond Tigers defender", "Debuted in 2023", "From Tasmania", "Running half-back", "Known for clean disposal"]
+},
+{
+  initials: "B.W.",
+  answer: "Bailey Williams",
+  clues: ["West Coast Eagles ruckman", "Debuted in 2019", "From Dandenong Stingrays", "Known for athleticism", "Developing tall"]
+},
+{
+  initials: "C.S.",
+  answer: "Cooper Stephens",
+  clues: ["Hawthorn Hawks midfielder", "Former Geelong Cat", "Debuted in 2020", "From Geelong Falcons", "Developing inside mid"]
+},
+{
+  initials: "A.T.",
+  answer: "Anthony Caminiti",
+  clues: ["St Kilda Saints key forward", "Debuted in 2023", "Strong contested mark", "From Calder Cannons", "Developing tall"]
+},
+{
+  initials: "J.T.",
+  answer: "Jaxon Prior",
+  clues: ["Brisbane Lions defender", "Debuted in 2021", "From West Perth", "Skilled left-footer", "Developing role"]
+}
+   {
   initials: "D.M.",
   answer: "Dustin Martin",
   clues: ["Richmond Tigers midfielder", "Known as 'Dusty'", "2017 Brownlow Medalist", "Three-time Norm Smith Medalist", "Famous for fend-off move"]
