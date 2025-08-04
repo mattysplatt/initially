@@ -1212,9 +1212,9 @@ function renderCategory() {
 
   // Mapping of category to card background image
   const backgroundImages = {
-    worldSports: "DeckBackground.png",
+    worldSports: "worldsports.png",
     AFL: "AFLcatcard.png",
-    movieStars: "worldsports.png",
+    movieStars: "Moviecatcard.png",
     musicians: "Musiccatcard.png",
     PopStars: "Popstarcatcard.png",
     Football: "Footballcatcard.png",
