@@ -224,7 +224,7 @@ export const INITIALS_DB = {
   },
     {
     initials: "K.M.",
-    answer: "Kylian Mbappé",
+    answer: "Kylian Mbappe",
     clues: ["French footballer","Star at PSG","World Cup winner in 2018","Known for his speed and finishing","Youngest French player to score at a World Cup"]
   },
    {
@@ -259,12 +259,12 @@ export const INITIALS_DB = {
   },
   {
     initials: "J.A.",
-    answer: "Julián Álvarez",
+    answer: "Julian Alvarez",
     clues: ["Argentinian forward","Plays for Manchester City","2022 World Cup winner","Known for his energy and finishing","Key young talent"]
   },
   {
     initials: "M.O.",
-    answer: "Martin Ødegaard",
+    answer: "Martin Odegaard",
     clues: ["Norwegian midfielder","Plays for Arsenal","Club captain","Known for his vision and creativity","Former Real Madrid player"]
   },
   {
@@ -314,17 +314,17 @@ export const INITIALS_DB = {
   },
   {
     initials: "E.M.",
-    answer: "Emiliano Martínez",
+    answer: "Emiliano Martinez",
     clues: ["Argentinian goalkeeper","Plays for Aston Villa","2022 World Cup Golden Glove winner","Known for penalty saves","Argentina international"]
   },
   {
     initials: "I.G.",
-    answer: "Ilkay Gündogan",
+    answer: "Ilkay Gundogan",
     clues: ["German midfielder","Plays for Barcelona (formerly Man City)","Known for late runs and goals","Premier League winner","Germany international"]
   },
   {
     initials: "L.S.",
-    answer: "Luis Suárez",
+    answer: "Luis Suarez",
     clues: ["Uruguayan striker","Played for Liverpool, Barcelona, Atlético Madrid, Inter Miami","Known for his finishing and tenacity","Multiple Golden Boots","Uruguay's all-time top scorer"]
   },
   {
@@ -344,7 +344,7 @@ export const INITIALS_DB = {
   },
   {
     initials: "A.D.M.",
-    answer: "Ángel Di María",
+    answer: "Angel Di Maria",
     clues: ["Argentinian winger", "Plays for Benfica", "Former PSG and Real Madrid player", "2022 World Cup winner", "Known for assists and left foot"]
   },
   {
@@ -364,7 +364,7 @@ export const INITIALS_DB = {
   },
   {
     initials: "L.M.",
-    answer: "Lautaro Martínez",
+    answer: "Lautaro Martinez",
     clues: ["Argentinian striker", "Plays for Inter Milan", "2022 World Cup winner", "Known for finishing and movement", "Serie A champion"]
   },
   {
@@ -379,7 +379,7 @@ export const INITIALS_DB = {
   },
   {
     initials: "J.F.",
-    answer: "João Félix",
+    answer: "Joao Felix",
     clues: ["Portuguese forward", "Plays for Barcelona (on loan from Atlético Madrid)", "Young Player of the Year 2019", "Known for flair", "Portugal international"]
   },
   {
@@ -399,7 +399,7 @@ export const INITIALS_DB = {
   },
   {
     initials: "D.V.",
-    answer: "Dusan Vlahović",
+    answer: "Dusan Vlahovic",
     clues: ["Serbian striker", "Plays for Juventus", "Known for physicality and finishing", "Serie A Team of the Year", "Serbia international"]
   },
   {
@@ -449,7 +449,7 @@ export const INITIALS_DB = {
   },
   {
     initials: "R.L.",
-    answer: "Raphaël Leão",
+    answer: "Raphael Leao",
     clues: ["Portuguese forward", "Plays for AC Milan", "Serie A MVP 2022", "Known for dribbling", "Portugal international"]
   },
   {
@@ -484,12 +484,12 @@ export const INITIALS_DB = {
   },
   {
     initials: "M.A.",
-    answer: "Marcos Acuña",
+    answer: "Marcos Acuna",
     clues: ["Argentinian left-back", "Plays for Sevilla", "2022 World Cup winner", "Europa League winner", "Known for stamina"]
   },
   {
     initials: "I.P.",
-    answer: "Ivan Perišić",
+    answer: "Ivan Perisic",
     clues: ["Croatian winger", "Plays for Hajduk Split (on loan from Tottenham)", "World Cup finalist 2018", "Known for versatility", "Croatia international"]
   },
   {
@@ -524,7 +524,7 @@ export const INITIALS_DB = {
   },
   {
     initials: "M.O.",
-    answer: "Martin Ødegaard",
+    answer: "Martin Odegaard",
     clues: ["Norwegian midfielder", "Plays for Arsenal", "Club captain", "Former Real Madrid", "Known for vision"]
   },
   {
@@ -544,12 +544,12 @@ export const INITIALS_DB = {
   },
   {
     initials: "A.O.",
-    answer: "André Onana",
+    answer: "Andre Onana",
     clues: ["Cameroonian goalkeeper", "Plays for Manchester United", "Former Inter Milan", "Known for distribution", "Cameroon international"]
   },
   {
     initials: "T.H.",
-    answer: "Theo Hernández",
+    answer: "Theo Hernandez",
     clues: ["French left-back", "Plays for AC Milan", "Known for attacking runs", "Serie A champion", "France international"]
   },
   {
@@ -889,7 +889,7 @@ ModernNBA: [
   ],
   AFL: [
 {
-  initials: "J.A.",
+  initials: "J.J.",
   answer: "Jamaine Jones",
   clues: ["West Coast Eagles small forward", "Known for pace and pressure", "Debuted in 2018", "Former Geelong Cat", "From Heywood, Victoria"]
 },
@@ -914,7 +914,7 @@ ModernNBA: [
   clues: ["Sydney Swans midfielder", "Drafted 2021", "Known for aggression and attack", "Debuted in 2022", "From Claremont WAFL"]
 },
 {
-  initials: "H.M.",
+  initials: "H.R.",
   answer: "Hugo Ralphsmith",
   clues: ["Richmond Tigers wingman", "Known for speed and run", "Debuted in 2021", "From Sandringham Dragons", "Reliable utility"]
 },
@@ -925,7 +925,7 @@ ModernNBA: [
 },
 {
   initials: "J.A.",
-  answer: "Josh Amiss",
+  answer: "Jye Amiss",
   clues: ["Fremantle Dockers key forward", "Known for accurate goalkicking", "Debuted in 2022", "From East Perth", "Emerging star"]
 },
 {
@@ -944,7 +944,7 @@ ModernNBA: [
   clues: ["Fremantle Dockers forward", "Known for aerial ability", "Debuted in 2020", "From Dandenong Stingrays", "Skilled finisher"]
 },
 {
-  initials: "M.J.",
+  initials: "M.P.",
   answer: "Marlion Pickett",
   clues: ["Richmond Tigers wingman", "Debuted in 2019 Grand Final", "Known for composure", "Premiership player", "From South Fremantle WAFL"]
 },
@@ -959,7 +959,7 @@ ModernNBA: [
   clues: ["Essendon Bombers forward", "Son of Gavin Wanganeen", "Debuted in 2022", "Indigenous talent", "Energetic forward"]
 },
 {
-  initials: "M.C.",
+  initials: "M.G.",
   answer: "Mitch Georgiades",
   clues: ["Port Adelaide Power forward", "Known for leaping ability", "Debuted in 2020", "From Subiaco WAFL", "Strong contested mark"]
 },
@@ -974,12 +974,12 @@ ModernNBA: [
   clues: ["Geelong Cats midfielder/forward", "Debuted in 2017", "Known for agility and skill", "Injury setbacks", "Clever ball user"]
 },
 {
-  initials: "T.C.",
+  initials: "T.B.",
   answer: "Tyler Brockman",
   clues: ["West Coast Eagles forward", "Former Hawthorn player", "Debuted in 2021", "Known for flair", "Indigenous background"]
 },
 {
-  initials: "H.F.",
+  initials: "H.H.",
   answer: "Harry Himmelberg",
   clues: ["GWS Giants utility", "Can play forward or back", "Known for strong marking", "Debuted in 2016", "Versatile tall"]
 },
@@ -994,7 +994,7 @@ ModernNBA: [
   clues: ["St Kilda Saints midfielder", "Debuted in 2024", "From Bendigo Pioneers", "Developing inside mid", "Known for endurance"]
 },
 {
-  initials: "C.C.",
+  initials: "C.CP.",
   answer: "Cooper Craig-Peters",
   clues: ["Western Bulldogs midfielder", "Debuted in 2024", "From Footscray VFL", "Composed ball user", "Developing talent"]
 },
@@ -1024,7 +1024,7 @@ ModernNBA: [
   clues: ["Hawthorn Hawks midfielder/tagger", "Known for shutdown roles", "Debuted in 2020", "Son of Scott Maginness", "From Sandringham Dragons"]
 },
 {
-  initials: "R.B.",
+  initials: "R.G.",
   answer: "Reuben Ginbey",
   clues: ["West Coast Eagles midfielder", "Top draft pick 2022", "Known for toughness", "From East Perth", "Immediate impact"]
 },
@@ -1034,7 +1034,7 @@ ModernNBA: [
   clues: ["Essendon Bombers defender", "Debuted in 2024", "From Bendigo Pioneers", "Quick and athletic", "Rookie list elevation"]
 },
 {
-  initials: "T.L.",
+  initials: "T.M.",
   answer: "Toby McMullin",
   clues: ["GWS Giants forward", "Debuted in 2023", "From Sandringham Dragons", "Known for pressure acts", "Developing forward"]
 },
@@ -1054,7 +1054,7 @@ ModernNBA: [
   clues: ["North Melbourne Kangaroos midfielder", "Former Fremantle Docker", "Debuted in 2016", "Reliable role player", "From Horsham, Victoria"]
 },
 {
-  initials: "T.P.",
+  initials: "T.W.",
   answer: "Taj Woewodin",
   clues: ["Melbourne Demons midfielder", "Debuted in 2023", "Son of Brownlow medalist Shane Woewodin", "Known for speed", "From East Fremantle"]
 },
@@ -1104,7 +1104,7 @@ ModernNBA: [
   clues: ["Western Bulldogs defender", "Former Carlton Blue", "Known for intercept marking", "Debuted in 2010", "Returned to Bulldogs in 2023"]
 },
 {
-  initials: "D.B.",
+  initials: "D.W.",
   answer: "Darcy Wilmot",
   clues: ["Brisbane Lions defender", "Debuted in 2022", "Known for run and carry", "Excitable personality", "From Northern Knights"]
 },
@@ -1119,7 +1119,7 @@ ModernNBA: [
   clues: ["North Melbourne Kangaroos midfielder", "Debuted in 2024", "From Murray Bushrangers", "Developing inside mid", "Known for toughness"]
 },
 {
-  initials: "T.R.",
+  initials: "T.S.",
   answer: "Tyler Sonsie",
   clues: ["Richmond Tigers midfielder", "Debuted in 2022", "From Eastern Ranges", "Known for clean skills", "Developing role"]
 },
@@ -1174,12 +1174,12 @@ ModernNBA: [
   clues: ["Hawthorn Hawks midfielder", "Former Geelong Cat", "Debuted in 2020", "From Geelong Falcons", "Developing inside mid"]
 },
 {
-  initials: "A.T.",
+  initials: "A.C.",
   answer: "Anthony Caminiti",
   clues: ["St Kilda Saints key forward", "Debuted in 2023", "Strong contested mark", "From Calder Cannons", "Developing tall"]
 },
 {
-  initials: "J.T.",
+  initials: "J.P.",
   answer: "Jaxon Prior",
   clues: ["Brisbane Lions defender", "Debuted in 2021", "From West Perth", "Skilled left-footer", "Developing role"]
 },
@@ -3548,7 +3548,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "C.S.",
+  initials: "C.D.",
   answer: "Celine Dion",
   clues: [
     "Canadian pop singer",
@@ -3681,7 +3681,7 @@ ModernNBA: [
 },
 {
   initials: "J.M.",
-  answer: "Janelle Monáe",
+  answer: "Janelle Monae",
   clues: [
     "American singer and actress",
     "Known for Afrofuturist style",
@@ -3944,7 +3944,7 @@ ModernNBA: [
   ]
 },
 {
-  initials: "P.T.",
+  initials: "P.S.",
   answer: "Patti Smith",
   clues: [
     "Punk poet and singer",
@@ -4643,7 +4643,101 @@ ModernNBA: [
       answer: "Elon Musk",
       clues: ["CEO of Tesla and SpaceX","Born in South Africa","Founded PayPal","Owns X (formerly Twitter)","Launched Starlink satellites"]
     }
-    // ...more
+{ initials: "A.E.", answer: "Albert Einstein", clues: ["German-born physicist", "Theory of relativity", "Nobel Prize in Physics 1921", "Iconic wild hair", "E=mc^2"] },
+{ initials: "M.L.K.", answer: "Martin Luther King Jr.", clues: ["American civil rights leader", "Delivered 'I Have a Dream' speech", "Led Montgomery Bus Boycott", "Assassinated in 1968", "Nobel Peace Prize winner"] },
+{ initials: "M.G.", answer: "Mahatma Gandhi", clues: ["Indian independence leader", "Advocate of nonviolent protest", "Led Salt March", "Assassinated in 1948", "Known as 'Bapu'"] },
+{ initials: "N.M.", answer: "Nelson Mandela", clues: ["South African anti-apartheid leader", "First Black president of South Africa", "Spent 27 years in prison", "Nobel Peace Prize winner", "Icon of reconciliation"] },
+{ initials: "A.L.", answer: "Abraham Lincoln", clues: ["16th President of the United States", "Led nation during Civil War", "Emancipation Proclamation", "Assassinated in 1865", "Gettysburg Address"] },
+{ initials: "C.C.", answer: "Christopher Columbus", clues: ["Italian explorer", "Sailed to Americas in 1492", "Sponsored by Spain", "Four transatlantic voyages", "Controversial legacy"] },
+{ initials: "J.C.", answer: "Julius Caesar", clues: ["Roman general and dictator", "Conquered Gaul", "Assassinated on the Ides of March", "Famous for crossing the Rubicon", "Inspired Shakespeare play"] },
+{ initials: "C.D.", answer: "Charles Darwin", clues: ["English naturalist", "Theory of evolution by natural selection", "Wrote 'On the Origin of Species'", "Voyage on HMS Beagle", "Galapagos finches"] },
+{ initials: "F.N.", answer: "Florence Nightingale", clues: ["Founder of modern nursing", "Pioneered sanitation in hospitals", "Known as 'The Lady with the Lamp'", "Worked during Crimean War", "British nurse and statistician"] },
+{ initials: "M.C.", answer: "Marie Curie", clues: ["Polish-French physicist and chemist", "Pioneer in radioactivity", "First woman to win Nobel Prize", "Discovered polonium and radium", "Only person to win Nobel in two sciences"] },
+{ initials: "J.F.K.", answer: "John F. Kennedy", clues: ["35th President of the United States", "Assassinated in Dallas, 1963", "Known for Cuban Missile Crisis", "Launched Apollo program", "Famous inaugural address"] },
+{ initials: "A.H.", answer: "Adolf Hitler", clues: ["Dictator of Nazi Germany", "Led during World War II", "Initiated the Holocaust", "Author of 'Mein Kampf'", "Died by suicide in 1945"] },
+{ initials: "Q.E.", answer: "Queen Elizabeth II", clues: ["Longest reigning British monarch", "Became queen in 1952", "Oversaw major changes in British society", "Mother of Charles III", "Died in 2022"] },
+{ initials: "W.C.", answer: "Winston Churchill", clues: ["British Prime Minister during WWII", "Famous for wartime speeches", "Won Nobel Prize in Literature", "Known for V-sign", "Led Britain through the Blitz"] },
+{ initials: "B.O.", answer: "Barack Obama", clues: ["First African-American U.S. President", "Served from 2009 to 2017", "Won Nobel Peace Prize", "Known for Affordable Care Act", "Famous slogan: 'Yes We Can'"] },
+{ initials: "S.J.", answer: "Steve Jobs", clues: ["Co-founder of Apple Inc.", "Pioneer of personal computers", "Known for iPhone and Mac", "Charismatic presenter", "Died in 2011"] },
+{ initials: "B.G.", answer: "Bill Gates", clues: ["Co-founder of Microsoft", "Philanthropist", "One of the world's richest people", "Known for Windows OS", "Founded Bill & Melinda Gates Foundation"] },
+{ initials: "W.S.", answer: "William Shakespeare", clues: ["English playwright and poet", "Wrote 'Romeo and Juliet' and 'Hamlet'", "The Bard of Avon", "Most quoted writer in English", "Lived in 16th-17th centuries"] },
+{ initials: "L.D.V.", answer: "Leonardo da Vinci", clues: ["Italian Renaissance polymath", "Painted 'Mona Lisa'", "Inventor and scientist", "Designed flying machines", "Also sculpted and engineered"] },
+{ initials: "A.N.", answer: "Alexander the Great", clues: ["King of Macedonia", "Conquered Persian Empire", "Founded city of Alexandria", "Tutored by Aristotle", "Died young at 32"] },
+{ initials: "C.C.", answer: "Cleopatra", clues: ["Last pharaoh of ancient Egypt", "Allied with Julius Caesar and Mark Antony", "Known for beauty and intelligence", "Died by suicide", "Famous queen"] },
+{ initials: "G.W.", answer: "George Washington", clues: ["First President of the United States", "Led American Revolution", "Presided over Constitutional Convention", "Known for honesty", "Faces the U.S. $1 bill"] },
+{ initials: "J.S.", answer: "Joseph Stalin", clues: ["Soviet leader during WWII", "Ruled USSR with iron fist", "Initiated Great Purge", "Transformed Soviet economy", "Died in 1953"] },
+{ initials: "N.B.", answer: "Napoleon Bonaparte", clues: ["French military leader and emperor", "Conquered much of Europe", "Exiled to Elba and St. Helena", "Battle of Waterloo", "Napoleonic Code"] },
+{ initials: "J.A.", answer: "Joan of Arc", clues: ["French heroine and saint", "Led French army in Hundred Years' War", "Burned at the stake", "Teenage visionary", "Canonized by Catholic Church"] },
+{ initials: "T.E.", answer: "Thomas Edison", clues: ["American inventor", "Developed phonograph and light bulb", "Founded General Electric", "Over 1,000 patents", "Known for hard work ethic"] },
+{ initials: "S.F.", answer: "Sigmund Freud", clues: ["Austrian neurologist", "Father of psychoanalysis", "Theorized about dreams", "Famous for the id, ego, and superego", "Wrote 'The Interpretation of Dreams'"] },
+{ initials: "I.N.", answer: "Isaac Newton", clues: ["English mathematician and physicist", "Formulated laws of motion and gravity", "Wrote 'Principia Mathematica'", "Invented calculus", "Worked with optics"] },
+{ initials: "B.F.", answer: "Benjamin Franklin", clues: ["Founding Father of the U.S.", "Inventor and diplomat", "Discovered electricity with kite experiment", "Published 'Poor Richard's Almanack'", "Helped draft Declaration of Independence"] },
+{ initials: "A.C.", answer: "Alexander Graham Bell", clues: ["Invented the telephone", "Scottish-born scientist", "Founded Bell Telephone Company", "Worked with the deaf", "Famous 1876 call: 'Mr. Watson, come here'"] },
+{ initials: "R.G.", answer: "Rosa Parks", clues: ["American civil rights activist", "Refused to give up bus seat", "Sparked Montgomery Bus Boycott", "Known as 'Mother of the Civil Rights Movement'", "Received Presidential Medal of Freedom"] },
+{ initials: "J.F.K.", answer: "John F. Kennedy", clues: ["35th U.S. President", "Cuban Missile Crisis leader", "Assassinated in 1963", "Launched Apollo program", "Famous for 'Ask not...' speech"] },
+{ initials: "G.A.", answer: "Galileo Galilei", clues: ["Italian astronomer", "Father of modern science", "Improved telescope", "Supported heliocentrism", "Put under house arrest by Inquisition"] },
+{ initials: "M.A.", answer: "Michelangelo", clues: ["Italian Renaissance artist", "Painted Sistine Chapel ceiling", "Sculpted David and Pietà", "Architect of St. Peter's Basilica", "Master of fresco painting"] },
+{ initials: "H.T.", answer: "Harriet Tubman", clues: ["American abolitionist", "Led slaves to freedom via Underground Railroad", "Civil War spy for Union", "Known as 'Moses'", "Featured on future $20 bill design"] },
+{ initials: "A.F.", answer: "Anne Frank", clues: ["Jewish diarist", "Hid in Amsterdam during WWII", "Wrote 'The Diary of a Young Girl'", "Died in a concentration camp", "Symbol of Holocaust victims"] },
+{ initials: "L.P.", answer: "Louis Pasteur", clues: ["French chemist and microbiologist", "Developed pasteurization", "Created first vaccines for rabies", "Proved germ theory of disease", "Transformed medicine"] },
+{ initials: "M.T.", answer: "Mother Teresa", clues: ["Catholic nun and missionary", "Founded Missionaries of Charity", "Worked with poor in Calcutta", "Nobel Peace Prize winner", "Canonized as a saint"] },
+{ initials: "O.W.", answer: "Oscar Wilde", clues: ["Irish playwright and poet", "Wrote 'The Importance of Being Earnest'", "Famous for wit", "Imprisoned for 'gross indecency'", "Known for flamboyant style"] },
+{ initials: "P.P.", answer: "Pablo Picasso", clues: ["Spanish painter and sculptor", "Co-founded Cubism", "Painted 'Guernica'", "Known for Blue and Rose periods", "One of the 20th century's most influential artists"] },
+{ initials: "V.V.G.", answer: "Vincent van Gogh", clues: ["Dutch post-impressionist painter", "Painted 'Starry Night'", "Cut off part of his ear", "Sold only one painting in his life", "Died by suicide"] },
+{ initials: "G.K.", answer: "Genghis Khan", clues: ["Founder of Mongol Empire", "Conquered vast parts of Asia and Europe", "Known for cavalry tactics", "Died in 1227", "Real name Temüjin"] },
+{ initials: "S.B.A.", answer: "Susan B. Anthony", clues: ["American women's rights activist", "Key leader in suffrage movement", "Arrested for voting in 1872", "Featured on U.S. dollar coin", "Helped secure 19th Amendment"] },
+{ initials: "E.P.", answer: "Elvis Presley", clues: ["King of Rock and Roll", "Hits include 'Jailhouse Rock' and 'Hound Dog'", "Famous for hip-shaking dance", "Died at Graceland", "Iconic white jumpsuit"] },
+{ initials: "B.J.", answer: "Beethoven", clues: ["German composer and pianist", "Wrote nine symphonies", "Deaf in later life", "Famous for 'Ode to Joy'", "Bridged Classical and Romantic eras"] },
+{ initials: "F.B.", answer: "Frida Kahlo", clues: ["Mexican painter", "Known for self-portraits", "Married Diego Rivera", "Survived bus accident", "Icon of feminism and LGBTQ+ history"] },
+{ initials: "E.B.", answer: "Emily Brontë", clues: ["English novelist and poet", "Author of 'Wuthering Heights'", "One of the Brontë sisters", "Used pen name Ellis Bell", "Died young at 30"] },
+{ initials: "J.S.B.", answer: "Johann Sebastian Bach", clues: ["German Baroque composer", "Wrote 'Brandenburg Concertos'", "Known for fugues and organ music", "Influenced Western classical music", "Lived in 18th century"] },
+{ initials: "S.D.", answer: "Salvador Dalí", clues: ["Spanish surrealist painter", "Famous for melting clocks", "Known for flamboyant mustache", "Painted 'The Persistence of Memory'", "Collaborated with Walt Disney"] },
+{ initials: "J.R.", answer: "Jackie Robinson", clues: ["First Black MLB player in modern era", "Played for Brooklyn Dodgers", "Broke baseball color barrier", "Rookie of the Year 1947", "Civil rights icon"] },
+{ initials: "S.D.", answer: "Susan Sontag", clues: ["American writer and critic", "Wrote 'On Photography'", "Known for essays on culture", "Activist and intellectual", "Influential in 20th-century thought"] },
+{ initials: "G.O.", answer: "George Orwell", clues: ["English novelist and essayist", "Wrote '1984' and 'Animal Farm'", "Critic of totalitarianism", "Real name Eric Blair", "Coined 'Big Brother'"] },
+{ initials: "J.G.", answer: "Johannes Gutenberg", clues: ["Invented printing press", "German goldsmith", "Published Gutenberg Bible", "Revolutionized book production", "Lived in 15th century"] },
+{ initials: "A.A.", answer: "Amelia Earhart", clues: ["Aviation pioneer", "First woman to fly solo across Atlantic", "Disappeared in 1937", "Author and lecturer", "Set many flying records"] },
+{ initials: "S.J.P.", answer: "Sarah Jessica Parker", clues: ["American actress", "Starred in 'Sex and the City'", "Known for fashion sense", "Won multiple awards", "Also producer and designer"] },
+{ initials: "G.M.", answer: "George Michael", clues: ["British pop singer", "Member of Wham!", "Hits include 'Faith' and 'Careless Whisper'", "Came out as gay in 1998", "Died in 2016"] },
+{ initials: "R.D.", answer: "Richard Dawkins", clues: ["British evolutionary biologist", "Wrote 'The Selfish Gene'", "Outspoken atheist", "Coined 'meme'", "Oxford professor"] },
+{ initials: "N.T.", answer: "Nikola Tesla", clues: ["Serbian-American inventor", "Pioneer of AC electricity", "Invented Tesla coil", "Worked with Edison", "Died poor in New York"] },
+{ initials: "J.J.", answer: "Jane Jacobs", clues: ["Urbanist and activist", "Wrote 'The Death and Life of Great American Cities'", "Fought for community-based planning", "Influential in urban studies", "Moved to Toronto"] },
+{ initials: "M.J.", answer: "Michael Jordan", clues: ["American basketball legend", "Six-time NBA champion", "Played for Chicago Bulls", "Known for slam dunks", "Space Jam star"] },
+{ initials: "C.A.", answer: "Catherine the Great", clues: ["Empress of Russia", "Longest-ruling female leader of Russia", "Enlightened despot", "Expanded Russian empire", "Known for her court"] },
+{ initials: "H.R.", answer: "Helen Keller", clues: ["Deaf-blind American author", "First to earn college degree", "Wrote 'The Story of My Life'", "Advocate for disabled rights", "Worked with Anne Sullivan"] },
+{ initials: "S.C.", answer: "Samuel Clemens", clues: ["Pen name Mark Twain", "Wrote 'Tom Sawyer' and 'Huckleberry Finn'", "Riverboat pilot on the Mississippi", "Famous for wit", "American literary icon"] },
+{ initials: "B.L.", answer: "Bruce Lee", clues: ["Martial arts icon", "Starred in 'Enter the Dragon'", "Founder of Jeet Kune Do", "Born in San Francisco", "Died at age 32"] },
+{ initials: "M.M.", answer: "Marilyn Monroe", clues: ["Hollywood actress and model", "Starred in 'Some Like It Hot'", "Iconic blonde bombshell", "Died in 1962", "Famous for 'Happy Birthday, Mr. President'"] },
+{ initials: "E.T.", answer: "Elizabeth Taylor", clues: ["Hollywood actress", "Starred in 'Cleopatra'", "Known for violet eyes", "Won two Academy Awards", "Married eight times"] },
+{ initials: "P.M.", answer: "Paul McCartney", clues: ["Member of The Beatles", "Wrote 'Hey Jude' and 'Yesterday'", "Knighted by Queen Elizabeth II", "Vegetarian activist", "Still touring in his 80s"] },
+{ initials: "A.S.", answer: "Albert Schweitzer", clues: ["Philosopher, physician, humanitarian", "Founded hospital in Gabon", "Won Nobel Peace Prize", "Expert on Bach", "Known for 'Reverence for Life'"] },
+{ initials: "O.W.", answer: "Orson Welles", clues: ["Director of 'Citizen Kane'", "Innovative radio broadcaster", "Famous for 'War of the Worlds' panic", "Actor and screenwriter", "Died in 1985"] },
+{ initials: "H.F.", answer: "Henry Ford", clues: ["Founder of Ford Motor Company", "Pioneered assembly line production", "Mass-produced Model T", "Transformed transportation", "Anti-Semitic controversies"] },
+{ initials: "B.P.", answer: "Blaise Pascal", clues: ["French mathematician and philosopher", "Contributed to probability theory", "Invented early calculator", "Known for 'Pascal's Wager'", "Studied fluids and pressure"] },
+{ initials: "T.J.", answer: "Thomas Jefferson", clues: ["3rd President of the United States", "Author of Declaration of Independence", "Founded University of Virginia", "Owned Monticello", "Louisiana Purchase"] },
+{ initials: "J.J.R.", answer: "Jean-Jacques Rousseau", clues: ["French philosopher", "Wrote 'The Social Contract'", "Influenced French Revolution", "Also composer", "Advocated for natural education"] },
+{ initials: "A.S.", answer: "Adam Smith", clues: ["Scottish economist", "Wrote 'The Wealth of Nations'", "Father of capitalism", "Invisible hand theory", "Lived in 18th century"] },
+{ initials: "V.P.", answer: "Vladimir Putin", clues: ["Current President of Russia", "Former KGB officer", "In power since 2000", "Annexed Crimea", "Controversial figure"] },
+{ initials: "H.C.A.", answer: "Hans Christian Andersen", clues: ["Danish fairy tale author", "Wrote 'The Little Mermaid' and 'The Ugly Duckling'", "Stories adapted to Disney films", "19th-century writer", "Born in Odense"] },
+{ initials: "L.T.", answer: "Leo Tolstoy", clues: ["Russian novelist", "Wrote 'War and Peace' and 'Anna Karenina'", "Pacifist and Christian anarchist", "Founded a school for peasants", "Died in 1910"] },
+{ initials: "S.P.", answer: "Socrates", clues: ["Ancient Greek philosopher", "Taught Plato", "Executed for 'corrupting the youth'", "Known for Socratic method", "Left no written works"] },
+{ initials: "K.M.", answer: "Karl Marx", clues: ["German philosopher and economist", "Wrote 'The Communist Manifesto'", "Co-founder of Marxism", "Lived in 19th century", "Buried in London"] },
+{ initials: "B.D.", answer: "Bob Dylan", clues: ["American singer-songwriter", "Wrote 'Blowin' in the Wind'", "Nobel Prize in Literature", "Influential protest songs", "Changed his name from Zimmerman"] },
+{ initials: "W.D.", answer: "Walt Disney", clues: ["American animation pioneer", "Founded Disneyland", "Created Mickey Mouse", "Won 22 Oscars", "Visionary storyteller"] },
+{ initials: "S.B.", answer: "Simón Bolívar", clues: ["South American liberator", "Freed several countries from Spanish rule", "Known as 'El Libertador'", "Born in Venezuela", "Died in 1830"] },
+{ initials: "J.C.", answer: "James Cook", clues: ["British explorer and navigator", "First European to reach Hawaii", "Mapped Australia and New Zealand", "Killed in Hawaii", "Voyaged on HMS Endeavour"] },
+{ initials: "D.B.", answer: "David Bowie", clues: ["British singer and actor", "Alter ego 'Ziggy Stardust'", "Hits include 'Space Oddity' and 'Heroes'", "Known for androgynous style", "Died in 2016"] },
+{ initials: "A.R.", answer: "Ayn Rand", clues: ["Russian-American writer", "Wrote 'Atlas Shrugged'", "Developed philosophy of Objectivism", "Known for controversial views", "Opposed collectivism"] },
+{ initials: "S.H.", answer: "Stephen Hawking", clues: ["British theoretical physicist", "Wrote 'A Brief History of Time'", "Lived with ALS for decades", "Explored black holes", "Known for computerized voice"] },
+{ initials: "R.R.", answer: "Ronald Reagan", clues: ["40th U.S. President", "Former Hollywood actor", "Known for conservative economic policies", "Ended Cold War", "Survived assassination attempt"] },
+{ initials: "D.T.", answer: "Donald Trump", clues: ["45th U.S. President", "Real estate developer", "Reality TV star", "Known for 'Make America Great Again'", "Impeached twice"] },
+{ initials: "C.T.", answer: "Coco Chanel", clues: ["French fashion designer", "Founded Chanel brand", "Popularized 'little black dress'", "Known for No. 5 perfume", "Changed women's fashion"] },
+{ initials: "M.A.", answer: "Muhammad Ali", clues: ["American boxing champion", "Born Cassius Clay", "Famous for 'float like a butterfly'", "Refused Vietnam draft", "Olympic gold medalist"] },
+{ initials: "E.H.", answer: "Ernest Hemingway", clues: ["American novelist", "Wrote 'The Old Man and the Sea'", "Known for spare writing style", "Lived in Key West and Cuba", "Won Nobel Prize in Literature"] },
+{ initials: "G.M.", answer: "Guglielmo Marconi", clues: ["Italian inventor", "Pioneer of radio transmission", "Won Nobel Prize in Physics", "Sent first transatlantic signal", "Father of wireless telegraphy"] },
+{ initials: "A.W.", answer: "Andy Warhol", clues: ["American pop artist", "Painted Campbell's soup cans", "Famous for celebrity portraits", "Led 'The Factory' in NYC", "Known for '15 minutes of fame' quote"] },
+{ initials: "B.S.", answer: "Beyoncé", clues: ["American singer and actress", "Former Destiny's Child member", "Hits include 'Single Ladies'", "Married Jay-Z", "Powerful live performer"] },
+{ initials: "S.B.", answer: "Sandra Bullock", clues: ["American actress", "Starred in 'Speed' and 'Gravity'", "Won Academy Award", "Known for comedic roles", "Philanthropist"] },
   ]
 };
 export const CATEGORY_COUNTS = Object.keys(INITIALS_DB).reduce((counts, cat) => {
