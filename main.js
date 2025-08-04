@@ -7,7 +7,156 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gsta
 const firebaseConfig = {
   apiKey: "AIzaSyC1PocQMYJZP0ABWxeoiUNF7C5mHgsDjpk",
   authDomain: "initialcontact-66089.firebaseapp.com",
-  databaseURL: "https://initialcontact-66089-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  databaseURL: "https://initialcontact-66089-default-rtdfunction renderGame() {
+  const clue = state.clues[state.clueIdx] || '';
+  const currentCategory = state.mode === 'monthly' && state.question && state.question.category
+    ? state.question.category
+    : state.category;
+
+  const displayCategory = currentCategory
+    ? currentCategory.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
+    : '';
+
+  // In monthly challenge mode, correct guesses are not tracked the same way
+  const isCorrect = state.mode === 'monthly' ? !!state.guesses[state.playerId]?.correct : false;
+
+  $app.innerHTML = `
+    <div class="game-screen" style="background: url('ScreenBackground.png'); min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
+      <div style="width:100%; text-align:center; margin-top:38px;">
+        <div class="category" style="font-size:2em; font-weight:700; color:#ffd600; margin-bottom:18px; letter-spacing:1.5px;">
+          ${displayCategory}
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; gap:32px; margin-bottom: 22px;">
+        <div class="initials-box" style="background: #fff; color: #18102c; font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
+          ${state.question ? state.question.initials : ''}
+        </div>
+        <div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
+          <span id="timer">${state.timer}s</span>
+        </div>
+      </div>
+      <div class="round-score-row" style="display:flex; gap:36px; justify-content:center; margin-bottom:28px;">
+        <span style="font-size:1.6em; color:#ffd600; font-weight:700;">Points: <b>${state.points}</b></span>
+        <span style="font-size:1.6em; color:#fff; font-weight:700;">
+          ${
+            state.mode === 'monthly'
+              ? `Time Left: <span id="monthlyTimer">${state.challengeTimer}s</span>`
+              : `Round <b>${state.round}/${state.maxRounds}</b>`
+          }
+        </span>
+        ${
+          (state.mode === 'monthly' || state.mode === 'single')
+            ? `<span style="font-size:1.6em; color:#ffd600; font-weight:700;">Total: <b>${state.totalPoints || 0}</b></span>`
+            : ''
+        }
+      </div>
+      <div class="clue-box" style="background: #fff; color: #18102c; font-size: 1.15em; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px; box-shadow: 0 2px 8px #0002;">
+        ${clue ? clue : ''}
+      </div>
+      ${state.correctPrompt ? `<div style="color:#27ae60; margin-bottom:14px; font-weight: bold;"><span>&#10003;</span> CORRECT!</div>` : ""}
+      ${state.incorrectPrompt ? `<div style="color:#ff3333; margin-bottom:14px; font-weight: bold;"><span>&#10060;</span> Incorrect, try again!</div>` : ""}
+      <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''} style="
+        width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 14px; border-radius: 9px; border: 2px solid #ffd600; margin-bottom: 12px; box-shadow: 0 2px 8px #0001;
+        outline: none; text-align: center;" />
+      <button id="submitGuess" ${isCorrect ? 'disabled' : ''} style="
+        width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 0; border-radius: 9px; border: none; background: #ffd600; color: url('ScreenBackground.png'); font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px #0002; margin-bottom: 12px;">Submit Guess</button>
+      <button id="returnLandingBtn" style="margin-top: 18px; background: #fff; color: url('ScreenBackground.png'); border-radius: 9px; border: none; font-size: 1em; font-weight: bold; padding: 12px 0; width: 90vw; max-width: 340px;">Return to Home</button>
+    </div>
+    <style>
+      @media (max-width: 500px) {
+        .category { font-size:1.3em !important; }
+        .initials-box { font-size: 2em !important; padding: 12px 8vw !important; }
+        .timer-box { font-size: 1.5em !important; padding: 8px 6vw !important; }
+        .round-score-row span { font-size:1em !important; }
+        .clue-box { font-size: 1em !important; padding: 10px 8vw !important; }
+        #guessInput, #submitGuess, #returnLandingBtn { font-size: 1em !important; padding: 11px 0 !important; }
+      }
+    </style>
+  `;
+
+  // Input/guess event handling
+  const guessInput = document.getElementById('guessInput');
+  if (guessInput && !isCorrect) {
+    guessInput.value = state.guess || '';
+    guessInput.focus();
+    guessInput.addEventListener('input', e => state.guess = e.target.value);
+    guessInput.addEventListener('keypress', e => { 
+      if (e.key === 'Enter') {
+        if (state.mode === 'monthly') {
+          submitMonthlyGuess();
+        } else {
+          submitGuess();
+        }
+      }
+    });
+  }
+  const submitBtn = document.getElementById('submitGuess');
+  if (submitBtn && !isCorrect) {
+    submitBtn.onclick = () => {
+      if (state.mode === 'monthly') {
+        submitMonthlyGuess();
+      } else {
+        submitGuess();
+      }
+    };
+  }
+
+  // Return to Home button click handler
+  const returnLandingBtn = document.getElementById('returnLandingBtn');
+  if (returnLandingBtn) {
+    returnLandingBtn.onclick = handleReturnToHome;
+  }
+
+  if (state.players && state.players.length > 0) {
+    const readyBtn = document.getElementById('readyBtn');
+    if (readyBtn) {
+      readyBtn.onclick = markReady;
+    }
+  }
+
+  attachReturnToStartHandler();
+}
+
+// Centralized cleanup logic
+function handleReturnToHome() {
+  // Remove player from lobby in Firebase
+  if (state.lobbyCode && state.playerId) {
+    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+  }
+  // Unsubscribe listeners
+  if (state.unsubLobby) {
+    state.unsubLobby();
+    state.unsubLobby = null;
+  }
+  if (state.unsubGame) {
+    state.unsubGame();
+    state.unsubGame = null;
+  }
+  // Reset relevant state
+  state.lobbyCode = '';
+  state.isLeader = false;
+  state.players = [];
+  state.status = '';
+  state.scoreboard = [];
+  state.screen = 'landing';
+  render();
+}
+
+function attachReturnToStartHandler() {
+  const btn = document.getElementById('returnToStartBtn');
+  if (btn) {
+    btn.onclick = async () => {
+      if (state.lobbyCode && state.playerId) {
+        await remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+      }
+      state.screen = 'lobby';
+      state.lobbyCode = '';
+      state.isLeader = false;
+      state.players = [];
+      render();
+    };
+  }
+}b.asia-southeast1.firebasedatabase.app/",
   projectId: "initialcontact-66089",
   storageBucket: "initialcontact-66089.appspot.com",
   messagingSenderId: "964931937041",
@@ -1873,8 +2022,19 @@ let content = `
 
   $app.innerHTML = content;
 
-  document.getElementById('restartBtn').onclick = () => window.location.reload();
-  attachReturnToStartHandler();
+  const restartBtn = document.getElementById('restartBtn');
+if (restartBtn) {
+  if (state.mode === 'single') {
+    restartBtn.onclick = () => window.location.reload();
+  } else if (state.mode === 'multi') {
+    restartBtn.onclick = () => {
+      update(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), { ready: true });
+      restartBtn.disabled = true;
+      restartBtn.innerText = "Waiting for others...";
+    };
+  }
+}
+attachReturnToStartHandler();
   document.getElementById('returnLandingBtn').onclick = () => {
     // Remove player from lobby in Firebase
     if (state.lobbyCode && state.playerId) {
