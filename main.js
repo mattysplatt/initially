@@ -7,7 +7,7 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gsta
 const firebaseConfig = {
   apiKey: "AIzaSyC1PocQMYJZP0ABWxeoiUNF7C5mHgsDjpk",
   authDomain: "initialcontact-66089.firebaseapp.com",
-  databaseURL: "https://initialcontact-66089-default-rtdfunction renderGame() {
+  databaseURL: "https://initialcontact-66089-default-rtdb.asia-southeast1.firebasedatabase.app/",
   const clue = state.clues[state.clueIdx] || '';
   const currentCategory = state.mode === 'monthly' && state.question && state.question.category
     ? state.question.category
