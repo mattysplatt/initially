@@ -277,7 +277,7 @@ function render() {
     if (state.mode === 'monthly') renderScoreboard();
     else renderLocalScoreboard();
   }
-  else if (state.screen === 'end') renderEnd();
+  else if (state.screen === 'end') renderEndScreen();
   else if (state.screen === 'challengeInstructions') renderChallengeInstructions();
   else if (state.screen === 'instructions') renderInstructions();
 }
