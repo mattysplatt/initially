@@ -4,18 +4,19 @@ import { getDatabase, ref, set, get, onValue, remove, update } from 'https://www
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
 
 // Firebase conf
+// Firebase conf
 const firebaseConfig = {
   apiKey: "AIzaSyC1PocQMYJZP0ABWxeoiUNF7C5mHgsDjpk",
   authDomain: "initialcontact-66089.firebaseapp.com",
   databaseURL: "https://initialcontact-66089-default-rtdb.asia-southeast1.firebasedatabase.app/",
-  const clue = state.clues[state.clueIdx] || '';
-  const currentCategory = state.mode === 'monthly' && state.question && state.question.category
-    ? state.question.category
-    : state.category;
-
-  const displayCategory = currentCategory
-    ? currentCategory.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())
-    : '';
+  projectId: "initialcontact-66089",
+  storageBucket: "initialcontact-66089.appspot.com",
+  messagingSenderId: "964931937041",
+  appId: "1:964931937041:web:a6c67c1f3de5d7f55b62b0",
+  measurementId: "G-7LL14YVJCE"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
   // In monthly challenge mode, correct guesses are not tracked the same way
   const isCorrect = state.mode === 'monthly' ? !!state.guesses[state.playerId]?.correct : false;
