@@ -1822,6 +1822,7 @@ function attachReturnToStartHandler() {
 }
 
 function renderEndScreen() {
+  if (state.screen === "landing") return;
   if (state.alreadyRenderedEndScreen) return; // Prevent multiple renders
   state.alreadyRenderedEndScreen = true;
 
