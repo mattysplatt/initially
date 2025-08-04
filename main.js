@@ -1819,12 +1819,12 @@ let content = `
                 Final Leaderboard
               </div>
               <div class="scoreboard" style="margin-bottom: 22px;">
-                ${state.scoreboard.map(item =>
-                  `<div class="score-item" style="display: flex; justify-content: space-between; padding: 6px 0; font-size: 1.1em;">
-                    <span>${item.name}</span>
-                    <span style="font-weight: bold; color: #222;">${item.score}</span>
-                  </div>`
-                ).join('')}
+              ${state.scoreboard.map(item =>
+  `<div class="score-item" style="display: flex; justify-content: space-between; padding: 6px 0; font-size: 1.1em;">
+    <span style="color: #222;">${item.name || item.username || item.displayName || 'Player'}</span>
+    <span style="font-weight: bold; color: #222;">${item.score}</span>
+  </div>`
+).join('')}
               </div>
               <button id="restartBtn" class="landing-btn" style="margin-bottom: 12px;">Play Again</button>
               <button id="returnToStartBtn" class="landing-btn" style="background-color:#ff3333;color:white;font-weight:bold;padding:12px 24px;border:none;border-radius:6px;cursor:pointer;margin-bottom:12px;">
