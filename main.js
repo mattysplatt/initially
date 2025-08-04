@@ -322,6 +322,9 @@ function renderScoreboard() {
   listenLeaderboard(scores => {
     $app.innerHTML = `
       <div class="scoreboard-screen" style="background:url('ScreenBackground.png');min-height:100vh;padding:40px;">
+        <div id="month-timer" style="font-size:1.3em;color:#ffd600;text-align:center;margin-bottom:18px;font-weight:bold;">
+          Time until leaderboard resets: <span id="monthlyCountdown"></span>
+        </div>
         <h2 style="color:#ffd600; text-align:center;">Monthly Leaderboard</h2>
         <div style="background:#fff;max-width:480px;margin:32px auto;padding:24px 12px;border-radius:12px;box-shadow:0 2px 12px #0002;">
           <table style="width:100%;border-collapse:collapse;">
@@ -350,6 +353,18 @@ function renderScoreboard() {
         <button id="returnLandingBtn" class="landing-btn">Return to Home</button>
       </div>
     `;
+
+    // Countdown logic using your existing function
+    function updateMonthlyCountdown() {
+      const t = getTimeToNextMonth();
+      const el = document.getElementById('monthlyCountdown');
+      if (el) {
+        el.textContent = `${t.days}d ${t.hours}h ${t.minutes}m ${t.seconds}s`;
+      }
+    }
+    updateMonthlyCountdown();
+    if (window.monthlyCountdownInterval) clearInterval(window.monthlyCountdownInterval);
+    window.monthlyCountdownInterval = setInterval(updateMonthlyCountdown, 1000);
 
     document.getElementById('returnLandingBtn').onclick = () => {
       state.screen = 'landing';
