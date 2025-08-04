@@ -1214,7 +1214,7 @@ function renderCategory() {
   const backgroundImages = {
     worldSports: "DeckBackground.png",
     AFL: "AFLcatcard.png",
-    movieStars: "Moviecatcard.png",
+    movieStars: "worldsports.png",
     musicians: "Musiccatcard.png",
     PopStars: "Popstarcatcard.png",
     Football: "Footballcatcard.png",
