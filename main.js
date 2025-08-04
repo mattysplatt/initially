@@ -1835,8 +1835,11 @@ function renderEndScreen() {
         </div>
         <button id="playAgainBtn" class="final-btn">Play Again</button>
         <button id="returnHomeBtn" class="final-btn">Return to Home</button>
-        <div class="final-scoreboard">
-          ${renderScoreboard(players)}
+        <div class="local-scoreboard-section">
+          <div class="scoreboard-title">Final Game Scoreboard</div>
+          <div class="final-scoreboard">
+            ${renderScoreboard(players)}
+          </div>
         </div>
       </div>
       <style>
@@ -1883,8 +1886,17 @@ function renderEndScreen() {
           background: #ffb300;
           transform: scale(1.05);
         }
+        .local-scoreboard-section {
+          margin-top: 32px;
+        }
+        .scoreboard-title {
+          font-size: 1.3em;
+          font-weight: 700;
+          color: #444;
+          margin-bottom: 8px;
+        }
         .final-scoreboard {
-          margin-top: 30px;
+          margin-top: 6px;
         }
       </style>
     `;
@@ -1896,6 +1908,7 @@ function renderEndScreen() {
       state.screen = 'landing';
       render();
     };
+
   } else if (state.mode === "single") {
     // Single Player END SCREEN
     const playerName = (state.playerName || "YOU").toUpperCase();
