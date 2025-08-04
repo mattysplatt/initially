@@ -1812,17 +1812,27 @@ let content = `
           </div>
         `
         : `
-          <h2>Game Over</h2>
-          <div class="scoreboard">
-            ${state.scoreboard.map(item =>
-              `<div class="score-item"><span>${item.name}</span><span>${item.score}</span></div>`
-            ).join('')}
+          <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+            <div style="background: #fff; border-radius: 16px; box-shadow: 0 4px 24px #0002; padding: 36px 28px 28px 28px; max-width: 400px; width: 90vw; text-align: center;">
+              <h2 style="color: #ffd600; margin-bottom: 14px;">Game Over</h2>
+              <div style="font-size: 1.2em; color: #222; margin-bottom: 16px;">
+                Final Leaderboard
+              </div>
+              <div class="scoreboard" style="margin-bottom: 22px;">
+                ${state.scoreboard.map(item =>
+                  `<div class="score-item" style="display: flex; justify-content: space-between; padding: 6px 0; font-size: 1.1em;">
+                    <span>${item.name}</span>
+                    <span style="font-weight: bold; color: #222;">${item.score}</span>
+                  </div>`
+                ).join('')}
+              </div>
+              <button id="restartBtn" class="landing-btn" style="margin-bottom: 12px;">Play Again</button>
+              <button id="returnToStartBtn" class="landing-btn" style="background-color:#ff3333;color:white;font-weight:bold;padding:12px 24px;border:none;border-radius:6px;cursor:pointer;margin-bottom:12px;">
+                Return to Start
+              </button>
+              <button id="returnLandingBtn" class="landing-btn" style="margin-top: 8px;">Return to Home</button>
+            </div>
           </div>
-          <button id="restartBtn">Play Again</button>
-          <button id="returnToStartBtn" style="background-color:#ff3333; color:white; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer; margin-top:16px;">
-            Return to Start
-          </button>
-          <button id="returnLandingBtn" style="margin-top:24px;">Return to Home</button>
         `
     }
   </div>
