@@ -1983,15 +1983,18 @@ function renderEndScreen() {
         }
       </style>
     `;
-    document.getElementById('playAgainBtn').onclick = function() {
-      state.alreadyRenderedEndScreen = false;
-      if (typeof onPlayAgain === "function") onPlayAgain();
-    };
-    document.getElementById('returnHomeBtn').onclick = function() {
-      state.screen = 'landing';
-      state.alreadyRenderedEndScreen = false;
-      render();
-    };
+  document.getElementById('playAgainBtn').onclick = function() {
+  state.alreadyRenderedEndScreen = false;
+  state.endScreenHandled = false; // ← Add this line
+  if (typeof onPlayAgain === "function") onPlayAgain();
+};
+
+document.getElementById('returnHomeBtn').onclick = function() {
+  state.screen = 'landing';
+  state.alreadyRenderedEndScreen = false;
+  state.endScreenHandled = false; // ← Add this line
+  render();
+};
   } else if (state.mode === "monthly") {
     // Monthly Challenge END SCREEN
     const playerName = (state.playerName || "YOU").toUpperCase();
