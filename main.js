@@ -1011,7 +1011,11 @@ return; // Prevent double render
 }
 break;
 case "end":
+  if (state.endScreenHandled) return; // ADD THIS GUARD
+  state.endScreenHandled = true;      // SET FLAG
+  state.scoreboard = lobby.scoreboard || [];
   state.screen = 'end';
+  render();
   break;
 default:
   state.screen = 'lobby';
