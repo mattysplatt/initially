@@ -50,7 +50,8 @@ let state = {
   incorrectPrompt: false,
   lastQuestionInitials: '',
   usedAnswers: [],
-  correctPrompt: false
+  correctPrompt: false,
+  lobbyTransitionHandled: false,
 };
 
 // Utility Functions
