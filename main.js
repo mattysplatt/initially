@@ -351,7 +351,10 @@ function renderScoreboard() {
       </div>
     `;
 
-  document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
+    document.getElementById('returnLandingBtn').onclick = () => {
+      state.screen = 'landing';
+      render();
+    };
   });
 }
 
@@ -494,7 +497,7 @@ function renderLobby() {
   document.getElementById('joinLobby').onclick = typeof onJoinLobby === "function" ? onJoinLobby : () => alert("Multiplayer is not available right now.");
 
   // Return to Home
-document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
+  document.getElementById('returnLandingBtn').onclick = () => {
     // Remove player from lobby if present
     if (state.lobbyCode && state.playerId) {
       if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
@@ -522,7 +525,7 @@ document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
     state.screen = 'landing';
     render();
   };
-
+}
 function onStartLobby() {
   update(ref(db, `lobbies/${state.lobbyCode}`), { status: "category" });
 }
@@ -674,7 +677,7 @@ function renderInstructions() {
     </div>
   `;
 
-  document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
+  document.getElementById('returnLandingBtn').onclick = () => {
     // Remove player from lobby in Firebase
     if (state.lobbyCode && state.playerId) {
       remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
@@ -697,7 +700,7 @@ function renderInstructions() {
     state.screen = 'landing';
     render();
   };
-
+}
 function goToNextSinglePlayerClue() {
   if (state.round < state.maxRounds) {
     state.round++;
@@ -835,7 +838,7 @@ function renderChallengeInstructions() {
   // Initially disable start button if name empty
   document.getElementById('startMonthlyChallengeBtn').disabled = !savedName.trim();
 
- document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
+  document.getElementById('returnLandingBtn').onclick = () => {
   // Remove player from lobby in Firebase
   if (state.lobbyCode && state.playerId) {
     remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
@@ -1393,7 +1396,7 @@ function renderCategory() {
     catDiv.appendChild(box);
   });
 
- document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
+ document.getElementById('returnLandingBtn').onclick = () => {
   // Remove player from lobby in Firebase
   if (state.lobbyCode && state.playerId) {
     remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
@@ -1517,7 +1520,7 @@ function renderLocalScoreboard() {
   }
 
   // Return to Home button click handler
- document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
+  const returnBtn = document.getElementById('returnLandingBtn');
   if (returnBtn) {
     returnBtn.onclick = () => {
       if (state.lobbyCode && state.playerId) {
@@ -1769,45 +1772,46 @@ function renderGame() {
     };
   }
 
-  // Return to Home button click handler
-  const returnLandingBtn = document.getElementById('returnLandingBtn');
-  if (returnLandingBtn) {
-    returnLandingBtn.onclick = handleReturnToHome;
-  }
-
-  if (state.players && state.players.length > 0) {
-    const readyBtn = document.getElementById('readyBtn');
-    if (readyBtn) {
-      readyBtn.onclick = markReady;
+  document.getElementById('returnLandingBtn').onclick = () => {
+    // Remove player from lobby in Firebase
+    if (state.lobbyCode && state.playerId) {
+      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
     }
-  }
-
-  attachReturnToStartHandler();
+    // Unsubscribe listeners
+    if (state.unsubLobby) {
+      state.unsubLobby();
+      state.unsubLobby = null;
+    }
+    if (state.unsubGame) {
+      state.unsubGame();
+      state.unsubGame = null;
+    }
+    // Reset relevant state
+    state.lobbyCode = '';
+    state.isLeader = false;
+    state.players = [];
+    state.status = '';
+    state.scoreboard = [];
+    state.screen = 'landing';
+    render();
+  };
 }
 
-// Centralized cleanup logic
-function handleReturnToHome() {
-  // Remove player from lobby in Firebase
-  if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+if (state.players.length > 0) {
+  const readyBtn = document.getElementById('readyBtn');
+  if (readyBtn) {
+    readyBtn.onclick = markReady;
   }
-  // Unsubscribe listeners
-  if (state.unsubLobby) {
-    state.unsubLobby();
-    state.unsubLobby = null;
-  }
-  if (state.unsubGame) {
-    state.unsubGame();
-    state.unsubGame = null;
-  }
-  // Reset relevant state
-  state.lobbyCode = '';
-  state.isLeader = false;
-  state.players = [];
-  state.status = '';
-  state.scoreboard = [];
-  state.screen = 'landing';
-  render();
+}
+
+attachReturnToStartHandler();
+
+const returnLandingBtn = document.getElementById('returnLandingBtn');
+if (returnLandingBtn) {
+  returnLandingBtn.onclick = () => {
+    state.screen = 'landing';
+    render();
+  };
 }
 
 function attachReturnToStartHandler() {
