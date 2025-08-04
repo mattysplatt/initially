@@ -351,10 +351,7 @@ function renderScoreboard() {
       </div>
     `;
 
-    document.getElementById('returnLandingBtn').onclick = () => {
-      state.screen = 'landing';
-      render();
-    };
+  document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
   });
 }
 
@@ -497,7 +494,7 @@ function renderLobby() {
   document.getElementById('joinLobby').onclick = typeof onJoinLobby === "function" ? onJoinLobby : () => alert("Multiplayer is not available right now.");
 
   // Return to Home
-  document.getElementById('returnLandingBtn').onclick = () => {
+document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
     // Remove player from lobby if present
     if (state.lobbyCode && state.playerId) {
       if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
@@ -677,7 +674,7 @@ function renderInstructions() {
     </div>
   `;
 
-  document.getElementById('returnLandingBtn').onclick = () => {
+  document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
     // Remove player from lobby in Firebase
     if (state.lobbyCode && state.playerId) {
       remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
@@ -838,7 +835,7 @@ function renderChallengeInstructions() {
   // Initially disable start button if name empty
   document.getElementById('startMonthlyChallengeBtn').disabled = !savedName.trim();
 
-  document.getElementById('returnLandingBtn').onclick = () => {
+ document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
   // Remove player from lobby in Firebase
   if (state.lobbyCode && state.playerId) {
     remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
@@ -1396,7 +1393,7 @@ function renderCategory() {
     catDiv.appendChild(box);
   });
 
- document.getElementById('returnLandingBtn').onclick = () => {
+ document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
   // Remove player from lobby in Firebase
   if (state.lobbyCode && state.playerId) {
     remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
@@ -1520,7 +1517,7 @@ function renderLocalScoreboard() {
   }
 
   // Return to Home button click handler
-  const returnBtn = document.getElementById('returnLandingBtn');
+ document.getElementById('returnLandingBtn').onclick = handleReturnToHome;
   if (returnBtn) {
     returnBtn.onclick = () => {
       if (state.lobbyCode && state.playerId) {
@@ -1772,46 +1769,45 @@ function renderGame() {
     };
   }
 
-  document.getElementById('returnLandingBtn').onclick = () => {
-    // Remove player from lobby in Firebase
-    if (state.lobbyCode && state.playerId) {
-      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-    }
-    // Unsubscribe listeners
-    if (state.unsubLobby) {
-      state.unsubLobby();
-      state.unsubLobby = null;
-    }
-    if (state.unsubGame) {
-      state.unsubGame();
-      state.unsubGame = null;
-    }
-    // Reset relevant state
-    state.lobbyCode = '';
-    state.isLeader = false;
-    state.players = [];
-    state.status = '';
-    state.scoreboard = [];
-    state.screen = 'landing';
-    render();
-  };
-}
-
-if (state.players.length > 0) {
-  const readyBtn = document.getElementById('readyBtn');
-  if (readyBtn) {
-    readyBtn.onclick = markReady;
+  // Return to Home button click handler
+  const returnLandingBtn = document.getElementById('returnLandingBtn');
+  if (returnLandingBtn) {
+    returnLandingBtn.onclick = handleReturnToHome;
   }
+
+  if (state.players && state.players.length > 0) {
+    const readyBtn = document.getElementById('readyBtn');
+    if (readyBtn) {
+      readyBtn.onclick = markReady;
+    }
+  }
+
+  attachReturnToStartHandler();
 }
 
-attachReturnToStartHandler();
-
-const returnLandingBtn = document.getElementById('returnLandingBtn');
-if (returnLandingBtn) {
-  returnLandingBtn.onclick = () => {
-    state.screen = 'landing';
-    render();
-  };
+// Centralized cleanup logic
+function handleReturnToHome() {
+  // Remove player from lobby in Firebase
+  if (state.lobbyCode && state.playerId) {
+    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+  }
+  // Unsubscribe listeners
+  if (state.unsubLobby) {
+    state.unsubLobby();
+    state.unsubLobby = null;
+  }
+  if (state.unsubGame) {
+    state.unsubGame();
+    state.unsubGame = null;
+  }
+  // Reset relevant state
+  state.lobbyCode = '';
+  state.isLeader = false;
+  state.players = [];
+  state.status = '';
+  state.scoreboard = [];
+  state.screen = 'landing';
+  render();
 }
 
 function attachReturnToStartHandler() {
