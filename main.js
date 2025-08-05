@@ -121,6 +121,15 @@ function renderLanding() {
   $app.innerHTML = `
     <div class="landing-screen">
       <img src="Initiallylogonew.png" alt="Initially Logo" class="landing-logo" draggable="false" />
+      <div class="discord-invite" style="margin: 18px 0 24px 0; text-align: center;">
+  <a 
+    href="https://discord.gg/fJ48sAVW"
+    target="_blank"
+    style="color:#5865F2; font-weight:bold; font-size:1.09em; text-decoration:none;"
+  >
+    Join our Discord to discuss the game or find someone to play with!
+  </a>
+</div>
       <div class="button-container">
         <button id="playFreeBtn" class="landing-btn">PLAY FOR FREE</button>
         <button id="playPurchasedBtn" class="landing-btn">PLAY WITH PURCHASED DECKS</button>
