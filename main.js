@@ -726,12 +726,12 @@ function goToNextSinglePlayerClue() {
       state.clues = shuffle(nextQuestion.clues);
       state.clueIdx = 0;
       state.points = 60;
-      state.timer = 10;            // <--- Add this line!
+      state.timer = 10;           
       state.guess = '';
       state.usedAnswers.push(nextQuestion.answer);
       state.screen = 'game';
       render();
-      startTimer();                // <--- Add this line!
+      startTimer();               
     } else {
       state.screen = 'end';
       render();
@@ -2020,14 +2020,17 @@ function listenLobby() {
     state.points = lobby.points;
     state.guesses = lobby.guesses || {};
 
-    // Reset guess if new question
-    if (
-      state.question &&
-      state.question.initials !== (state.lastQuestionInitials || '')
-    ) {
-      state.guess = '';
-      state.lastQuestionInitials = state.question.initials;
-    }
+ // Reset guess if new question
+if (
+  state.question &&
+  state.question.initials !== (state.lastQuestionInitials || '')
+) {
+  state.guess = '';
+  state.lastQuestionInitials = state.question.initials;
+  // CLEAR THE INPUT BOX IN THE UI TOO:
+  const input = document.getElementById('answerInput');
+  if (input) input.value = '';
+}
     
     switch (lobby.status) {
       case "lobbyCode":
