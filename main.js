@@ -127,7 +127,8 @@ function renderLanding() {
     target="_blank"
     style="color:#fff; font-weight:bold; font-size:1.09em; text-decoration:none;"
   >
-    Join our Discord to discuss the game or find someone to play with!
+   Click here to join our Discord chat to discuss the game,
+   or find someone to play with!
   </a>
 </div>
       <div class="button-container">
