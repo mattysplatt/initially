@@ -125,7 +125,7 @@ function renderLanding() {
   <a 
     href="https://discord.gg/fJ48sAVW"
     target="_blank"
-    style="color:#5865F2; font-weight:bold; font-size:1.09em; text-decoration:none;"
+    style="color:#fff; font-weight:bold; font-size:1.09em; text-decoration:none;"
   >
     Join our Discord to discuss the game or find someone to play with!
   </a>
