@@ -522,7 +522,9 @@ function renderLobby() {
   document.getElementById('joinLobby').onclick = typeof onJoinLobby === "function" ? onJoinLobby : () => alert("Multiplayer is not available right now.");
 
   // Return to Home
-  document.getElementById('returnLandingBtn').onclick = () => {
+    document.getElementById('returnLandingBtn').onclick = () => {
+      state.screen = 'landing';
+      render();
     // Remove player from lobby if present
     if (state.lobbyCode && state.playerId) {
       if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
