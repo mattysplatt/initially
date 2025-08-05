@@ -1741,7 +1741,17 @@ function renderGame() {
       </div>
       ${state.correctPrompt ? `<div style="color:#27ae60; margin-bottom:14px; font-weight: bold;"><span>&#10003;</span> CORRECT!</div>` : ""}
       ${state.incorrectPrompt ? `<div style="color:#ff3333; margin-bottom:14px; font-weight: bold;"><span>&#10060;</span> Incorrect, try again!</div>` : ""}
-      <input type="text" id="guessInput" maxlength="50" placeholder="Enter your guess..." ${isCorrect ? 'disabled' : ''} style="
+      <input 
+  type="text" 
+  id="guessInput" 
+  maxlength="50" 
+  placeholder="Enter your guess..." 
+  autocomplete="off" 
+  autocorrect="off" 
+  autocapitalize="off" 
+  spellcheck="false" 
+  ${isCorrect ? 'disabled' : ''} 
+  style=" ... ">
         width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 14px; border-radius: 9px; border: 2px solid #ffd600; margin-bottom: 12px; box-shadow: 0 2px 8px #0001;
         outline: none; text-align: center;" />
       <button id="submitGuess" ${isCorrect ? 'disabled' : ''} style="
