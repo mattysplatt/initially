@@ -1753,22 +1753,21 @@ function renderGame() {
       </div>
       ${state.correctPrompt ? `<div style="color:#27ae60; margin-bottom:14px; font-weight: bold;"><span>&#10003;</span> CORRECT!</div>` : ""}
       ${state.incorrectPrompt ? `<div style="color:#ff3333; margin-bottom:14px; font-weight: bold;"><span>&#10060;</span> Incorrect, try again!</div>` : ""}
-      <input 
-  type="text" 
-  id="guessInput" 
-  maxlength="50" 
-  placeholder="Enter your guess..." 
-  autocomplete="off" 
-  autocorrect="off" 
-  autocapitalize="off" 
-  spellcheck="false" 
-  ${isCorrect ? 'disabled' : ''} 
-  style=" ... ">
-        width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 14px; border-radius: 9px; border: 2px solid #ffd600; margin-bottom: 12px; box-shadow: 0 2px 8px #0001;
-        outline: none; text-align: center;" />
+      <input
+        type="text"
+        id="guessInput"
+        maxlength="50"
+        placeholder="Enter your guess..."
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        ${isCorrect ? 'disabled' : ''}
+        style="width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 14px; border-radius: 9px; border: 2px solid #ffd600; margin-bottom: 12px; box-shadow: 0 2px 8px #0001; outline: none; text-align: center;"
+      />
       <button id="submitGuess" ${isCorrect ? 'disabled' : ''} style="
-        width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 0; border-radius: 9px; border: none; background: #ffd600; color: url('ScreenBackground.png'); font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px #0002; margin-bottom: 12px;">Submit Guess</button>
-      <button id="returnLandingBtn" style="margin-top: 18px; background: #fff; color: url('ScreenBackground.png'); border-radius: 9px; border: none; font-size: 1em; font-weight: bold; padding: 12px 0; width: 90vw; max-width: 340px;">Return to Home</button>
+        width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 0; border-radius: 9px; border: none; background: #ffd600; color: #222; font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px #0002; margin-bottom: 12px;">Submit Guess</button>
+      <button id="returnLandingBtn" style="margin-top: 18px; background: #fff; color: #222; border-radius: 9px; border: none; font-size: 1em; font-weight: bold; padding: 12px 0; width: 90vw; max-width: 340px;">Return to Home</button>
     </div>
     <style>
       @media (max-width: 500px) {
