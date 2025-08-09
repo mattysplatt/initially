@@ -318,7 +318,7 @@ function render() {
   else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
   else if (state.screen === 'category') renderCategory();
   else if (state.screen === 'countdown') renderCountdown();
-  else if (state.screen === 'game') renderGame();
+  else if (state.screen === 'game') ();
   else if (state.screen === 'scoreboard') {
     if (state.mode === 'monthly') renderScoreboard();
     else renderLocalScoreboard();
@@ -1764,10 +1764,10 @@ function renderGame() {
         <div class="category" style="font-size:2em; font-weight:700; color:#ffd600; margin-bottom:18px; letter-spacing:1.5px;">
           ${displayCategory}
         </div>
-        <div style="display:flex; align-items:center; justify-content:center; gap:32px; margin-bottom: 22px;">
-          <div class="initials-box" style="background: #fff; color: #18102c; font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
-            ${state.question ? state.question.initials : ''}
-          </div>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; gap:32px; margin-bottom: 22px;">
+        <div class="initials-box" style="background: #fff; color: #18102c; font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
+          ${state.question ? state.question.initials : ''}
         </div>
         <div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
           <span id="timer">${state.timer}s</span>
@@ -1805,26 +1805,20 @@ function renderGame() {
         ${isCorrect ? 'disabled' : ''}
         style="width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 14px; border-radius: 9px; border: 2px solid #ffd600; margin-bottom: 12px; box-shadow: 0 2px 8px #0001; outline: none; text-align: center;"
       />
-      <button
-        id="submitGuess"
-        ${isCorrect ? 'disabled' : ''}
-        style="width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 0; border-radius: 9px; border: none; background: #ffd600; color: #222; font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px #0002; margin-bottom: 12px;"
-      >Submit Guess</button>
-      <button
-        id="returnLandingBtn"
-        style="margin-top: 18px; background: #fff; color: #222; border-radius: 9px; border: none; font-size: 1em; font-weight: bold; padding: 12px 0; width: 90vw; max-width: 340px;"
-      >Return to Home</button>
-      <style>
-        @media (max-width: 500px) {
-          .category { font-size:1.3em !important; }
-          .initials-box { font-size: 2em !important; padding: 12px 8vw !important; }
-          .timer-box { font-size: 1.5em !important; padding: 8px 6vw !important; }
-          .round-score-row span { font-size:1em !important; }
-          .clue-box { font-size: 1em !important; padding: 10px 8vw !important; }
-          #guessInput, #submitGuess, #returnLandingBtn { font-size: 1em !important; padding: 11px 0 !important; }
-        }
-      </style>
+      <button id="submitGuess" ${isCorrect ? 'disabled' : ''} style="
+        width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 0; border-radius: 9px; border: none; background: #ffd600; color: #222; font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px #0002; margin-bottom: 12px;">Submit Guess</button>
+      <button id="returnLandingBtn" style="margin-top: 18px; background: #fff; color: #222; border-radius: 9px; border: none; font-size: 1em; font-weight: bold; padding: 12px 0; width: 90vw; max-width: 340px;">Return to Home</button>
     </div>
+    <style>
+      @media (max-width: 500px) {
+        .category { font-size:1.3em !important; }
+        .initials-box { font-size: 2em !important; padding: 12px 8vw !important; }
+        .timer-box { font-size: 1.5em !important; padding: 8px 6vw !important; }
+        .round-score-row span { font-size:1em !important; }
+        .clue-box { font-size: 1em !important; padding: 10px 8vw !important; }
+        #guessInput, #submitGuess, #returnLandingBtn { font-size: 1em !important; padding: 11px 0 !important; }
+      }
+    </style>
   `;
 
   // Input/guess event handling
@@ -1854,32 +1848,29 @@ function renderGame() {
     };
   }
 
-  const returnLandingBtn = document.getElementById('returnLandingBtn');
-  if (returnLandingBtn) {
-    returnLandingBtn.onclick = () => {
-      // Remove player from lobby in Firebase
-      if (state.lobbyCode && state.playerId) {
-        remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-      }
-      // Unsubscribe listeners
-      if (state.unsubLobby) {
-        state.unsubLobby();
-        state.unsubLobby = null;
-      }
-      if (state.unsubGame) {
-        state.unsubGame();
-        state.unsubGame = null;
-      }
-      // Reset relevant state
-      state.lobbyCode = '';
-      state.isLeader = false;
-      state.players = [];
-      state.status = '';
-      state.scoreboard = [];
-      state.screen = 'landing';
-      render();
-    };
-  }
+  document.getElementById('returnLandingBtn').onclick = () => {
+    // Remove player from lobby in Firebase
+    if (state.lobbyCode && state.playerId) {
+      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+    }
+    // Unsubscribe listeners
+    if (state.unsubLobby) {
+      state.unsubLobby();
+      state.unsubLobby = null;
+    }
+    if (state.unsubGame) {
+      state.unsubGame();
+      state.unsubGame = null;
+    }
+    // Reset relevant state
+    state.lobbyCode = '';
+    state.isLeader = false;
+    state.players = [];
+    state.status = '';
+    state.scoreboard = [];
+    state.screen = 'landing';
+    render();
+  };
 }
 
 if (state.players.length > 0) {
