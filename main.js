@@ -308,7 +308,6 @@ function handleReturnToHome() {
 function render() {
   console.log('RENDER:', state.mode, state.screen);
   $app.innerHTML = '';
-  $app.innerHTML = '';
   if (!isAuthenticated) {
     $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh the page.</span></div>`;
     return;
@@ -976,6 +975,38 @@ async function onCreate() {
 
   console.log("Lobby created. Leader:", state.playerId, "LobbyCode:", lobbyCode);
 }
+async function handlePlayAgain() {
+  // Check if lobby still exists and leader is present
+  const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
+  const snap = await get(lobbyRef);
+  const lobby = snap.val();
+
+  // If lobby or leader missing, show message and return to landing
+  if (!lobby || !lobby.players || !lobby.leader || !lobby.players[lobby.leader]) {
+    alert("Lobby no longer available.");
+    state.screen = 'landing';
+    render();
+    return;
+  }
+
+  // Re-add player to lobby if not present (should already be there, but just in case)
+  if (!lobby.players[state.playerId]) {
+    await set(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), {
+      name: state.playerName,
+      score: 0,
+      ready: false
+    });
+  }
+
+  // Reset necessary state for a new game, but keep lobby info
+  state.screen = 'category';
+  state.round = 1;
+  state.category = '';
+  state.question = null;
+  state.clues = [];
+  state.scoreboard = [];
+  render();
+}
 async function onLobby(lobbyCode) {
   const lobbyRef = ref(db, `lobbies/${lobbyCode}`);
 
@@ -1423,15 +1454,22 @@ function renderCategory() {
     catDiv.appendChild(box);
   });
 
- document.getElementById('returnLandingBtn').onclick = () => {
+document.getElementById('returnLandingBtn').onclick = async () => {
   // Remove player from lobby in Firebase
   if (state.lobbyCode && state.playerId) {
-    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+    await remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+  }
+  // If the player is the leader, also remove the entire lobby
+  if (state.isLeader && state.lobbyCode) {
+    await remove(ref(db, `lobbies/${state.lobbyCode}`));
   }
   // Unsubscribe listeners
   if (state.unsubLobby) {
     state.unsubLobby();
     state.unsubLobby = null;
+  }
+  // ...rest of your state reset and render logic
+};
   }
   if (state.unsubGame) {
     state.unsubGame();
@@ -1913,7 +1951,7 @@ let content = `
 
   $app.innerHTML = content;
 
-  document.getElementById('restartBtn').onclick = () => window.location.reload();
+ document.getElementById('restartBtn').onclick = handlePlayAgain;
   attachReturnToStartHandler();
   document.getElementById('returnLandingBtn').onclick = () => {
     // Remove player from lobby in Firebase
