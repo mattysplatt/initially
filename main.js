@@ -1785,7 +1785,7 @@ function renderGame() {
         </div>
       </div>
       <div style="display:flex; align-items:center; justify-content:center; gap:32px; margin-bottom: 22px;">
-       <div class="initials-box${(state.showNewInitialsBg && (state.mode === 'monthly' || state.mode === 'single')) ? ' initials-highlight' : ''}" style="background: #fff; color: #18102c; font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
+      <div class="initials-box${(state.showNewInitialsBg && (state.mode === 'monthly' || state.mode === 'single') ? ' initials-highlight-' + state.highlightBgIdx : '')}" style="color: #18102c; font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
   ${state.question ? state.question.initials : ''}
 </div>
         <div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
