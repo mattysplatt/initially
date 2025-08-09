@@ -946,9 +946,17 @@ function startMonthlyChallenge() {
   state.challengeQuestions = shuffledQuestions; // store all shuffled questions with category
   state.challengeIdx = 0; // index for current question
   state.challengeTimer = 180;
-   state.totalPoints = 0;
+  state.totalPoints = 0;
   state.screen = 'countdown';
+
+  // Highlight setup for first initials
+  state.showNewInitialsBg = true;
+  state.highlightBgIdx = 0; // start cycling backgrounds at 0
   render();
+  setTimeout(() => {
+    state.showNewInitialsBg = false;
+    render();
+  }, 1000); // highlight lasts for 1 second, adjust if needed
 }
 async function onCreate() {
   // 1. Generate a unique 6-letter lobby code
