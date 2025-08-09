@@ -1484,7 +1484,7 @@ document.getElementById('returnLandingBtn').onclick = async () => {
   state.screen = 'landing';
   render();
 };
-}
+
 // --- SINGLEPLAYER GAME STARTER ---
 function startSinglePlayerGame(category) {
   const allQuestions = shuffle([...INITIALS_DB[category]]);
