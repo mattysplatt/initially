@@ -308,21 +308,22 @@ function handleReturnToHome() {
 function render() {
   console.log('RENDER:', state.mode, state.screen);
   $app.innerHTML = '';
+  $app.innerHTML = '';
   if (!isAuthenticated) {
     $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh the page.</span></div>`;
     return;
   }
 
- if (state.screen === 'landing') renderLanding();
-else if (state.screen === 'lobby') renderLobby();
-else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
-else if (state.screen === 'category') renderCategory();
-else if (state.screen === 'countdown') renderCountdown();
-else if (state.screen === 'game') renderGame();
-else if (state.screen === 'scoreboard') {
-  if (state.mode === 'monthly') renderScoreboard();
-  else renderLocalScoreboard();
-}
+  if (state.screen === 'landing') renderLanding();
+  else if (state.screen === 'lobby') renderLobby();
+  else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
+  else if (state.screen === 'category') renderCategory();
+  else if (state.screen === 'countdown') renderCountdown();
+  else if (state.screen === 'game') renderGame();
+  else if (state.screen === 'scoreboard') {
+    if (state.mode === 'monthly') renderScoreboard();
+    else renderLocalScoreboard();
+  }
   else if (state.screen === 'end') renderEnd();
   else if (state.screen === 'challengeInstructions') renderChallengeInstructions();
   else if (state.screen === 'instructions') renderInstructions();
@@ -727,7 +728,6 @@ function renderInstructions() {
     render();
   };
 }
-
 function goToNextSinglePlayerClue() {
   if (state.round < state.maxRounds) {
     state.round++;
@@ -742,11 +742,7 @@ function goToNextSinglePlayerClue() {
       state.guess = '';
       state.usedAnswers.push(nextQuestion.answer);
       state.screen = 'game';
-
-      // --- Cycle page background for single player mode ---
-      state.bgIdx = (typeof state.bgIdx === "number" ? state.bgIdx + 1 : 0) % 4;
       render();
-
       startTimer();               
     } else {
       state.screen = 'end';
@@ -935,10 +931,10 @@ function startMonthlyChallenge() {
   state.challengeQuestions = shuffledQuestions; // store all shuffled questions with category
   state.challengeIdx = 0; // index for current question
   state.challengeTimer = 180;
-  state.totalPoints = 0;
+   state.totalPoints = 0;
   state.screen = 'countdown';
-
-
+  render();
+}
 async function onCreate() {
   // 1. Generate a unique 6-letter lobby code
  const lobbyCode = generateLobbyCode();
@@ -979,38 +975,6 @@ async function onCreate() {
   render();
 
   console.log("Lobby created. Leader:", state.playerId, "LobbyCode:", lobbyCode);
-}
-async function handlePlayAgain() {
-  // Check if lobby still exists and leader is present
-  const lobbyRef = ref(db, `lobbies/${state.lobbyCode}`);
-  const snap = await get(lobbyRef);
-  const lobby = snap.val();
-
-  // If lobby or leader missing, show message and return to landing
-  if (!lobby || !lobby.players || !lobby.leader || !lobby.players[lobby.leader]) {
-    alert("Lobby no longer available.");
-    state.screen = 'landing';
-    render();
-    return;
-  }
-
-  // Re-add player to lobby if not present (should already be there, but just in case)
-  if (!lobby.players[state.playerId]) {
-    await set(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`), {
-      name: state.playerName,
-      score: 0,
-      ready: false
-    });
-  }
-
-  // Reset necessary state for a new game, but keep lobby info
-  state.screen = 'category';
-  state.round = 1;
-  state.category = '';
-  state.question = null;
-  state.clues = [];
-  state.scoreboard = [];
-  render();
 }
 async function onLobby(lobbyCode) {
   const lobbyRef = ref(db, `lobbies/${lobbyCode}`);
@@ -1459,14 +1423,10 @@ function renderCategory() {
     catDiv.appendChild(box);
   });
 
-document.getElementById('returnLandingBtn').onclick = async () => {
+ document.getElementById('returnLandingBtn').onclick = () => {
   // Remove player from lobby in Firebase
   if (state.lobbyCode && state.playerId) {
-    await remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-  }
-  // If the player is the leader, also remove the entire lobby
-  if (state.isLeader && state.lobbyCode) {
-    await remove(ref(db, `lobbies/${state.lobbyCode}`));
+    remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
   }
   // Unsubscribe listeners
   if (state.unsubLobby) {
@@ -1953,7 +1913,7 @@ let content = `
 
   $app.innerHTML = content;
 
- document.getElementById('restartBtn').onclick = handlePlayAgain;
+  document.getElementById('restartBtn').onclick = () => window.location.reload();
   attachReturnToStartHandler();
   document.getElementById('returnLandingBtn').onclick = () => {
     // Remove player from lobby in Firebase
@@ -2187,54 +2147,45 @@ if (state.lobbyCode) {
 }
 function startTimer() {
   clearInterval(window.timerInterval);
-  state.timer = 10; 
-  renderTimer();
+  state.timer = 10; renderTimer();
   window.timerInterval = setInterval(() => {
     state.timer--;
     renderTimer();
-    if (state.timer <= 0) {
-      clearInterval(window.timerInterval);
+  if (state.timer <= 0) {
+  clearInterval(window.timerInterval);
 
-      if (state.mode === 'monthly') {
-        // Move to next clue with points deduction
-        let clueIdx = state.clueIdx;
-        let points = state.points;
-        if (clueIdx < 4) {
-          // Show next clue (no highlight)
-          clueIdx++;
-          points -= 10;
-          state.clueIdx = clueIdx;
-          state.points = points;
-          startTimer();
-          render();
-        } else {
-          // All clues shown, move to next question (show highlight)
-          state.challengeIdx++;
-          if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
-            const nextQuestion = state.challengeQuestions[state.challengeIdx];
-            state.question = nextQuestion;
-            state.clues = shuffle(nextQuestion.clues);
-            state.clueIdx = 0;
-            state.points = 60;
-            state.guess = '';
-            // Cycle highlight background index for 3 backgrounds
-            state.highlightBgIdx = (state.highlightBgIdx + 1) % 3;
-            state.showNewInitialsBg = true;
-            render();
-            setTimeout(() => {
-              state.showNewInitialsBg = false;
-              render();
-            }, 1000); // highlight lasts for 1 second
-            startTimer();
-          } else {
-            endMonthlyChallenge();
-            render();
-          }
-        }
+  if (state.mode === 'monthly') {
+    // Move to next clue with points deduction
+    let clueIdx = state.clueIdx;
+    let points = state.points;
+    if (clueIdx < 4) {
+      clueIdx++;
+      points -= 10;
+      state.clueIdx = clueIdx;
+      state.points = points;
+      startTimer();
+      render();
+    } else {
+      // If all clues shown, move to next question
+      state.challengeIdx++;
+      if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
+        const nextQuestion = state.challengeQuestions[state.challengeIdx];
+        state.question = nextQuestion;
+        state.clues = shuffle(nextQuestion.clues);
+        state.clueIdx = 0;
+        state.points = 60;
+        state.guess = '';
+        render();
+        startTimer();
       } else {
-        revealNextClue();
+       endMonthlyChallenge();
+        render();
       }
     }
+  } else {
+    revealNextClue();
+  }
+}
   }, 1000);
 }
 function endMonthlyChallenge() {
@@ -2283,8 +2234,6 @@ function revealNextClue() {
         state.points = 60;
         state.guess = '';
         state.timer = 10;
-          // --- Cycle page background for monthly challenge mode ---
-  state.bgIdx = (typeof state.bgIdx === "number" ? state.bgIdx + 1 : 0) % 4;
         render();
         startTimer();
       } else {
