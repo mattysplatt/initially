@@ -1468,9 +1468,6 @@ document.getElementById('returnLandingBtn').onclick = async () => {
     state.unsubLobby();
     state.unsubLobby = null;
   }
-  // ...rest of your state reset and render logic
-};
-  }
   if (state.unsubGame) {
     state.unsubGame();
     state.unsubGame = null;
