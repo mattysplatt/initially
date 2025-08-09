@@ -2298,6 +2298,8 @@ function revealNextClue() {
         state.points = 60;
         state.guess = '';
         state.timer = 10;
+          // --- Cycle page background for monthly challenge mode ---
+  state.bgIdx = (typeof state.bgIdx === "number" ? state.bgIdx + 1 : 0) % 4;
         render();
         startTimer();
       } else {
