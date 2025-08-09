@@ -2198,45 +2198,53 @@ if (state.lobbyCode) {
 }
 function startTimer() {
   clearInterval(window.timerInterval);
-  state.timer = 10; renderTimer();
+  state.timer = 10; 
+  renderTimer();
   window.timerInterval = setInterval(() => {
     state.timer--;
     renderTimer();
-  if (state.timer <= 0) {
-  clearInterval(window.timerInterval);
+    if (state.timer <= 0) {
+      clearInterval(window.timerInterval);
 
-  if (state.mode === 'monthly') {
-    // Move to next clue with points deduction
-    let clueIdx = state.clueIdx;
-    let points = state.points;
-    if (clueIdx < 4) {
-      clueIdx++;
-      points -= 10;
-      state.clueIdx = clueIdx;
-      state.points = points;
-      startTimer();
-      render();
-    } else {
-      // If all clues shown, move to next question
-      state.challengeIdx++;
-      if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
-        const nextQuestion = state.challengeQuestions[state.challengeIdx];
-        state.question = nextQuestion;
-        state.clues = shuffle(nextQuestion.clues);
-        state.clueIdx = 0;
-        state.points = 60;
-        state.guess = '';
-        render();
-        startTimer();
+      if (state.mode === 'monthly') {
+        // Move to next clue with points deduction
+        let clueIdx = state.clueIdx;
+        let points = state.points;
+        if (clueIdx < 4) {
+          // Show next clue (no highlight)
+          clueIdx++;
+          points -= 10;
+          state.clueIdx = clueIdx;
+          state.points = points;
+          startTimer();
+          render();
+        } else {
+          // All clues shown, move to next question (show highlight)
+          state.challengeIdx++;
+          if (state.challengeIdx < state.challengeQuestions.length && state.challengeTimer > 0) {
+            const nextQuestion = state.challengeQuestions[state.challengeIdx];
+            state.question = nextQuestion;
+            state.clues = shuffle(nextQuestion.clues);
+            state.clueIdx = 0;
+            state.points = 60;
+            state.guess = '';
+            // Highlight new initials
+            state.showNewInitialsBg = true;
+            render();
+            setTimeout(() => {
+              state.showNewInitialsBg = false;
+              render();
+            }, 1000);
+            startTimer();
+          } else {
+            endMonthlyChallenge();
+            render();
+          }
+        }
       } else {
-       endMonthlyChallenge();
-        render();
+        revealNextClue();
       }
     }
-  } else {
-    revealNextClue();
-  }
-}
   }, 1000);
 }
 function endMonthlyChallenge() {
