@@ -750,14 +750,9 @@ function goToNextSinglePlayerClue() {
       state.usedAnswers.push(nextQuestion.answer);
       state.screen = 'game';
 
-      // --- Highlight new initials for single player mode ---
-   state.highlightBgIdx = (typeof state.highlightBgIdx === 'number' ? (state.highlightBgIdx + 1) : 0) % 3;
-state.showNewInitialsBg = true;
-render();
-setTimeout(() => {
-  state.showNewInitialsBg = false;
-  render();
-}, 1000);
+      // --- Cycle page background for single player mode ---
+      state.bgIdx = (typeof state.bgIdx === "number" ? state.bgIdx + 1 : 0) % 4;
+      render();
 
       startTimer();               
     } else {
