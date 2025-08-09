@@ -221,3 +221,15 @@ html, body {
 button {
   font-family: 'Roboto', Arial, sans-serif;
 }
+.initials-highlight-0 {
+  background: #ffe766;
+  transition: background 0.3s;
+}
+.initials-highlight-1 {
+  background: #c2f0fc;
+  transition: background 0.3s;
+}
+.initials-highlight-2 {
+  background: #e0e6ff;
+  transition: background 0.3s;
+}
