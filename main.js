@@ -313,16 +313,16 @@ function render() {
     return;
   }
 
-  if (state.screen === 'landing') renderLanding();
-  else if (state.screen === 'lobby') renderLobby();
-  else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
-  else if (state.screen === 'category') renderCategory();
-  else if (state.screen === 'countdown') renderCountdown();
-  else if (state.screen === 'game') ();
-  else if (state.screen === 'scoreboard') {
-    if (state.mode === 'monthly') renderScoreboard();
-    else renderLocalScoreboard();
-  }
+ if (state.screen === 'landing') renderLanding();
+else if (state.screen === 'lobby') renderLobby();
+else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
+else if (state.screen === 'category') renderCategory();
+else if (state.screen === 'countdown') renderCountdown();
+else if (state.screen === 'game') renderGame();
+else if (state.screen === 'scoreboard') {
+  if (state.mode === 'monthly') renderScoreboard();
+  else renderLocalScoreboard();
+}
   else if (state.screen === 'end') renderEnd();
   else if (state.screen === 'challengeInstructions') renderChallengeInstructions();
   else if (state.screen === 'instructions') renderInstructions();
