@@ -233,3 +233,19 @@ button {
   background: #e0e6ff;
   transition: background 0.3s;
 }
+.bg-cycle-0 {
+  background: #ffe766 !important;
+  transition: background 0.4s;
+}
+.bg-cycle-1 {
+  background: #c2f0fc !important;
+  transition: background 0.4s;
+}
+.bg-cycle-2 {
+  background: #e0e6ff !important;
+  transition: background 0.4s;
+}
+.bg-cycle-3 {
+  background: #fff1f2 !important;
+  transition: background 0.4s;
+}
