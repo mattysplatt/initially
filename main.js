@@ -1805,9 +1805,15 @@ function renderGame() {
         ${isCorrect ? 'disabled' : ''}
         style="width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 14px; border-radius: 9px; border: 2px solid #ffd600; margin-bottom: 12px; box-shadow: 0 2px 8px #0001; outline: none; text-align: center;"
       />
-      <button id="submitGuess" ${isCorrect ? 'disabled' : ''} style="
-        width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 0; border-radius: 9px; border: none; background: #ffd600; color: #222; font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px #0002; margin-bottom: 12px;">Submit Guess</button>
-      <button id="returnLandingBtn" style="margin-top: 18px; background: #fff; color: #222; border-radius: 9px; border: none; font-size: 1em; font-weight: bold; padding: 12px 0; width: 90vw; max-width: 340px;">Return to Home</button>
+      <button
+        id="submitGuess"
+        ${isCorrect ? 'disabled' : ''}
+        style="width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 0; border-radius: 9px; border: none; background: #ffd600; color: #222; font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px #0002; margin-bottom: 12px;"
+      >Submit Guess</button>
+      <button
+        id="returnLandingBtn"
+        style="margin-top: 18px; background: #fff; color: #222; border-radius: 9px; border: none; font-size: 1em; font-weight: bold; padding: 12px 0; width: 90vw; max-width: 340px;"
+      >Return to Home</button>
       <style>
         @media (max-width: 500px) {
           .category { font-size:1.3em !important; }
@@ -1848,30 +1854,33 @@ function renderGame() {
     };
   }
 
-  document.getElementById('returnLandingBtn').onclick = () => {
-    // Remove player from lobby in Firebase
-    if (state.lobbyCode && state.playerId) {
-      remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-    }
-    // Unsubscribe listeners
-    if (state.unsubLobby) {
-      state.unsubLobby();
-      state.unsubLobby = null;
-    }
-    if (state.unsubGame) {
-      state.unsubGame();
-      state.unsubGame = null;
-    }
-    // Reset relevant state
-    state.lobbyCode = '';
-    state.isLeader = false;
-    state.players = [];
-    state.status = '';
-    state.scoreboard = [];
-    state.screen = 'landing';
-    render();
-  };
-} // <-- THIS WAS MISSING!
+  const returnLandingBtn = document.getElementById('returnLandingBtn');
+  if (returnLandingBtn) {
+    returnLandingBtn.onclick = () => {
+      // Remove player from lobby in Firebase
+      if (state.lobbyCode && state.playerId) {
+        remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+      }
+      // Unsubscribe listeners
+      if (state.unsubLobby) {
+        state.unsubLobby();
+        state.unsubLobby = null;
+      }
+      if (state.unsubGame) {
+        state.unsubGame();
+        state.unsubGame = null;
+      }
+      // Reset relevant state
+      state.lobbyCode = '';
+      state.isLeader = false;
+      state.players = [];
+      state.status = '';
+      state.scoreboard = [];
+      state.screen = 'landing';
+      render();
+    };
+  }
+}
 
 if (state.players.length > 0) {
   const readyBtn = document.getElementById('readyBtn');
