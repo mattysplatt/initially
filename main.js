@@ -727,14 +727,7 @@ function renderInstructions() {
     render();
   };
 }
-function showInitialsHighlight() {
-  state.showNewInitialsBg = true;
-  render();
-  setTimeout(() => {
-    state.showNewInitialsBg = false;
-    render();
-  }, 1000); // 1 second, adjust as desired
-}
+
 function goToNextSinglePlayerClue() {
   if (state.round < state.maxRounds) {
     state.round++;
@@ -945,15 +938,7 @@ function startMonthlyChallenge() {
   state.totalPoints = 0;
   state.screen = 'countdown';
 
-  // Highlight setup for first initials
-  state.showNewInitialsBg = true;
-  state.highlightBgIdx = 0; // start cycling backgrounds at 0
-  render();
-  setTimeout(() => {
-    state.showNewInitialsBg = false;
-    render();
-  }, 1000); // highlight lasts for 1 second, adjust if needed
-}
+
 async function onCreate() {
   // 1. Generate a unique 6-letter lobby code
  const lobbyCode = generateLobbyCode();
@@ -1779,11 +1764,11 @@ function renderGame() {
         <div class="category" style="font-size:2em; font-weight:700; color:#ffd600; margin-bottom:18px; letter-spacing:1.5px;">
           ${displayCategory}
         </div>
-      </div>
-      <div style="display:flex; align-items:center; justify-content:center; gap:32px; margin-bottom: 22px;">
-      <div class="initials-box${(state.showNewInitialsBg && (state.mode === 'monthly' || state.mode === 'single') ? ' initials-highlight-' + state.highlightBgIdx : '')}" style="color: #18102c; font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
-  ${state.question ? state.question.initials : ''}
-</div>
+        <div style="display:flex; align-items:center; justify-content:center; gap:32px; margin-bottom: 22px;">
+          <div class="initials-box" style="background: #fff; color: #18102c; font-size: 3em; font-weight: bold; border-radius: 14px; padding: 23px 42px; box-shadow: 0 2px 16px #0002;">
+            ${state.question ? state.question.initials : ''}
+          </div>
+        </div>
         <div class="timer-box" style="background: #fffbe6; color: red; font-size: 2.6em; font-weight: bold; border-radius: 14px; padding: 18px 28px; box-shadow: 0 2px 10px #0001;">
           <span id="timer">${state.timer}s</span>
         </div>
@@ -1823,17 +1808,17 @@ function renderGame() {
       <button id="submitGuess" ${isCorrect ? 'disabled' : ''} style="
         width: 90vw; max-width: 340px; font-size: 1.18em; padding: 14px 0; border-radius: 9px; border: none; background: #ffd600; color: #222; font-weight: bold; cursor: pointer; box-shadow: 0 2px 10px #0002; margin-bottom: 12px;">Submit Guess</button>
       <button id="returnLandingBtn" style="margin-top: 18px; background: #fff; color: #222; border-radius: 9px; border: none; font-size: 1em; font-weight: bold; padding: 12px 0; width: 90vw; max-width: 340px;">Return to Home</button>
+      <style>
+        @media (max-width: 500px) {
+          .category { font-size:1.3em !important; }
+          .initials-box { font-size: 2em !important; padding: 12px 8vw !important; }
+          .timer-box { font-size: 1.5em !important; padding: 8px 6vw !important; }
+          .round-score-row span { font-size:1em !important; }
+          .clue-box { font-size: 1em !important; padding: 10px 8vw !important; }
+          #guessInput, #submitGuess, #returnLandingBtn { font-size: 1em !important; padding: 11px 0 !important; }
+        }
+      </style>
     </div>
-    <style>
-      @media (max-width: 500px) {
-        .category { font-size:1.3em !important; }
-        .initials-box { font-size: 2em !important; padding: 12px 8vw !important; }
-        .timer-box { font-size: 1.5em !important; padding: 8px 6vw !important; }
-        .round-score-row span { font-size:1em !important; }
-        .clue-box { font-size: 1em !important; padding: 10px 8vw !important; }
-        #guessInput, #submitGuess, #returnLandingBtn { font-size: 1em !important; padding: 11px 0 !important; }
-      }
-    </style>
   `;
 
   // Input/guess event handling
@@ -1886,7 +1871,7 @@ function renderGame() {
     state.screen = 'landing';
     render();
   };
-}
+} // <-- THIS WAS MISSING!
 
 if (state.players.length > 0) {
   const readyBtn = document.getElementById('readyBtn');
