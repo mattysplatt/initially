@@ -749,7 +749,15 @@ function goToNextSinglePlayerClue() {
       state.guess = '';
       state.usedAnswers.push(nextQuestion.answer);
       state.screen = 'game';
+
+      // --- Highlight new initials for single player mode ---
+      state.showNewInitialsBg = true;
       render();
+      setTimeout(() => {
+        state.showNewInitialsBg = false;
+        render();
+      }, 1000); // Highlight duration in ms
+
       startTimer();               
     } else {
       state.screen = 'end';
