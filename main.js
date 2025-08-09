@@ -2236,13 +2236,14 @@ function startTimer() {
             state.clueIdx = 0;
             state.points = 60;
             state.guess = '';
-            // Highlight new initials
+            // Cycle highlight background index for 3 backgrounds
+            state.highlightBgIdx = (state.highlightBgIdx + 1) % 3;
             state.showNewInitialsBg = true;
             render();
             setTimeout(() => {
               state.showNewInitialsBg = false;
               render();
-            }, 1000);
+            }, 1000); // highlight lasts for 1 second
             startTimer();
           } else {
             endMonthlyChallenge();
