@@ -234,18 +234,18 @@ button {
   transition: background 0.3s;
 }
 .bg-cycle-0 {
-  background: #ffe766 !important;
+  background: #ffe766 url('background0.png') center center/cover no-repeat fixed;
   transition: background 0.4s;
 }
 .bg-cycle-1 {
-  background: #c2f0fc !important;
+  background: #c2f0fc url('background1.png') center center/cover no-repeat fixed;
   transition: background 0.4s;
 }
 .bg-cycle-2 {
-  background: #e0e6ff !important;
+  background: #e0e6ff url('background2.png') center center/cover no-repeat fixed;
   transition: background 0.4s;
 }
 .bg-cycle-3 {
-  background: #fff1f2 !important;
+  background: #fff1f2 url('background3.png') center center/cover no-repeat fixed;
   transition: background 0.4s;
 }
