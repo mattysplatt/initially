@@ -308,6 +308,7 @@ let currentBgIndex = 0;
 const totalBg = 4; 
 
 function setNextBackground() {
+  console.log("setNextBackground called");
   for (let i = 0; i < totalBg; i++) {
     document.body.classList.remove(`bg-cycle-${i}`);
   }
