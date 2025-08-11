@@ -223,18 +223,18 @@ button {
 }
 
 .bg-cycle-0 {
-  background: #ffe766 url('ScreenBackground.png') center center/cover no-repeat fixed;
+  background: #ffe766 url('ScreenBackground.png') center center/cover no-repeat fixed !important;
   transition: background 0.4s;
 }
 .bg-cycle-1 {
-  background: #c2f0fc url('ScreenBackground2.png') center center/cover no-repeat fixed;
+  background: #c2f0fc url('ScreenBackground2.png') center center/cover no-repeat fixed !important;
   transition: background 0.4s;
 }
 .bg-cycle-2 {
-  background: #e0e6ff url('ScreenBackground3.png') center center/cover no-repeat fixed;
+  background: #e0e6ff url('ScreenBackground3.png') center center/cover no-repeat fixed !important;
   transition: background 0.4s;
 }
 .bg-cycle-3 {
-  background: #fff1f2 url('ScreenBackground4.png') center center/cover no-repeat fixed;
+  background: #fff1f2 url('ScreenBackground4.png') center center/cover no-repeat fixed !important;
   transition: background 0.4s;
 }
