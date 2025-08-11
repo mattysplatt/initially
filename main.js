@@ -756,8 +756,8 @@ function goToNextSinglePlayerClue() {
       state.guess = '';
       state.usedAnswers.push(nextQuestion.answer);
       state.screen = 'game';
-      setNextBackground();
       render();
+      setNextBackground();
       startTimer();               
     } else {
       state.screen = 'end';
