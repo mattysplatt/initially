@@ -303,6 +303,19 @@ function handleReturnToHome() {
   // Render landing screen LAST
   render();
 }
+//background changing functions
+let currentBgIndex = 0;
+const totalBg = 4; 
+
+function setNextBackground() {
+  for (let i = 0; i < totalBg; i++) {
+    document.body.classList.remove(`bg-cycle-${i}`);
+  }
+  // Add the next background class
+  document.body.classList.add(`bg-cycle-${currentBgIndex}`);
+  // Increment and wrap the index for next time
+  currentBgIndex = (currentBgIndex + 1) % totalBg;
+}
 
 // MAIN RENDER FUNCTION
 function render() {
@@ -2175,6 +2188,7 @@ function startTimer() {
         state.clueIdx = 0;
         state.points = 60;
         state.guess = '';
+        setNextBackground(); 
         render();
         startTimer();
       } else {
