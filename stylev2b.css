@@ -4,7 +4,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: #18102c;
+  background: #18102c url('ScreenBackground.png') center center / cover no-repeat fixed;
   font-family: 'Roboto', Arial, sans-serif;
   color: #fff;
 }
