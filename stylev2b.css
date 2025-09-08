@@ -227,14 +227,14 @@ button {
   transition: background 0.4s;
 }
 .bg-cycle-1 {
-  background: #c2f0fc url('ScreenBackground2.png') center center/cover no-repeat fixed !important;
+  background: #c2f0fc url('ScreenBackground 2.png') center center/cover no-repeat fixed !important;
   transition: background 0.4s;
 }
 .bg-cycle-2 {
-  background: #e0e6ff url('ScreenBackground3.png') center center/cover no-repeat fixed !important;
+  background: #e0e6ff url('ScreenBackground 3.png') center center/cover no-repeat fixed !important;
   transition: background 0.4s;
 }
 .bg-cycle-3 {
-  background: #fff1f2 url('ScreenBackground4.png') center center/cover no-repeat fixed !important;
+  background: #fff1f2 url('ScreenBackground 4.png') center center/cover no-repeat fixed !important;
   transition: background 0.4s;
 }
