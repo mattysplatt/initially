@@ -148,7 +148,6 @@ function renderLanding() {
         padding: 0;
       }
       .landing-screen {
-        background: url('ScreenBackground.png');
         display: flex;
         flex-direction: column;
         align-items: center;
