@@ -120,7 +120,7 @@ const $app = document.getElementById('app');
 function renderLanding() {
   $app.innerHTML = `
     <div class="landing-screen">
-      <img src="Initiallylogonew.png" alt="Initially Logo" class="landing-logo" draggable="false" />
+      <img src="Initiallylogon.png" alt="Initially Logo" class="landing-logo" draggable="false" />
       <div class="discord-invite" style="margin: 18px 0 24px 0; text-align: center;">
   <a 
     href="https://discord.gg/fJ48sAVW"
@@ -404,7 +404,7 @@ function renderLobby() {
   const savedName = localStorage.getItem("initially_player_name") || "";
   $app.innerHTML = `
     <div class="lobby-screen">
-      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
+      <img src="Initiallylogo.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
       <div class="lobby-form">
         <input id="playerName" type="text" class="lobby-input" placeholder="Your Name" value="${savedName}">
         <div style="color:#ffd600; font-size:0.95em; margin-bottom:8px;">
@@ -783,7 +783,7 @@ function renderChallengeInstructions() {
       align-items: center;
       padding-bottom: 32px;
     ">
-      <img src="Initiallylogonew.png" alt="Initially Logo" class="landing-logo" draggable="false" style="
+      <img src="Initiallylogo.png" alt="Initially Logo" class="landing-logo" draggable="false" style="
         width: 430px;
         max-width: 90vw;
         margin-top: 4vw;
@@ -1132,7 +1132,7 @@ function renderLobbyCodeScreen() {
 
   $app.innerHTML = `
     <div class="lobby-screen">
-      <img src="Initiallylogonew.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
+      <img src="Initiallylogo.png" alt="Initially Logo" class="lobby-logo" draggable="false" />
       <div class="lobby-form">
         <h2 style="margin-bottom:12px; color:#ffd600;">Lobby Code: <span style="font-weight:bold;">${lobbyCode}</span></h2>
         <div style="margin-bottom:18px;">
@@ -1593,7 +1593,7 @@ function renderLocalScoreboard() {
 function renderCountdown() {
   $app.innerHTML = `
     <div class="countdown-screen" style="text-align:center; min-height:100vh; background: url('ScreenBackground.png')">
-      <img src="Initiallylogonew.png" alt="Background" style="width:100%;max-width:640px;display:block;margin:0 auto 36px auto;" draggable="false" />
+      <img src="Initiallylogo.png" alt="Background" style="width:100%;max-width:640px;display:block;margin:0 auto 36px auto;" draggable="false" />
       <div style="font-size:2em;color:#ffd600;margin-bottom:16px;">The game begins in</div>
       <div id="countdownNumber" style="font-size:7em;color:#fff;font-weight:bold;margin-top:40px;">3</div>
     </div>
