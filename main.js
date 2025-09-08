@@ -120,7 +120,7 @@ const $app = document.getElementById('app');
 function renderLanding() {
   $app.innerHTML = `
     <div class="landing-screen">
-      <img src="Initiallylogon.png" alt="Initially Logo" class="landing-logo" draggable="false" />
+      <img src="Initiallylogo.png" alt="Initially Logo" class="landing-logo" draggable="false" />
       <div class="discord-invite" style="margin: 18px 0 24px 0; text-align: center;">
   <a 
     href="https://discord.gg/fJ48sAVW"
