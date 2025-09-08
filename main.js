@@ -308,13 +308,14 @@ let currentBgIndex = 0;
 const totalBg = 4; 
 
 function setNextBackground() {
-  console.log("setNextBackground called");
   for (let i = 0; i < totalBg; i++) {
     document.body.classList.remove(`bg-cycle-${i}`);
+    const landingScreen = document.querySelector('.landing-screen');
+    if (landingScreen) landingScreen.classList.remove(`bg-cycle-${i}`);
   }
-  // Add the next background class
   document.body.classList.add(`bg-cycle-${currentBgIndex}`);
-  // Increment and wrap the index for next time
+  const landingScreen = document.querySelector('.landing-screen');
+  if (landingScreen) landingScreen.classList.add(`bg-cycle-${currentBgIndex}`);
   currentBgIndex = (currentBgIndex + 1) % totalBg;
 }
 
