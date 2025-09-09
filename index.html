@@ -6,49 +6,25 @@
   <title>Initial Contact</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="stylev2b.css" />
-  <!-- CSP: Allow only scripts and connections from self and trusted Firebase domains -->
+  <!-- Universal Firebase CSP: allows all subdomains for scripts, connections, frames -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self'
-      https://www.gstatic.com
-      https://www.googleapis.com
-      https://cdn.firebase.com
-      https://initialcontact-66089-default-rtdb.asia-southeast1.firebasedatabase.app
-      https://s-apse1a-nss-2003.asia-southeast1.firebasedatabase.app
-      https://s-apse1a-nss-2004.asia-southeast1.firebasedatabase.app;
-    connect-src 'self'
-      https://*.firebaseio.com
-      https://*.googleapis.com
-      https://initialcontact-66089-default-rtdb.asia-southeast1.firebasedatabase.app
-      wss://initialcontact-66089-default-rtdb.asia-southeast1.firebasedatabase.app
-      https://s-apse1a-nss-2003.asia-southeast1.firebasedatabase.app
-      wss://s-apse1a-nss-2003.asia-southeast1.firebasedatabase.app
-      https://s-apse1a-nss-2004.asia-southeast1.firebasedatabase.app
-      wss://s-apse1a-nss-2004.asia-southeast1.firebasedatabase.app;
+    script-src 'self' https://www.gstatic.com https://*.firebaseio.com https://*.firebaseapp.com https://*.firebasedatabase.app https://*.asia-southeast1.firebasedatabase.app;
+    connect-src 'self' https://*.firebaseio.com https://*.firebaseapp.com https://*.firebasedatabase.app https://*.asia-southeast1.firebasedatabase.app wss://*.firebaseio.com wss://*.firebaseapp.com wss://*.firebasedatabase.app wss://*.asia-southeast1.firebasedatabase.app;
     style-src 'self' 'unsafe-inline';
     img-src 'self' data:;
     font-src 'self';
     object-src 'none';
     base-uri 'self';
     form-action 'self';
-    frame-src 'self'
-      https://s-apse1a-nss-2003.asia-southeast1.firebasedatabase.app
-      https://s-apse1a-nss-2004.asia-southeast1.firebasedatabase.app;
+    frame-src 'self' https://*.firebaseio.com https://*.firebaseapp.com https://*.firebasedatabase.app https://*.asia-southeast1.firebasedatabase.app;
   ">
 </head>
 <body>
   <div id="app">
-
     <!-- CATEGORY SELECTION SCREEN -->
     <div class="category-container" id="categoryContainer">
-      <!-- Category buttons will be rendered by JavaScript with class="category-btn" -->
-      <!-- Example static category buttons for illustration (remove if using JS) -->
-      <!--
-      <button class="category-btn">Animals</button>
-      <button class="category-btn">Movies</button>
-      <button class="category-btn">Science</button>
-      <button class="category-btn">Sports</button>
-      -->
+      <!-- JS will render category buttons here -->
     </div>
 
     <!-- GAME SCREEN: Hidden until a category is selected -->
@@ -67,9 +43,8 @@
         autocomplete="off"
       />
       <div class="clue">Your clue goes here.</div>
-      <!-- Rest of your game UI here -->
+      <!-- Add more game UI elements as needed -->
     </div>
-
   </div>
   <script type="module" src="main.js"></script>
 </body>
