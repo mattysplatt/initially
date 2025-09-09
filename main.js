@@ -266,12 +266,12 @@ function renderLanding() {
 };
 }
 function handleReturnToHome() {
-  // Remove player from lobby in Firebase
+  // Remove player from previous lobby in Firebase
   if (state.lobbyCode && state.playerId) {
     remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
   }
 
-  // Unsubscribe listeners
+  // Unsubscribe all listeners
   if (state.unsubLobby) {
     state.unsubLobby();
     state.unsubLobby = null;
@@ -280,8 +280,24 @@ function handleReturnToHome() {
     state.unsubGame();
     state.unsubGame = null;
   }
+  if (typeof leaderboardUnsub === "function") {
+    leaderboardUnsub();
+    leaderboardUnsub = null;
+  }
 
-  // Clear any intervals/timeouts if you use them
+  // Clear global intervals/timeouts (if used)
+  if (window.timerInterval) {
+    clearInterval(window.timerInterval);
+    window.timerInterval = null;
+  }
+  if (window.monthlyTimerInterval) {
+    clearInterval(window.monthlyTimerInterval);
+    window.monthlyTimerInterval = null;
+  }
+  if (window.resetCountdownInterval) {
+    clearInterval(window.resetCountdownInterval);
+    window.resetCountdownInterval = null;
+  }
   if (state.gameInterval) {
     clearInterval(state.gameInterval);
     state.gameInterval = null;
@@ -291,15 +307,42 @@ function handleReturnToHome() {
     state.someTimeout = null;
   }
 
-  // Reset all relevant state
+  // Reset all relevant state variables
   state.lobbyCode = '';
   state.isLeader = false;
   state.players = [];
   state.status = '';
   state.scoreboard = [];
-  state.screen = 'landing';
+  state.playerName = '';
+  state.category = '';
+  state.round = 1;
+  state.maxRounds = 10;
+  state.question = null;
+  state.clues = [];
+  state.clueIdx = 0;
+  state.points = 60;
+  state.timer = 10;
+  state.guess = '';
+  state.guesses = {};
+  state.scores = {};
+  state.scoreboard = [];
+  state.readyPlayers = [];
+  state.lobbyRef = null;
+  state.unsubLobby = null;
+  state.unsubGame = null;
+  state.incorrectPrompt = false;
+  state.lastQuestionInitials = '';
+  state.usedAnswers = [];
+  state.correctPrompt = false;
+  state.singleQuestions = [];
+  state.singleIdx = 0;
+  state.totalPoints = 0;
+  state.challengeQuestions = [];
+  state.challengeIdx = 0;
+  state.challengeTimer = 0;
 
   // Render landing screen LAST
+  state.screen = 'landing';
   render();
 }
 //background changing functions
