@@ -322,7 +322,6 @@ function setNextBackground() {
 function render() {
   console.log('RENDER:', state.mode, state.screen);
   $app.innerHTML = '';
-  $app.innerHTML = '';
   if (!isAuthenticated) {
     $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh the page.</span></div>`;
     return;
