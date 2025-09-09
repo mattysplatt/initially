@@ -352,15 +352,10 @@ const totalBg = 4;
 function setNextBackground() {
   for (let i = 0; i < totalBg; i++) {
     document.body.classList.remove(`bg-cycle-${i}`);
-    const landingScreen = document.querySelector('.landing-screen');
-    if (landingScreen) landingScreen.classList.remove(`bg-cycle-${i}`);
   }
   document.body.classList.add(`bg-cycle-${currentBgIndex}`);
-  const landingScreen = document.querySelector('.landing-screen');
-  if (landingScreen) landingScreen.classList.add(`bg-cycle-${currentBgIndex}`);
   currentBgIndex = (currentBgIndex + 1) % totalBg;
 }
-
 // MAIN RENDER FUNCTION
 function render() {
   console.log('RENDER:', state.mode, state.screen);
