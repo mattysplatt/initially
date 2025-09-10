@@ -343,6 +343,7 @@ function handleReturnToHome() {
 
   // Render landing screen LAST
   state.screen = 'landing';
+   setNextBackground();
   render();
 }
 //background changing functions
