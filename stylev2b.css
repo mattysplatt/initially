@@ -222,7 +222,7 @@ button {
   font-family: 'Roboto', Arial, sans-serif;
 }
 
-.landing-screen.bg-cycle-0 { background: #ffe766 url('ScreenBackground.png') center center/cover no-repeat fixed !important; }
-.landing-screen.bg-cycle-1 { background: #c2f0fc url('ScreenBackground 2.png') center center/cover no-repeat fixed !important; }
-.landing-screen.bg-cycle-2 { background: #e0e6ff url('ScreenBackground 3.png') center center/cover no-repeat fixed !important; }
-.landing-screen.bg-cycle-3 { background: #fff1f2 url('ScreenBackground 4.png') center center/cover no-repeat fixed !important; }
+body.bg-cycle-0 { background: #ffe766 url('ScreenBackground.png') center center/cover no-repeat fixed !important; }
+body.bg-cycle-1 { background: #c2f0fc url('ScreenBackground 2.png') center center/cover no-repeat fixed !important; }
+body.bg-cycle-2 { background: #e0e6ff url('ScreenBackground 3.png') center center/cover no-repeat fixed !important; }
+body.bg-cycle-3 { background: #fff1f2 url('ScreenBackground 4.png') center center/cover no-repeat fixed !important; }
