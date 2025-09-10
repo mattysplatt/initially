@@ -265,6 +265,13 @@ function renderLanding() {
   render();
 };
 }
+function setDefaultBackground() {
+  for (let i = 0; i < totalBg; i++) {
+    document.body.classList.remove(`bg-cycle-${i}`);
+  }
+  document.body.classList.add('bg-cycle-0');
+  currentBgIndex = 1; // So next cycle starts at 1 if you use setNextBackground later
+}
 function handleReturnToHome() {
   // Remove player from previous lobby in Firebase
   if (state.lobbyCode && state.playerId) {
@@ -341,9 +348,11 @@ function handleReturnToHome() {
   state.challengeIdx = 0;
   state.challengeTimer = 0;
 
+  // Always set the default background FIRST!
+  setDefaultBackground();
+
   // Render landing screen LAST
   state.screen = 'landing';
-   setNextBackground();
   render();
 }
 //background changing functions
