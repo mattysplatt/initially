@@ -4704,7 +4704,7 @@ ModernNBA: [
 { initials: "J.J.", answer: "Jane Jacobs", clues: ["Urbanist and activist", "Wrote 'The Death and Life of Great American Cities'", "Fought for community-based planning", "Influential in urban studies", "Moved to Toronto"] },
 { initials: "M.J.", answer: "Michael Jordan", clues: ["American basketball legend", "Six-time NBA champion", "Played for Chicago Bulls", "Known for slam dunks", "Space Jam star"] },
 { initials: "C.A.", answer: "Catherine the Great", clues: ["Empress of Russia", "Longest-ruling female leader of Russia", "Enlightened despot", "Expanded Russian empire", "Known for her court"] },
-{ initials: "H.R.", answer: "Helen Keller", clues: ["Deaf-blind American author", "First to earn college degree", "Wrote 'The Story of My Life'", "Advocate for disabled rights", "Worked with Anne Sullivan"] },
+{ initials: "H.K.", answer: "Helen Keller", clues: ["Deaf-blind American author", "First to earn college degree", "Wrote 'The Story of My Life'", "Advocate for disabled rights", "Worked with Anne Sullivan"] },
 { initials: "S.C.", answer: "Samuel Clemens", clues: ["Pen name Mark Twain", "Wrote 'Tom Sawyer' and 'Huckleberry Finn'", "Riverboat pilot on the Mississippi", "Famous for wit", "American literary icon"] },
 { initials: "B.L.", answer: "Bruce Lee", clues: ["Martial arts icon", "Starred in 'Enter the Dragon'", "Founder of Jeet Kune Do", "Born in San Francisco", "Died at age 32"] },
 { initials: "M.M.", answer: "Marilyn Monroe", clues: ["Hollywood actress and model", "Starred in 'Some Like It Hot'", "Iconic blonde bombshell", "Died in 1962", "Famous for 'Happy Birthday, Mr. President'"] },
