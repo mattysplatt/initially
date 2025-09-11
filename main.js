@@ -1787,7 +1787,7 @@ function renderGame() {
   const isCorrect = state.mode === 'monthly' ? !!state.guesses[state.playerId]?.correct : false;
 
   $app.innerHTML = `
-    <div class="game-screen" style="background: url('ScreenBackground.png'); min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
+    <div class="game-screen" style="min-height: 100vh; display: flex; flex-direction: column; align-items: center;">
       <div style="width:100%; text-align:center; margin-top:38px;">
         <div class="category" style="font-size:2em; font-weight:700; color:#ffd600; margin-bottom:18px; letter-spacing:1.5px;">
           ${displayCategory}
