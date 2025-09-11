@@ -377,7 +377,7 @@ function render() {
 
  if (state.screen === 'landing') {
   renderLanding();
-  setNextBackground();
+  setDefaultBackground();
 }
 else if (state.screen === 'lobby') renderLobby();
 else if (state.screen === 'lobbyCode') renderLobbyCodeScreen();
@@ -441,6 +441,7 @@ function renderScoreboard() {
     window.monthlyCountdownInterval = setInterval(updateMonthlyCountdown, 1000);
 
     document.getElementById('returnLandingBtn').onclick = () => {
+      setDefaultBackground();
       state.screen = 'landing';
       render();
     };
@@ -587,6 +588,7 @@ function renderLobby() {
 
   // Return to Home
     document.getElementById('returnLandingBtn').onclick = () => {
+      setDefaultBackground();
       state.screen = 'landing';
       render();
     // Remove player from lobby if present
