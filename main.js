@@ -807,13 +807,10 @@ function goToNextSinglePlayerClue() {
       state.timer = 10;           
       state.guess = '';
       state.usedAnswers.push(nextQuestion.answer);
-
-      // Cycle the background BEFORE rendering
       setNextBackground();
       state.screen = 'game';
       render();
       
-      // Start timer as usual (no change to timer logic)
       startTimer();               
     } else {
       state.screen = 'end';
