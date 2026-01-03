@@ -54,6 +54,12 @@ let state = {
 };
 
 // Utility Functions
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
 function getDeviceId() {
   let deviceId = localStorage.getItem("initially_device_id");
   if (!deviceId) {
@@ -414,7 +420,7 @@ function renderScoreboard() {
                   ? scores.map((player, i) =>
                       `<tr style="border-bottom:1px solid #eee;">
                         <td style="padding:8px 4px;color:#000;">${i + 1}</td>
-                        <td style="padding:8px 4px;color:#000;">${player.name.toUpperCase()}</td>
+                        <td style="padding:8px 4px;color:#000;">${escapeHtml(player.name.toUpperCase())}</td>
                         <td style="text-align:right;padding:8px 4px;color:#000;">${player.score || 0}</td>
                       </tr>`
                     ).join('')
@@ -614,9 +620,6 @@ function renderLobby() {
     state.screen = 'landing';
     render();
   };
-}
-function onStartLobby() {
-  update(ref(db, `lobbies/${state.lobbyCode}`), { status: "category" });
 }
 function getTimeToNextMonth() {
   const now = new Date();
@@ -1184,7 +1187,7 @@ function renderLobbyCodeScreen() {
           <ul style="list-style:none; padding:0;">
             ${players.map(player => `
               <li style="color:#ffd600; font-size:1.03em; margin-bottom:4px;">
-                ${player.name}${player.id === leaderId ? ' <span style="color:#fff">(Leader)</span>' : ''}
+                ${escapeHtml(player.name)}${player.id === leaderId ? ' <span style="color:#fff">(Leader)</span>' : ''}
               </li>
             `).join("")}
           </ul>
@@ -1365,7 +1368,7 @@ function renderCategory() {
       align-items:center;">
       ${
         state.players && state.players.length
-          ? state.players.map(p => `<div class="lobby-player" style="font-size:1.15em; color:#222; font-weight:500; margin:6px 0;">${p.name.toUpperCase()}${p.isLeader ? ' 👑' : ''}</div>`).join('')
+          ? state.players.map(p => `<div class="lobby-player" style="font-size:1.15em; color:#222; font-weight:500; margin:6px 0;">${escapeHtml(p.name.toUpperCase())}${p.isLeader ? ' 👑' : ''}</div>`).join('')
           : '<div style="color:#aaa;">Waiting for players...</div>'
       }
     </div>
@@ -1577,7 +1580,7 @@ function renderLocalScoreboard() {
                       `<tr style="border-bottom:1px solid #eee;">
                         <td style="padding:8px 4px;color:#000;">${i + 1}</td>
                         <td style="padding:8px 4px;color:#000;">
-                          ${(player.name || '').toUpperCase()}${player.isLeader ? ' 👑' : ''} 
+                          ${escapeHtml((player.name || '').toUpperCase())}${player.isLeader ? ' 👑' : ''} 
                           ${(state.mode !== 'single' && player.ready) ? '<span style="font-size:1.2em;color:#27ae60;vertical-align:middle;">✅</span>' : ''}
                         </td>
                         <td style="text-align:right;padding:8px 4px;color:#000;">${player.score || 0}</td>
@@ -1894,39 +1897,6 @@ function renderGame() {
   };
 }
 
-if (state.players.length > 0) {
-  const readyBtn = document.getElementById('readyBtn');
-  if (readyBtn) {
-    readyBtn.onclick = markReady;
-  }
-}
-
-attachReturnToStartHandler();
-
-const returnLandingBtn = document.getElementById('returnLandingBtn');
-if (returnLandingBtn) {
-  returnLandingBtn.onclick = () => {
-    state.screen = 'landing';
-    render();
-  };
-}
-
-function attachReturnToStartHandler() {
-  const btn = document.getElementById('returnToStartBtn');
-  if (btn) {
-    btn.onclick = async () => {
-      if (state.lobbyCode && state.playerId) {
-        await remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
-      }
-      state.screen = 'lobby';
-      state.lobbyCode = '';
-      state.isLeader = false;
-      state.players = [];
-      render();
-    };
-  }
-}
-
 function renderEnd() {
 let content = `
   <div class="screen" style="background: url('ScreenBackground.png'); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
@@ -1955,7 +1925,7 @@ let content = `
               <div class="scoreboard" style="margin-bottom: 22px;">
               ${state.scoreboard.map(item =>
   `<div class="score-item" style="display: flex; justify-content: space-between; padding: 6px 0; font-size: 1.1em;">
-    <span style="color: #222;">${item.name || item.username || item.displayName || 'Player'}</span>
+    <span style="color: #222;">${escapeHtml(item.name || item.username || item.displayName || 'Player')}</span>
     <span style="font-weight: bold; color: #222;">${item.score}</span>
   </div>`
 ).join('')}
@@ -1975,7 +1945,22 @@ let content = `
   $app.innerHTML = content;
 
   document.getElementById('restartBtn').onclick = () => window.location.reload();
-  attachReturnToStartHandler();
+  
+  // Handle returnToStartBtn
+  const returnToStartBtn = document.getElementById('returnToStartBtn');
+  if (returnToStartBtn) {
+    returnToStartBtn.onclick = async () => {
+      if (state.lobbyCode && state.playerId) {
+        await remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
+      }
+      state.lobbyCode = '';
+      state.isLeader = false;
+      state.players = [];
+      state.screen = 'lobby';
+      render();
+    };
+  }
+  
   document.getElementById('returnLandingBtn').onclick = () => {
     // Remove player from lobby in Firebase
     if (state.lobbyCode && state.playerId) {
