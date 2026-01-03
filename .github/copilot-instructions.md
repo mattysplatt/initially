@@ -13,9 +13,9 @@
 
 ### Core Files
 - **`index.html`** - Main HTML structure and app entry point
-- **`main.js`** - Game logic, Firebase integration, state management (2474 lines)
-- **`initials_db.js`** - Database of all initials and clues organized by category (4747 lines)
-- **`stylev2b.css`** - All styling for the application (228 lines)
+- **`main.js`** - Game logic, Firebase integration, state management (~2500 lines)
+- **`initials_db.js`** - Database of all initials and clues organized by category (~4700 lines, AI-generated)
+- **`stylev2b.css`** - All styling for the application (~230 lines)
 - **`manifest.json`** - PWA manifest for installability
 - **`database.rules.json`** - Firebase security rules
 
@@ -28,7 +28,7 @@
 ### JavaScript Style
 - Use ES6+ modern JavaScript features
 - ES module imports (use `import`/`export` syntax)
-- Firebase SDK imported from CDN (version 10.7.0)
+- Firebase SDK imported from CDN (currently using version 10.x)
 - Camel case for variables and functions: `getRandomUnusedQuestion`, `playerName`, `lobbyCode`
 - Use `const` and `let` appropriately (no `var`)
 
@@ -108,7 +108,7 @@ INITIALS_DB = {
 
 ## AI-Generated Content
 - **`initials_db.js`** is AI-generated and contains all game questions and clues
-- This file is 4747 lines and should be treated as data, not typical application code
+- This file is large (~4700 lines) and should be treated as data, not typical application code
 - To add/modify questions: Edit the appropriate category array in `INITIALS_DB`
 
 ## Important Notes for Copilot
