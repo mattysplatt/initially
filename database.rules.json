@@ -1,6 +1,27 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    "lobbies": {
+      "$lobbyId": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        "players": {
+          "$playerId": {
+            ".write": "auth != null && auth.uid == $playerId"
+          }
+        }
+      }
+    },
+    "leaderboard": {
+      ".read": "auth != null",
+      "$playerId": {
+        ".write": "auth != null && auth.uid == $playerId"
+      }
+    },
+    "playersMeta": {
+      "$playerId": {
+        ".read": "auth != null && auth.uid == $playerId",
+        ".write": "auth != null && auth.uid == $playerId"
+      }
+    }
   }
 }
