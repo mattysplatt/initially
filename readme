@@ -6,7 +6,7 @@
 
 - Cross-platform: iOS, Android, PC (PWA-ready web app)
 - Real-time multiplayer: players in a shared lobby see the same questions and clues
-- Categories: World Sports, AFL, Movie Stars, Musicians, Famous Figures, Random Mix
+- Categories: World Sports, AFL, Movie Stars, Musicians, Pop Stars, Football, Famous Figures, Modern NBA, Random Mix
 - 100 names per category, each with 5 unique clues
 - 10-second timer per clue, 60 points max per round, -10 per clue revealed
 - Scoreboard between rounds; ready-up for next round
@@ -24,23 +24,29 @@
 
 1. **Clone the repository**
 2. **Open `index.html` in your browser** (or deploy to Netlify/Vercel for HTTPS and PWA support)
-3. **Configure Firebase** in `index.html` (your own credentials if for production)
-4. **Play!**
+3. **Configure Firebase** in `main.js` (use your own credentials for production)
+4. **Deploy database rules** to Firebase using `database.rules.json`
+5. **Play!**
 
 ---
 
 ## Core Files
 
-- `index.html` – Complete frontend and game logic
+- `index.html` – Main HTML entry point
+- `main.js` – Complete game logic and Firebase integration
 - `initials_db.js` – **(AI-generated)** Database of all initials and clues for all categories (imported as JS module)
-- `manifest.json` and `service-worker.js` – (optional, for PWA installability)
+- `stylev2b.css` – Styling for the game
+- `manifest.json` – PWA configuration
+- `database.rules.json` – Firebase Realtime Database security rules
 
 ---
 
 ## Customization
 
 - **Add/modify questions:** Edit `initials_db.js` to update or expand the database.
-- **Adjust round/timer/points:** Change constants at the top of the main JS file.
+- **Adjust round/timer/points:** Change constants at the top of `main.js`.
+- **Configure Firebase:** Update Firebase credentials in `main.js` for your own production deployment.
+- **Update Database Rules:** Deploy `database.rules.json` to your Firebase project for security.
 
 ---
 
