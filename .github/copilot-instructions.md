@@ -21,7 +21,7 @@
 
 ### Asset Files
 - Images: Various PNG files for backgrounds, icons, and category cards
-- Icon files: `initiallyicon.png`, `icon-192.png` (Note: `manifest.json` references `icon-512.png` which doesn't exist)
+- Icon files: `initiallyicon.png` (192x192), `icon-192.png` for PWA support
 
 ## Code Conventions and Patterns
 
@@ -108,7 +108,7 @@ INITIALS_DB = {
 
 ## AI-Generated Content
 - **`initials_db.js`** is AI-generated and contains all game questions and clues
-- This file is ~4700 lines and should be treated as data, not typical application code
+- This file is 4748 lines and should be treated as data, not typical application code
 - To add/modify questions: Edit the appropriate category array in `INITIALS_DB`
 
 ## Important Notes for Copilot
