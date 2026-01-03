@@ -1,7 +1,7 @@
 {
-  "name": "Initials Guessing Game",
-  "short_name": "InitialsGame",
-  "description": "A web game to guess initials.",
+  "name": "Initial Contact",
+  "short_name": "InitContact",
+  "description": "Real-time multiplayer guessing game - guess the famous name behind the initials!",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -13,8 +13,8 @@
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
-      "sizes": "512x512",
+      "src": "icon-192.png",
+      "sizes": "192x192",
       "type": "image/png"
     }
   ],
