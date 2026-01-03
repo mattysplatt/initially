@@ -108,7 +108,7 @@ INITIALS_DB = {
 
 ## AI-Generated Content
 - **`initials_db.js`** is AI-generated and contains all game questions and clues
-- This file is 4748 lines and should be treated as data, not typical application code
+- This file is 4747 lines and should be treated as data, not typical application code
 - To add/modify questions: Edit the appropriate category array in `INITIALS_DB`
 
 ## Important Notes for Copilot
