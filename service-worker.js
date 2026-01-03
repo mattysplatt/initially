@@ -34,12 +34,20 @@ self.addEventListener('install', event => {
 
 // Fetch from cache, fallback to network
 self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+  
   // Skip Firebase requests - always go to network
-  if (event.request.url.includes('firebaseio.com') || 
-      event.request.url.includes('firebaseapp.com') ||
-      event.request.url.includes('firebasedatabase.app') ||
-      event.request.url.includes('googleapis.com') ||
-      event.request.url.includes('gstatic.com')) {
+  // Check hostname to ensure we're only matching legitimate Firebase/Google domains
+  if (url.hostname.endsWith('.firebaseio.com') || 
+      url.hostname.endsWith('.firebaseapp.com') ||
+      url.hostname.endsWith('.firebasedatabase.app') ||
+      url.hostname.endsWith('.googleapis.com') ||
+      url.hostname.endsWith('.gstatic.com') ||
+      url.hostname === 'firebaseio.com' ||
+      url.hostname === 'firebaseapp.com' ||
+      url.hostname === 'firebasedatabase.app' ||
+      url.hostname === 'googleapis.com' ||
+      url.hostname === 'gstatic.com') {
     event.respondWith(fetch(event.request));
     return;
   }
