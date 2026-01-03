@@ -40,6 +40,7 @@ self.addEventListener('fetch', event => {
       event.request.url.includes('firebasedatabase.app') ||
       event.request.url.includes('googleapis.com') ||
       event.request.url.includes('gstatic.com')) {
+    event.respondWith(fetch(event.request));
     return;
   }
 
