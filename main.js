@@ -1,7 +1,7 @@
 import { INITIALS_DB } from './initials_db.js';
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
-import { getDatabase, ref, set, get, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
-import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js';
+import { getDatabase, ref, set, get, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js';
+import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js';
 
 // Firebase conf
 const firebaseConfig = {
@@ -368,7 +368,6 @@ function setNextBackground() {
 }
 // MAIN RENDER FUNCTION
 function render() {
-  console.log('RENDER:', state.mode, state.screen);
   $app.innerHTML = '';
   if (!isAuthenticated) {
     $app.innerHTML = `<div style="padding:32px;text-align:center;font-size:1.2em;">Authenticating with Firebase...<br/><span style="font-size:.9em;">If this takes more than a few seconds, please refresh the page.</span></div>`;
@@ -533,7 +532,7 @@ function renderLobby() {
       }
       .lobby-return-btn {
         background: #fff;
-        color: url('ScreenBackground.png');
+        color: #222;
         margin-top: 18px;
       }
       .lobby-return-btn:hover {
@@ -596,11 +595,8 @@ function renderLobby() {
       if (typeof remove === "function" && typeof ref === "function" && typeof db !== "undefined") {
         remove(ref(db, `lobbies/${state.lobbyCode}/players/${state.playerId}`));
       }
-    }document.getElementById('startLobbyBtn').onclick = function() {
-  console.log("Start Lobby clicked!", state.lobbyCode);
-  update(ref(db, `lobbies/${state.lobbyCode}`), { status: 'category' });
-};
-    // Unsubscribe ers
+    }
+    // Unsubscribe listeners
     if (state.unsubLobby) {
       state.unsubLobby();
       state.unsubLobby = null;
@@ -1041,8 +1037,6 @@ async function onCreate() {
   // 6. Show lobby code screen
   state.screen = 'lobbyCode';
   render();
-
-  console.log("Lobby created. Leader:", state.playerId, "LobbyCode:", lobbyCode);
 }
 async function onLobby(lobbyCode) {
   const lobbyRef = ref(db, `lobbies/${lobbyCode}`);
@@ -1270,7 +1264,7 @@ function renderLobbyCodeScreen() {
       }
       .lobby-return-btn {
         background: #fff;
-        color: url('ScreenBackground.png');
+        color: #222;
         margin-top: 18px;
       }
       .lobby-return-btn:hover {
@@ -1304,7 +1298,6 @@ function renderLobbyCodeScreen() {
   if (startLobbyBtn) {
     startLobbyBtn.onclick = function() {
   update(ref(db, `lobbies/${lobbyCode}`), { status: 'category' })
-    .then(() => console.log("Start Lobby pressed, status updated to 'category'"))
     .catch(err => console.error("Error updating lobby status:", err));
 };
     }
@@ -1681,13 +1674,13 @@ function saveScoreToLeaderboard(playerId, playerName, score) {
         timestamp: Date.now()
       })
       .then(() => {
-        console.log('Score saved to leaderboard:', playerName, score);
+        // Score saved successfully
       })
       .catch((error) => {
         console.error('Error saving score:', error);
       });
     } else {
-      console.log('Score not high enough to update leaderboard:', playerName, score);
+      // Score not high enough to update leaderboard
     }
   }).catch((error) => {
     console.error('Error retrieving leaderboard score:', error);
@@ -2097,7 +2090,6 @@ function listenLobby() {
     }
 
     const lobby = snap.val();
-    console.log("Lobby status is now:", lobby.status);
     state.players = Object.entries(lobby.players || {}).map(([id, p]) => ({ ...p, id }));
     state.isLeader = (state.playerId === lobby.leader);
     state.round = lobby.round;
