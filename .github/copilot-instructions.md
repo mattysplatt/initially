@@ -21,7 +21,7 @@
 
 ### Asset Files
 - Images: Various PNG files for backgrounds, icons, and category cards
-- Icon files: `initiallyicon.png`, `icon-192.png` for PWA support
+- Icon files: `initiallyicon.png`, `icon-192.png` (Note: `manifest.json` references `icon-512.png` which doesn't exist)
 
 ## Code Conventions and Patterns
 
